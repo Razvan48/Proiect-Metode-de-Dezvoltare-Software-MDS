@@ -410,4 +410,5 @@ bin-int/
 # Ignore vendor folder, but include subfolder premake5
 vendor/*
 !vendor/premake5/
+!vendor/glad/
 
