@@ -3,6 +3,9 @@
 
 #include <glm/glm.hpp>
 
+#define STB_IMAGE_IMPLEMENTATION
+#include "stb_image.h"
+
 #include <iostream>
 
 void processInput(GLFWwindow* window);
@@ -50,6 +53,20 @@ int main()
 
 	// Successfully loaded OpenGL
 	std::cout << "Loaded OpenGL " << std::endl;
+
+	// Load image
+	int width, height, channels;
+	unsigned char *img = stbi_load("textures/OpenGL-test.png", &width, &height, &channels, 0);
+	
+	if (img == nullptr)
+	{
+		std::cout << "Error in loading the image\n";
+	}
+	else
+	{
+		std::cout << "Loaded image with a width of " << width << ", a height of " << height << " and " << channels << " channels\n";
+		stbi_image_free(img);
+	}
 
 	// Loop
 	while (!glfwWindowShouldClose(window))

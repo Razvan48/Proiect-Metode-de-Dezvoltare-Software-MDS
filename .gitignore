@@ -411,4 +411,5 @@ bin-int/
 vendor/*
 !vendor/premake5/
 !vendor/glad/
+!vendor/stb/
 
