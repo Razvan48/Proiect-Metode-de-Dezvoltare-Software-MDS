@@ -1,5 +1,8 @@
 #include "windowManager.h"
 
+#define STB_IMAGE_IMPLEMENTATION
+#include "stb_image.h"
+
 WindowManager::WindowManager() :
 	WINDOW_WIDTH(1024), WINDOW_HEIGHT(1024), windowTitle("Apocalypse"),
 	vertexShaderSource
