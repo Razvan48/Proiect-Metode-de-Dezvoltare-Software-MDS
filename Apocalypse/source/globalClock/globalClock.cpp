@@ -6,8 +6,15 @@ GlobalClock::GlobalClock() :
 
 }
 
+GlobalClock::~GlobalClock()
+{
+
+}
+
 GlobalClock& GlobalClock::get()
 {
+	WindowManager::get();
+
 	static GlobalClock instance;
 
 	return instance;

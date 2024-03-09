@@ -1,6 +1,6 @@
 #pragma once
 
-#include "windowManager.h"
+#include "../windowManager/windowManager.h"
 
 class GlobalClock
 {
