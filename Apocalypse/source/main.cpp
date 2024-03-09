@@ -54,6 +54,8 @@ int main()
 	// Successfully loaded OpenGL
 	std::cout << "Loaded OpenGL " << std::endl;
 
+	///////////////////////////////////////////////////
+
 	// Load image
 	int width, height, channels;
 	unsigned char *img = stbi_load("textures/OpenGL-test.png", &width, &height, &channels, 0);
