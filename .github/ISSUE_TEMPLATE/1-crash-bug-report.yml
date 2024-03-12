@@ -1,0 +1,81 @@
+name: Crash Report
+description: Use this template to report any crashes encountered while running the game.
+title: "Enter a title here"
+labels: crash
+body:
+  - type: markdown
+    attributes:
+      value: |
+        # Summary
+  - type: textarea
+    id: quick-summary
+    attributes:
+      label: Quick summary
+      description: Please briefly describe what is not working correctly.
+    validations:
+      required: true
+  - type: textarea
+    id: repro
+    attributes:
+      label: Reproduction steps
+      description: How can the issue be reproduced?
+      placeholder: Describe each step as precisely as possible
+    validations:
+      required: true
+  - type: textarea
+    id: captures
+    attributes:
+      label: Attach capture files
+      description: Compress your capture with 7z, Rar etc. and attach it here, or upload it to the cloud (Dropbox, Mega etc) and add a link to it.
+    validations:
+      required: false
+  - type: markdown
+    attributes:
+      value: |
+        # System configuration
+        Provide information about your system, such as operating system, CPU and GPU model, GPU driver version and other information that describes your system configuration.
+  - type: input
+    id: os
+    attributes:
+      label: OS
+      placeholder: "e.g. Windows 10 Version	10.0.19045 Build 19045"
+    validations:
+      required: true
+  - type: input
+    id: opengl
+    attributes:
+      label: OpenGL Version
+      placeholder: "e.g. OpenGL 4.6"
+    validations:
+      required: true
+  - type: input
+    id: cpu
+    attributes:
+      label: CPU
+      placeholder: "e.g. Intel i5-8400"
+    validations:
+      required: false
+  - type: input
+    id: gpu
+    attributes:
+      label: GPU
+      placeholder: "e.g. NVidia GTX 1060 6GB"
+    validations:
+      required: false
+  - type: input
+    id: ram
+    attributes:
+      label: RAM
+      placeholder: "e.g. 16GB"
+    validations:
+      required: false
+  - type: textarea
+    id: additional-context
+    attributes:
+      label: Additional context?
+      description: |
+        - Additional info about your environment.
+        - Any other information relevant to your issue.
+    validations:
+      required: false
+
