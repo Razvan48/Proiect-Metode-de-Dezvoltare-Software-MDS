@@ -22,3 +22,4 @@ void Camera::initializeCoords(double x, double y)
 	this->setX(x);
 	this->setY(y);
 }
+

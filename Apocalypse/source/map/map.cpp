@@ -34,3 +34,4 @@ void Map::readMap(const std::string& path)
 
 	in.close();
 }
+

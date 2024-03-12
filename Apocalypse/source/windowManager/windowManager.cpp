@@ -1,49 +1,48 @@
 #include "windowManager.h"
 
-#define STB_IMAGE_IMPLEMENTATION
-#include "stb_image.h"
+#include <iostream>
 
-WindowManager::WindowManager() :
-	WINDOW_WIDTH(1024), WINDOW_HEIGHT(1024), windowTitle("Apocalypse"),
-	vertexShaderSource
-	(
-		"#version 330 core \n"
-		"\n"
-		"layout (location = 0) in vec2 vertexPosition; \n"
-		"layout (location = 1) in vec2 texturePosition; \n"
-		"uniform mat4 ortho; \n"
-		"out vec2 passedTexturePosition; \n"
-		"\n"
-		"void main() \n"
-		"{ \n"
-		"\n"
-		"   passedTexturePosition = texturePosition; \n"
-		"   gl_Position = ortho * vec4(vertexPosition.x, vertexPosition.y, 0.0, 1.0); \n"
-		"\n"
-		"} \n"
-		"\0"
-	),
-	fragmentShaderSource
-	(
-		"#version 330 core \n"
-		"\n"
-		"in vec2 passedTexturePosition; \n"
-		"out vec4 fragmentColour; \n"
-		"uniform sampler2D texture0; \n"
-		"\n"
-		"void main() \n"
-		"{ \n"
-		"\n"
-		"   vec4 textureColour = texture(texture0, passedTexturePosition); \n"
-		"	if (textureColour.rgb == vec3(0.0, 0.0, 0.0)) \n"
-		"	{ \n"
-		"		discard; \n"
-		"	} \n"
-		"	fragmentColour = textureColour; \n"
-		"\n"
-		"} \n"
-		"\0"
-	)
+WindowManager::WindowManager() 
+	: WINDOW_WIDTH(1024), WINDOW_HEIGHT(800), windowTitle("Apocalypse")
+	, vertexShaderSource
+		(
+			"#version 330 core \n"
+			"\n"
+			"layout (location = 0) in vec2 vertexPosition; \n"
+			"layout (location = 1) in vec2 texturePosition; \n"
+			"uniform mat4 ortho; \n"
+			"out vec2 passedTexturePosition; \n"
+			"\n"
+			"void main() \n"
+			"{ \n"
+			"\n"
+			"   passedTexturePosition = texturePosition; \n"
+			"   gl_Position = ortho * vec4(vertexPosition.x, vertexPosition.y, 0.0, 1.0); \n"
+			"\n"
+			"} \n"
+			"\0"
+		)
+	, fragmentShaderSource
+		(
+			"#version 330 core \n"
+			"\n"
+			"in vec2 passedTexturePosition; \n"
+			"out vec4 fragmentColour; \n"
+			"uniform sampler2D texture0; \n"
+			"\n"
+			"void main() \n"
+			"{ \n"
+			"\n"
+			"   vec4 textureColour = texture(texture0, passedTexturePosition); \n"
+			"	if (textureColour.rgb == vec3(0.0, 0.0, 0.0)) \n"
+			"	{ \n"
+			"		discard; \n"
+			"	} \n"
+			"	fragmentColour = textureColour; \n"
+			"\n"
+			"} \n"
+			"\0"
+		)
 {
 	// Init GLFW
 	glfwInit();
@@ -55,8 +54,8 @@ WindowManager::WindowManager() :
 	glfwWindowHint(GLFW_RESIZABLE, GL_FALSE); // TODO: GL_TRUE?
 
 	// Create a GLFWwindow object that we can use for GLFW's functions
-	GLFWwindow* window = glfwCreateWindow(this->WINDOW_WIDTH, this->WINDOW_HEIGHT, "Apocalypse", NULL, NULL);
-	//glfwGetPrimaryMonitor(); // TODO
+	window = glfwCreateWindow(this->WINDOW_WIDTH, this->WINDOW_HEIGHT, "Apocalypse", NULL, NULL);
+	// glfwGetPrimaryMonitor(); // TODO
 	if (window == nullptr)
 	{
 		std::cout << "Failed to create GLFW window" << std::endl;
@@ -82,7 +81,7 @@ WindowManager::WindowManager() :
 	// Successfully loaded OpenGL
 	std::cout << "Loaded OpenGL " << std::endl;
 
-	//TODO: de revazut daca e ok
+	// TODO: de revazut daca e ok
 
 	this->vertexShader = glCreateShader(GL_VERTEX_SHADER);
 	glShaderSource(this->vertexShader, 1, &this->vertexShaderSource, NULL);
@@ -97,7 +96,7 @@ WindowManager::WindowManager() :
 	glAttachShader(this->shaderProgram, this->fragmentShader);
 	glLinkProgram(this->shaderProgram);
 
-	//glValidateProgram(this->shaderProgram);
+	// glValidateProgram(this->shaderProgram);
 
 	glDeleteShader(this->fragmentShader);
 	glDeleteShader(this->vertexShader);
@@ -134,6 +133,7 @@ WindowManager::~WindowManager()
 
 	glfwDestroyWindow(this->window);
 
+	// Terminates GLFW, clearing any resources allocated by GLFW
 	glfwTerminate();
 }
 
@@ -144,12 +144,3 @@ WindowManager& WindowManager::get()
 	return instance;
 }
 
-int WindowManager::getWindowWidth()
-{
-	return this->WINDOW_WIDTH;
-}
-
-int WindowManager::getWindowHeight()
-{
-	return this->WINDOW_HEIGHT;
-}

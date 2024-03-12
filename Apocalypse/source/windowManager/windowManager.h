@@ -7,7 +7,6 @@
 #include <glm/gtc/matrix_transform.hpp>
 #include <glm/gtc/type_ptr.hpp>
 
-#include <iostream>
 #include <string>
 
 class WindowManager
@@ -40,6 +39,8 @@ private:
 
 public:
 	static WindowManager& get();
-	int getWindowWidth();
-	int getWindowHeight();
+	inline int getWindowWidth() { return this->WINDOW_WIDTH; }
+	inline int getWindowHeight() { return this->WINDOW_HEIGHT; }
+	inline GLFWwindow* getWindow() { return this->window; }
 };
+

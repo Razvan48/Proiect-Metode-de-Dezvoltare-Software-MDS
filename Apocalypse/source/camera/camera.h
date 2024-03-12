@@ -18,7 +18,10 @@ public:
 	static Camera& get();
 	inline double getX() { return x; };
 	inline double getY() { return y; };
+
 	void setX(double x);
 	void setY(double y);
+
 	void initializeCoords(double x, double y);
 };
+

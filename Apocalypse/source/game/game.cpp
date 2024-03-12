@@ -1,8 +1,19 @@
 #include "game.h"
 
+#include "../windowManager/windowManager.h"
+#include "../globalClock/globalClock.h"
+#include "../map/map.h"
+
+#include <iostream>
+
 Game::Game()
 {
-    windowManager.get();
+    WindowManager::get();
+}
+
+Game::~Game()
+{
+
 }
 
 Game& Game::get()
@@ -23,12 +34,21 @@ void Game::run()
 
     while (!glfwWindowShouldClose(WindowManager::get().getWindow()))
     {
-        glClearColor(0.0, 0.0, 0.0, 1.0);
+        // Input
+        // TODO
+
+        // Render
+        glClearColor(0.733f, 0.024f, 0.259f, 1.0f);
         glClear(GL_COLOR_BUFFER_BIT);
 
+        // Update
         GlobalClock::get().updateTime();
 
+        // Swap the screen buffers
         glfwSwapBuffers(WindowManager::get().getWindow());
+       
+        // Check if any events have been activated (key pressed, mouse moved etc.) and call corresponding response functions
         glfwPollEvents();
     }
 }
+

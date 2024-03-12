@@ -1,7 +1,9 @@
 #include "globalClock.h"
 
-GlobalClock::GlobalClock() :
-	previousTime(0.0), currentTime(0.0), deltaTime(0.0)
+#include "../windowManager/windowManager.h"
+
+GlobalClock::GlobalClock() 
+	: previousTime(0.0), currentTime(0.0), deltaTime(0.0)
 {
 	WindowManager::get();
 }
@@ -25,7 +27,3 @@ void GlobalClock::updateTime()
 	this->previousTime = this->currentTime;
 }
 
-double GlobalClock::getDeltaTime()
-{
-	return this->deltaTime;
-}

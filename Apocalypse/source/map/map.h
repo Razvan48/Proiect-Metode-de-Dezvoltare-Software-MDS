@@ -27,3 +27,4 @@ public:
 	int getCell(int x, int y);
 	void readMap(const std::string& path);
 };
+

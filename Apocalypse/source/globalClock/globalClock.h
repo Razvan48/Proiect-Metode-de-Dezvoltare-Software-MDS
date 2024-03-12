@@ -1,7 +1,5 @@
 #pragma once
 
-#include "../windowManager/windowManager.h"
-
 class GlobalClock
 {
 private:
@@ -19,6 +17,9 @@ private:
 
 public:
 	static GlobalClock& get();
+
 	void updateTime();
-	double getDeltaTime();
+
+	inline double getDeltaTime() { return this->deltaTime; }
 };
+

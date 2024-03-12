@@ -1,9 +1,5 @@
 #pragma once
 
-#include "../windowManager/windowManager.h"
-#include "../globalClock/globalClock.h"
-#include "../map/map.h"
-
 class Game
 {
 private:
@@ -15,10 +11,11 @@ private:
 	Game& operator= (const Game&& other) = delete;
 
 private:
+	void loadAssets();
 
 public:
 	static Game& get();
 
-	void loadAssets();
 	void run();
 };
+
