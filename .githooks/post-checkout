@@ -1,0 +1,4 @@
+#!/bin/sh
+
+# This script is invoked after a branch is checked out.
+./generate_project.bat
