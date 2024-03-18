@@ -1,6 +1,9 @@
-#include "game/game.h"
+#include "Game/Game.h"
 
 #include <iostream>
+
+#define STB_IMAGE_IMPLEMENTATION
+#include "stb_image.h"
 
 int main()
 {

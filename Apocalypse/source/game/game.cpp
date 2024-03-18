@@ -1,8 +1,8 @@
-#include "game.h"
+#include "Game.h"
 
-#include "../windowManager/windowManager.h"
-#include "../globalClock/globalClock.h"
-#include "../map/map.h"
+#include "../WindowManager/WindowManager.h"
+#include "../GlobalClock/GlobalClock.h"
+#include "../Map/Map.h"
 
 #include <iostream>
 

@@ -1,6 +1,6 @@
-#include "globalClock.h"
+#include "GlobalClock.h"
 
-#include "../windowManager/windowManager.h"
+#include "../WindowManager/WindowManager.h"
 
 GlobalClock::GlobalClock() 
 	: previousTime(0.0), currentTime(0.0), deltaTime(0.0)

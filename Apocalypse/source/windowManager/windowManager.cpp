@@ -1,4 +1,4 @@
-#include "windowManager.h"
+#include "WindowManager.h"
 
 #include <iostream>
 

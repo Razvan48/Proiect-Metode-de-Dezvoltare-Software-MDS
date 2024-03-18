@@ -1,9 +1,8 @@
-#include "assetsManager.h"
+#include "AssetsManager.h"
 
-#define STB_IMAGE_IMPLEMENTATION
+#include "../WindowManager/WindowManager.h"
+
 #include "stb_image.h"
-
-#include "../windowManager/windowManager.h"
 
 #include <iostream> // TODO: debug
 
