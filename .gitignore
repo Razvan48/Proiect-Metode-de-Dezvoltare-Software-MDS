@@ -413,3 +413,6 @@ vendor/*
 !vendor/glad/
 !vendor/stb/
 
+# Ignore TestResults folder
+TestResults/*
+

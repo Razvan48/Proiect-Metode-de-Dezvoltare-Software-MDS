@@ -9,6 +9,8 @@ on:
 
 permissions:
   contents: write
+  checks: write
+  pull-requests: write
 
 env:
   SOLUTION_FILE_PATH: 'Apocalypse.sln'
@@ -35,6 +37,12 @@ jobs:
       uses: microsoft/setup-msbuild@v2
       with:
         msbuild-architecture: x64
+
+    - name: Add VSTest.console.exe to PATH
+      uses: darenm/Setup-VSTest@v1.2
+
+    - name: Install 7zip
+      run: choco install 7zip.install
     
     - name: Setup
       working-directory: ${{env.GITHUB_WORKSPACE}}
@@ -44,6 +52,27 @@ jobs:
       working-directory: ${{env.GITHUB_WORKSPACE}}
       run: MSBuild ${{env.SOLUTION_FILE_PATH}} /m /p:Configuration=${{matrix.build-configuration}} /p:Platform=${{matrix.build-platform}}
     
+    - name: Install Mesa
+      working-directory: ${{env.GITHUB_WORKSPACE}}bin\${{matrix.build-configuration}}-windows-x86_64\Unit-Tests
+      shell: cmd
+      run: |
+        curl.exe -L --output mesa.7z --url https://github.com/pal1000/mesa-dist-win/releases/download/24.0.3/mesa3d-24.0.3-release-msvc.7z
+        "C:\Program Files\7-Zip\7z.exe" x mesa.7z
+        mklink opengl32.dll "x64\opengl32.dll"
+        mklink libglapi.dll "x64\libglapi.dll"
+        mklink osmesa.dll "x64\osmesa.dll"
+
+    - name: Unit-Tests
+      working-directory: ${{env.GITHUB_WORKSPACE}}
+      run: VSTest.console.exe bin\${{matrix.build-configuration}}-windows-x86_64\Unit-Tests\Unit-Tests.dll /logger:"trx;LogFileName=results-${{matrix.build-configuration}}.trx"
+
+    - name: Publish Test Results
+      uses: EnricoMi/publish-unit-test-result-action/windows@v2
+      if: always()
+      with:
+        files: TestResults\results-${{matrix.build-configuration}}.trx
+        check_name: 'Test Results ${{matrix.build-configuration}}'
+
     - name: Move artifacts to Release Folder
       if: startsWith(github.ref, 'refs/tags/') && matrix.build-configuration == 'Release'
       run: |
