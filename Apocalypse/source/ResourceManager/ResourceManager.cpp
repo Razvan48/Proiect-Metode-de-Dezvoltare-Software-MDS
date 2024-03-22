@@ -1,8 +1,8 @@
 #include "ResourceManager.h"
 
 #include <iostream>
-#include <sstream>
 #include <fstream>
+#include <sstream>
 
 #include "stb_image.h"
 
@@ -12,53 +12,8 @@ std::map<std::string, Shader> ResourceManager::shaders;
 
 void ResourceManager::loadShader(const char* vShaderFile, const char* fShaderFile, const char* gShaderFile, std::string name)
 {
-	shaders[name] = loadShaderFromFile(vShaderFile, fShaderFile, gShaderFile);
-}
+	shaders[name] = Shader();
 
-Shader& ResourceManager::getShader(const std::string& name)
-{
-	if (shaders.find(name) == shaders.end())
-	{
-		// TODO: conventie formatare mesaje eroare
-		std::cout << "Error ResourceManager: could not find the shader!\n";
-	}
-
-	return shaders[name];
-}
-
-void ResourceManager::loadTexture(const char* file, const bool& alpha, const std::string& name)
-{
-	textures[name] = loadTextureFromFile(file, alpha);
-}
-
-Texture2D& ResourceManager::getTexture(const std::string& name)
-{
-	if (textures.find(name) == textures.end())
-	{
-		// TODO: conventie formatare mesaje eroare
-		std::cout << "Error ResourceManager: could not find the texture!\n";
-	}
-
-	return textures[name];
-}
-
-void ResourceManager::clear()
-{
-	// delete all shaders
-	for (const auto& it : shaders)
-	{
-		glDeleteProgram(it.second.ID);
-	}
-
-	// delete all textures
-	for (const auto& it : textures)
-	{
-		glDeleteTextures(1, &it.second.ID);
-	}
-}
-
-Shader ResourceManager::loadShaderFromFile(const char* vShaderFile, const char* fShaderFile, const char* gShaderFile)
-{
 	// retrieve the vertex/fragment/geometry source code from file path
 	std::string vertexCode;
 	std::string fragmentCode;
@@ -111,20 +66,29 @@ Shader ResourceManager::loadShaderFromFile(const char* vShaderFile, const char* 
 	const char* gShaderCode = geometryCode.c_str();
 
 	// create shader object from source code
-	Shader shader;
-	shader.compile(vShaderCode, fShaderCode, gShaderFile ? gShaderCode : nullptr);
-	return shader;
+	shaders[name].compile(vShaderCode, fShaderCode, gShaderFile ? gShaderCode : nullptr);
 }
 
-Texture2D ResourceManager::loadTextureFromFile(const char* file, bool alpha)
+Shader& ResourceManager::getShader(const std::string& name)
+{
+	if (shaders.find(name) == shaders.end())
+	{
+		// TODO: conventie formatare mesaje eroare
+		std::cout << "Error ResourceManager: could not find the shader!\n";
+	}
+
+	return shaders[name];
+}
+
+void ResourceManager::loadTexture(const char* file, const bool& alpha, const std::string& name)
 {
 	// create texture object
-	Texture2D texture;
+	textures[name] = Texture2D();
 
 	if (alpha)
 	{
-		texture.internalFormat = GL_RGBA;
-		texture.imageFormat = GL_RGBA;
+		textures[name].internalFormat = GL_RGBA;
+		textures[name].imageFormat = GL_RGBA;
 	}
 
 	// load image
@@ -137,11 +101,36 @@ Texture2D ResourceManager::loadTextureFromFile(const char* file, bool alpha)
 	}
 
 	// generate texture
-	texture.generate(width, height, data);
+	textures[name].generate(width, height, data);
 
 	// free image data
 	stbi_image_free(data);
-	return texture;
+}
+
+Texture2D& ResourceManager::getTexture(const std::string& name)
+{
+	if (textures.find(name) == textures.end())
+	{
+		// TODO: conventie formatare mesaje eroare
+		std::cout << "Error ResourceManager: could not find the texture!\n";
+	}
+
+	return textures[name];
+}
+
+void ResourceManager::clear()
+{
+	// delete all shaders
+	for (const auto& it : shaders)
+	{
+		glDeleteProgram(it.second.ID);
+	}
+
+	// delete all textures
+	for (const auto& it : textures)
+	{
+		glDeleteTextures(1, &it.second.ID);
+	}
 }
 
 // TODO: load on demand 
