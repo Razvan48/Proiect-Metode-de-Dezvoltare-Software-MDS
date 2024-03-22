@@ -3,8 +3,12 @@
 class Texture2D
 {
 public:
-	// constructor
 	Texture2D();
+
+	Texture2D(const Texture2D& other) = default;
+	Texture2D& operator= (const Texture2D& other) = default;
+
+	// TODO: move constructor
 
 	// holds the ID of the texture object
 	unsigned int ID;

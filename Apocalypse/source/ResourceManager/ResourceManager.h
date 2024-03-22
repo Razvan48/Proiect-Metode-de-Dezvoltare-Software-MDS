@@ -16,22 +16,28 @@ public:
 	static std::map<std::string, Texture2D> textures;
 
 	// load and generate a shader program from files: vertex, fragment, geometry
-	static Shader loadShader(const char* vShaderFile, const char* fShaderFile, const char* gShaderFile, std::string name);
+	static void loadShader(const char* vShaderFile, const char* fShaderFile, const char* gShaderFile, std::string name);
 
 	// retrieve a stored shader
-	static Shader& getShader(std::string name);
+	static Shader& getShader(const std::string& name);
 
 	// load and generate a texture from file
-	static Texture2D loadTexture(const char* file, bool alpha, std::string name);
+	static void loadTexture(const char* file, const bool& alpha, const std::string& name);
 
 	// retrieve a stored texture
-	static Texture2D& getTexture(std::string name);
+	static Texture2D& getTexture(const std::string& name);
 
 	// de-allocate all resources
 	static void clear();
 
 private:
-	ResourceManager() {  }
+	ResourceManager() = default;
+	~ResourceManager() = default;
+
+	ResourceManager(const ResourceManager& other) = delete;
+	ResourceManager& operator= (const ResourceManager& other) = delete;
+	ResourceManager(const ResourceManager&& other) = delete;
+	ResourceManager& operator= (const ResourceManager&& other) = delete;
 
 	// load and generate a shader from file
 	static Shader loadShaderFromFile(const char* vShaderFile, const char* fShaderFile, const char* gShaderFile = nullptr);
