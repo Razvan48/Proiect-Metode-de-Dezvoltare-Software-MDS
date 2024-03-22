@@ -9,8 +9,13 @@
 class Shader
 {
 public:
-	// constructor
 	Shader() = default;
+	~Shader() = default;
+
+	Shader(const Shader& other) = default;
+	Shader& operator= (const Shader& other) = default;
+
+	// TODO: move constructor
 
 	// state
 	unsigned int ID;
@@ -24,13 +29,13 @@ public:
 	// utility functions
 	void setFloat(const char* name, float value, bool useShader = false);
 	void setInteger(const char* name, int value, bool useShader = false);
-	void setVector2f(const char* name, const glm::vec2 &value, bool useShader = false);
-	void setVector3f(const char* name, const glm::vec3 &value, bool useShader = false);
-	void setVector4f(const char* name, const glm::vec4 &value, bool useShader = false);
-	void setMatrix4(const char* name, const glm::mat4 &value, bool useShader = false);
+	void setVector2f(const char* name, const glm::vec2& value, bool useShader = false);
+	void setVector3f(const char* name, const glm::vec3& value, bool useShader = false);
+	void setVector4f(const char* name, const glm::vec4& value, bool useShader = false);
+	void setMatrix4(const char* name, const glm::mat4& value, bool useShader = false);
 
 private:
 	// checks if compilation or linking failed and print errors
-	void checkCompileErrors(unsigned int object, std::string type);
+	void checkCompileErrors(unsigned int object, const std::string& type);
 };
 
