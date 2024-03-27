@@ -8,8 +8,6 @@
 
 #include <iostream>
 
-SpriteRenderer* Renderer;
-
 Game::Game()
 {
     WindowManager::get();
@@ -56,13 +54,12 @@ void Game::loadResources()
         std::cout << "ERROR::SHADER: other error" << std::endl;
     }
 
-    // configure shaders
+    // top-left coordinate of the scene will be at (0, 0) and the bottom-right part of the screen is at coordinate (WINDOW_WIDTH, WINDOW_HEIGHT)
     glm::mat4 projection = glm::ortho(0.0f, static_cast<float>(WindowManager::get().getWindowWidth()), static_cast<float>(WindowManager::get().getWindowHeight()), 0.0f, -1.0f, 1.0f);
+
+    // configure shaders
     ResourceManager::getShader("sprite").use().setInteger("sprite", 0);
     ResourceManager::getShader("sprite").use().setMatrix4("projection", projection);
-
-    // TODO: refactor
-    Renderer = new SpriteRenderer();
 }
 
 void Game::run()
@@ -74,12 +71,17 @@ void Game::run()
         // Input
         // TODO
 
+        // Collision System
+        // TODO
+
+        // Update/Tick
+        // TODO
+
         // Render
         glClearColor(0.733f, 0.024f, 0.259f, 1.0f);
         glClear(GL_COLOR_BUFFER_BIT);
 
-        // TODO: refactor
-        Renderer->draw(ResourceManager::getShader("sprite"), ResourceManager::getTexture("OpenGL"), glm::vec2(10.0f, 150.0f), glm::vec2(1000.0f, 433.5f), 0.0f);
+        SpriteRenderer::get().draw(ResourceManager::getShader("sprite"), ResourceManager::getTexture("OpenGL"), glm::vec2(10.0f, 150.0f), glm::vec2(1000.0f, 433.5f), 0.0f);
 
         // Update
         GlobalClock::get().updateTime();

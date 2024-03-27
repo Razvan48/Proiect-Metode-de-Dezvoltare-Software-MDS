@@ -36,6 +36,6 @@ public:
 
 private:
 	// checks if compilation or linking failed and print errors
-	void checkCompileErrors(unsigned int object, const std::string& type);
+	void checkCompileErrors(unsigned int object, const std::string& type) const;
 };
 

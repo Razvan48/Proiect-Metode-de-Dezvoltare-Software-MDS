@@ -115,7 +115,7 @@ void Shader::setMatrix4(const char* name, const glm::mat4& value, bool useShader
 	glUniformMatrix4fv(glGetUniformLocation(this->ID, name), 1, false, glm::value_ptr(value));
 }
 
-void Shader::checkCompileErrors(unsigned int object, const std::string& type)
+void Shader::checkCompileErrors(unsigned int object, const std::string& type) const
 {
 	int success;
 	char infoLog[1024];

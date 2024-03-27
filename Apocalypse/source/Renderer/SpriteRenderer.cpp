@@ -2,7 +2,7 @@
 
 SpriteRenderer::SpriteRenderer()
 {
-    // configure VAO/VBO
+    // configure VAO and VBO
     GLuint VBO;
 
     float vertices[] = {
@@ -34,8 +34,15 @@ SpriteRenderer::~SpriteRenderer()
     glDeleteVertexArrays(1, &this->VAO);
 }
 
-void SpriteRenderer::draw(Shader& shader, const Texture2D &texture, glm::vec2 position, glm::vec2 size, float rotate, glm::vec3 color)
+SpriteRenderer& SpriteRenderer::get()
 {
+    static SpriteRenderer instance;
+    return instance;
+}
+
+void SpriteRenderer::draw(Shader& shader, const Texture2D& texture, const glm::vec2& position, const glm::vec2& size, const float& rotate, const glm::vec3& color)
+{
+    // set shader
     shader.use();
 
     glm::mat4 model = glm::mat4(1.0f);
@@ -45,12 +52,15 @@ void SpriteRenderer::draw(Shader& shader, const Texture2D &texture, glm::vec2 po
     model = glm::translate(model, glm::vec3(-0.5f * size.x, -0.5f * size.y, 0.0f)); // move origin back
     model = glm::scale(model, glm::vec3(size, 1.0f)); // scale
 
+    // set uniforms
     shader.setMatrix4("model", model);
     shader.setVector3f("spriteColor", color);
 
+    // set texture
     glActiveTexture(GL_TEXTURE0);
     texture.bind();
 
+    // draw
     glBindVertexArray(this->VAO);
     glDrawArrays(GL_TRIANGLES, 0, 6);
     glBindVertexArray(0);
