@@ -140,3 +140,5 @@ void Shader::checkCompileErrors(unsigned int object, const std::string& type)
 	}
 }
 
+// TODO: glValidateProgram(this->shaderProgram);
+
