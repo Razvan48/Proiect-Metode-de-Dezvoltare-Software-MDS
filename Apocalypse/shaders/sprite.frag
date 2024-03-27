@@ -1,19 +1,15 @@
 #version 330 core
 
-in vec2 passedTexturePosition;
-out vec4 fragmentColour;
+in vec2 TexCoords;
 
-uniform sampler2D texture0;
+out vec4 color;
+
+uniform sampler2D sprite;
+uniform vec3 spriteColor;
 
 void main()
 {
-
-	vec4 textureColour = texture(texture0, passedTexturePosition);
-	if (textureColour.rgb == vec3(0.0, 0.0, 0.0))
-	{
-		discard;
-	}
-
-	fragmentColour = textureColour;
+    
+    color = vec4(spriteColor, 1.0) * texture(sprite, TexCoords);
 }
 

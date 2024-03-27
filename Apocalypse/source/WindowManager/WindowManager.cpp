@@ -45,12 +45,11 @@ WindowManager::WindowManager()
 	// glfwSetKeyCallback(window, key_callback);
 	// glfwSetMouseButtonCallback(window, mouse_button_callback);
 
-	// TODO
 	// OpenGL configuration
-	//glViewport(0, 0, WINDOW_WIDTH, WINDOW_HEIGHT);
+	// TODO: glViewport(0, 0, WINDOW_WIDTH, WINDOW_HEIGHT);
 
-	//glEnable(GL_BLEND);
-	//glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
+	glEnable(GL_BLEND);
+	glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
 }
 
 WindowManager::~WindowManager()
