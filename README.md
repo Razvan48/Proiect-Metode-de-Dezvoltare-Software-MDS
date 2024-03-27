@@ -18,5 +18,5 @@ cd Proiect-Metode-de-Dezvoltare-Software-MDS
 
 3. Generate the project
 ```sh
-generate_project.bat
+./generate_project.bat
 ```
