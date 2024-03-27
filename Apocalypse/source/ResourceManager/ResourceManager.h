@@ -38,11 +38,5 @@ private:
 	ResourceManager& operator= (const ResourceManager& other) = delete;
 	ResourceManager(const ResourceManager&& other) = delete;
 	ResourceManager& operator= (const ResourceManager&& other) = delete;
-
-	// load and generate a shader from file
-	static Shader loadShaderFromFile(const char* vShaderFile, const char* fShaderFile, const char* gShaderFile = nullptr);
-
-	// load a single texture from file
-	static Texture2D loadTextureFromFile(const char* file, bool alpha);
 };
 
