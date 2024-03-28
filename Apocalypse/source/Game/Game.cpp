@@ -3,6 +3,7 @@
 #include "../WindowManager/WindowManager.h"
 #include "../ResourceManager/ResourceManager.h"
 #include "../Renderer/SpriteRenderer.h"
+#include "../Renderer/TextRenderer.h"
 #include "../GlobalClock/GlobalClock.h"
 #include "../Map/Map.h"
 
@@ -30,6 +31,7 @@ void Game::loadResources()
     try
     {
         ResourceManager::loadShader("shaders/sprite.vert", "shaders/sprite.frag", nullptr, "sprite");
+        ResourceManager::loadShader("shaders/text.vert", "shaders/text.frag", nullptr, "text");
     }
     catch (const std::runtime_error& err)
     {
@@ -68,12 +70,15 @@ void Game::loadResources()
         std::cout << "ERROR::FONT: other error" << std::endl;
     }
 
+    // configure shaders
     // top-left coordinate of the scene will be at (0, 0) and the bottom-right part of the screen is at coordinate (WINDOW_WIDTH, WINDOW_HEIGHT)
     glm::mat4 projection = glm::ortho(0.0f, static_cast<float>(WindowManager::get().getWindowWidth()), static_cast<float>(WindowManager::get().getWindowHeight()), 0.0f, -1.0f, 1.0f);
-
-    // configure shaders
     ResourceManager::getShader("sprite").use().setInteger("sprite", 0);
     ResourceManager::getShader("sprite").use().setMatrix4("projection", projection);
+
+    glm::mat4 orho = glm::ortho(0.0f, static_cast<float>(WindowManager::get().getWindowWidth()), static_cast<float>(WindowManager::get().getWindowHeight()), 0.0f);
+    ResourceManager::getShader("text").use().setMatrix4("projection", orho);
+    ResourceManager::getShader("text").use().setInteger("text", 0);
 }
 
 void Game::run()
@@ -96,6 +101,7 @@ void Game::run()
         glClear(GL_COLOR_BUFFER_BIT);
 
         SpriteRenderer::get().draw(ResourceManager::getShader("sprite"), ResourceManager::getTexture("OpenGL"), glm::vec2(10.0f, 150.0f), glm::vec2(1000.0f, 433.5f), 0.0f);
+        TextRenderer::get().draw(ResourceManager::getShader("text"), ResourceManager::getFont("Antonio"), "Hello World!", 50.0f, 50.0f, 1.0f, glm::vec3(0.0f, 0.0f, 0.6f));
 
         // Update
         GlobalClock::get().updateTime();
