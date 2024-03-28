@@ -30,10 +30,10 @@ public:
 	static Texture2D& getTexture(const std::string& name);
 
 	// load and generate font textures
-	void loadFont(const char* fontFilePath, const unsigned int fontSize, const std::string& name);
+	static void loadFont(const char* fontFilePath, const unsigned int fontSize, const std::string& name);
 
 	// retrieve a stored font
-	Font& getFont(const std::string& name);
+	static Font& getFont(const std::string& name);
 
 	// de-allocate all resources
 	static void clear();

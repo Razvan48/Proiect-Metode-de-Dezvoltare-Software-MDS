@@ -54,6 +54,20 @@ void Game::loadResources()
         std::cout << "ERROR::SHADER: other error" << std::endl;
     }
 
+    // load fonts
+    try
+    {
+        ResourceManager::loadFont("fonts/Antonio-Bold.ttf", 24, "Antonio");
+    }
+    catch (const std::runtime_error& err)
+    {
+        std::cout << "ERROR::FONT: " << err.what() << std::endl;
+    }
+    catch (...)
+    {
+        std::cout << "ERROR::FONT: other error" << std::endl;
+    }
+
     // top-left coordinate of the scene will be at (0, 0) and the bottom-right part of the screen is at coordinate (WINDOW_WIDTH, WINDOW_HEIGHT)
     glm::mat4 projection = glm::ortho(0.0f, static_cast<float>(WindowManager::get().getWindowWidth()), static_cast<float>(WindowManager::get().getWindowHeight()), 0.0f, -1.0f, 1.0f);
 

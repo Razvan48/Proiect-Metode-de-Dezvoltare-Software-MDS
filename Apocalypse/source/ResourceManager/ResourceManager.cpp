@@ -131,14 +131,14 @@ void ResourceManager::loadFont(const char* fontFilePath, const unsigned int font
 	FT_Library ft;
 	if (FT_Init_FreeType(&ft))
 	{
-		std::cout << "ERROR::FREETYPE: Could not init FreeType Library" << std::endl;
+		throw std::runtime_error("Could not init FreeType Library");
 	}
 
 	// load font as face
 	FT_Face face;
 	if (FT_New_Face(ft, fontFilePath, 0, &face))
 	{
-		std::cout << "ERROR::FREETYPE: Failed to load font" << std::endl;
+		throw std::runtime_error(" Failed to load font: " + std::string(fontFilePath));
 	}
 
 	// set size to load glyphs as
@@ -153,7 +153,7 @@ void ResourceManager::loadFont(const char* fontFilePath, const unsigned int font
 		// load character glyph 
 		if (FT_Load_Char(face, c, FT_LOAD_RENDER))
 		{
-			std::cout << "ERROR::FREETYTPE: Failed to load Glyph" << std::endl;
+			throw std::runtime_error("Failed to load Glyph");
 			continue;
 		}
 
