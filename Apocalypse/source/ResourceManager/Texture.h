@@ -1,3 +1,5 @@
+#pragma once
+
 #include <glad/glad.h>
 
 class Texture2D

@@ -22,20 +22,9 @@ private:
 private:
 	const int WINDOW_WIDTH;
 	const int WINDOW_HEIGHT;
-	std::string windowTitle;
+	const std::string WINDOW_TITLE;
+
 	GLFWwindow* window;
-
-	const char* vertexShaderSource;
-	const char* fragmentShaderSource;
-	unsigned int vao;
-	unsigned int vbo;
-	unsigned int vertexShader;
-	unsigned int fragmentShader;
-	unsigned int shaderProgram;
-
-	int orthoPath;
-	int texturePath;
-	glm::mat4 ortho;
 
 public:
 	static WindowManager& get();

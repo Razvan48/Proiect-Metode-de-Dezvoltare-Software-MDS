@@ -11,7 +11,7 @@ private:
 	Game& operator= (const Game&& other) = delete;
 
 private:
-	void loadAssets();
+	void loadResources();
 
 public:
 	static Game& get();

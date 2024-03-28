@@ -9,7 +9,7 @@ Shader& Shader::use()
 	return *this;
 }
 
-void Shader::compile(const char* vertexSource, const char* fragmentSource, const char* geometryShader)
+void Shader::compile(const char* vertexSource, const char* fragmentSource, const char* geometrySource)
 {
 	unsigned int sVertex, sFragment, sGeometry;
 
@@ -26,10 +26,10 @@ void Shader::compile(const char* vertexSource, const char* fragmentSource, const
 	checkCompileErrors(sFragment, "FRAGMENT");
 
 	// geometry shader
-	if (geometryShader)
+	if (geometrySource)
 	{
 		sGeometry = glCreateShader(GL_GEOMETRY_SHADER);
-		glShaderSource(sGeometry, 1, &geometryShader, NULL);
+		glShaderSource(sGeometry, 1, &geometrySource, NULL);
 		glCompileShader(sGeometry);
 		checkCompileErrors(sGeometry, "GEOMETRY");
 	}
@@ -38,7 +38,7 @@ void Shader::compile(const char* vertexSource, const char* fragmentSource, const
 	this->ID = glCreateProgram();
 	glAttachShader(this->ID, sVertex);
 	glAttachShader(this->ID, sFragment);
-	if (geometryShader)
+	if (geometrySource)
 	{
 		glAttachShader(this->ID, sGeometry);
 	}
@@ -49,7 +49,7 @@ void Shader::compile(const char* vertexSource, const char* fragmentSource, const
 	// delete the shaders
 	glDeleteShader(sVertex);
 	glDeleteShader(sFragment);
-	if (geometryShader)
+	if (geometrySource)
 	{
 		glDeleteShader(sGeometry);
 	}
@@ -115,7 +115,7 @@ void Shader::setMatrix4(const char* name, const glm::mat4& value, bool useShader
 	glUniformMatrix4fv(glGetUniformLocation(this->ID, name), 1, false, glm::value_ptr(value));
 }
 
-void Shader::checkCompileErrors(unsigned int object, const std::string& type)
+void Shader::checkCompileErrors(unsigned int object, const std::string& type) const
 {
 	int success;
 	char infoLog[1024];
@@ -139,4 +139,6 @@ void Shader::checkCompileErrors(unsigned int object, const std::string& type)
 		}
 	}
 }
+
+// TODO: glValidateProgram(this->shaderProgram);
 
