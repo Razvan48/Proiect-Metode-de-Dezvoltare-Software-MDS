@@ -5,8 +5,9 @@
 #include <map>
 #include <string>
 
-#include "texture.h"
-#include "shader.h"
+#include "Texture.h"
+#include "Shader.h"
+#include "Font.h"
 
 class ResourceManager
 {
@@ -14,9 +15,10 @@ public:
 	// resource storage
 	static std::map<std::string, Shader> shaders;
 	static std::map<std::string, Texture2D> textures;
+	static std::map<std::string, Font> fonts;
 
 	// load and generate a shader program from files: vertex, fragment, geometry
-	static void loadShader(const char* vShaderFile, const char* fShaderFile, const char* gShaderFile, std::string name);
+	static void loadShader(const char* vShaderFile, const char* fShaderFile, const char* gShaderFile, const std::string& name);
 
 	// retrieve a stored shader
 	static Shader& getShader(const std::string& name);
@@ -26,6 +28,12 @@ public:
 
 	// retrieve a stored texture
 	static Texture2D& getTexture(const std::string& name);
+
+	// load and generate font textures
+	void loadFont(const char* fontFilePath, const unsigned int fontSize, const std::string& name);
+
+	// retrieve a stored font
+	Font& getFont(const std::string& name);
 
 	// de-allocate all resources
 	static void clear();

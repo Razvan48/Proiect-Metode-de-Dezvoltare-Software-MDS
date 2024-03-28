@@ -17,6 +17,7 @@ workspace "Apocalypse"
     IncludeDir["glfw"] = "vendor/glfw/include"
     IncludeDir["glm"] = "vendor/glm"
     IncludeDir["stb"] = "vendor/stb"
+    IncludeDir["freetype"] = "vendor/freetype/include"
 
 
 
@@ -94,6 +95,105 @@ workspace "Apocalypse"
 
 
 
+    project "freetype"
+        location "bin-int/project-files"
+        kind "StaticLib"
+        language "C"
+
+        targetdir("bin/" .. outputdir .. "/%{prj.name}")
+        objdir("bin-int/" .. outputdir .. "/%{prj.name}")
+        
+        files
+        {
+            "vendor/freetype/src/autofit/autofit.c",
+            "vendor/freetype/src/bdf/bdf.c",
+            "vendor/freetype/src/cff/cff.c",
+            "vendor/freetype/src/dlg/dlgwrap.c",
+            "vendor/freetype/src/base/ftbase.c",
+            "vendor/freetype/src/cache/ftcache.c",
+            "vendor/freetype/src/gzip/ftgzip.c",
+            "vendor/freetype/src/base/ftinit.c",
+            "vendor/freetype/src/lzw/ftlzw.c",
+            "vendor/freetype/src/pcf/pcf.c",
+            "vendor/freetype/src/pfr/pfr.c",
+            "vendor/freetype/src/psaux/psaux.c",
+            "vendor/freetype/src/pshinter/pshinter.c",
+            "vendor/freetype/src/psnames/psmodule.c",
+            "vendor/freetype/src/raster/raster.c",
+            "vendor/freetype/src/sdf/sdf.c",
+            "vendor/freetype/src/sfnt/sfnt.c",
+            "vendor/freetype/src/smooth/smooth.c",
+            "vendor/freetype/src/svg/svg.c",
+            "vendor/freetype/src/truetype/truetype.c",
+            "vendor/freetype/src/type1/type1.c",
+            "vendor/freetype/src/cid/type1cid.c",
+            "vendor/freetype/src/type42/type42.c",
+            "vendor/freetype/src/winfonts/winfnt.c",
+
+            "vendor/freetype/src/base/ftbbox.c",
+            "vendor/freetype/src/base/ftbdf.c",
+            "vendor/freetype/src/base/ftbitmap.c",
+            "vendor/freetype/src/base/ftcid.c",
+            "vendor/freetype/src/base/ftfstype.c",
+            "vendor/freetype/src/base/ftgasp.c",
+            "vendor/freetype/src/base/ftglyph.c",
+            "vendor/freetype/src/base/ftgxval.c",
+            "vendor/freetype/src/base/ftmm.c",
+            "vendor/freetype/src/base/ftotval.c",
+            "vendor/freetype/src/base/ftpatent.c",
+            "vendor/freetype/src/base/ftpfr.c",
+            "vendor/freetype/src/base/ftstroke.c",
+            "vendor/freetype/src/base/ftsynth.c",
+            "vendor/freetype/src/base/fttype1.c",
+            "vendor/freetype/src/base/ftwinfnt.c"
+        }
+
+        includedirs
+        {
+            "%{IncludeDir.freetype}"
+        }
+
+        defines
+        {
+            "FT2_BUILD_LIBRARY"
+        }
+
+        filter "system:windows"
+            systemversion "latest"
+            staticruntime "On"
+
+            defines 
+            { 
+                "_CRT_SECURE_NO_WARNINGS"
+            }
+
+            files 
+            {
+                "vendor/freetype/builds/windows/ftsystem.c",
+                "vendor/freetype/builds/windows/ftdebug.c"
+            }
+
+        filter "configurations:Debug"
+            runtime "Debug"
+            symbols "on"
+
+            defines 
+            {
+                "FT_DEBUG_LEVEL_ERROR",
+                "FT_DEBUG_LEVEL_TRACE"
+            }
+
+        filter "configurations:Release"
+            runtime "Release"
+            optimize "on"
+
+            defines
+            {
+                "NDEBUG"
+            }
+
+
+
     project "Apocalypse"
         location "Apocalypse"
         kind "ConsoleApp"
@@ -117,13 +217,15 @@ workspace "Apocalypse"
             "%{IncludeDir.glad}",
             "%{IncludeDir.glfw}",
             "%{IncludeDir.glm}",
-            "%{IncludeDir.stb}"
+            "%{IncludeDir.stb}",
+            "%{IncludeDir.freetype}"
         }
 
         links
         {
             "glfw",
-            "glad"
+            "glad",
+            "freetype"
         }
 
         filter "system:windows"
@@ -173,26 +275,20 @@ workspace "Apocalypse"
             "%{IncludeDir.glad}",
             "%{IncludeDir.glfw}",
             "%{IncludeDir.glm}",
-            "%{IncludeDir.stb}"
+            "%{IncludeDir.stb}",
+            "%{IncludeDir.freetype}"
         }
 
         libdirs 
         {
             "$(VCInstallDir)Auxiliary/VS/UnitTest/lib"
         }
-    
-        includedirs
-        {
-            "%{IncludeDir.glad}",
-            "%{IncludeDir.glfw}",
-            "%{IncludeDir.glm}",
-            "%{IncludeDir.stb}"
-        }
 
         links
         {
             "glfw",
-            "glad"
+            "glad",
+            "freetype"
         }
 
         filter "system:windows"
