@@ -19,7 +19,6 @@ TextRenderer::TextRenderer()
 
 TextRenderer::~TextRenderer()
 {
-    // todo: delete VBO
     glDeleteVertexArrays(1, &this->VAO);
 }
 
@@ -33,7 +32,7 @@ void TextRenderer::draw(Shader& shader, Font& font, const std::string& text, flo
 {
     // activate corresponding render state	
     shader.use();
-    shader.setVector3f("textColor", color);
+    shader.use().setVector3f("textColor", color);
 
     glActiveTexture(GL_TEXTURE0);
     glBindVertexArray(this->VAO);
