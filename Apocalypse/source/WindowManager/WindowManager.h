@@ -26,6 +26,11 @@ private:
 
 	GLFWwindow* window;
 
+	// callback functions
+	static void keyCallback(GLFWwindow* window, int key, int scancode, int action, int mode);
+	static void cursorPosCallback(GLFWwindow* window, double xpos, double ypos);
+	static void mouseButtonCallback(GLFWwindow* window, int button, int action, int mods);
+
 public:
 	static WindowManager& get();
 	inline int getWindowWidth() { return this->WINDOW_WIDTH; }
