@@ -6,6 +6,7 @@
 #include "../Renderer/TextRenderer.h"
 #include "../GlobalClock/GlobalClock.h"
 #include "../Map/Map.h"
+#include "../Input/InputHandler.h"
 
 #include <iostream>
 

@@ -2,6 +2,8 @@
 
 #include <iostream>
 
+#include "../Input/InputHandler.h"
+
 WindowManager::WindowManager() 
 	: WINDOW_WIDTH(1024), WINDOW_HEIGHT(800), WINDOW_TITLE("Apocalypse")
 {
@@ -40,10 +42,10 @@ WindowManager::WindowManager()
 	// Successfully loaded GLAD
 	std::cout << "Loaded GLAD" << std::endl;
 
-	// TODO
 	// Set the required callback functions
-	// glfwSetKeyCallback(window, key_callback);
-	// glfwSetMouseButtonCallback(window, mouse_button_callback);
+	glfwSetKeyCallback(window, keyCallback);
+	glfwSetCursorPosCallback(window, cursorPosCallback);
+	glfwSetMouseButtonCallback(window, mouseButtonCallback);
 
 	// OpenGL configuration
 	// TODO: glViewport(0, 0, WINDOW_WIDTH, WINDOW_HEIGHT);
@@ -65,5 +67,20 @@ WindowManager& WindowManager::get()
 {
 	static WindowManager instance;
 	return instance;
+}
+
+void WindowManager::keyCallback(GLFWwindow* window, int key, int scancode, int action, int mode)
+{
+	InputHandler::setKey(key, action);
+}
+
+void WindowManager::cursorPosCallback(GLFWwindow* window, double xpos, double ypos)
+{	
+	InputHandler::setMousePosition(std::make_pair(xpos, ypos));
+}
+
+void WindowManager::mouseButtonCallback(GLFWwindow* window, int button, int action, int mods)
+{
+	InputHandler::setMouseButtons(button, action);
 }
 
