@@ -6,14 +6,14 @@ SpriteRenderer::SpriteRenderer()
     GLuint VBO;
 
     float vertices[] = {
-        // pos      // tex
-        0.0f, 1.0f, 0.0f, 1.0f,
-        1.0f, 0.0f, 1.0f, 0.0f,
-        0.0f, 0.0f, 0.0f, 0.0f,
+        // pos          // tex
+        -0.5f, 0.5f,     0.0f, 0.0f,
+        0.5, -0.5f,     1.0f, 1.0f,
+        -0.5f, -0.5f,   0.0f, 1.0f,
 
-        0.0f, 1.0f, 0.0f, 1.0f,
-        1.0f, 1.0f, 1.0f, 1.0f,
-        1.0f, 0.0f, 1.0f, 0.0f
+        -0.5f, 0.5f,     0.0f, 0.0f,
+        0.5f, 0.5f,     1.0f, 0.0f,
+        0.5, -0.5f,     1.0f, 1.0f
     };
 
     glGenVertexArrays(1, &this->VAO);
@@ -47,9 +47,7 @@ void SpriteRenderer::draw(Shader& shader, const Texture2D& texture, const glm::v
 
     glm::mat4 model = glm::mat4(1.0f);
     model = glm::translate(model, glm::vec3(position, 0.0f)); // translate to the desired position
-    model = glm::translate(model, glm::vec3(0.5f * size.x, 0.5f * size.y, 0.0f)); // move origin of rotation to center of quad
     model = glm::rotate(model, glm::radians(rotate), glm::vec3(0.0f, 0.0f, 1.0f)); // rotate
-    model = glm::translate(model, glm::vec3(-0.5f * size.x, -0.5f * size.y, 0.0f)); // move origin back
     model = glm::scale(model, glm::vec3(size, 1.0f)); // scale
 
     // set uniforms

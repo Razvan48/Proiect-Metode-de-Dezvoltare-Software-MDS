@@ -72,12 +72,11 @@ void Game::loadResources()
     }
 
     // configure shaders
-    // top-left coordinate of the scene will be at (0, 0) and the bottom-right part of the screen is at coordinate (WINDOW_WIDTH, WINDOW_HEIGHT)
-    // TODO: this->ortho = glm::ortho(-0.5 * this->WINDOW_WIDTH, 0.5 * this->WINDOW_WIDTH, -0.5 * this->WINDOW_HEIGHT, 0.5 * this->WINDOW_HEIGHT);
-    glm::mat4 projection = glm::ortho(0.0f, static_cast<float>(WindowManager::get().getWindowWidth()), static_cast<float>(WindowManager::get().getWindowHeight()), 0.0f, -1.0f, 1.0f);
+    glm::mat4 projection = glm::ortho(-0.5f * static_cast<float>(WindowManager::get().getWindowWidth()), 0.5f * static_cast<float>(WindowManager::get().getWindowWidth()), -0.5f * static_cast<float>(WindowManager::get().getWindowHeight()), 0.5f * static_cast<float>(WindowManager::get().getWindowHeight()));
     ResourceManager::getShader("sprite").use().setInteger("sprite", 0);
     ResourceManager::getShader("sprite").use().setMatrix4("projection", projection);
 
+    // top-left coordinate of the scene will be at (0, 0) and the bottom-right part of the screen is at coordinate (WINDOW_WIDTH, WINDOW_HEIGHT)
     glm::mat4 orho = glm::ortho(0.0f, static_cast<float>(WindowManager::get().getWindowWidth()), static_cast<float>(WindowManager::get().getWindowHeight()), 0.0f);
     ResourceManager::getShader("text").use().setMatrix4("projection", orho);
     ResourceManager::getShader("text").use().setInteger("text", 0);
@@ -102,7 +101,7 @@ void Game::run()
         glClearColor(0.733f, 0.024f, 0.259f, 1.0f);
         glClear(GL_COLOR_BUFFER_BIT);
 
-        SpriteRenderer::get().draw(ResourceManager::getShader("sprite"), ResourceManager::getTexture("OpenGL"), glm::vec2(10.0f, 150.0f), glm::vec2(1000.0f, 433.5f), 0.0f);
+        SpriteRenderer::get().draw(ResourceManager::getShader("sprite"), ResourceManager::getTexture("OpenGL"), glm::vec2(0.0f, 0.0f), glm::vec2(1000.0f, 433.5f), 0.0f);
         TextRenderer::get().draw(ResourceManager::getShader("text"), ResourceManager::getFont("Antonio"), "Hello World!", 50.0f, 50.0f, 1.0f, glm::vec3(0.0f, 0.0f, 0.6f));
 
         // Update
