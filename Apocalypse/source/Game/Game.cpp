@@ -73,6 +73,7 @@ void Game::loadResources()
 
     // configure shaders
     // top-left coordinate of the scene will be at (0, 0) and the bottom-right part of the screen is at coordinate (WINDOW_WIDTH, WINDOW_HEIGHT)
+    // TODO: this->ortho = glm::ortho(-0.5 * this->WINDOW_WIDTH, 0.5 * this->WINDOW_WIDTH, -0.5 * this->WINDOW_HEIGHT, 0.5 * this->WINDOW_HEIGHT);
     glm::mat4 projection = glm::ortho(0.0f, static_cast<float>(WindowManager::get().getWindowWidth()), static_cast<float>(WindowManager::get().getWindowHeight()), 0.0f, -1.0f, 1.0f);
     ResourceManager::getShader("sprite").use().setInteger("sprite", 0);
     ResourceManager::getShader("sprite").use().setMatrix4("projection", projection);

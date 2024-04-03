@@ -35,3 +35,17 @@ void Map::readMap(const std::string& path)
 	in.close();
 }
 
+void Map::setMap(const std::vector<std::vector<int>> map)
+{
+	this->WIDTH = map.size();
+	this->HEIGHT = map[0].size();
+
+	this->map.resize(this->WIDTH);
+	for (int i = 0; i < this->map.size(); ++i)
+		this->map[i].resize(this->HEIGHT);
+
+	for (int i = 0; i < map.size(); ++i)
+		for (int j = 0; j < map[i].size(); ++j)
+			this->map[i][j] = map[i][j];
+}
+

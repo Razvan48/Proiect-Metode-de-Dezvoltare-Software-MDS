@@ -15,7 +15,7 @@ private:
 	Map& operator= (const Map&& other) = delete;
 
 private:
-	int WIDTH;	// TODO: init
+	int WIDTH;	// TODO: init // TODO: putem sa le eliminam chiar, avem map.size() si map[0].size()
 	int HEIGHT;	// TODO: init
 
 	std::vector<std::vector<int>> map;
@@ -26,5 +26,6 @@ public:
 	inline int getHeight() { return HEIGHT; };
 	int getCell(int x, int y);
 	void readMap(const std::string& path);
+	void setMap(const std::vector<std::vector<int>> map);
 };
 
