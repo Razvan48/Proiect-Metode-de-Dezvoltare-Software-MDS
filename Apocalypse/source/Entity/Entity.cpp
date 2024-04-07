@@ -1,20 +1,13 @@
 #include "Entity.h"
 
-#include "../Renderer/SpriteRenderer.h"
-#include "../ResourceManager/ResourceManager.h"
-
-Entity::Entity(double x, double y, const std::string textureName, double drawWidth, double drawHeight) :
-	x(x), y(y), textureName(textureName), drawWidth(drawWidth), drawHeight(drawHeight)
+Entity::Entity(double x, double y, double drawWidth, double drawHeight, double rotateAngle = 0.0, double speed = 0.0) :
+	x(x), y(y), drawWidth(drawWidth), drawHeight(drawHeight), rotateAngle(rotateAngle), speed(speed)
 {
 
-}
-
-void Entity::draw()
-{
-	SpriteRenderer::get().draw(ResourceManager::getShader("sprite"), ResourceManager::getTexture(this->textureName), glm::vec2(this->x, this->y), glm::vec2(this->drawWidth, this->drawHeight));
 }
 
 Entity::~Entity()
 {
 
 }
+

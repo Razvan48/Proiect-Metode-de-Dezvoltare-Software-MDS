@@ -1,14 +1,14 @@
 #include "CollidableEntity.h"
 
-CollidableEntity::CollidableEntity(double x, double y, const std::string textureName, double drawWidth, double drawHeight, double collideWidth, double collideHeight) :
-	Entity(x, y, textureName, drawWidth, drawHeight), collideWidth(collideWidth), collideHeight(collideHeight)
+CollidableEntity::CollidableEntity(double x, double y, double drawWidth, double drawHeight, double rotateAngle, double speed, double collideWidth, double collideHeight) :
+	Entity(x, y, drawWidth, drawHeight, rotateAngle, speed), collideWidth(collideWidth), collideHeight(collideHeight)
 {
 
 }
 
-bool CollidableEntity::isInCollision(const CollidableEntity& other)
+bool CollidableEntity::isInCollision(const CollidableEntity& other) const
 {
-	// TODO: de verificat ca l-am scris la 1 noaptea
+	// TODO: testing
 
 	double left1 = this->getX() - this->collideWidth / 2.0;
 	double right1 = this->getX() + this->collideWidth / 2.0;
