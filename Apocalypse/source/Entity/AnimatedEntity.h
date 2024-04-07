@@ -9,7 +9,7 @@ class AnimatedEntity : public virtual Entity // Virtual Diamond Inheritance
 {
 protected:
 
-	const std::vector<const std::string> animationsName2D;
+	const std::vector<std::string> animationsName2D;
 
 	/*
 	*  TODO: 
@@ -18,7 +18,7 @@ protected:
 
 public:
 
-	AnimatedEntity(double x, double y, double drawWidth, double drawHeight, double rotateAngle, double speed, const std::vector<const std::string>& animationsName2D);
+	AnimatedEntity(double x, double y, double drawWidth, double drawHeight, double rotateAngle, double speed, const std::vector<std::string>& animationsName2D);
 	//void draw() override;
 	virtual ~AnimatedEntity();
 };
