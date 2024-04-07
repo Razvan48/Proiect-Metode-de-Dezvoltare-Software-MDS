@@ -2,9 +2,9 @@
 
 #include "Entity.h"
 
-class CollidableEntity : protected virtual Entity // Virtual Diamond Inheritance
+class CollidableEntity : public virtual Entity // Virtual Diamond Inheritance
 {
-private:
+protected:
 
 	double collideWidth;
 	double collideHeight;
@@ -15,5 +15,6 @@ public:
 	double getCollideWidth() const { return this->collideWidth; }
 	double getCollideHeight() const { return this->collideHeight; }
 	bool isInCollision(const CollidableEntity& other) const;
+	virtual void onCollide() = 0; //collision resolution (virtual, each class implements the resolutions)
 	virtual ~CollidableEntity();
 };

@@ -4,7 +4,7 @@
 
 class Entity
 {
-private:
+protected:
 
 	double x;
 	double y;
@@ -16,7 +16,7 @@ private:
 public:
 
 	Entity(double x, double y, double drawWidth, double drawHeight, double rotateAngle, double speed);
-	virtual void draw();
+	virtual void draw() = 0;
 	double getX() const { return this->x; }
 	double getY() const { return this->y; }
 	double getDrawWidth() const { return this->drawWidth; }
