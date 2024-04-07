@@ -20,7 +20,7 @@ cd Proiect-Metode-de-Dezvoltare-Software-MDS
 ```sh
 generate_project.bat
 ```
-or
+&emsp; or <br/>
 ```sh
 ./generate_project.bat
 ```
