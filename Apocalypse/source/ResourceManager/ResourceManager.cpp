@@ -186,7 +186,7 @@ void ResourceManager::loadFont(const char* fontFilePath, const unsigned int font
 			texture,
 			glm::ivec2(face->glyph->bitmap.width, face->glyph->bitmap.rows),
 			glm::ivec2(face->glyph->bitmap_left, face->glyph->bitmap_top),
-			face->glyph->advance.x
+			static_cast<unsigned int>(face->glyph->advance.x)
 		};
 
 		fonts[name].Characters.insert(std::pair<char, Character>(c, character));
@@ -218,14 +218,12 @@ void ResourceManager::loadFlipbook(const char* directoryPath, const std::string&
 		for (const auto& entry : std::filesystem::directory_iterator(directoryPath))
 		{
 			std::string path = entry.path().generic_string();
-			std::string fileName = entry.path().filename().string();
 
-			// TODO
+			// TODO: delete
 			std::cout << path << std::endl;
-			std::cout << fileName << std::endl << std::endl;
 			
-			ResourceManager::loadTexture(path.c_str(), true, fileName);
-			flipbooks[name].addFrame(fileName);
+			ResourceManager::loadTexture(path.c_str(), true, path);
+			flipbooks[name].addFrame(path);
 		}
 	}
 }

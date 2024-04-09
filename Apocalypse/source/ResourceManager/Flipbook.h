@@ -16,7 +16,9 @@ public:
 
 	// TODO: move constructor
 
-	void addFrame(const std::string& texture);
+	inline void setFramesPerSecond(const float& framesPerSecond) { this->framesPerSecond = framesPerSecond; }
+	inline void addFrame(const std::string& texture) { keyFrames.push_back(texture); }
+
 	Texture2D& getTextureAtTime(float time) const;
 
 private:

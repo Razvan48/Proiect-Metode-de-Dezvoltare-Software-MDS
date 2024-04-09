@@ -12,11 +12,6 @@ Flipbook::Flipbook()
 
 }
 
-void Flipbook::addFrame(const std::string& texture)
-{
-	keyFrames.push_back(texture);
-}
-
 int Flipbook::getNumFrames() const
 {
 	// TODO: cazul in care vrem sa avem un frameRun pt fiecare textura/sprite din flipbook
@@ -42,7 +37,7 @@ int Flipbook::getKeyFrameIndexAtTime(float time) const
 	
 	time = fmod(time, getTotalDuration());
 	time *= framesPerSecond;
-	std::cout << static_cast<int>(floor(time)) << std::endl;
+
 	return static_cast<int>(floor(time));
 }
 
