@@ -21,5 +21,6 @@ public:
 	void updateTime();
 
 	inline double getDeltaTime() { return this->deltaTime; }
+	inline double getCurrentTime() { return this->currentTime; }
 };
 

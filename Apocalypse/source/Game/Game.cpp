@@ -57,6 +57,20 @@ void Game::loadResources()
         std::cout << "ERROR::SHADER: other error" << std::endl;
     }
 
+    // load flipbooks
+    try
+    {
+        ResourceManager::loadFlipbook("textures/Fire+Sparks", "fire");
+    }
+    catch (const std::runtime_error& err)
+    {
+        std::cout << "ERROR::FLIPBOOK: " << err.what() << std::endl;
+    }
+    catch (...)
+    {
+        std::cout << "ERROR::FLIPBOOK: other error" << std::endl;
+    }
+
     // load fonts
     try
     {
@@ -95,17 +109,20 @@ void Game::run()
         // TODO
 
         // Update/Tick
-        // TODO
+        GlobalClock::get().updateTime();
 
         // Render
         glClearColor(0.733f, 0.024f, 0.259f, 1.0f);
         glClear(GL_COLOR_BUFFER_BIT);
 
+        // sprite
         SpriteRenderer::get().draw(ResourceManager::getShader("sprite"), ResourceManager::getTexture("OpenGL"), glm::vec2(0.0f, 0.0f), glm::vec2(1000.0f, 433.5f), 0.0f);
+        
+        // text
         TextRenderer::get().draw(ResourceManager::getShader("text"), ResourceManager::getFont("Antonio"), "Hello World!", 50.0f, 50.0f, 1.0f, glm::vec3(0.0f, 0.0f, 0.6f));
 
-        // Update
-        GlobalClock::get().updateTime();
+        // flipbook
+        SpriteRenderer::get().draw(ResourceManager::getShader("sprite"), ResourceManager::getFlipbook("fire").getTextureAtTime(GlobalClock::get().getCurrentTime()), glm::vec2(410.0f, 40.0f), glm::vec2(192.0f, 192.0f), 0.0f);
 
         // Swap the screen buffers
         glfwSwapBuffers(WindowManager::get().getWindow());

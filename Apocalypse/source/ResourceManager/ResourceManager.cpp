@@ -3,6 +3,7 @@
 #include <iostream>
 #include <fstream>
 #include <sstream>
+#include <filesystem>
 
 #include "stb_image.h"
 
@@ -13,6 +14,7 @@
 std::map<std::string, Texture2D> ResourceManager::textures;
 std::map<std::string, Shader> ResourceManager::shaders;
 std::map<std::string, Font> ResourceManager::fonts;
+std::map<std::string, Flipbook> ResourceManager::flipbooks;
 
 void ResourceManager::loadShader(const char* vShaderFile, const char* fShaderFile, const char* gShaderFile, const std::string& name)
 {
@@ -207,6 +209,36 @@ Font& ResourceManager::getFont(const std::string& name)
 	}
 
 	return fonts[name];
+}
+
+void ResourceManager::loadFlipbook(const char* directoryPath, const std::string& name)
+{
+	if (std::filesystem::exists(directoryPath) && std::filesystem::is_directory(directoryPath))
+	{
+		for (const auto& entry : std::filesystem::directory_iterator(directoryPath))
+		{
+			std::string path = entry.path().generic_string();
+			std::string fileName = entry.path().filename().string();
+
+			// TODO
+			std::cout << path << std::endl;
+			std::cout << fileName << std::endl << std::endl;
+			
+			ResourceManager::loadTexture(path.c_str(), true, fileName);
+			flipbooks[name].addFrame(fileName);
+		}
+	}
+}
+
+Flipbook& ResourceManager::getFlipbook(const std::string& name)
+{
+	if (flipbooks.find(name) == flipbooks.end())
+	{
+		// TODO: conventie formatare mesaje eroare
+		std::cout << "ERROR::RESOURCEMANAGER: Could not find the flipbook!\n";
+	}
+
+	return flipbooks[name];
 }
 
 void ResourceManager::clear()

@@ -8,6 +8,7 @@
 #include "Texture.h"
 #include "Shader.h"
 #include "Font.h"
+#include "Flipbook.h"
 
 class ResourceManager
 {
@@ -16,6 +17,7 @@ public:
 	static std::map<std::string, Shader> shaders;
 	static std::map<std::string, Texture2D> textures;
 	static std::map<std::string, Font> fonts;
+	static std::map<std::string, Flipbook> flipbooks;
 
 	// load and generate a shader program from files: vertex, fragment, geometry
 	static void loadShader(const char* vShaderFile, const char* fShaderFile, const char* gShaderFile, const std::string& name);
@@ -34,6 +36,12 @@ public:
 
 	// retrieve a stored font
 	static Font& getFont(const std::string& name);
+
+	// load and genereate flipbook
+	static void loadFlipbook(const char* directoryPath, const std::string& name);
+
+	// retrieve a stored flipbook
+	static Flipbook& getFlipbook(const std::string& name);
 
 	// de-allocate all resources
 	static void clear();
