@@ -1,7 +1,7 @@
 #pragma once
 
 #include "../Human/Human.h"
-#include "../Entity/AIEntity.h"
+#include "../AIEntity.h"
 
 class Enemy : public virtual Human, public virtual AIEntity
 {

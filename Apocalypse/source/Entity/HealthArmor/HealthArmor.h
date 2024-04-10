@@ -1,8 +1,8 @@
 #pragma once
 
-#include "../Entity/CollidableEntity.h"
-#include "../Entity/TexturableEntity.h"
-#include "../Entity/InteractiveEntity.h"
+#include "../CollidableEntity.h"
+#include "../TexturableEntity.h"
+#include "../InteractiveEntity.h"
 
 class HealthArmor : public virtual CollidableEntity, public virtual TexturableEntity, public virtual InteractiveEntity
 {

@@ -1,7 +1,7 @@
 #pragma once
 
-#include "../Entity/CollidableEntity.h"
-#include "../Entity/TexturableEntity.h"
+#include "../CollidableEntity.h"
+#include "../TexturableEntity.h"
 
 class Bullet : public virtual CollidableEntity, public virtual TexturableEntity
 {

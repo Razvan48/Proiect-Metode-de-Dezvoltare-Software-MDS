@@ -1,8 +1,8 @@
 #pragma once
 
-#include "../Entity/CollidableEntity.h"
-#include "../Entity/AnimatedEntity.h"
-#include "../Entity/InteractiveEntity.h"
+#include "../CollidableEntity.h"
+#include "../AnimatedEntity.h"
+#include "../InteractiveEntity.h"
 
 class Wall : public virtual CollidableEntity, public virtual AnimatedEntity, public virtual InteractiveEntity
 {
