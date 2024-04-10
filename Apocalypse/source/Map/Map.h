@@ -4,6 +4,18 @@
 #include <vector>
 #include <string>
 
+#include "../Entity/Wall/Wall.h"
+#include "../Entity/TexturableEntity.h"
+#include "../Entity/AnimatedEntity.h"
+
+/*
+* Codificare:
+* 
+* M0 M1 M2 M3 ... M9 = coduri de perete
+* .0 .1 .2 .3 ... .9 = coduri de podea
+* D0 D1 D2 D3 ... D9 = coduri de usi
+*/
+
 class Map
 {
 private:
@@ -15,17 +27,13 @@ private:
 	Map& operator= (const Map&& other) = delete;
 
 private:
-	int WIDTH;	// TODO: init // TODO: putem sa le eliminam chiar, avem map.size() si map[0].size()
-	int HEIGHT;	// TODO: init
 
-	std::vector<std::vector<int>> map;
+	std::vector<std::vector<TexturableEntity>> staticObjects;
+	std::vector<AnimatedEntity> doors;
 
 public:
 	static Map& get();
-	inline int getWidth() { return WIDTH; };
-	inline int getHeight() { return HEIGHT; };
-	int getCell(int x, int y);
+	TexturableEntity& getCell(int x, int y);
 	void readMap(const std::string& path);
-	void setMap(const std::vector<std::vector<int>> map);
 };
 

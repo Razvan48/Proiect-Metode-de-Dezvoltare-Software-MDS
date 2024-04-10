@@ -1,5 +1,8 @@
 #include "Map.h"
 
+#include <iostream>
+#include <sstream>
+
 Map& Map::get()
 {
 	static Map instance;
@@ -7,45 +10,46 @@ Map& Map::get()
 	return instance;
 }
 
-int Map::getCell(int x, int y)
-{
-	if (x < 0 || x >= this->WIDTH || y < 0 || y >= this->HEIGHT)
-		return 0;
-
-	return this->map[x][y];
-}
-
 void Map::readMap(const std::string& path)
 {
 	std::ios_base::sync_with_stdio(false);
 
 	std::ifstream in(path);
+	if (in.fail())
+	{
+		throw std::runtime_error("Cannot open file: " + path);
+	}
 	in.tie(nullptr);
 
-	in >> this->WIDTH >> this->HEIGHT;
+	while (!in.eof())
+	{
+		this->staticObjects.emplace_back();
 
-	this->map.resize(this->WIDTH);
-	for (int i = 0; i < this->map.size(); ++i)
-		this->map[i].resize(this->HEIGHT);
+		std::string line;
+		std::getline(in, line);
+		std::stringstream ss(line);
 
-	for (int y = this->HEIGHT - 1; y >= 0; --y)
-		for (int x = 0; x < this->WIDTH; ++x)
-			in >> this->map[x][y];
+		std::string code;
+		while (ss >> code)
+		{
+			this->staticObjects.back().emplace_back(TexturableEntity((double)this->staticObjects.back().size() - 0.5, (double)this->staticObjects.size() - 0.5, 1.0, 1.0, 0.0, 0.0, code));
+		}
+	}
 
 	in.close();
 }
 
-void Map::setMap(const std::vector<std::vector<int>> map)
+TexturableEntity& Map::getCell(int x, int y)
 {
-	this->WIDTH = map.size();
-	this->HEIGHT = map[0].size();
+	if (x < 0 || x > this->staticObjects[0].size())
+	{
+		// TODO:
+	}
+	if (y < 0 || y > this->staticObjects.size())
+	{
+		// TODO:
+	}
 
-	this->map.resize(this->WIDTH);
-	for (int i = 0; i < this->map.size(); ++i)
-		this->map[i].resize(this->HEIGHT);
-
-	for (int i = 0; i < map.size(); ++i)
-		for (int j = 0; j < map[i].size(); ++j)
-			this->map[i][j] = map[i][j];
+	return this->staticObjects[y][x];
 }
 

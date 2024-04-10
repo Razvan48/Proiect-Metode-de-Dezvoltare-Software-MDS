@@ -94,6 +94,20 @@ void Game::loadResources()
     glm::mat4 orho = glm::ortho(0.0f, static_cast<float>(WindowManager::get().getWindowWidth()), static_cast<float>(WindowManager::get().getWindowHeight()), 0.0f);
     ResourceManager::getShader("text").use().setMatrix4("projection", orho);
     ResourceManager::getShader("text").use().setInteger("text", 0);
+
+    // load map
+    try
+    {
+        Map::get().readMap("maps/sandbox.map");
+    }
+    catch (const std::runtime_error& err)
+    {
+        std::cout << "ERROR::MAP: " << err.what() << std::endl;
+    }
+    catch (...)
+    {
+        std::cout << "ERROR::MAP: other error" << std::endl;
+    }
 }
 
 void Game::run()
