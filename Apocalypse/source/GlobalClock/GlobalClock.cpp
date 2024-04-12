@@ -5,6 +5,7 @@
 GlobalClock::GlobalClock() 
 	: previousTime(0.0), currentTime(0.0), deltaTime(0.0)
 {
+	// TODO: trebuie asta aici?
 	WindowManager::get();
 }
 

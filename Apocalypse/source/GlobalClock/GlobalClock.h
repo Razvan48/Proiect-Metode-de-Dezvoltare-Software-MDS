@@ -20,7 +20,7 @@ public:
 
 	void updateTime();
 
-	inline double getDeltaTime() { return this->deltaTime; }
-	inline double getCurrentTime() { return this->currentTime; }
+	double getDeltaTime() const { return this->deltaTime; }
+	double getCurrentTime() const { return this->currentTime; }
 };
 

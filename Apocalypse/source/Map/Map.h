@@ -35,5 +35,6 @@ public:
 	static Map& get();
 	TexturableEntity& getCell(int x, int y);
 	void readMap(const std::string& path);
+	void draw();
 };
 

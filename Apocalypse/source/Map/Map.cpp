@@ -3,6 +3,9 @@
 #include <iostream>
 #include <sstream>
 
+#include "../Renderer/SpriteRenderer.h"
+#include "../ResourceManager/ResourceManager.h"
+
 Map& Map::get()
 {
 	static Map instance;
@@ -32,7 +35,9 @@ void Map::readMap(const std::string& path)
 		std::string code;
 		while (ss >> code)
 		{
-			this->staticObjects.back().emplace_back(TexturableEntity((double)this->staticObjects.back().size() - 0.5, (double)this->staticObjects.size() - 0.5, 1.0, 1.0, 0.0, 0.0, code));
+			// TODO:
+			//this->staticObjects.back().emplace_back(TexturableEntity((double)this->staticObjects.back().size() - 0.5, (double)this->staticObjects.size() - 0.5, 1.0, 1.0, 0.0, 0.0, code));
+			this->staticObjects.back().emplace_back(TexturableEntity((double)this->staticObjects.back().size() * 28.0f, (double)this->staticObjects.size() * 28.0f, 28.0f, 28.0f, 0.0, 0.0, code));
 		}
 	}
 
@@ -51,5 +56,17 @@ TexturableEntity& Map::getCell(int x, int y)
 	}
 
 	return this->staticObjects[y][x];
+}
+
+void Map::draw()
+{
+	// TODO:
+	for (int i = 0; i < 18; ++i)
+	{
+		for (int j = 0; j < 18; ++j)
+		{
+			this->staticObjects[i][j].draw();
+		}
+	}
 }
 
