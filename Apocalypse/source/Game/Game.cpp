@@ -7,6 +7,7 @@
 #include "../GlobalClock/GlobalClock.h"
 #include "../Map/Map.h"
 #include "../Input/InputHandler.h"
+#include "../Entity/Player/PlayerTest.h" // TODO: delete
 
 #include <iostream>
 
@@ -114,10 +115,16 @@ void Game::run()
 {
     this->loadResources();
 
+    // todo: in alta functie
+    PlayerTest player;
+    player.setupPlayerInputComponent();
+
+    InputHandler::setInputComponent(InputHandler::getPlayerInputComponent());
+
     while (!glfwWindowShouldClose(WindowManager::get().getWindow()))
     {
         // Input
-        // TODO
+        InputHandler::update();
 
         // Collision System
         // TODO
