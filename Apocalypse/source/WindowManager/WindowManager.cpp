@@ -5,7 +5,7 @@
 #include "../Input/InputHandler.h"
 
 WindowManager::WindowManager() 
-	: WINDOW_WIDTH(1024), WINDOW_HEIGHT(800), WINDOW_TITLE("Apocalypse")
+	: WINDOW_WIDTH(1024), WINDOW_HEIGHT(896), WINDOW_TITLE("Apocalypse")
 {
 	// Init GLFW
 	glfwInit();

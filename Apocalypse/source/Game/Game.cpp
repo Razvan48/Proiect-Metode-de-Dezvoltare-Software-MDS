@@ -36,20 +36,6 @@ void Game::loadResources()
     }
     catch (const std::runtime_error& err)
     {
-        std::cout << "ERROR::TEXTURE: " << err.what() << std::endl;
-    }
-    catch (...)
-    {
-        std::cout << "ERROR::TEXTURE: other error" << std::endl;
-    }
-
-    // load textures
-    try
-    {
-        ResourceManager::loadTexture("textures/OpenGL-test.png", true, "OpenGL");
-    }
-    catch (const std::runtime_error& err)
-    {
         std::cout << "ERROR::SHADER: " << err.what() << std::endl;
     }
     catch (...)
@@ -57,10 +43,45 @@ void Game::loadResources()
         std::cout << "ERROR::SHADER: other error" << std::endl;
     }
 
+    // load textures
+    try
+    {
+        ResourceManager::loadTexture("textures/OpenGL-test.png", true, "OpenGL");
+
+        // floors
+        ResourceManager::loadTexture("textures/floors/.0.png", true, ".0");
+        ResourceManager::loadTexture("textures/floors/.1.png", true, ".1");
+        ResourceManager::loadTexture("textures/floors/.2.png", true, ".2");
+        ResourceManager::loadTexture("textures/floors/.3.png", true, ".3");
+        ResourceManager::loadTexture("textures/floors/.4.png", true, ".4");
+        ResourceManager::loadTexture("textures/floors/.5.png", true, ".5");
+        ResourceManager::loadTexture("textures/floors/.6.png", true, ".6");
+        ResourceManager::loadTexture("textures/floors/.7.png", true, ".7");
+        ResourceManager::loadTexture("textures/floors/.8.png", true, ".8");
+        ResourceManager::loadTexture("textures/floors/.9.png", true, ".9");
+        ResourceManager::loadTexture("textures/floors/.a.png", true, ".a");
+
+        // walls
+        ResourceManager::loadTexture("textures/walls/M0.png", true, "M0");
+        ResourceManager::loadTexture("textures/walls/M1.png", true, "M1");
+        ResourceManager::loadTexture("textures/walls/M2.png", true, "M2");
+    }
+    catch (const std::runtime_error& err)
+    {
+        std::cout << "ERROR::TEXTURE: " << err.what() << std::endl;
+    }
+    catch (...)
+    {
+        std::cout << "ERROR::TEXTURE: other error" << std::endl;
+    }
+
     // load flipbooks
     try
     {
         ResourceManager::loadFlipbook("textures/Fire+Sparks", "fire");
+
+        // playerIdle
+        ResourceManager::loadFlipbook("animations/playerIdle", "playerIdle");
     }
     catch (const std::runtime_error& err)
     {
@@ -129,14 +150,20 @@ void Game::run()
         glClearColor(0.733f, 0.024f, 0.259f, 1.0f);
         glClear(GL_COLOR_BUFFER_BIT);
 
-        // sprite
+        // Map
+        Map::get().draw();
+
+        // Sprite
         SpriteRenderer::get().draw(ResourceManager::getShader("sprite"), ResourceManager::getTexture("OpenGL"), glm::vec2(0.0f, 0.0f), glm::vec2(1000.0f, 433.5f), 0.0f);
+        SpriteRenderer::get().draw(ResourceManager::getShader("sprite"), ResourceManager::getTexture(".0"), glm::vec2(128.0f, 128.0f), glm::vec2(128.0f, 128.0f), 0.0f);
         
-        // text
+        // Text
         TextRenderer::get().draw(ResourceManager::getShader("text"), ResourceManager::getFont("Antonio"), "Hello World!", 50.0f, 50.0f, 1.0f, glm::vec3(0.0f, 0.0f, 0.6f));
 
-        // flipbook
+        // Flipbook
         SpriteRenderer::get().draw(ResourceManager::getShader("sprite"), ResourceManager::getFlipbook("fire").getTextureAtTime(GlobalClock::get().getCurrentTime()), glm::vec2(410.0f, 40.0f), glm::vec2(192.0f, 192.0f), 0.0f);
+        // 112.0f Player size // 128.0f debug
+        SpriteRenderer::get().draw(ResourceManager::getShader("sprite"), ResourceManager::getFlipbook("playerIdle").getTextureAtTime(GlobalClock::get().getCurrentTime()), glm::vec2(112.0f, 112.0f), glm::vec2(112.0f, 112.0f), 180.0f);
 
         // Swap the screen buffers
         glfwSwapBuffers(WindowManager::get().getWindow());
