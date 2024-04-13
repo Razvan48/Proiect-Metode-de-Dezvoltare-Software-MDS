@@ -7,6 +7,7 @@
 #include "../Entity/Wall/Wall.h"
 #include "../Entity/TexturableEntity.h"
 #include "../Entity/AnimatedEntity.h"
+#include "../Entity/Door/Door.h"
 
 /*
 * Codificare:
@@ -29,12 +30,14 @@ private:
 private:
 
 	std::vector<std::vector<TexturableEntity>> staticObjects;
-	std::vector<AnimatedEntity> doors;
+	std::vector<Door> doors;
 
 public:
 	static Map& get();
 	TexturableEntity& getCell(int x, int y);
 	void readMap(const std::string& path);
+	std::vector<std::vector<TexturableEntity>>& getStaticObjects() { return this->staticObjects; }
+	std::vector<Door>& getDoors() { return this->doors; }
 	void draw();
 };
 

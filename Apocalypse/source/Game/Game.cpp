@@ -14,6 +14,7 @@
 
 Game::Game()
 {
+    // TODO: trebuie? \/
     WindowManager::get();
 }
 

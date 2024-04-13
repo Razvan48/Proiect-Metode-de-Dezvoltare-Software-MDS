@@ -2,6 +2,8 @@
 
 #include "../Human/Human.h"
 
+#include <glm/vec2.hpp>
+
 class Player : public virtual Human // singleton
 {
 protected:
@@ -15,7 +17,7 @@ protected:
 	Player& operator= (const Player&& other) = delete;
 
 	//void draw() override; animatedEntity are deja asta implementata
-	void onCollide() override;
+	void onCollide(CollidableEntity& other, glm::vec2 overlap) override;
 
 public:
 

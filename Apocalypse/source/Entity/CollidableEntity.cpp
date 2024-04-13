@@ -6,7 +6,7 @@ CollidableEntity::CollidableEntity(double x, double y, double drawWidth, double 
 
 }
 
-bool CollidableEntity::isInCollision(const CollidableEntity& other) const
+glm::vec2 CollidableEntity::isInCollision(const CollidableEntity& other) const
 {
 	// TODO: testing
 
@@ -20,7 +20,7 @@ bool CollidableEntity::isInCollision(const CollidableEntity& other) const
 	double down2 = other.getY() - other.collideHeight / 2.0;
 	double up2 = other.getY() + other.collideHeight / 2.0;
 
-	return std::max(left1, left2) <= std::min(right1, right2) && std::max(down1, down2) <= std::min(up1, up2);
+	return glm::vec2(std::max(0.0, std::min(right1, right2) - std::max(left1, left2)), std::max(0.0, std::min(up1, up2) - std::max(down1, down2)));
 }
 
 CollidableEntity::~CollidableEntity()
