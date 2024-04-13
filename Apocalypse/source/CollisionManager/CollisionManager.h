@@ -20,6 +20,6 @@ private:
 public:
 
 	CollisionManager& get();
-	void handleCollisions();
+	void handleCollisions(std::vector<Entity>& entities);
 };
 

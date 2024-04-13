@@ -23,6 +23,11 @@ glm::vec2 CollidableEntity::isInCollision(const CollidableEntity& other) const
 	return glm::vec2(std::max(0.0, std::min(right1, right2) - std::max(left1, left2)), std::max(0.0, std::min(up1, up2) - std::max(down1, down2)));
 }
 
+void CollidableEntity::onCollide(CollidableEntity& other, glm::vec2 overlap)
+{
+
+}
+
 CollidableEntity::~CollidableEntity()
 {
 

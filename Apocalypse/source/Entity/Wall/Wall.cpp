@@ -6,7 +6,6 @@ Wall::Wall(double x, double y, double drawWidth, double drawHeight, double rotat
 
 }
 
-
 Wall::~Wall()
 {
 

@@ -17,6 +17,6 @@ public:
 	double getCollideWidth() const { return this->collideWidth; }
 	double getCollideHeight() const { return this->collideHeight; }
 	glm::vec2 isInCollision(const CollidableEntity& other) const;
-	virtual void onCollide(CollidableEntity& other, glm::vec2 overlap) = 0; //collision resolution (virtual, each class implements the resolutions)
+	virtual void onCollide(CollidableEntity& other, glm::vec2 overlap); // Functia aceasta rezolva coliziunea doar din perspectiva lui (this), trebuie apelata si din perspectiva lui other.
 	virtual ~CollidableEntity();
 };

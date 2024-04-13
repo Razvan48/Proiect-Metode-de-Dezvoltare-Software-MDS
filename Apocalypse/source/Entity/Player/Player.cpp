@@ -20,7 +20,7 @@ Player::Player(double x, double y, double drawWidth, double drawHeight, double r
 Player& Player::get()
 {
 	// TODO: de schimbat
-	static Player instance(4.0, 4.0, 1.0, 1.0, 0.0, 0.5, 0.5, 0.5, {"playerRunning"});
+	static Player instance(5.0, 5.0, 1.0, 1.0, 0.0, 0.5, 0.4, 0.4, { "playerIdle", "playerWalking", "playerRunning", "playerTired" });
 
 	return instance;
 }
@@ -57,28 +57,16 @@ void Player::onCollide(CollidableEntity & other, glm::vec2 overlap)
 		if (overlap.x < overlap.y)
 		{
 			if (this->x < other.getX())
-			{
 				this->x -= (overlap.x + Constants::EPS) / 2.0;
-				other.setX(other.getX() + (overlap.x + Constants::EPS) / 2.0);
-			}
 			else
-			{
 				this->x += (overlap.x + Constants::EPS) / 2.0;
-				other.setX(other.getX() - (overlap.x + Constants::EPS) / 2.0);
-			}
 		}
 		else
 		{
 			if (this->y < other.getY())
-			{
 				this->y -= (overlap.y + Constants::EPS) / 2.0;
-				other.setY(other.getY() + (overlap.y + Constants::EPS) / 2.0);
-			}
 			else
-			{
 				this->y += (overlap.y + Constants::EPS) / 2.0;
-				other.setY(other.getY() - (overlap.y + Constants::EPS) / 2.0);
-			}
 		}
 	}
 }
