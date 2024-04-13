@@ -28,7 +28,7 @@ Game& Game::get()
 
 void Game::loadResources()
 {
-    // load shaders
+    // Load Shaders
     try
     {
         ResourceManager::loadShader("shaders/sprite.vert", "shaders/sprite.frag", nullptr, "sprite");
@@ -43,12 +43,12 @@ void Game::loadResources()
         std::cout << "ERROR::SHADER: other error" << std::endl;
     }
 
-    // load textures
+    // Load Textures
     try
     {
         ResourceManager::loadTexture("textures/OpenGL-test.png", true, "OpenGL");
 
-        // floors
+        // Floors
         ResourceManager::loadTexture("textures/floors/.0.png", true, ".0");
         ResourceManager::loadTexture("textures/floors/.1.png", true, ".1");
         ResourceManager::loadTexture("textures/floors/.2.png", true, ".2");
@@ -61,7 +61,7 @@ void Game::loadResources()
         ResourceManager::loadTexture("textures/floors/.9.png", true, ".9");
         ResourceManager::loadTexture("textures/floors/.a.png", true, ".a");
 
-        // walls
+        // Walls
         ResourceManager::loadTexture("textures/walls/M0.png", true, "M0");
         ResourceManager::loadTexture("textures/walls/M1.png", true, "M1");
         ResourceManager::loadTexture("textures/walls/M2.png", true, "M2");
@@ -75,13 +75,16 @@ void Game::loadResources()
         std::cout << "ERROR::TEXTURE: other error" << std::endl;
     }
 
-    // load flipbooks
+    // Load Flipbooks
     try
     {
         ResourceManager::loadFlipbook("textures/Fire+Sparks", "fire");
 
-        // playerIdle
+        // Player Animations
         ResourceManager::loadFlipbook("animations/playerIdle", "playerIdle");
+        ResourceManager::loadFlipbook("animations/playerWalking", "playerWalking");
+        ResourceManager::loadFlipbook("animations/playerRunning", "playerRunning");
+        ResourceManager::loadFlipbook("animations/playerTired", "playerTired");
     }
     catch (const std::runtime_error& err)
     {
@@ -92,7 +95,7 @@ void Game::loadResources()
         std::cout << "ERROR::FLIPBOOK: other error" << std::endl;
     }
 
-    // load fonts
+    // Load Fonts
     try
     {
         ResourceManager::loadFont("fonts/Antonio-Bold.ttf", 24, "Antonio");
@@ -106,7 +109,7 @@ void Game::loadResources()
         std::cout << "ERROR::FONT: other error" << std::endl;
     }
 
-    // configure shaders
+    // Configure Shaders
     glm::mat4 projection = glm::ortho(-0.5f * static_cast<float>(WindowManager::get().getWindowWidth()), 0.5f * static_cast<float>(WindowManager::get().getWindowWidth()), -0.5f * static_cast<float>(WindowManager::get().getWindowHeight()), 0.5f * static_cast<float>(WindowManager::get().getWindowHeight()));
     ResourceManager::getShader("sprite").use().setInteger("sprite", 0);
     ResourceManager::getShader("sprite").use().setMatrix4("projection", projection);
@@ -116,7 +119,7 @@ void Game::loadResources()
     ResourceManager::getShader("text").use().setMatrix4("projection", orho);
     ResourceManager::getShader("text").use().setInteger("text", 0);
 
-    // load map
+    // Load Map
     try
     {
         Map::get().readMap("maps/sandbox.map");
