@@ -8,6 +8,7 @@
 #include "../Map/Map.h"
 #include "../Input/InputHandler.h"
 #include "../Entity/Player/PlayerTest.h" // TODO: delete
+#include "../Camera/Camera.h"
 
 #include <iostream>
 
@@ -139,7 +140,10 @@ void Game::run()
 {
     this->loadResources();
 
-    // todo: in alta functie
+    // TODO: trebuie puse altundeva, iar atunci cand vom avea meniu trebuie pe false, nu true
+    Camera::get().setFollowsPlayer(true);
+
+    // TODO: in alta functie
     PlayerTest player;
     player.setupPlayerInputComponent();
 
@@ -149,6 +153,9 @@ void Game::run()
     {
         // Input
         InputHandler::update();
+
+        // Camera
+        Camera::get().update();
 
         // Collision System
         // TODO

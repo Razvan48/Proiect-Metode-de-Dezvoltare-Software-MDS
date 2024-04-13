@@ -11,9 +11,9 @@
 /*
 * Codificare:
 * 
-* M0 M1 M2 M3 ... M9 = coduri de perete
-* .0 .1 .2 .3 ... .9 = coduri de podea
-* D0 D1 D2 D3 ... D9 = coduri de usi
+* M0 M1 M2 M3 ... M9 MA MB MC ... = coduri de perete
+* .0 .1 .2 .3 ... .9 .a .b .c ... = coduri de podea
+* D0 D1 D2 D3 ... D9 DA DB DC ... = coduri de usi
 */
 
 class Map

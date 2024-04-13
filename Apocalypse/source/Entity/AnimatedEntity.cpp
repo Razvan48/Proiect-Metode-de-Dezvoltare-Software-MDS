@@ -9,12 +9,10 @@ AnimatedEntity::AnimatedEntity(double x, double y, double drawWidth, double draw
 
 }
 
-/*
 void AnimatedEntity::draw()
 {
-	// TODO: ????
+	// TODO: implementat
 }
-*/
 
 AnimatedEntity::~AnimatedEntity()
 {

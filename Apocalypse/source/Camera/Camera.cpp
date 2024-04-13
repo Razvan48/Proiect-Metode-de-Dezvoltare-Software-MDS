@@ -1,5 +1,14 @@
 #include "Camera.h"
 
+#include "../Entity/Player/Player.h"
+
+Camera::Camera() : // release zoom 112.0, debug zoom 128.0
+	x(0.0), y(0.0), zoom(112.0), followsPlayer(false)
+{
+	// TODO: trebuie?
+	//Player::get();
+}
+
 Camera& Camera::get()
 {
 	static Camera instance;
@@ -7,19 +16,26 @@ Camera& Camera::get()
 	return instance;
 }
 
-void Camera::setX(double x)
+void Camera::update()
 {
-	this->x = x;
+	if (this->followsPlayer)
+	{
+		this->x = Player::get().getX();
+		this->y = Player::get().getY();
+	}
+	else
+	{
+		this->x = 0.0;
+		this->y = 0.0;
+	}
 }
 
-void Camera::setY(double y)
+glm::vec2 Camera::screenPosition(double x, double y) const
 {
-	this->y = y;
+	return glm::vec2((x - this->x) * this->zoom, (y - this->y) * this->zoom);
 }
 
-void Camera::initializeCoords(double x, double y)
+glm::vec2 Camera::screenSize(double width, double height) const
 {
-	this->setX(x);
-	this->setY(y);
+	return glm::vec2(width * this->zoom, height * this->zoom);
 }
-

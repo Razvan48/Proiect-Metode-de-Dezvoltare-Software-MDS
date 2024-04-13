@@ -19,6 +19,6 @@ protected:
 public:
 
 	AnimatedEntity(double x, double y, double drawWidth, double drawHeight, double rotateAngle, double speed, const std::vector<std::string>& animationsName2D);
-	//void draw() override;
+	void draw() override;
 	virtual ~AnimatedEntity();
 };

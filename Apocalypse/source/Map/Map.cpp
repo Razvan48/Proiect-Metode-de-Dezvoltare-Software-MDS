@@ -35,9 +35,9 @@ void Map::readMap(const std::string& path)
 		std::string code;
 		while (ss >> code)
 		{
-			// TODO:
-			//this->staticObjects.back().emplace_back(TexturableEntity((double)this->staticObjects.back().size() - 0.5, (double)this->staticObjects.size() - 0.5, 1.0, 1.0, 0.0, 0.0, code));
-			this->staticObjects.back().emplace_back(TexturableEntity((double)this->staticObjects.back().size() * 28.0f, (double)this->staticObjects.size() * 28.0f, 28.0f, 28.0f, 0.0, 0.0, code));
+			// TODO: de sters linia 2 (comentata)
+			this->staticObjects.back().emplace_back(TexturableEntity((double)this->staticObjects.back().size() - 0.5, (double)this->staticObjects.size() - 0.5, 1.0, 1.0, 0.0, 0.0, code));
+			//this->staticObjects.back().emplace_back(TexturableEntity((double)this->staticObjects.back().size() * 28.0f, (double)this->staticObjects.size() * 28.0f, 28.0f, 28.0f, 0.0, 0.0, code));
 		}
 	}
 
@@ -48,11 +48,11 @@ TexturableEntity& Map::getCell(int x, int y)
 {
 	if (x < 0 || x > this->staticObjects[0].size())
 	{
-		// TODO:
+		// TODO: exceptii
 	}
 	if (y < 0 || y > this->staticObjects.size())
 	{
-		// TODO:
+		// TODO: exceptii
 	}
 
 	return this->staticObjects[y][x];
@@ -60,10 +60,9 @@ TexturableEntity& Map::getCell(int x, int y)
 
 void Map::draw()
 {
-	// TODO:
-	for (int i = 0; i < 18; ++i)
+	for (int i = 0; i < this->staticObjects.size(); ++i)
 	{
-		for (int j = 0; j < 18; ++j)
+		for (int j = 0; j < this->staticObjects[0].size(); ++j)
 		{
 			this->staticObjects[i][j].draw();
 		}
