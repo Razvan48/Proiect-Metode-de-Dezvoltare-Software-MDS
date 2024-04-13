@@ -2,6 +2,8 @@
 
 #include <map>
 
+#include "InputComponent.h"
+
 class InputHandler
 {
 public:
@@ -12,6 +14,15 @@ public:
 	static void setKey(const int& key, const int& value);
 	static void setMouseButtons(const int& key, const int& value);
 	static void setMousePosition(const std::pair<double, double>& pos);
+
+	static inline void setInputComponent(InputComponent& inputComponent) { activeInputComponent = &inputComponent; }
+
+	static inline InputComponent& getPlayerInputComponent() { return playerInputComponent; }
+	static inline InputComponent& getMenuInputComponent() { return meniuInputComponent; }
+	static inline InputComponent& getActiveInputComponent() { return *activeInputComponent; }
+
+	static void callback(int key, int action);
+	static void update();
 
 private:
 	InputHandler() = default;
@@ -24,5 +35,9 @@ private:
 	static std::map<int, int> keys;
 	static std::map<int, int> mouseButtons;
 	static std::pair<double, double> mousePosition;
+
+	static InputComponent playerInputComponent;
+	static InputComponent meniuInputComponent;
+	static InputComponent* activeInputComponent;
 };
 

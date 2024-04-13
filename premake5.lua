@@ -210,7 +210,8 @@ workspace "Apocalypse"
             "%{prj.name}/**.hpp",
             "%{prj.name}/**.vert",
             "%{prj.name}/**.frag",
-            "%{prj.name}/**.map"
+            "%{prj.name}/**.map",
+            "%{prj.name}/**.ini"
         }
 
         includedirs
