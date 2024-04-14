@@ -4,7 +4,7 @@
 
 #include "Entity.h"
 
-class TexturableEntity : public virtual Entity // Virtual Diamond Inheritance
+class TexturableEntity : public virtual Entity
 {
 protected:
 

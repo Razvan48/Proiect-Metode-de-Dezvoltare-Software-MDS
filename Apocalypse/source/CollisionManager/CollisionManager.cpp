@@ -5,6 +5,7 @@
 #include "../Entity/CollidableEntity.h"
 
 #include <iostream> // TODO: delete
+#include <memory>
 
 CollisionManager::CollisionManager()
 {
@@ -34,14 +35,14 @@ void CollisionManager::handleCollisions(std::vector<Entity>& entities)
 	{
 		for (int j = 0; j < Map::get().getMap()[i].size(); ++j)
 		{
-			if (dynamic_cast<CollidableEntity*>(&Map::get().getMap()[i][j]))
+			if (std::dynamic_pointer_cast<CollidableEntity>(Map::get().getMap()[i][j]))
 			{
-				glm::vec2 overlap = Player::get().isInCollision(dynamic_cast<CollidableEntity&>(Map::get().getMap()[i][j]));
+				glm::vec2 overlap = Player::get().isInCollision(*std::dynamic_pointer_cast<CollidableEntity>(Map::get().getMap()[i][j]).get());
 
 				if (overlap.x > 0.0 && overlap.y > 0.0)
 				{
-					Player::get().onCollide(dynamic_cast<CollidableEntity&>(Map::get().getMap()[i][j]), overlap);
-					dynamic_cast<CollidableEntity&>(Map::get().getMap()[i][j]).onCollide(Player::get(), overlap);
+					Player::get().onCollide(*std::dynamic_pointer_cast<CollidableEntity>(Map::get().getMap()[i][j]), overlap);
+					std::dynamic_pointer_cast<CollidableEntity>(Map::get().getMap()[i][j])->onCollide(Player::get(), overlap);
 				}
 			}
 		}

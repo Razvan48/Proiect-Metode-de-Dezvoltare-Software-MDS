@@ -4,7 +4,7 @@
 
 #include <glm/vec2.hpp>
 
-class CollidableEntity : public virtual Entity // Virtual Diamond Inheritance
+class CollidableEntity : public virtual Entity
 {
 protected:
 

@@ -153,21 +153,24 @@ void Game::run()
 
     while (!glfwWindowShouldClose(WindowManager::get().getWindow()))
     {
-        // Input
-        InputHandler::update();
+        for (int i = 0; i < 64; ++i)
+        {
+            // Input
+            InputHandler::update();
 
-        // Camera
-        Camera::get().update();
+            // Collision System
+            CollisionManager::get().handleCollisions(this->entities);
 
-        // Collision System
-        CollisionManager::get().handleCollisions(this->entities);
-
-        // Update/Tick
-        GlobalClock::get().updateTime();
+            // Update/Tick
+            GlobalClock::get().updateTime();
+        }
 
         // Render
         glClearColor(0.733f, 0.024f, 0.259f, 1.0f);
         glClear(GL_COLOR_BUFFER_BIT);
+
+        // Camera
+        Camera::get().update();
 
         // Map
         Map::get().draw();
@@ -176,16 +179,22 @@ void Game::run()
         Player::get().draw();
 
         // Sprite
+        /*
         SpriteRenderer::get().draw(ResourceManager::getShader("sprite"), ResourceManager::getTexture("OpenGL"), glm::vec2(0.0f, 0.0f), glm::vec2(1000.0f, 433.5f), 0.0f);
         SpriteRenderer::get().draw(ResourceManager::getShader("sprite"), ResourceManager::getTexture(".0"), glm::vec2(128.0f, 128.0f), glm::vec2(128.0f, 128.0f), 0.0f);
+        */
         
         // Text
+        /*
         TextRenderer::get().draw(ResourceManager::getShader("text"), ResourceManager::getFont("Antonio"), "Hello World!", 50.0f, 50.0f, 1.0f, glm::vec3(0.0f, 0.0f, 0.6f));
+        */
 
         // Flipbook
+        /*
         SpriteRenderer::get().draw(ResourceManager::getShader("sprite"), ResourceManager::getFlipbook("fire").getTextureAtTime(GlobalClock::get().getCurrentTime()), glm::vec2(410.0f, 40.0f), glm::vec2(192.0f, 192.0f), 0.0f);
         // 112.0f Player size // 128.0f debug
         SpriteRenderer::get().draw(ResourceManager::getShader("sprite"), ResourceManager::getFlipbook("playerIdle").getTextureAtTime(GlobalClock::get().getCurrentTime()), glm::vec2(112.0f, 112.0f), glm::vec2(112.0f, 112.0f), 180.0f);
+        */
 
         // Swap the screen buffers
         glfwSwapBuffers(WindowManager::get().getWindow());

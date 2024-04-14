@@ -9,7 +9,7 @@
 #include <iostream>
 #include <memory>
 
-Player::Player(double x, double y, double drawWidth, double drawHeight, double rotateAngle, double speed, double collideWidth, double collideHeight, const std::vector<std::string>& animationsName2D, double health = 100.0, double stamina = 100.0, double armor = 0.0) :
+Player::Player(double x, double y, double drawWidth, double drawHeight, double rotateAngle, double speed, double collideWidth, double collideHeight, const std::map<AnimatedEntity::EntityStatus, std::string>& animationsName2D, double health = 100.0, double stamina = 100.0, double armor = 0.0) :
 	Entity(x, y, drawWidth, drawHeight, rotateAngle, speed),
 	CollidableEntity(x, y, drawWidth, drawHeight, rotateAngle, speed, collideWidth, collideHeight),
 	AnimatedEntity(x, y, drawWidth, drawHeight, rotateAngle, speed, animationsName2D),
@@ -20,8 +20,13 @@ Player::Player(double x, double y, double drawWidth, double drawHeight, double r
 
 Player& Player::get()
 {
-	// TODO: de schimbat
-	static Player instance(5.0, 5.0, 1.0, 1.0, 0.0, 20, 0.4, 0.4, { "playerIdle", "playerWalking", "playerRunning", "playerTired" });
+	static Player instance(5.0, 5.0, 1.0, 1.0, 0.0, 10.0, 0.4, 0.4, std::map<AnimatedEntity::EntityStatus, std::string>
+	{
+		   { AnimatedEntity::EntityStatus::IDLE, "playerIdle" },
+		   { AnimatedEntity::EntityStatus::WALKING, "playerWalking" },
+		   { AnimatedEntity::EntityStatus::RUNNING, "playerRunning" },
+		   { AnimatedEntity::EntityStatus::TIRED, "playerTired" }
+	});
 
 	return instance;
 }
@@ -72,6 +77,11 @@ void Player::onCollide(CollidableEntity& other, glm::vec2 overlap)
 	}
 }
 
+void Player::update()
+{
+	// TODO:
+}
+
 Player::~Player()
 {
 
@@ -94,22 +104,34 @@ void Player::setupPlayerInputComponent()
 
 void Player::moveUp()
 {
-	this->y = this->y + this->speed * GlobalClock::get().getDeltaTime();
+	this->x = this->x + this->speed * std::cos(this->rotateAngle) * GlobalClock::get().getDeltaTime();
+	this->y = this->y + this->speed * std::sin(this->rotateAngle) * GlobalClock::get().getDeltaTime();
+
+	this->updateStatus(EntityStatus::WALKING);
 }
 
 void Player::moveDown()
 {
-	this->y = this->y - this->speed * GlobalClock::get().getDeltaTime();
+	this->x = this->x - this->speed * std::cos(this->rotateAngle) * GlobalClock::get().getDeltaTime();
+	this->y = this->y - this->speed * std::sin(this->rotateAngle) * GlobalClock::get().getDeltaTime();
+
+	this->updateStatus(EntityStatus::WALKING);
 }
 
 void Player::moveRight()
 {
-	this->x = this->x + this->speed * GlobalClock::get().getDeltaTime();
+	this->x = this->x + this->speed * std::sin(this->rotateAngle) * GlobalClock::get().getDeltaTime();
+	this->y = this->y - this->speed * std::cos(this->rotateAngle) * GlobalClock::get().getDeltaTime();
+
+	this->updateStatus(EntityStatus::WALKING);
 }
 
 void Player::moveLeft()
 {
-	this->x = this->x - this->speed * GlobalClock::get().getDeltaTime();
+	this->x = this->x - this->speed * std::sin(this->rotateAngle) * GlobalClock::get().getDeltaTime();
+	this->y = this->y + this->speed * std::cos(this->rotateAngle) * GlobalClock::get().getDeltaTime();
+
+	this->updateStatus(EntityStatus::WALKING);
 }
 
 

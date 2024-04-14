@@ -1,37 +1,46 @@
 #pragma once
 
 #include <vector>
-#include "string"
+#include <string>
+#include <map>
 
 #include "Entity.h"
 
-class AnimatedEntity : public virtual Entity // Virtual Diamond Inheritance
+#include "../GlobalClock/GlobalClock.h"
+
+class AnimatedEntity : public virtual Entity
 {
 protected:
-
-	const std::vector<std::string> animationsName2D;
 
 	enum class EntityStatus
 	{
 		DEFAULT, //asta doar debug, NU FOLOSIM DEFAULT, FOLOSIM IDLE PENTRU STATUS DE INCEPUT
 		IDLE,
-		Walking,
-		Running,
+		WALKING,
+		RUNNING,
 		TIRED,
 		DYING,
 		HOVERED,
 		CLICKED
 	};
 
+private:
+
 	EntityStatus status;
 	double timeSinceStatus;
 
+protected:
+
+	std::map<EntityStatus, std::string> animationsName2D;
+
 public:
 
-	AnimatedEntity(double x, double y, double drawWidth, double drawHeight, double rotateAngle, double speed, const std::vector<std::string>& animationsName2D);
+	AnimatedEntity(double x, double y, double drawWidth, double drawHeight, double rotateAngle, double speed, const std::map<EntityStatus, std::string>& animationsName2D);
 	void draw() override;
 	double getTimeSinceStatus() const { return this->timeSinceStatus; };
 	void setTimeSinceStatus(double timeSinceStatus) { this->timeSinceStatus = timeSinceStatus; }
+	EntityStatus getStatus() const { return this->status; }
+	void updateStatus(EntityStatus newStatus);
 	virtual void update() = 0;
 	virtual ~AnimatedEntity();
 };

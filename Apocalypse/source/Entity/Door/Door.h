@@ -9,7 +9,7 @@ protected:
 
 public:
 
-	Door(double x, double y, double drawWidth, double drawHeight, double rotateAngle, double speed, double collideWidth, double collideHeight, const std::vector<std::string>& animationsName2D);
+	Door(double x, double y, double drawWidth, double drawHeight, double rotateAngle, double speed, double collideWidth, double collideHeight, const std::map<AnimatedEntity::EntityStatus, std::string> animationsName2D);
 	void onCollide(CollidableEntity& other, glm::vec2 overlap) override;
 	virtual ~Door();
 };

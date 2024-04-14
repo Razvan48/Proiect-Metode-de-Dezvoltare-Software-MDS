@@ -12,7 +12,6 @@ TexturableEntity::TexturableEntity(double x, double y, double drawWidth, double 
 
 void TexturableEntity::draw()
 {
-	// TODO: is shader name "sprite"?
 	SpriteRenderer::get().draw(ResourceManager::getShader("sprite"), ResourceManager::getTexture(this->textureName2D), Camera::get().screenPosition(this->x, this->y), Camera::get().screenSize(this->drawWidth, this->drawHeight), this->rotateAngle);
 }
 
