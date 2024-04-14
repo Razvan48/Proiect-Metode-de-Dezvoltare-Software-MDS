@@ -108,32 +108,28 @@ void Player::setupPlayerInputComponent()
 
 void Player::moveUp()
 {
-	this->x = this->x + this->speed * std::cos(this->rotateAngle) * GlobalClock::get().getDeltaTime();
-	this->y = this->y + this->speed * std::sin(this->rotateAngle) * GlobalClock::get().getDeltaTime();
+	this->y += this->speed * GlobalClock::get().getDeltaTime();
 
 	this->updateStatus(EntityStatus::WALKING);
 }
 
 void Player::moveDown()
 {
-	this->x = this->x - this->speed * std::cos(this->rotateAngle) * GlobalClock::get().getDeltaTime();
-	this->y = this->y - this->speed * std::sin(this->rotateAngle) * GlobalClock::get().getDeltaTime();
+	this->y -= this->speed * GlobalClock::get().getDeltaTime();
 
 	this->updateStatus(EntityStatus::WALKING);
 }
 
 void Player::moveRight()
 {
-	this->x = this->x + this->speed * std::sin(this->rotateAngle) * GlobalClock::get().getDeltaTime();
-	this->y = this->y - this->speed * std::cos(this->rotateAngle) * GlobalClock::get().getDeltaTime();
+	this->x += this->speed * GlobalClock::get().getDeltaTime();
 
 	this->updateStatus(EntityStatus::WALKING);
 }
 
 void Player::moveLeft()
 {
-	this->x = this->x - this->speed * std::sin(this->rotateAngle) * GlobalClock::get().getDeltaTime();
-	this->y = this->y + this->speed * std::cos(this->rotateAngle) * GlobalClock::get().getDeltaTime();
+	this->x -= this->speed * GlobalClock::get().getDeltaTime();
 
 	this->updateStatus(EntityStatus::WALKING);
 }
