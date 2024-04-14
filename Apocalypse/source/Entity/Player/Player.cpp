@@ -5,9 +5,11 @@
 #include "../../ResourceManager/ResourceManager.h"
 #include "../../Input/InputHandler.h"
 #include "../../GlobalClock/GlobalClock.h"
+#include "../../WindowManager/WindowManager.h"
 
 #include <iostream>
 #include <memory>
+#include <cmath>
 
 Player::Player(double x, double y, double drawWidth, double drawHeight, double rotateAngle, double speed, double collideWidth, double collideHeight, const std::map<AnimatedEntity::EntityStatus, std::string>& animationsName2D, double health = 100.0, double stamina = 100.0, double armor = 0.0) :
 	Entity(x, y, drawWidth, drawHeight, rotateAngle, speed),
@@ -100,6 +102,8 @@ void Player::setupPlayerInputComponent()
 
 	InputHandler::getPlayerInputComponent().bindAction("MOVE_LEFT", InputEvent::IE_Pressed, std::bind(&Player::moveLeft, this));
 	InputHandler::getPlayerInputComponent().bindAction("MOVE_LEFT", InputEvent::IE_Repeat, std::bind(&Player::moveLeft, this));
+
+	InputHandler::getPlayerInputComponent().bindAxis(std::bind(&Player::look, this, std::placeholders::_1, std::placeholders::_2));
 }
 
 void Player::moveUp()
@@ -134,5 +138,30 @@ void Player::moveLeft()
 	this->updateStatus(EntityStatus::WALKING);
 }
 
+void Player::look(double xpos, double ypos)
+{
+	double xCenter = static_cast<double>(WindowManager::get().getWindowWidth()) / 2.0;
+	double yCenter = static_cast<double>(WindowManager::get().getWindowHeight()) / 2.0;
 
+	double xLungime = std::abs(xpos - xCenter);
+	double yLungime = std::abs(ypos - yCenter);
+
+	// cadran raportat la centru
+	if (xpos > xCenter && ypos < yCenter) // cadran I
+	{
+		this->rotateAngle = glm::degrees(glm::atan(yLungime / xLungime));
+	}
+	else if (xpos < xCenter && ypos < yCenter) // cadran II
+	{
+		this->rotateAngle = 90.0 + glm::degrees(glm::atan(xLungime / yLungime));
+	}
+	else if (xpos < xCenter && ypos > yCenter) // cadran III
+	{
+		this->rotateAngle = 180.0 + glm::degrees(glm::atan(yLungime / xLungime));
+	}
+	else // cadran IV
+	{
+		this->rotateAngle = 270.0 + glm::degrees(glm::atan(xLungime / yLungime));
+	}
+}
 

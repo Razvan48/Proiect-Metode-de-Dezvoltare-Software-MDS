@@ -15,16 +15,29 @@ void InputComponent::bindAction(const std::string& actionName, const InputEvent&
 		if (action == actionName)
 		{
 			std::cout << action << ' ' << s << ' ' << key << std::endl;
-			functionCallbacks[key][static_cast<int>(keyEvent)].push_back(func);
+			keyFunctionCallbacks[key][static_cast<int>(keyEvent)].push_back(func);
 		}
 	}
 }
 
-void InputComponent::callback(int key, int action)
+void InputComponent::bindAxis(const std::function<void(double, double)>& func)
 {
-	for (const auto& f : functionCallbacks[key][action])
+	mouseFunctionCallbacks.push_back(func);
+}
+
+void InputComponent::callbackAction(int key, int action)
+{
+	for (const auto& f : keyFunctionCallbacks[key][action])
 	{
 		f();
+	}
+}
+
+void InputComponent::callbackAxis(double xpos, double ypos)
+{
+	for (const auto& f : mouseFunctionCallbacks)
+	{
+		f(xpos, ypos);
 	}
 }
 

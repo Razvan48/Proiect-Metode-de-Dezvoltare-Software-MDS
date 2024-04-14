@@ -16,10 +16,14 @@ class InputComponent
 {
 public:
 	void bindAction(const std::string& actionName, const InputEvent& keyEvent, const std::function<void()>& func);
-	void callback(int key, int action);
+	void bindAxis(const std::function<void(double, double)>& func);
+
+	void callbackAction(int key, int action);
+	void callbackAxis(double xpos, double ypos);
 
 private:
 	// [key][keyEvent] = vector<> functions
-	std::map<int, std::map<int, std::vector<std::function<void()>>>> functionCallbacks;
+	std::map<int, std::map<int, std::vector<std::function<void()>>>> keyFunctionCallbacks;
+	std::vector<std::function<void(double, double)>> mouseFunctionCallbacks;
 };
 

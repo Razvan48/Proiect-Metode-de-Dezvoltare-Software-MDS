@@ -72,17 +72,18 @@ WindowManager& WindowManager::get()
 void WindowManager::keyCallback(GLFWwindow* window, int key, int scancode, int action, int mode)
 {
 	InputHandler::setKey(key, action);
-	InputHandler::callback(key, action);
+	InputHandler::callbackAction(key, action);
 }
 
 void WindowManager::cursorPosCallback(GLFWwindow* window, double xpos, double ypos)
 {	
 	InputHandler::setMousePosition(std::make_pair(xpos, ypos));
+	InputHandler::callbackAxis(xpos, ypos);
 }
 
 void WindowManager::mouseButtonCallback(GLFWwindow* window, int button, int action, int mods)
 {
 	InputHandler::setMouseButtons(button, action);
-	InputHandler::callback(button, action);
+	InputHandler::callbackAction(button, action);
 }
 

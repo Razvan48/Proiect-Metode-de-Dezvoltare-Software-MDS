@@ -23,25 +23,33 @@ void InputHandler::setMousePosition(const std::pair<double, double>& pos)
 	mousePosition = pos;
 }
 
-void InputHandler::callback(int key, int action)
+void InputHandler::callbackAction(int key, int action)
 {
 	// TODO: refactor
 
 	if (activeInputComponent)
 	{
-		activeInputComponent->callback(key, action);
+		activeInputComponent->callbackAction(key, action);
+	}
+}
+
+void InputHandler::callbackAxis(double xpos, double ypos)
+{
+	if (activeInputComponent)
+	{
+		activeInputComponent->callbackAxis(xpos, ypos);
 	}
 }
 
 void InputHandler::update()
 {
-	// TODO
+	// TODO: Pressed/Repeat
 
 	for (const auto& key : keys)
 	{
 		if (key.second == 1 || key.second == 2)
 		{
-			activeInputComponent->callback(key.first, key.second);
+			activeInputComponent->callbackAction(key.first, key.second);
 		}
 	}
 
@@ -49,7 +57,7 @@ void InputHandler::update()
 	{
 		if (key.second == 1 || key.second == 2)
 		{
-			activeInputComponent->callback(key.first, key.second);
+			activeInputComponent->callbackAction(key.first, key.second);
 		}
 	}
 }

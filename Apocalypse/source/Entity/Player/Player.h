@@ -20,6 +20,7 @@ private:
 	void moveDown();
 	void moveRight();
 	void moveLeft();
+	void look(double xpos, double ypos);
 
 public:
 

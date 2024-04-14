@@ -21,7 +21,9 @@ public:
 	static inline InputComponent& getMenuInputComponent() { return meniuInputComponent; }
 	static inline InputComponent& getActiveInputComponent() { return *activeInputComponent; }
 
-	static void callback(int key, int action);
+	static void callbackAction(int key, int action);
+	static void callbackAxis(double xpos, double ypos);
+
 	static void update();
 
 private:
