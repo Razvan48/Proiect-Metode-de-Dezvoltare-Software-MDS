@@ -4,9 +4,9 @@
 #include <vector>
 #include <string>
 
-#include "../Entity/Wall/Wall.h"
 #include "../Entity/TexturableEntity.h"
 #include "../Entity/AnimatedEntity.h"
+
 #include "../Entity/Door/Door.h"
 
 /*

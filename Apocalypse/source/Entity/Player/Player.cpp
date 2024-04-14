@@ -5,7 +5,10 @@
 #include "../../Constants/Constants.h"
 
 #include "../../ResourceManager/ResourceManager.h"
+#include "../../Input/InputHandler.h"
+#include "../../GlobalClock/GlobalClock.h"
 
+#include <iostream>
 #include <memory>
 
 Player::Player(double x, double y, double drawWidth, double drawHeight, double rotateAngle, double speed, double collideWidth, double collideHeight, const std::vector<std::string>& animationsName2D, double health = 100.0, double stamina = 100.0, double armor = 0.0) :
@@ -20,12 +23,12 @@ Player::Player(double x, double y, double drawWidth, double drawHeight, double r
 Player& Player::get()
 {
 	// TODO: de schimbat
-	static Player instance(5.0, 5.0, 1.0, 1.0, 0.0, 0.5, 0.4, 0.4, { "playerIdle", "playerWalking", "playerRunning", "playerTired" });
+	static Player instance(5.0, 5.0, 1.0, 1.0, 0.0, 20, 0.4, 0.4, { "playerIdle", "playerWalking", "playerRunning", "playerTired" });
 
 	return instance;
 }
 
-void Player::onCollide(CollidableEntity & other, glm::vec2 overlap)
+void Player::onCollide(CollidableEntity& other, glm::vec2 overlap)
 {
 	// TODO: nu e totul implementat
 
@@ -75,4 +78,41 @@ Player::~Player()
 {
 
 }
+
+void Player::setupPlayerInputComponent()
+{
+	InputHandler::getPlayerInputComponent().bindAction("MOVE_UP", InputEvent::IE_Pressed, std::bind(&Player::moveUp, this));
+	InputHandler::getPlayerInputComponent().bindAction("MOVE_UP", InputEvent::IE_Repeat, std::bind(&Player::moveUp, this));
+
+	InputHandler::getPlayerInputComponent().bindAction("MOVE_DOWN", InputEvent::IE_Pressed, std::bind(&Player::moveDown, this));
+	InputHandler::getPlayerInputComponent().bindAction("MOVE_DOWN", InputEvent::IE_Repeat, std::bind(&Player::moveDown, this));
+
+	InputHandler::getPlayerInputComponent().bindAction("MOVE_RIGHT", InputEvent::IE_Pressed, std::bind(&Player::moveRight, this));
+	InputHandler::getPlayerInputComponent().bindAction("MOVE_RIGHT", InputEvent::IE_Repeat, std::bind(&Player::moveRight, this));
+
+	InputHandler::getPlayerInputComponent().bindAction("MOVE_LEFT", InputEvent::IE_Pressed, std::bind(&Player::moveLeft, this));
+	InputHandler::getPlayerInputComponent().bindAction("MOVE_LEFT", InputEvent::IE_Repeat, std::bind(&Player::moveLeft, this));
+}
+
+void Player::moveUp()
+{
+	this->y = this->y + this->speed * GlobalClock::get().getDeltaTime();
+}
+
+void Player::moveDown()
+{
+	this->y = this->y - this->speed * GlobalClock::get().getDeltaTime();
+}
+
+void Player::moveRight()
+{
+	this->x = this->x + this->speed * GlobalClock::get().getDeltaTime();
+}
+
+void Player::moveLeft()
+{
+	this->x = this->x - this->speed * GlobalClock::get().getDeltaTime();
+}
+
+
 

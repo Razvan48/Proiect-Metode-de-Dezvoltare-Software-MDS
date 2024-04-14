@@ -21,6 +21,6 @@ public:
 	InteractiveEntity(double x, double y, double drawWidth, double drawHeight, double rotateAngle, double speed);
 	double getTimeSinceStatus() const { return this->timeSinceStatus; };
 	void setTimeSinceStatus(double timeSinceStatus) { this->timeSinceStatus = timeSinceStatus; }
-	virtual void interact() = 0; // TODO: see how we will use this
+	virtual void update(); // TODO: see how we will use this
 	virtual ~InteractiveEntity();
 };

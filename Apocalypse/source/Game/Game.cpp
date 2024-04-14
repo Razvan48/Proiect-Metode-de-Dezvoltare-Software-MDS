@@ -7,8 +7,9 @@
 #include "../GlobalClock/GlobalClock.h"
 #include "../Map/Map.h"
 #include "../Input/InputHandler.h"
-#include "../Entity/Player/PlayerTest.h" // TODO: delete
+#include "../Entity/Player/Player.h"
 #include "../Camera/Camera.h"
+#include "../CollisionManager/CollisionManager.h"
 
 #include <iostream>
 
@@ -144,10 +145,10 @@ void Game::run()
     // TODO: trebuie puse altundeva, iar atunci cand vom avea meniu trebuie pe false, nu true
     Camera::get().setFollowsPlayer(true);
 
-    // TODO: in alta functie
-    PlayerTest player;
-    player.setupPlayerInputComponent();
+    // TODO: de pus in constructor
+    Player::get().setupPlayerInputComponent();
 
+    // SetupInput
     InputHandler::setInputComponent(InputHandler::getPlayerInputComponent());
 
     while (!glfwWindowShouldClose(WindowManager::get().getWindow()))
@@ -159,7 +160,7 @@ void Game::run()
         Camera::get().update();
 
         // Collision System
-        // TODO
+        CollisionManager::get().handleCollisions(this->entities);
 
         // Update/Tick
         GlobalClock::get().updateTime();
@@ -170,6 +171,9 @@ void Game::run()
 
         // Map
         Map::get().draw();
+
+        // Player
+        Player::get().draw();
 
         // Sprite
         SpriteRenderer::get().draw(ResourceManager::getShader("sprite"), ResourceManager::getTexture("OpenGL"), glm::vec2(0.0f, 0.0f), glm::vec2(1000.0f, 433.5f), 0.0f);

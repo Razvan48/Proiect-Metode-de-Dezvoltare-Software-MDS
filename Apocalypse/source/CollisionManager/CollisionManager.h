@@ -19,7 +19,7 @@ private:
 
 public:
 
-	CollisionManager& get();
+	static CollisionManager& get();
 	void handleCollisions(std::vector<Entity>& entities);
 };
 

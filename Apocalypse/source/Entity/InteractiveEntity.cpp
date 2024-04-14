@@ -8,6 +8,11 @@ InteractiveEntity::InteractiveEntity(double x, double y, double drawWidth, doubl
 
 }
 
+void InteractiveEntity::update()
+{
+
+}
+
 InteractiveEntity::~InteractiveEntity()
 {
 

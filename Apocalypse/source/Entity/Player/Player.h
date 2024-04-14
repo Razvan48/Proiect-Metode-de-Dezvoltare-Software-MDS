@@ -16,10 +16,20 @@ protected:
 	Player(const Player&& other) = delete;
 	Player& operator= (const Player&& other) = delete;
 
+	void moveUp();
+	void moveDown();
+	void moveRight();
+	void moveLeft();
+
 public:
 
 	static Player& get();
 
 	//void draw() override; animatedEntity are deja asta implementata
 	void onCollide(CollidableEntity& other, glm::vec2 overlap) override;
+
+	void setupPlayerInputComponent();
 };
+
+
+

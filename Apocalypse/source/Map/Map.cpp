@@ -6,6 +6,10 @@
 #include "../Renderer/SpriteRenderer.h"
 #include "../ResourceManager/ResourceManager.h"
 
+#include "../Entity/Door/Door.h"
+#include "../Entity/Floor/Floor.h"
+#include "../Entity/Wall/Wall.h"
+
 Map& Map::get()
 {
 	static Map instance;
@@ -36,9 +40,24 @@ void Map::readMap(const std::string& path)
 		while (ss >> code)
 		{
 			// TODO: de sters linia 2 (comentata)
+			/*
+			if (code[0] == 'M')
+				this->staticObjects.back().emplace_back(Wall((double)this->staticObjects.back().size() - 0.5, (double)this->staticObjects.size() - 0.5, 1.0, 1.0, 0.0, 0.0, 1.0, 1.0, code));
+			else if (code[0] == '.')
+				this->staticObjects.back().emplace_back(Floor((double)this->staticObjects.back().size() - 0.5, (double)this->staticObjects.size() - 0.5, 1.0, 1.0, 0.0, 0.0, code));
+			*/
 			this->staticObjects.back().emplace_back(TexturableEntity((double)this->staticObjects.back().size() - 0.5, (double)this->staticObjects.size() - 0.5, 1.0, 1.0, 0.0, 0.0, code));
-			//this->staticObjects.back().emplace_back(TexturableEntity((double)this->staticObjects.back().size() * 28.0f, (double)this->staticObjects.size() * 28.0f, 28.0f, 28.0f, 0.0, 0.0, code));
 		}
+
+		/*
+		for (int i = 0; i < this->staticObjects.size(); ++i)
+		{
+			for (int j = 0; j < this->staticObjects[i].size(); ++j)
+			{
+				this->staticObjects[i][j].setY((double)this->staticObjects.size() - this->staticObjects[i][j].getY());
+			}
+		}
+		*/
 	}
 
 	in.close();
