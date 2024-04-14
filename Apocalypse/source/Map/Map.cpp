@@ -30,7 +30,7 @@ void Map::readMap(const std::string& path)
 
 	while (!in.eof())
 	{
-		this->staticObjects.emplace_back();
+		this->map.emplace_back();
 
 		std::string line;
 		std::getline(in, line);
@@ -46,7 +46,7 @@ void Map::readMap(const std::string& path)
 			else if (code[0] == '.')
 				this->staticObjects.back().emplace_back(Floor((double)this->staticObjects.back().size() - 0.5, (double)this->staticObjects.size() - 0.5, 1.0, 1.0, 0.0, 0.0, code));
 			*/
-			this->staticObjects.back().emplace_back(TexturableEntity((double)this->staticObjects.back().size() - 0.5, (double)this->staticObjects.size() - 0.5, 1.0, 1.0, 0.0, 0.0, code));
+			this->map.back().emplace_back(TexturableEntity((double)this->map.back().size() - 0.5, (double)this->map.size() - 0.5, 1.0, 1.0, 0.0, 0.0, code));
 		}
 
 		/*
@@ -63,27 +63,13 @@ void Map::readMap(const std::string& path)
 	in.close();
 }
 
-TexturableEntity& Map::getCell(int x, int y)
-{
-	if (x < 0 || x > this->staticObjects[0].size())
-	{
-		// TODO: exceptii
-	}
-	if (y < 0 || y > this->staticObjects.size())
-	{
-		// TODO: exceptii
-	}
-
-	return this->staticObjects[y][x];
-}
-
 void Map::draw()
 {
-	for (int i = 0; i < this->staticObjects.size(); ++i)
+	for (int i = 0; i < this->map.size(); ++i)
 	{
-		for (int j = 0; j < this->staticObjects[0].size(); ++j)
+		for (int j = 0; j < this->map[0].size(); ++j)
 		{
-			this->staticObjects[i][j].draw();
+			this->map[i][j].draw();
 		}
 	}
 }

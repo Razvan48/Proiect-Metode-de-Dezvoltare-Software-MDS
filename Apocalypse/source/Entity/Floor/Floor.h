@@ -3,7 +3,7 @@
 #include "../TexturableEntity.h"
 #include "../CollidableEntity.h"
 
-class Floor : public virtual TexturableEntity//, public virtual CollidableEntity
+class Floor : public virtual TexturableEntity
 {
 protected:
 

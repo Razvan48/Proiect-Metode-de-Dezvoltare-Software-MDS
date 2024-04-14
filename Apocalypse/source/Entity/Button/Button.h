@@ -2,9 +2,8 @@
 
 #include "../CollidableEntity.h"
 #include "../AnimatedEntity.h"
-#include "../InteractiveEntity.h"
 
-class Button : public virtual CollidableEntity, public virtual AnimatedEntity, public virtual InteractiveEntity
+class Button : public virtual CollidableEntity, public virtual AnimatedEntity
 {
 protected:
 

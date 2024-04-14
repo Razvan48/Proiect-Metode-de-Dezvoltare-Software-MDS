@@ -30,18 +30,18 @@ void CollisionManager::handleCollisions(std::vector<Entity>& entities)
 	// Functia de onCollide SE APELEAZA DIN AMBELE PERSPECTIVE ALE CELOR 2 OBIECTE IMPLICATE
 
 	// Player vs. Map
-	for (int i = 0; i < Map::get().getStaticObjects().size(); ++i)
+	for (int i = 0; i < Map::get().getMap().size(); ++i)
 	{
-		for (int j = 0; j < Map::get().getStaticObjects()[i].size(); ++j)
+		for (int j = 0; j < Map::get().getMap()[i].size(); ++j)
 		{
-			if (dynamic_cast<CollidableEntity*>(&Map::get().getStaticObjects()[i][j]))
+			if (dynamic_cast<CollidableEntity*>(&Map::get().getMap()[i][j]))
 			{
-				glm::vec2 overlap = Player::get().isInCollision(dynamic_cast<CollidableEntity&>(Map::get().getStaticObjects()[i][j]));
+				glm::vec2 overlap = Player::get().isInCollision(dynamic_cast<CollidableEntity&>(Map::get().getMap()[i][j]));
 
 				if (overlap.x > 0.0 && overlap.y > 0.0)
 				{
-					Player::get().onCollide((CollidableEntity&)Map::get().getStaticObjects()[i][j], overlap);
-					dynamic_cast<CollidableEntity&>(Map::get().getStaticObjects()[i][j]).onCollide(Player::get(), overlap);
+					Player::get().onCollide(dynamic_cast<CollidableEntity&>(Map::get().getMap()[i][j]), overlap);
+					dynamic_cast<CollidableEntity&>(Map::get().getMap()[i][j]).onCollide(Player::get(), overlap);
 				}
 			}
 		}

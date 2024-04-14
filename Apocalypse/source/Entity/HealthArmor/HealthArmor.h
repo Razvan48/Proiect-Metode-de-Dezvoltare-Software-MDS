@@ -2,9 +2,8 @@
 
 #include "../CollidableEntity.h"
 #include "../TexturableEntity.h"
-#include "../InteractiveEntity.h"
 
-class HealthArmor : public virtual CollidableEntity, public virtual TexturableEntity, public virtual InteractiveEntity
+class HealthArmor : public virtual CollidableEntity, public virtual TexturableEntity
 {
 protected:
 

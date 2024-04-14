@@ -29,15 +29,12 @@ private:
 
 private:
 
-	std::vector<std::vector<TexturableEntity>> staticObjects;
-	std::vector<Door> doors;
+	std::vector<std::vector<Entity>> map;
 
 public:
 	static Map& get();
-	TexturableEntity& getCell(int x, int y);
 	void readMap(const std::string& path);
-	std::vector<std::vector<TexturableEntity>>& getStaticObjects() { return this->staticObjects; }
-	std::vector<Door>& getDoors() { return this->doors; }
+	std::vector<std::vector<Entity>>& getMap() { return this->map; }
 	void draw();
 };
 

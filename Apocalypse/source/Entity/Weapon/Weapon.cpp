@@ -4,7 +4,7 @@ Weapon::Weapon(double x, double y, double drawWidth, double drawHeight, double r
 	Entity(x, y, drawWidth, drawHeight, rotateAngle, speed),
 	CollidableEntity(x, y, drawWidth, drawHeight, rotateAngle, speed, collideWidth, collideHeight),
 	TexturableEntity(x, y, drawWidth, drawHeight, rotateAngle, speed, textureName2D),
-	InteractiveEntity(x, y, drawWidth, drawHeight, rotateAngle, speed), fireRate(fireRate), numBullets(numBullets), damage(damage)
+	fireRate(fireRate), numBullets(numBullets), damage(damage)
 {
 
 }

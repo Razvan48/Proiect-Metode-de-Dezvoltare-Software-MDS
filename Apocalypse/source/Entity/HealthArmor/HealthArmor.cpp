@@ -4,7 +4,7 @@ HealthArmor::HealthArmor(double x, double y, double drawWidth, double drawHeight
 	Entity(x, y, drawWidth, drawHeight, rotateAngle, speed),
 	CollidableEntity(x, y, drawWidth, drawHeight, rotateAngle, speed, collideWidth, collideHeight),
 	TexturableEntity(x, y, drawWidth, drawHeight, rotateAngle, speed, textureName2D),
-	InteractiveEntity(x, y, drawWidth, drawHeight, rotateAngle, speed), addedArmor(addedArmor)
+	addedArmor(addedArmor)
 {
 
 }

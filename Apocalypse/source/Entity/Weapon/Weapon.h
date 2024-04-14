@@ -2,9 +2,8 @@
 
 #include "../CollidableEntity.h"
 #include "../TexturableEntity.h"
-#include "../InteractiveEntity.h"
 
-class Weapon : public virtual CollidableEntity, public virtual TexturableEntity, public virtual InteractiveEntity
+class Weapon : public virtual CollidableEntity, public virtual TexturableEntity
 {
 protected:
 

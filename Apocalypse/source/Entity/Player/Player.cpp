@@ -2,8 +2,6 @@
 
 #include "../Wall/Wall.h"
 
-#include "../../Constants/Constants.h"
-
 #include "../../ResourceManager/ResourceManager.h"
 #include "../../Input/InputHandler.h"
 #include "../../GlobalClock/GlobalClock.h"
@@ -37,16 +35,16 @@ void Player::onCollide(CollidableEntity& other, glm::vec2 overlap)
 		if (overlap.x < overlap.y)
 		{
 			if (this->x < other.getX())
-				this->x -= (overlap.x + Constants::EPS);
+				this->x -= (overlap.x + CollidableEntity::EPS);
 			else
-				this->x += (overlap.x + Constants::EPS);
+				this->x += (overlap.x + CollidableEntity::EPS);
 		}
 		else
 		{
 			if (this->y < other.getY())
-				this->y -= (overlap.y + Constants::EPS);
+				this->y -= (overlap.y + CollidableEntity::EPS);
 			else
-				this->y += (overlap.y + Constants::EPS);
+				this->y += (overlap.y + CollidableEntity::EPS);
 		}
 	}
 	/*
@@ -60,16 +58,16 @@ void Player::onCollide(CollidableEntity& other, glm::vec2 overlap)
 		if (overlap.x < overlap.y)
 		{
 			if (this->x < other.getX())
-				this->x -= (overlap.x + Constants::EPS) / 2.0;
+				this->x -= (overlap.x + CollidableEntity::EPS) / 2.0;
 			else
-				this->x += (overlap.x + Constants::EPS) / 2.0;
+				this->x += (overlap.x + CollidableEntity::EPS) / 2.0;
 		}
 		else
 		{
 			if (this->y < other.getY())
-				this->y -= (overlap.y + Constants::EPS) / 2.0;
+				this->y -= (overlap.y + CollidableEntity::EPS) / 2.0;
 			else
-				this->y += (overlap.y + Constants::EPS) / 2.0;
+				this->y += (overlap.y + CollidableEntity::EPS) / 2.0;
 		}
 	}
 }

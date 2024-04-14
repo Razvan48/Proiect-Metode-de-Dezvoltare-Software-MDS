@@ -5,7 +5,7 @@
 
 class Enemy : public virtual Human, public virtual AIEntity
 {
-protected:
+private:
 
 
 public:
