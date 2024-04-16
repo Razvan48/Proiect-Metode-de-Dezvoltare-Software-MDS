@@ -155,7 +155,7 @@ void Player::look(double xpos, double ypos)
 	{
 		this->rotateAngle = 180.0 + glm::degrees(glm::atan(yLungime / xLungime));
 	}
-	else // cadran IV
+	else if (xpos > xCenter && ypos > yCenter) // cadran IV
 	{
 		this->rotateAngle = 270.0 + glm::degrees(glm::atan(xLungime / yLungime));
 	}
