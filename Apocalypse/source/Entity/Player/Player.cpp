@@ -22,7 +22,7 @@ Player::Player(double x, double y, double drawWidth, double drawHeight, double r
 
 Player& Player::get()
 {
-	static Player instance(5.0, 5.0, 1.0, 1.0, 0.0, 10.0, 0.4, 0.4, std::map<AnimatedEntity::EntityStatus, std::string>
+	static Player instance(5.0, 5.0, 1.0, 1.0, 0.0, 5.0, 0.4, 0.4, std::map<AnimatedEntity::EntityStatus, std::string>
 	{
 		   { AnimatedEntity::EntityStatus::IDLE, "playerIdle" },
 		   { AnimatedEntity::EntityStatus::WALKING, "playerWalking" },
@@ -79,35 +79,78 @@ void Player::onCollide(CollidableEntity& other, glm::vec2 overlap)
 	}
 }
 
-void Player::update()
-{
-	// TODO: implementare
-}
-
 Player::~Player()
 {
 
+}
+
+void Player::update()
+{
+	if (this->moveUpUsed == false && this->moveDownUsed == false
+		&& this->moveRightUsed == false && this->moveLeftUsed == false)
+	{
+		this->updateStatus(EntityStatus::IDLE);
+	}
+
+	/*
+	if (this->moveUpUsed == true && this->moveRightUsed != this->moveLeftUsed)
+	{
+		this->y += this->speed * GlobalClock::get().getDeltaTime() * 1.0 / glm::sqrt(2.0);
+
+		if (this->moveRightUsed == true)
+		{
+			this->x += this->speed * GlobalClock::get().getDeltaTime() * 1.0 / glm::sqrt(2.0);
+		}
+		else
+		{
+			this->x -= this->speed * GlobalClock::get().getDeltaTime() * 1.0 / glm::sqrt(2.0);
+		}
+	}
+	else if (this->moveDownUsed == true && this->moveRightUsed != this->moveLeftUsed)
+	{
+		this->y -= this->speed * GlobalClock::get().getDeltaTime() * 1.0 / glm::sqrt(2.0);
+
+		if (this->moveRightUsed == true)
+		{
+			this->x += this->speed * GlobalClock::get().getDeltaTime() * 1.0 / glm::sqrt(2.0);
+		}
+		else
+		{
+			this->x -= this->speed * GlobalClock::get().getDeltaTime() * 1.0 / glm::sqrt(2.0);
+		}
+	}
+	else
+	{
+
+	}
+	*/
 }
 
 void Player::setupPlayerInputComponent()
 {
 	InputHandler::getPlayerInputComponent().bindAction("MOVE_UP", InputEvent::IE_Pressed, std::bind(&Player::moveUp, this));
 	InputHandler::getPlayerInputComponent().bindAction("MOVE_UP", InputEvent::IE_Repeat, std::bind(&Player::moveUp, this));
+	InputHandler::getPlayerInputComponent().bindAction("MOVE_UP", InputEvent::IE_Released, std::bind(&Player::moveUpReleased, this));
 
 	InputHandler::getPlayerInputComponent().bindAction("MOVE_DOWN", InputEvent::IE_Pressed, std::bind(&Player::moveDown, this));
 	InputHandler::getPlayerInputComponent().bindAction("MOVE_DOWN", InputEvent::IE_Repeat, std::bind(&Player::moveDown, this));
+	InputHandler::getPlayerInputComponent().bindAction("MOVE_DOWN", InputEvent::IE_Released, std::bind(&Player::moveDownReleased, this));
 
 	InputHandler::getPlayerInputComponent().bindAction("MOVE_RIGHT", InputEvent::IE_Pressed, std::bind(&Player::moveRight, this));
 	InputHandler::getPlayerInputComponent().bindAction("MOVE_RIGHT", InputEvent::IE_Repeat, std::bind(&Player::moveRight, this));
+	InputHandler::getPlayerInputComponent().bindAction("MOVE_RIGHT", InputEvent::IE_Released, std::bind(&Player::moveRightReleased, this));
 
 	InputHandler::getPlayerInputComponent().bindAction("MOVE_LEFT", InputEvent::IE_Pressed, std::bind(&Player::moveLeft, this));
 	InputHandler::getPlayerInputComponent().bindAction("MOVE_LEFT", InputEvent::IE_Repeat, std::bind(&Player::moveLeft, this));
+	InputHandler::getPlayerInputComponent().bindAction("MOVE_LEFT", InputEvent::IE_Released, std::bind(&Player::moveLeftReleased, this));
 
 	InputHandler::getPlayerInputComponent().bindAxis(std::bind(&Player::look, this, std::placeholders::_1, std::placeholders::_2));
 }
 
 void Player::moveUp()
 {
+	this->moveUpUsed = true;
+
 	this->y += this->speed * GlobalClock::get().getDeltaTime();
 
 	this->updateStatus(EntityStatus::WALKING);
@@ -115,6 +158,8 @@ void Player::moveUp()
 
 void Player::moveDown()
 {
+	this->moveDownUsed = true;
+
 	this->y -= this->speed * GlobalClock::get().getDeltaTime();
 
 	this->updateStatus(EntityStatus::WALKING);
@@ -122,6 +167,8 @@ void Player::moveDown()
 
 void Player::moveRight()
 {
+	this->moveRightUsed = true;
+
 	this->x += this->speed * GlobalClock::get().getDeltaTime();
 
 	this->updateStatus(EntityStatus::WALKING);
@@ -129,9 +176,31 @@ void Player::moveRight()
 
 void Player::moveLeft()
 {
+	this->moveLeftUsed = true;
+
 	this->x -= this->speed * GlobalClock::get().getDeltaTime();
 
 	this->updateStatus(EntityStatus::WALKING);
+}
+
+void Player::moveUpReleased()
+{
+	this->moveUpUsed = false;
+}
+
+void Player::moveDownReleased()
+{
+	this->moveDownUsed = false;
+}
+
+void Player::moveRightReleased()
+{
+	this->moveRightUsed = false;
+}
+
+void Player::moveLeftReleased()
+{
+	this->moveLeftUsed = false;
 }
 
 void Player::look(double xpos, double ypos)

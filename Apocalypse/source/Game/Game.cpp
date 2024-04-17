@@ -153,24 +153,19 @@ void Game::run()
 
     while (!glfwWindowShouldClose(WindowManager::get().getWindow()))
     {
-        for (int i = 0; i < 64; ++i)
-        {
-            // Input
-            InputHandler::update();
+        // Input
+        InputHandler::update();
 
-            // Collision System
-            CollisionManager::get().handleCollisions(this->entities);
+        // Collision System
+        CollisionManager::get().handleCollisions(this->entities);
 
-            // Update/Tick
-            GlobalClock::get().updateTime();
-        }
+        // Updates
+        Camera::get().update();
+        Player::get().update();
 
         // Render
         glClearColor(0.733f, 0.024f, 0.259f, 1.0f);
         glClear(GL_COLOR_BUFFER_BIT);
-
-        // Camera
-        Camera::get().update();
 
         // Map
         Map::get().draw();
@@ -195,6 +190,9 @@ void Game::run()
         // 112.0f Player size // 128.0f debug
         SpriteRenderer::get().draw(ResourceManager::getShader("sprite"), ResourceManager::getFlipbook("playerIdle").getTextureAtTime(GlobalClock::get().getCurrentTime()), glm::vec2(112.0f, 112.0f), glm::vec2(112.0f, 112.0f), 180.0f);
         */
+
+        // Update/Tick
+        GlobalClock::get().updateTime();
 
         // Swap the screen buffers
         glfwSwapBuffers(WindowManager::get().getWindow());
