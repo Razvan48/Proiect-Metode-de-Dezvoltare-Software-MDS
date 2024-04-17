@@ -37,7 +37,7 @@ void CollisionManager::handleCollisions(std::vector<Entity>& entities)
 		{
 			if (std::dynamic_pointer_cast<CollidableEntity>(Map::get().getMap()[i][j]))
 			{
-				glm::vec2 overlap = Player::get().isInCollision(*std::dynamic_pointer_cast<CollidableEntity>(Map::get().getMap()[i][j]).get());
+				glm::vec2 overlap = Player::get().isInCollision(*std::dynamic_pointer_cast<CollidableEntity>(Map::get().getMap()[i][j]));
 
 				if (overlap.x > 0.0 && overlap.y > 0.0)
 				{
