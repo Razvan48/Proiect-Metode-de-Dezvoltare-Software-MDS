@@ -11,11 +11,12 @@
 #include <memory>
 #include <cmath>
 
-Player::Player(double x, double y, double drawWidth, double drawHeight, double rotateAngle, double speed, double collideWidth, double collideHeight, const std::map<AnimatedEntity::EntityStatus, std::string>& animationsName2D, double health = 100.0, double stamina = 100.0, double armor = 0.0) :
+Player::Player(double x, double y, double drawWidth, double drawHeight, double rotateAngle, double speed, double collideWidth, double collideHeight, const std::map<AnimatedEntity::EntityStatus, std::string>& animationsName2D, double health = 100.0, double stamina = 100.0, double armor = 0.0, double runningSpeed = 7.5) :
 	Entity(x, y, drawWidth, drawHeight, rotateAngle, speed),
 	CollidableEntity(x, y, drawWidth, drawHeight, rotateAngle, speed, collideWidth, collideHeight),
 	AnimatedEntity(x, y, drawWidth, drawHeight, rotateAngle, speed, animationsName2D),
-	Human(x, y, drawWidth, drawHeight, rotateAngle, speed, collideWidth, collideHeight, animationsName2D, health, stamina, armor)
+	Human(x, y, drawWidth, drawHeight, rotateAngle, speed, collideWidth, collideHeight, animationsName2D, health, stamina, armor),
+	runningSpeed(runningSpeed)
 {
 
 }
@@ -28,7 +29,7 @@ Player& Player::get()
 		   { AnimatedEntity::EntityStatus::WALKING, "playerWalking" },
 		   { AnimatedEntity::EntityStatus::RUNNING, "playerRunning" },
 		   { AnimatedEntity::EntityStatus::TIRED, "playerTired" }
-	});
+	}, 7.5);
 
 	return instance;
 }
@@ -92,38 +93,102 @@ void Player::update()
 		this->updateStatus(EntityStatus::IDLE);
 	}
 
-	/*
-	if (this->moveUpUsed == true && this->moveRightUsed != this->moveLeftUsed)
-	{
-		this->y += this->speed * GlobalClock::get().getDeltaTime() * 1.0 / glm::sqrt(2.0);
+	if (this->getStatus() == EntityStatus::WALKING && this->runUsed == true)
+		this->updateStatus(EntityStatus::RUNNING);
 
-		if (this->moveRightUsed == true)
-		{
-			this->x += this->speed * GlobalClock::get().getDeltaTime() * 1.0 / glm::sqrt(2.0);
-		}
-		else
-		{
-			this->x -= this->speed * GlobalClock::get().getDeltaTime() * 1.0 / glm::sqrt(2.0);
-		}
-	}
-	else if (this->moveDownUsed == true && this->moveRightUsed != this->moveLeftUsed)
-	{
-		this->y -= this->speed * GlobalClock::get().getDeltaTime() * 1.0 / glm::sqrt(2.0);
+	double currentSpeed = this->speed;
 
-		if (this->moveRightUsed == true)
-		{
-			this->x += this->speed * GlobalClock::get().getDeltaTime() * 1.0 / glm::sqrt(2.0);
-		}
-		else
-		{
-			this->x -= this->speed * GlobalClock::get().getDeltaTime() * 1.0 / glm::sqrt(2.0);
-		}
-	}
-	else
+	if (this->getStatus() == EntityStatus::RUNNING)
+		currentSpeed = this->runningSpeed;
+
+	this->updateStatus(EntityStatus::TIRED);
+
+
+
+	if (this->moveUpUsed == false && this->moveDownUsed == false &&
+		this->moveRightUsed == false && this->moveLeftUsed == false)
 	{
 
 	}
-	*/
+	else if (this->moveUpUsed == false && this->moveDownUsed == false &&
+		this->moveRightUsed == false && this->moveLeftUsed == true)
+	{
+		this->x -= currentSpeed * GlobalClock::get().getDeltaTime();
+	}
+	else if (this->moveUpUsed == false && this->moveDownUsed == false &&
+		this->moveRightUsed == true && this->moveLeftUsed == false)
+	{
+		this->x += currentSpeed * GlobalClock::get().getDeltaTime();
+	}
+	else if (this->moveUpUsed == false && this->moveDownUsed == false &&
+		this->moveRightUsed == true && this->moveLeftUsed == true)
+	{
+
+	}
+	else if (this->moveUpUsed == false && this->moveDownUsed == true &&
+		this->moveRightUsed == false && this->moveLeftUsed == false)
+	{
+		this->y -= currentSpeed * GlobalClock::get().getDeltaTime();
+	}
+	else if (this->moveUpUsed == false && this->moveDownUsed == true &&
+		this->moveRightUsed == false && this->moveLeftUsed == true)
+	{
+		this->x -= currentSpeed * GlobalClock::get().getDeltaTime() / glm::sqrt(2.0);
+		this->y -= currentSpeed * GlobalClock::get().getDeltaTime() / glm::sqrt(2.0);
+	}
+	else if (this->moveUpUsed == false && this->moveDownUsed == true &&
+		this->moveRightUsed == true && this->moveLeftUsed == false)
+	{
+		this->x += currentSpeed * GlobalClock::get().getDeltaTime() / glm::sqrt(2.0);
+		this->y -= currentSpeed * GlobalClock::get().getDeltaTime() / glm::sqrt(2.0);
+	}
+	else if (this->moveUpUsed == false && this->moveDownUsed == true &&
+		this->moveRightUsed == true && this->moveLeftUsed == true)
+	{
+		this->y -= currentSpeed * GlobalClock::get().getDeltaTime();
+	}
+	else if (this->moveUpUsed == true && this->moveDownUsed == false &&
+		this->moveRightUsed == false && this->moveLeftUsed == false)
+	{
+		this->y += currentSpeed * GlobalClock::get().getDeltaTime();
+	}
+	else if (this->moveUpUsed == true && this->moveDownUsed == false &&
+		this->moveRightUsed == false && this->moveLeftUsed == true)
+	{
+		this->x -= currentSpeed * GlobalClock::get().getDeltaTime() / glm::sqrt(2.0);
+		this->y += currentSpeed * GlobalClock::get().getDeltaTime() / glm::sqrt(2.0);
+	}
+	else if (this->moveUpUsed == true && this->moveDownUsed == false &&
+		this->moveRightUsed == true && this->moveLeftUsed == false)
+	{
+		this->x += currentSpeed * GlobalClock::get().getDeltaTime() / glm::sqrt(2.0);
+		this->y += currentSpeed * GlobalClock::get().getDeltaTime() / glm::sqrt(2.0);
+	}
+	else if (this->moveUpUsed == true && this->moveDownUsed == false &&
+		this->moveRightUsed == true && this->moveLeftUsed == true)
+	{
+		this->y += currentSpeed * GlobalClock::get().getDeltaTime();
+	}
+	else if (this->moveUpUsed == true && this->moveDownUsed == true &&
+		this->moveRightUsed == false && this->moveLeftUsed == false)
+	{
+
+	}
+	else if (this->moveUpUsed == true && this->moveDownUsed == true &&
+		this->moveRightUsed == false && this->moveLeftUsed == true)
+	{
+		this->x -= currentSpeed * GlobalClock::get().getDeltaTime();
+	}
+	else if (this->moveUpUsed == true && this->moveDownUsed == true &&
+		this->moveRightUsed == true && this->moveLeftUsed == false)
+	{
+		this->x += currentSpeed * GlobalClock::get().getDeltaTime();
+	}
+	else if (this->moveUpUsed == true && this->moveDownUsed == true &&
+		this->moveRightUsed == true && this->moveLeftUsed == true)
+	{
+
+	}
 }
 
 void Player::setupPlayerInputComponent()
@@ -144,14 +209,16 @@ void Player::setupPlayerInputComponent()
 	InputHandler::getPlayerInputComponent().bindAction("MOVE_LEFT", InputEvent::IE_Repeat, std::bind(&Player::moveLeft, this));
 	InputHandler::getPlayerInputComponent().bindAction("MOVE_LEFT", InputEvent::IE_Released, std::bind(&Player::moveLeftReleased, this));
 
+	InputHandler::getPlayerInputComponent().bindAction("RUN", InputEvent::IE_Pressed, std::bind(&Player::run, this));
+	InputHandler::getPlayerInputComponent().bindAction("RUN", InputEvent::IE_Repeat, std::bind(&Player::run, this));
+	InputHandler::getPlayerInputComponent().bindAction("RUN", InputEvent::IE_Released, std::bind(&Player::runReleased, this));
+
 	InputHandler::getPlayerInputComponent().bindAxis(std::bind(&Player::look, this, std::placeholders::_1, std::placeholders::_2));
 }
 
 void Player::moveUp()
 {
 	this->moveUpUsed = true;
-
-	this->y += this->speed * GlobalClock::get().getDeltaTime();
 
 	this->updateStatus(EntityStatus::WALKING);
 }
@@ -160,16 +227,12 @@ void Player::moveDown()
 {
 	this->moveDownUsed = true;
 
-	this->y -= this->speed * GlobalClock::get().getDeltaTime();
-
 	this->updateStatus(EntityStatus::WALKING);
 }
 
 void Player::moveRight()
 {
 	this->moveRightUsed = true;
-
-	this->x += this->speed * GlobalClock::get().getDeltaTime();
 
 	this->updateStatus(EntityStatus::WALKING);
 }
@@ -178,9 +241,12 @@ void Player::moveLeft()
 {
 	this->moveLeftUsed = true;
 
-	this->x -= this->speed * GlobalClock::get().getDeltaTime();
-
 	this->updateStatus(EntityStatus::WALKING);
+}
+
+void Player::run()
+{
+	this->runUsed = true;
 }
 
 void Player::moveUpReleased()
@@ -201,6 +267,11 @@ void Player::moveRightReleased()
 void Player::moveLeftReleased()
 {
 	this->moveLeftUsed = false;
+}
+
+void Player::runReleased()
+{
+	this->runUsed = false;
 }
 
 void Player::look(double xpos, double ypos)

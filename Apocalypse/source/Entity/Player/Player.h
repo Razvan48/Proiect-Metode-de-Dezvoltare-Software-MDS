@@ -8,7 +8,7 @@ class Player : public virtual Human // singleton
 {
 private:
 
-	Player(double x, double y, double drawWidth, double drawHeight, double rotateAngle, double speed, double collideWidth, double collideHeight, const std::map<AnimatedEntity::EntityStatus, std::string>& animationsName2D, double health, double stamina, double armor);
+	Player(double x, double y, double drawWidth, double drawHeight, double rotateAngle, double speed, double collideWidth, double collideHeight, const std::map<AnimatedEntity::EntityStatus, std::string>& animationsName2D, double health, double stamina, double armor, double runningSpeed);
 	virtual ~Player();
 
 	Player(const Player& other) = delete;
@@ -20,10 +20,12 @@ private:
 	void moveDown();
 	void moveRight();
 	void moveLeft();
+	void run();
 	void moveUpReleased();
 	void moveDownReleased();
 	void moveRightReleased();
 	void moveLeftReleased();
+	void runReleased();
 
 	void look(double xpos, double ypos);
 
@@ -31,6 +33,9 @@ private:
 	bool moveDownUsed;
 	bool moveRightUsed;
 	bool moveLeftUsed;
+	bool runUsed;
+
+	double runningSpeed;
 
 public:
 
