@@ -6,17 +6,18 @@
 #include "../../Input/InputHandler.h"
 #include "../../GlobalClock/GlobalClock.h"
 #include "../../WindowManager/WindowManager.h"
+#include "../../Camera/Camera.h"
 
-#include <iostream>
+#include <iostream> // Debug
 #include <memory>
 #include <cmath>
 
-Player::Player(double x, double y, double drawWidth, double drawHeight, double rotateAngle, double speed, double collideWidth, double collideHeight, const std::map<AnimatedEntity::EntityStatus, std::string>& animationsName2D, double health = 100.0, double stamina = 100.0, double armor = 0.0, double runningSpeed = 7.5) :
+Player::Player(double x, double y, double drawWidth, double drawHeight, double rotateAngle, double speed, double collideWidth, double collideHeight, const std::map<AnimatedEntity::EntityStatus, std::string>& animationsName2D, double runningSpeed, double health = 100.0, double stamina = 100.0, double armor = 0.0) :
 	Entity(x, y, drawWidth, drawHeight, rotateAngle, speed),
 	CollidableEntity(x, y, drawWidth, drawHeight, rotateAngle, speed, collideWidth, collideHeight),
 	AnimatedEntity(x, y, drawWidth, drawHeight, rotateAngle, speed, animationsName2D),
-	Human(x, y, drawWidth, drawHeight, rotateAngle, speed, collideWidth, collideHeight, animationsName2D, health, stamina, armor),
-	runningSpeed(runningSpeed),
+	Human(x, y, drawWidth, drawHeight, rotateAngle, speed, collideWidth, collideHeight, animationsName2D, health),
+	runningSpeed(runningSpeed), stamina(stamina), armor(armor), staminaChangeSpeed(50.0), staminaCap(100.0),
 	moveUpUsed(false), moveDownUsed(false), moveRightUsed(false), moveLeftUsed(false), runUsed(false)
 {
 
@@ -88,17 +89,45 @@ Player::~Player()
 
 void Player::update()
 {
+	if (this->getStatus() == EntityStatus::TIRED)
+	{
+		this->stamina += this->staminaChangeSpeed * GlobalClock::get().getDeltaTime();
+		this->stamina = std::min(this->stamina, this->staminaCap);
+
+		if (this->stamina == this->staminaCap)
+			this->updateStatus(EntityStatus::IDLE);
+
+		return;
+	}
+
 	if (this->moveUpUsed == true || this->moveDownUsed == true
 		|| this->moveRightUsed == true || this->moveLeftUsed == true)
 	{
 		if (this->runUsed == false)
+		{
 			this->updateStatus(EntityStatus::WALKING);
+		}
 		else
+		{
 			this->updateStatus(EntityStatus::RUNNING);
+
+			this->stamina -= this->staminaChangeSpeed * GlobalClock::get().getDeltaTime();
+			this->stamina = std::max(0.0, this->stamina);
+
+			if (this->stamina == 0.0)
+			{
+				this->updateStatus(EntityStatus::TIRED);
+
+				return;
+			}
+		}
 	}
-	else
+	else // IDLE
 	{
 		this->updateStatus(EntityStatus::IDLE);
+
+		this->stamina += this->staminaChangeSpeed * GlobalClock::get().getDeltaTime();
+		this->stamina = std::min(this->stamina, this->staminaCap);
 	}
 
 	double currentSpeed = this->speed;
@@ -205,8 +234,13 @@ void Player::runReleased()
 
 void Player::look(double xpos, double ypos)
 {
-	double xCenter = static_cast<double>(WindowManager::get().getWindowWidth()) / 2.0;
-	double yCenter = static_cast<double>(WindowManager::get().getWindowHeight()) / 2.0;
+	// double xCenter = static_cast<double>(WindowManager::get().getWindowWidth()) / 2.0;
+	// double yCenter = static_cast<double>(WindowManager::get().getWindowHeight()) / 2.0;
+
+	// Asa mi se pare mai bine.
+	glm::vec2 posCenter = Camera::get().screenPosition(this->x, this->y) + glm::vec2(WindowManager::get().getWindowWidth() / 2.0, WindowManager::get().getWindowHeight() / 2.0);
+	double xCenter = posCenter.x;
+	double yCenter = posCenter.y;
 
 	double xLungime = std::abs(xpos - xCenter);
 	double yLungime = std::abs(ypos - yCenter);

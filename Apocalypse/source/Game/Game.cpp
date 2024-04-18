@@ -50,7 +50,7 @@ void Game::loadResources()
     // Load Textures
     try
     {
-        ResourceManager::loadTexture("textures/OpenGL-test.png", true, "OpenGL");
+        // ResourceManager::loadTexture("textures/OpenGL-test.png", true, "OpenGL");
 
         // Floors
         ResourceManager::loadTexture("textures/floors/.0.png", true, ".0");
@@ -69,6 +69,16 @@ void Game::loadResources()
         ResourceManager::loadTexture("textures/walls/M0.png", true, "M0");
         ResourceManager::loadTexture("textures/walls/M1.png", true, "M1");
         ResourceManager::loadTexture("textures/walls/M2.png", true, "M2");
+
+        // Frames
+        ResourceManager::loadTexture("textures/hud/weaponFrame.png", true, "weaponFrame");
+        ResourceManager::loadTexture("textures/hud/healthFrame.png", true, "healthFrame");
+        ResourceManager::loadTexture("textures/hud/staminaFrame.png", true, "staminaFrame");
+        ResourceManager::loadTexture("textures/hud/armorFrame.png", true, "armorFrame");
+
+        // Weapons
+        ResourceManager::loadTexture("textures/hud/fist0.png", true, "fist0");
+        ResourceManager::loadTexture("textures/hud/pistol0.png", true, "pistol0");
     }
     catch (const std::runtime_error& err)
     {
@@ -82,9 +92,10 @@ void Game::loadResources()
     // Load Flipbooks
     try
     {
-        ResourceManager::loadFlipbook("textures/Fire+Sparks", "fire");
+        // ResourceManager::loadFlipbook("textures/Fire+Sparks", "fire");
 
         // Player Animations
+        // TODO: sa putem seta cat dureaza un flipbook si apoi interpolam liniar
         ResourceManager::loadFlipbook("animations/playerIdle", "playerIdle");
         ResourceManager::loadFlipbook("animations/playerWalking", "playerWalking");
         ResourceManager::loadFlipbook("animations/playerRunning", "playerRunning");
