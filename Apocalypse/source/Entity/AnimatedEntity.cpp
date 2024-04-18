@@ -28,7 +28,9 @@ void AnimatedEntity::draw()
 void AnimatedEntity::updateStatus(EntityStatus newStatus)
 {
 	if (this->status != newStatus)
+	{
 		this->timeSinceStatus = GlobalClock::get().getCurrentTime();
+	}
 
 	this->status = newStatus;
 }
