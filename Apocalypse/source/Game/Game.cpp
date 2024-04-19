@@ -77,6 +77,10 @@ void Game::loadResources()
         ResourceManager::loadTexture("textures/hud/staminaFrame.png", true, "staminaFrame");
         ResourceManager::loadTexture("textures/hud/armorFrame.png", true, "armorFrame");
 
+        ResourceManager::loadTexture("textures/hud/red.png", false, "redBar");
+        ResourceManager::loadTexture("textures/hud/green.png", false, "greenBar");
+        ResourceManager::loadTexture("textures/hud/blue.png", false, "blueBar");
+
         // Weapons
         ResourceManager::loadTexture("textures/hud/fist0.png", true, "fist0");
         ResourceManager::loadTexture("textures/hud/pistol0.png", true, "pistol0");
