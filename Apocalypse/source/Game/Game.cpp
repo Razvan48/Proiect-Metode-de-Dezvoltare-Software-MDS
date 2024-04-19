@@ -10,6 +10,7 @@
 #include "../Entity/Player/Player.h"
 #include "../Camera/Camera.h"
 #include "../CollisionManager/CollisionManager.h"
+#include "../HUD/HUDManager.h"
 
 #include <iostream>
 
@@ -183,6 +184,9 @@ void Game::run()
 
         // Player
         Player::get().draw();
+
+        // HUD
+        HUDManager::get().draw();
 
         // Sprite
         /*
