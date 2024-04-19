@@ -16,15 +16,15 @@ HUDManager& HUDManager::get()
 
 void HUDManager::draw()
 {
+	// top-left
 	int numberOfTextures = 5;
 
-	int widthOffset = 32;
-	int heightOffset = 32;
+	int widthOffset = 32;	// TODO: delete
+	int heightOffset = 32;	// TODO: delete
 
 	int textureScaleWidth = 32;
 	int textureScaleHeight = 32;
-
-	// top-left
+	
 	int width = -1 * WindowManager::get().getWindowWidth() / 2 + widthOffset;
 	int height = WindowManager::get().getWindowHeight() / 2 - heightOffset;
 
@@ -55,7 +55,6 @@ void HUDManager::draw()
 	//TextRenderer::get().draw(ResourceManager::getShader("text"), ResourceManager::getFont("Antonio"), std::to_string(stamina), 150.0f, 50.0f, 1.0f, glm::vec3(0.0f, 0.0f, 0.0f));
 
 	// armor bar
-
 	height -= 45;
 
 	fill = Player::get().getArmor() / Player::get().getArmorCap();
@@ -79,5 +78,19 @@ void HUDManager::draw()
 	SpriteRenderer::get().draw(ResourceManager::getShader("sprite"), ResourceManager::getTexture("fist0"), glm::vec2(width, height), glm::vec2(textureScaleWidth, textureScaleHeight), 0.0f);
 	// SpriteRenderer::get().draw(ResourceManager::getShader("sprite"), ResourceManager::getTexture("pistol0"), glm::vec2(width, height), glm::vec2(textureWidth, textureHeight, 0.0f);
 	SpriteRenderer::get().draw(ResourceManager::getShader("sprite"), ResourceManager::getTexture("weaponFrame"), glm::vec2(width, height), glm::vec2(textureScaleWidth, textureScaleHeight), 0.0f);
+
+	width = WindowManager::get().getWindowWidth() - textureScaleWidth;
+	height = textureScaleHeight + 10;
+
+	TextRenderer::get().draw(ResourceManager::getShader("text"), ResourceManager::getFont("Antonio"), "GOLD: 100", width, height, 1.0f, glm::vec3(1.0f, 0.8745f, 0.0f));
+
+	// down-right
+	width = WindowManager::get().getWindowWidth() - textureScaleWidth;
+	height = WindowManager::get().getWindowHeight() - 64;
+
+	TextRenderer::get().draw(ResourceManager::getShader("text"), ResourceManager::getFont("Antonio"), "WAVE: 10", width, height, 1.0f, glm::vec3(1.0f, 0.098f, 0.0f));
+
+	height -= 32;
+	TextRenderer::get().draw(ResourceManager::getShader("text"), ResourceManager::getFont("Antonio"), "KILLS: 10", width, height, 1.0f, glm::vec3(1.0f, 0.098f, 0.0f));
 }
 
