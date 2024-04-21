@@ -10,6 +10,7 @@
 #include "../Entity/Player/Player.h"
 #include "../Camera/Camera.h"
 #include "../CollisionManager/CollisionManager.h"
+#include "../HUD/HUDManager.h"
 
 #include <iostream>
 
@@ -75,6 +76,10 @@ void Game::loadResources()
         ResourceManager::loadTexture("textures/hud/healthFrame.png", true, "healthFrame");
         ResourceManager::loadTexture("textures/hud/staminaFrame.png", true, "staminaFrame");
         ResourceManager::loadTexture("textures/hud/armorFrame.png", true, "armorFrame");
+
+        ResourceManager::loadTexture("textures/hud/red.png", false, "redBar");
+        ResourceManager::loadTexture("textures/hud/green.png", false, "greenBar");
+        ResourceManager::loadTexture("textures/hud/blue.png", false, "blueBar");
 
         // Weapons
         ResourceManager::loadTexture("textures/hud/fist0.png", true, "fist0");
@@ -183,6 +188,9 @@ void Game::run()
 
         // Player
         Player::get().draw();
+
+        // HUD
+        HUDManager::get().draw();
 
         // Sprite
         /*
