@@ -78,12 +78,25 @@ jobs:
       run: |
         mkdir ${{ env.ZIP_NAME }}
         copy bin/Release-windows-x86_64/Apocalypse/*.exe ${{ env.ZIP_NAME }}
+
         mkdir -p "${{ env.ZIP_NAME }}\textures"
         xcopy Apocalypse\textures "${{ env.ZIP_NAME }}\textures" /E /H
+
         mkdir -p "${{ env.ZIP_NAME }}\shaders"
         xcopy Apocalypse\shaders "${{ env.ZIP_NAME }}\shaders" /E /H
+
         mkdir -p "${{ env.ZIP_NAME }}\fonts"
         xcopy Apocalypse\fonts "${{ env.ZIP_NAME }}\fonts" /E /H
+
+        mkdir -p "${{ env.ZIP_NAME }}\animations"
+        xcopy Apocalypse\animations "${{ env.ZIP_NAME }}\animations" /E /H
+
+        mkdir -p "${{ env.ZIP_NAME }}\maps"
+        xcopy Apocalypse\maps "${{ env.ZIP_NAME }}\maps" /E /H
+
+        mkdir -p "${{ env.ZIP_NAME }}\config"
+        xcopy Apocalypse\config "${{ env.ZIP_NAME }}\config" /E /H
+
         dir /a ${{ env.ZIP_NAME }}
     
     - name: Set Tag Name
