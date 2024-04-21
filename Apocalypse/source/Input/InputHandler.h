@@ -13,7 +13,7 @@ public:
 
 	static void setKey(const int& key, const int& value);
 	static void setMouseButtons(const int& key, const int& value);
-	static void setMousePosition(const std::pair<double, double>& pos);
+	static void setMousePosition(double xpos, double ypos);
 
 	static inline void setInputComponent(InputComponent& inputComponent) { activeInputComponent = &inputComponent; }
 

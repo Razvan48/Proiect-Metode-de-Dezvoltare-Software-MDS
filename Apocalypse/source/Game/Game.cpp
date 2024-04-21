@@ -103,14 +103,14 @@ void Game::loadResources()
 
         // Player Animations
         // TODO: sa putem seta cat dureaza un flipbook si apoi interpolam liniar
-        ResourceManager::loadFlipbook("animations/playerIdle", "playerIdle");
-        ResourceManager::loadFlipbook("animations/playerWalking", "playerWalking");
-        ResourceManager::loadFlipbook("animations/playerRunning", "playerRunning");
-        ResourceManager::loadFlipbook("animations/playerTired", "playerTired");
+        ResourceManager::loadFlipbook("animations/playerIdle", 15, "playerIdle");
+        ResourceManager::loadFlipbook("animations/playerWalking", 25, "playerWalking");
+        ResourceManager::loadFlipbook("animations/playerRunning", 30, "playerRunning");
+        ResourceManager::loadFlipbook("animations/playerTired", 10, "playerTired");
 
         // Environment Animations
-        ResourceManager::loadFlipbook("animations/grenadeExplosion", "grenadeExplosion");
-        ResourceManager::loadFlipbook("animations/bulletBlast", "bulletBlast");
+        ResourceManager::loadFlipbook("animations/grenadeExplosion", 40, "grenadeExplosion");
+        ResourceManager::loadFlipbook("animations/bulletBlast", 40, "bulletBlast");
     }
     catch (const std::runtime_error& err)
     {
