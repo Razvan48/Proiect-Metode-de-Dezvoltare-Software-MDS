@@ -30,7 +30,7 @@ void HUDManager::draw()
 
 	// health bar
 	double fill = Player::get().getHealth() / Player::get().getHealthCap();
-	SpriteRenderer::get().draw(ResourceManager::getShader("sprite"), ResourceManager::getTexture("redBar"), glm::vec2(width - 16.0 + textureScaleWidth * numberOfTextures * fill / 2.0, height), glm::vec2(textureScaleWidth * numberOfTextures * fill, textureScaleHeight), 0.0f);
+	SpriteRenderer::get().draw(ResourceManager::getShader("sprite"), ResourceManager::getTexture("redBar"), glm::vec2(width - textureScaleWidth / 2.0f + textureScaleWidth * numberOfTextures * fill / 2.0, height), glm::vec2(textureScaleWidth * numberOfTextures * fill, textureScaleHeight), 0.0f);
 
 	for (int i = 0; i < numberOfTextures; i++)
 	{
@@ -44,7 +44,7 @@ void HUDManager::draw()
 	height -= 45;
 
 	fill = Player::get().getStamina() / Player::get().getStaminaCap();
-	SpriteRenderer::get().draw(ResourceManager::getShader("sprite"), ResourceManager::getTexture("greenBar"), glm::vec2(width - 16.0 + textureScaleWidth * numberOfTextures * fill / 2.0, height), glm::vec2(textureScaleWidth * numberOfTextures * fill , textureScaleHeight), 0.0f);
+	SpriteRenderer::get().draw(ResourceManager::getShader("sprite"), ResourceManager::getTexture("greenBar"), glm::vec2(width - textureScaleWidth / 2.0f + textureScaleWidth * numberOfTextures * fill / 2.0, height), glm::vec2(textureScaleWidth * numberOfTextures * fill , textureScaleHeight), 0.0f);
 
 	for (int i = 0; i < numberOfTextures; i++)
 	{
@@ -58,7 +58,7 @@ void HUDManager::draw()
 	height -= 45;
 
 	fill = Player::get().getArmor() / Player::get().getArmorCap();
-	SpriteRenderer::get().draw(ResourceManager::getShader("sprite"), ResourceManager::getTexture("blueBar"), glm::vec2(width - 16.0 + textureScaleWidth * numberOfTextures * fill / 2.0, height), glm::vec2(textureScaleWidth * numberOfTextures * fill, textureScaleHeight), 0.0f);
+	SpriteRenderer::get().draw(ResourceManager::getShader("sprite"), ResourceManager::getTexture("blueBar"), glm::vec2(width - textureScaleWidth / 2.0f + textureScaleWidth * numberOfTextures * fill / 2.0, height), glm::vec2(textureScaleWidth * numberOfTextures * fill, textureScaleHeight), 0.0f);
 
 	for (int i = 0; i < numberOfTextures; i++)
 	{
