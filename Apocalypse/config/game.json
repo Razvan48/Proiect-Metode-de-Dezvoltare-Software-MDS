@@ -1,0 +1,40 @@
+{
+  "shaders": {
+    "sprite": {
+      "vertex": "shaders/sprite.vert",
+      "fragment": "shaders/sprite.frag",
+      "geometry": null
+    },
+    "text": {
+      "vertex": "shaders/text.vert",
+      "fragment": "shaders/text.frag",
+      "geometry": null
+    }
+  },
+
+  // TODO
+  "textures": {
+    "name": ".0",
+    "file": "textures/floors/.0.png",
+    "alpha": true
+  },
+
+  // TODO
+  "flipbooks": {
+    "name": "playerIdle",
+    "file": "animations/playerIdle",
+    "framesPerSecond": 15.0
+  },
+
+  "fonts": {
+    "name": "Antonio",
+    "file": "fonts/Antonio-Bold.ttf",
+    "size": 24
+  },
+
+  // TODO
+  "maps": {
+    "sandbox": "maps/sandbox.map"
+  }
+}
+

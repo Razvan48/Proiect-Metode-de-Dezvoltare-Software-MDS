@@ -18,6 +18,7 @@ workspace "Apocalypse"
     IncludeDir["glm"] = "vendor/glm"
     IncludeDir["stb"] = "vendor/stb"
     IncludeDir["freetype"] = "vendor/freetype/include"
+    IncludeDir["json"] = "vendor/json/include"
 
 
 
@@ -211,7 +212,8 @@ workspace "Apocalypse"
             "%{prj.name}/**.vert",
             "%{prj.name}/**.frag",
             "%{prj.name}/**.map",
-            "%{prj.name}/**.ini"
+            "%{prj.name}/**.ini",
+            "%{prj.name}/**.json"
         }
 
         includedirs
@@ -220,7 +222,8 @@ workspace "Apocalypse"
             "%{IncludeDir.glfw}",
             "%{IncludeDir.glm}",
             "%{IncludeDir.stb}",
-            "%{IncludeDir.freetype}"
+            "%{IncludeDir.freetype}",
+            "%{IncludeDir.json}"
         }
 
         links
@@ -276,7 +279,8 @@ workspace "Apocalypse"
             "%{IncludeDir.glfw}",
             "%{IncludeDir.glm}",
             "%{IncludeDir.stb}",
-            "%{IncludeDir.freetype}"
+            "%{IncludeDir.freetype}",
+            "%{IncludeDir.json}"
         }
 
         libdirs 
