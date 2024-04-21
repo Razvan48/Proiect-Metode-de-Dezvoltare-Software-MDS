@@ -1,6 +1,7 @@
 #pragma once
 
 #include "../Human/Human.h"
+#include "../Weapon/Weapon.h"
 
 #include <glm/vec2.hpp>
 
@@ -44,6 +45,13 @@ private:
 	bool moveLeftUsed;
 	bool runUsed;
 
+	double walkingOffsetSize;
+	double runningOffsetSize;
+	double walkingOffsetSpeed;
+	double runningOffsetSpeed;
+
+	std::vector<Weapon> weapons;
+
 public:
 
 	static Player& get();
@@ -57,6 +65,8 @@ public:
 	double getStaminaCap() const { return this->staminaCap; }
 	double getArmor() const { return this->armor; }
 	double getArmorCap() const { return this->armorCap; }
+
+	void draw() override;
 };
 
 

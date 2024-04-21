@@ -24,12 +24,8 @@ protected:
 		CLICKED
 	};
 
-private:
-
 	EntityStatus status;
 	double timeSinceStatus;
-
-protected:
 
 	std::map<EntityStatus, std::string> animationsName2D;
 
@@ -37,10 +33,10 @@ public:
 
 	AnimatedEntity(double x, double y, double drawWidth, double drawHeight, double rotateAngle, double speed, const std::map<EntityStatus, std::string>& animationsName2D);
 	void draw() override;
-	double getTimeSinceStatus() const { return this->timeSinceStatus; };
-	void setTimeSinceStatus(double timeSinceStatus) { this->timeSinceStatus = timeSinceStatus; }
-	EntityStatus getStatus() const { return this->status; }
-	void updateStatus(EntityStatus newStatus);
+	//double getTimeSinceStatus() const { return this->timeSinceStatus; };
+	//void setTimeSinceStatus(double timeSinceStatus) { this->timeSinceStatus = timeSinceStatus; }
+	//EntityStatus getStatus() const { return this->status; }
+	//void updateStatus(EntityStatus newStatus);
 	virtual void update() = 0;
 	virtual ~AnimatedEntity();
 };

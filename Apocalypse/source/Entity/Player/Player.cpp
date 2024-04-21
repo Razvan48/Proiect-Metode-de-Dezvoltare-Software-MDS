@@ -7,6 +7,7 @@
 #include "../../GlobalClock/GlobalClock.h"
 #include "../../WindowManager/WindowManager.h"
 #include "../../Camera/Camera.h"
+#include "../../Renderer/SpriteRenderer.h"
 
 #include <iostream> // Debug
 #include <memory>
@@ -18,7 +19,9 @@ Player::Player(double x, double y, double drawWidth, double drawHeight, double r
 	AnimatedEntity(x, y, drawWidth, drawHeight, rotateAngle, speed, animationsName2D),
 	Human(x, y, drawWidth, drawHeight, rotateAngle, speed, collideWidth, collideHeight, animationsName2D, health),
 	runningSpeed(runningSpeed), stamina(stamina), armor(armor), armorCap(100.0), staminaChangeSpeed(50.0), staminaCap(100.0),
-	moveUpUsed(false), moveDownUsed(false), moveRightUsed(false), moveLeftUsed(false), runUsed(false)
+	moveUpUsed(false), moveDownUsed(false), moveRightUsed(false), moveLeftUsed(false), runUsed(false),
+	walkingOffsetSize(0.01), runningOffsetSize(0.05),
+	walkingOffsetSpeed(10.0), runningOffsetSpeed(15.0)
 {
 
 }
@@ -89,13 +92,13 @@ Player::~Player()
 
 void Player::update()
 {
-	if (this->getStatus() == EntityStatus::TIRED)
+	if (this->status == EntityStatus::TIRED)
 	{
 		this->stamina += this->staminaChangeSpeed * GlobalClock::get().getDeltaTime();
 		this->stamina = std::min(this->stamina, this->staminaCap);
 
 		if (this->stamina == this->staminaCap)
-			this->updateStatus(EntityStatus::IDLE);
+			this->status = EntityStatus::IDLE;
 
 		return;
 	}
@@ -105,18 +108,18 @@ void Player::update()
 	{
 		if (this->runUsed == false)
 		{
-			this->updateStatus(EntityStatus::WALKING);
+			this->status = EntityStatus::WALKING;
 		}
 		else
 		{
-			this->updateStatus(EntityStatus::RUNNING);
+			this->status = EntityStatus::RUNNING;
 
 			this->stamina -= this->staminaChangeSpeed * GlobalClock::get().getDeltaTime();
 			this->stamina = std::max(0.0, this->stamina);
 
 			if (this->stamina == 0.0)
 			{
-				this->updateStatus(EntityStatus::TIRED);
+				this->status = EntityStatus::TIRED;
 
 				return;
 			}
@@ -124,7 +127,7 @@ void Player::update()
 	}
 	else // IDLE
 	{
-		this->updateStatus(EntityStatus::IDLE);
+		this->status = EntityStatus::IDLE;
 
 		this->stamina += this->staminaChangeSpeed * GlobalClock::get().getDeltaTime();
 		this->stamina = std::min(this->stamina, this->staminaCap);
@@ -132,7 +135,7 @@ void Player::update()
 
 	double currentSpeed = this->speed;
 
-	if (this->getStatus() == EntityStatus::RUNNING)
+	if (this->status == EntityStatus::RUNNING)
 		currentSpeed = this->runningSpeed;
 
 	double xOffset = 0.0;
@@ -261,6 +264,29 @@ void Player::look(double xpos, double ypos)
 	else if (xpos > xCenter && ypos > yCenter) // cadran IV
 	{
 		this->rotateAngle = 270.0 + glm::degrees(glm::atan(xLungime / yLungime));
+	}
+}
+
+void Player::draw()
+{
+	if (this->animationsName2D.find(this->status) == this->animationsName2D.end())
+	{
+		// exceptii
+	}
+	else
+	{
+		if (this->status == EntityStatus::WALKING)
+		{
+			SpriteRenderer::get().draw(ResourceManager::getShader("sprite"), ResourceManager::getFlipbook(this->animationsName2D[this->status]).getTextureAtTime(GlobalClock::get().getCurrentTime() - this->timeSinceStatus), Camera::get().screenPosition(this->x, this->y), Camera::get().screenSize(this->drawWidth + this->walkingOffsetSize * glm::sin(this->walkingOffsetSpeed * (GlobalClock::get().getCurrentTime() - this->timeSinceStatus)), this->drawHeight + this->walkingOffsetSize * glm::sin(this->walkingOffsetSpeed * (GlobalClock::get().getCurrentTime() - this->timeSinceStatus))), this->rotateAngle);
+		}
+		else if (this->status == EntityStatus::RUNNING)
+		{
+			SpriteRenderer::get().draw(ResourceManager::getShader("sprite"), ResourceManager::getFlipbook(this->animationsName2D[this->status]).getTextureAtTime(GlobalClock::get().getCurrentTime() - this->timeSinceStatus), Camera::get().screenPosition(this->x, this->y), Camera::get().screenSize(this->drawWidth + this->runningOffsetSize * glm::sin(this->runningOffsetSpeed * (GlobalClock::get().getCurrentTime() - this->timeSinceStatus)), this->drawHeight + this->runningOffsetSize * glm::sin(this->runningOffsetSpeed * (GlobalClock::get().getCurrentTime() - this->timeSinceStatus))), this->rotateAngle);
+		}
+		else
+		{
+			SpriteRenderer::get().draw(ResourceManager::getShader("sprite"), ResourceManager::getFlipbook(this->animationsName2D[this->status]).getTextureAtTime(GlobalClock::get().getCurrentTime() - this->timeSinceStatus), Camera::get().screenPosition(this->x, this->y), Camera::get().screenSize(this->drawWidth, this->drawHeight), this->rotateAngle);
+		}
 	}
 }
 

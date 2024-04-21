@@ -83,7 +83,9 @@ void Game::loadResources()
 
         // Weapons
         ResourceManager::loadTexture("textures/hud/fist0.png", true, "fist0");
+        ResourceManager::loadTexture("textures/hud/knife0.png", true, "knife0");
         ResourceManager::loadTexture("textures/hud/pistol0.png", true, "pistol0");
+        ResourceManager::loadTexture("textures/hud/grenade0.png", true, "grenade0");
     }
     catch (const std::runtime_error& err)
     {
@@ -105,6 +107,10 @@ void Game::loadResources()
         ResourceManager::loadFlipbook("animations/playerWalking", "playerWalking");
         ResourceManager::loadFlipbook("animations/playerRunning", "playerRunning");
         ResourceManager::loadFlipbook("animations/playerTired", "playerTired");
+
+        // Environment Animations
+        ResourceManager::loadFlipbook("animations/grenadeExplosion", "grenadeExplosion");
+        ResourceManager::loadFlipbook("animations/bulletBlast", "bulletBlast");
     }
     catch (const std::runtime_error& err)
     {
