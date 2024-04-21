@@ -18,9 +18,9 @@ void InputHandler::setMouseButtons(const int& key, const int& value)
 	mouseButtons[key] = value;
 }
 
-void InputHandler::setMousePosition(const std::pair<double, double>& pos)
+void InputHandler::setMousePosition(double xpos, double ypos)
 {
-	mousePosition = pos;
+	mousePosition = std::make_pair(xpos, ypos);
 }
 
 void InputHandler::callbackAction(int key, int action)
@@ -53,12 +53,13 @@ void InputHandler::update()
 		}
 	}
 
-	for (const auto& key : mouseButtons)
-	{
-		if (key.second == 1 || key.second == 2)
-		{
-			activeInputComponent->callbackAction(key.first, key.second);
-		}
-	}
+	// TODO
+	//for (const auto& key : mouseButtons)
+	//{
+	//	if (key.second == 1)
+	//	{
+	//		activeInputComponent->callbackAction(key.first, key.second);
+	//	}
+	//}
 }
 

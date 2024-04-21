@@ -77,7 +77,7 @@ void WindowManager::keyCallback(GLFWwindow* window, int key, int scancode, int a
 
 void WindowManager::cursorPosCallback(GLFWwindow* window, double xpos, double ypos)
 {	
-	InputHandler::setMousePosition(std::make_pair(xpos, ypos));
+	InputHandler::setMousePosition(xpos, ypos);
 	InputHandler::callbackAxis(xpos, ypos);
 }
 

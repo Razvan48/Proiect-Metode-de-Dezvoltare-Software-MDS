@@ -179,6 +179,8 @@ void Player::setupPlayerInputComponent()
 	InputHandler::getPlayerInputComponent().bindAction("RUN", InputEvent::IE_Repeat, std::bind(&Player::run, this));
 	InputHandler::getPlayerInputComponent().bindAction("RUN", InputEvent::IE_Released, std::bind(&Player::runReleased, this));
 
+	InputHandler::getPlayerInputComponent().bindAction("SHOOT", InputEvent::IE_Pressed, std::bind(&Player::shoot, this));
+
 	InputHandler::getPlayerInputComponent().bindAxis(std::bind(&Player::look, this, std::placeholders::_1, std::placeholders::_2));
 }
 
@@ -230,6 +232,12 @@ void Player::moveLeftReleased()
 void Player::runReleased()
 {
 	this->runUsed = false;
+}
+
+void Player::shoot()
+{
+	// TODO
+	std::cout << "SHOOT" << std::endl;
 }
 
 void Player::look(double xpos, double ypos)

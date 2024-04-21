@@ -29,6 +29,8 @@ private:
 
 	void look(double xpos, double ypos);
 
+	void shoot();
+
 	double runningSpeed;
 
 	double armor;
