@@ -3,21 +3,16 @@
 #include <iostream> // TODO: delete
 #include <fstream>
 
+#include <nlohmann/json.hpp>
+
 void InputComponent::bindAction(const std::string& actionName, const InputEvent& keyEvent, const std::function<void()>& func)
 {
-	std::ifstream fin("config/input.ini");
+	std::ifstream inputFile("config/input.json");
+	nlohmann::json inputJSON;
+	inputFile >> inputJSON;
+	inputFile.close();
 
-	std::string action, s;
-	int key;
-
-	while (fin >> action >> s >> key)
-	{
-		if (action == actionName)
-		{
-			std::cout << action << ' ' << s << ' ' << key << std::endl;
-			keyFunctionCallbacks[key][static_cast<int>(keyEvent)].push_back(func);
-		}
-	}
+	keyFunctionCallbacks[inputJSON[actionName]][static_cast<int>(keyEvent)].push_back(func);
 }
 
 void InputComponent::bindAxis(const std::function<void(double, double)>& func)

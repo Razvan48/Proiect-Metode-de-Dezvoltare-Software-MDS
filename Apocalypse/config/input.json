@@ -1,0 +1,10 @@
+{
+  "MOVE_UP": 87,
+  "MOVE_DOWN": 83,
+  "MOVE_RIGHT": 68,
+  "MOVE_LEFT": 65,
+  "INTERACT": 69,
+  "SHOOT": 0,
+  "RUN": 340
+}
+
