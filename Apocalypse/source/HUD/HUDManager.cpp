@@ -82,7 +82,8 @@ void HUDManager::draw()
 	width = WindowManager::get().getWindowWidth() - textureScaleWidth;
 	height = textureScaleHeight + 10;
 
-	TextRenderer::get().draw(ResourceManager::getShader("text"), ResourceManager::getFont("Antonio"), "GOLD: 100", width, height, 1.0f, glm::vec3(1.0f, 0.8745f, 0.0f));
+	std::string gold = std::to_string(Player::get().getGold());
+	TextRenderer::get().draw(ResourceManager::getShader("text"), ResourceManager::getFont("Antonio"), "GOLD: " + gold, width, height, 1.0f, glm::vec3(1.0f, 0.8745f, 0.0f));
 
 	// down-right
 	width = WindowManager::get().getWindowWidth() - textureScaleWidth;

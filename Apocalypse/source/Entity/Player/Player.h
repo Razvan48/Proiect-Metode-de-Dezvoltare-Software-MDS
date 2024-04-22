@@ -41,6 +41,9 @@ private:
 	double staminaChangeSpeed;
 	const double staminaCap;
 
+	int gold;
+	const int goldCap;
+
 	bool moveUpUsed;
 	bool moveDownUsed;
 	bool moveRightUsed;
@@ -63,13 +66,13 @@ public:
 
 	void setupPlayerInputComponent();
 
-	double getStamina() const { return this->stamina; }
-	double getStaminaCap() const { return this->staminaCap; }
-	double getArmor() const { return this->armor; }
-	double getArmorCap() const { return this->armorCap; }
+	inline double getStamina() const { return this->stamina; }
+	inline double getStaminaCap() const { return this->staminaCap; }
+	inline double getArmor() const { return this->armor; }
+	inline double getArmorCap() const { return this->armorCap; }
+	inline int getGold() const { return this->gold; }
+	inline int getGoldCap() const { return this->goldCap; }
 
 	void draw() override;
 };
-
-
 
