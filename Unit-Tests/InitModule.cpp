@@ -118,4 +118,3 @@ TEST_MODULE_CLEANUP(ModuleCleanup)
     glfwTerminate();
 }
 
-// TODO: loading fonts

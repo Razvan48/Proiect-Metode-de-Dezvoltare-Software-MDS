@@ -20,12 +20,13 @@ public:
 	inline void addFrame(const std::string& texture) { keyFrames.push_back(texture); }
 
 	Texture2D& getTextureAtTime(float time) const;
+	Texture2D& getTextureAtIndex(int index) const;
+	int getNumFrames() const;
 
 private:
 	float framesPerSecond;
 	std::vector<std::string> keyFrames;
 
-	int getNumFrames() const;
 	float getTotalDuration() const;
 	int getKeyFrameIndexAtTime(float time) const;
 };

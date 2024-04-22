@@ -9,18 +9,20 @@
 
 using namespace Microsoft::VisualStudio::CppUnitTestFramework;
 
-namespace TestShader
+namespace TestFont
 {
-    TEST_CLASS(TestShader)
+    TEST_CLASS(TestFont)
     {
     public:
-        TEST_METHOD(Sprite)
+        TEST_METHOD(Antonio)
         {
-            Logger::WriteMessage("sprite-shader");
+            Logger::WriteMessage("Antonio-Bold.ttf");
 
             try
             {
-                ResourceManager::loadShader("../../../Apocalypse/shaders/sprite.vert", "../../../Apocalypse/shaders/sprite.frag", nullptr, "sprite");
+                ResourceManager::loadFont("../../../Apocalypse/fonts/Antonio-Bold.ttf", 24, "Antonio");
+
+                Assert::AreEqual(static_cast<size_t>(128), ResourceManager::getFont("Antonio").Characters.size()); // 128
             }
             catch (const std::runtime_error& err)
             {
@@ -31,25 +33,7 @@ namespace TestShader
                 Assert::Fail(L"Other errors");
             }
         }
-
-        TEST_METHOD(Text)
-        {
-            Logger::WriteMessage("text-shader");
-
-            try
-            {
-                ResourceManager::loadShader("../../../Apocalypse/shaders/text.vert", "../../../Apocalypse/shaders/text.frag", nullptr, "text");
-            }
-            catch (const std::runtime_error& err)
-            {
-                Assert::Fail(widen(err.what()).c_str());
-            }
-            catch (...)
-            {
-                Assert::Fail(L"Other errors");
-            }
-        }
-
+        
         // TODO: more tests
 
     private:

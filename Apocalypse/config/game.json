@@ -12,27 +12,145 @@
     }
   },
 
-  // TODO
   "textures": {
-    "name": ".0",
-    "file": "textures/floors/.0.png",
-    "alpha": true
+    ".0": {
+      "file": "textures/floors/.0.png",
+      "alpha": true
+    },
+    ".1": {
+      "file": "textures/floors/.1.png",
+      "alpha": true
+    },
+    ".2": {
+      "file": "textures/floors/.2.png",
+      "alpha": true
+    },
+    ".3": {
+      "file": "textures/floors/.3.png",
+      "alpha": true
+    },
+    ".4": {
+      "file": "textures/floors/.4.png",
+      "alpha": true
+    },
+    ".5": {
+      "file": "textures/floors/.5.png",
+      "alpha": true
+    },
+    ".6": {
+      "file": "textures/floors/.6.png",
+      "alpha": true
+    },
+    ".7": {
+      "file": "textures/floors/.7.png",
+      "alpha": true
+    },
+    ".8": {
+      "file": "textures/floors/.8.png",
+      "alpha": true
+    },
+    ".9": {
+      "file": "textures/floors/.9.png",
+      "alpha": true
+    },
+    ".a": {
+      "file": "textures/floors/.a.png",
+      "alpha": true
+    },
+
+    "M0": {
+      "file": "textures/walls/MO.png",
+      "alpha": true
+    },
+    "M1": {
+      "file": "textures/walls/M1.png",
+      "alpha": true
+    },
+    "M2": {
+      "file": "textures/walls/M2.png",
+      "alpha": true
+    },
+
+    "weaponFrame": {
+      "file": "textures/hud/weaponFrame.png",
+      "alpha": true
+    },
+    "healthFrame": {
+      "file": "textures/hud/healthFrame.png",
+      "alpha": true
+    },
+    "staminaFrame": {
+      "file": "textures/hud/staminaFrame.png",
+      "alpha": true
+    },
+    "armorFrame": {
+      "file": "textures/hud/armorFrame.png",
+      "alpha": true
+    },
+    "redBar": {
+      "file": "textures/hud/red.png",
+      "alpha": true
+    },
+    "greenBar": {
+      "file": "textures/hud/green.png",
+      "alpha": true
+    },
+    "blueBar": {
+      "file": "textures/hud/blue.png",
+      "alpha": true
+    },
+    "fist0": {
+      "file": "textures/hud/fist0.png",
+      "alpha": true
+    },
+    "knife0": {
+      "file": "textures/hud/knife0.png",
+      "alpha": true
+    },
+    "pistol0": {
+      "file": "textures/hud/pistol0.png",
+      "alpha": true
+    },
+    "grenade0": {
+      "file": "textures/hud/grenade0.png",
+      "alpha": true
+    }
   },
 
-  // TODO
   "flipbooks": {
-    "name": "playerIdle",
-    "file": "animations/playerIdle",
-    "framesPerSecond": 15.0
+    "playerIdle": {
+      "directory": "animations/playerIdle",
+      "framesPerSecond": 15.0
+    },
+    "playerWalking": {
+      "directory": "animations/playerWalking",
+      "framesPerSecond": 25.0
+    },
+    "playerRunning": {
+      "directory": "animations/playerRunning",
+      "framesPerSecond": 30.0
+    },
+    "playerTired": {
+      "directory": "animations/playerTired",
+      "framesPerSecond": 10.0
+    },
+    "grenadeExplosion": {
+      "directory": "animations/grenadeExplosion",
+      "framesPerSecond": 40.0
+    },
+    "bulletBlast": {
+      "directory": "animations/bulletBlast",
+      "framesPerSecond": 40.0
+    }
   },
 
   "fonts": {
-    "name": "Antonio",
-    "file": "fonts/Antonio-Bold.ttf",
-    "size": 24
+    "Antonio": {
+      "file": "fonts/Antonio-Bold.ttf",
+      "size": 24
+    }
   },
 
-  // TODO
   "maps": {
     "sandbox": "maps/sandbox.map"
   }

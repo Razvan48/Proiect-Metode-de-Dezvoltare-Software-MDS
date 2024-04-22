@@ -47,3 +47,13 @@ Texture2D& Flipbook::getTextureAtTime(float time) const
 	return ResourceManager::getTexture(keyFrames[keyFrameIndex]);
 }
 
+Texture2D& Flipbook::getTextureAtIndex(int index) const
+{
+	if (index < getNumFrames())
+	{
+		return ResourceManager::getTexture(keyFrames[index]);
+	}
+
+	return ResourceManager::getTexture(keyFrames[0]);
+}
+
