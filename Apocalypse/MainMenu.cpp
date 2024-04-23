@@ -2,7 +2,7 @@
 #include "source/WindowManager/WindowManager.h"
 #include "source/Renderer/SpriteRenderer.h"
 #include "source/ResourceManager/ResourceManager.h"
-#include "EntityStatus.h"
+
 #include <iostream>
 #include "source/Input/InputHandler.h"
 #include "source/Map/Map.h"
