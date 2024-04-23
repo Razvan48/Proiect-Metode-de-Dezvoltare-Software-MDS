@@ -2,8 +2,8 @@
 
 #include <cctype>
 
-#include "source/Entity/Button/Button.h"
-#include "source/Entity/TexturableEntity.h"
+#include "../Entity/TexturableEntity.h"
+#include "../Entity/Button/Button.h"
 
 class MainMenu : public virtual TexturableEntity
 {

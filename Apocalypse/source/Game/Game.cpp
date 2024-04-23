@@ -13,7 +13,8 @@
 #include "../HUD/HUDManager.h"
 
 #include <iostream>
-#include "../../MainMenu.h"
+#include "../MainMenu/MainMenu.h"
+
 
 Game::Game()
 {

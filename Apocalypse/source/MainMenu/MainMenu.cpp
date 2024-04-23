@@ -1,13 +1,14 @@
 #include "MainMenu.h"
-#include "source/WindowManager/WindowManager.h"
-#include "source/Renderer/SpriteRenderer.h"
-#include "source/ResourceManager/ResourceManager.h"
+#include "../WindowManager/WindowManager.h"
+#include "../Renderer/SpriteRenderer.h"
+#include "../ResourceManager/ResourceManager.h"
 
 #include <iostream>
-#include "source/Input/InputHandler.h"
-#include "source/Map/Map.h"
-#include "source/Entity/Player/Player.h"
-#include "source/HUD/HUDManager.h"
+#include "../Input/InputHandler.h"
+#include "../Map/Map.h"
+#include "../Entity/Player/Player.h"
+#include "../HUD/HUDManager.h"
+
 
 
 MainMenu::MainMenu(double x, double y, double drawWidth, double drawHeight, double rotateAngle, double speed, const std::string& textureName2D) :
