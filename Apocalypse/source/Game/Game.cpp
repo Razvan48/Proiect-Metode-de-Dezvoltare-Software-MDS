@@ -13,6 +13,7 @@
 #include "../HUD/HUDManager.h"
 
 #include <iostream>
+#include "../../MainMenu.h"
 
 Game::Game()
 {
@@ -169,9 +170,10 @@ void Game::run()
 
     // TODO: de pus in constructor
     Player::get().setupPlayerInputComponent();
+    MainMenu::get().setupMainMenuInputComponent();
 
-    // SetupInput
-    InputHandler::setInputComponent(InputHandler::getPlayerInputComponent());
+    // SetupInput 
+    InputHandler::setInputComponent(InputHandler::getMenuInputComponent());
 
     while (!glfwWindowShouldClose(WindowManager::get().getWindow()))
     {
@@ -197,6 +199,8 @@ void Game::run()
 
         // HUD
         HUDManager::get().draw();
+
+        MainMenu::get().playMenu();
 
         // Sprite
         /*
