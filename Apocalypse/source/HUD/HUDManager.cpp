@@ -89,9 +89,9 @@ void HUDManager::draw()
 	width = WindowManager::get().getWindowWidth() - textureScaleWidth;
 	height = WindowManager::get().getWindowHeight() - 64;
 
-	TextRenderer::get().draw(ResourceManager::getShader("text"), ResourceManager::getFont("Antonio"), "WAVE: 10", width, height, 1.0f, glm::vec3(1.0f, 0.098f, 0.0f));
+	TextRenderer::get().draw(ResourceManager::getShader("text"), ResourceManager::getFont("Antonio"), "WAVE: -1", width, height, 1.0f, glm::vec3(1.0f, 0.098f, 0.0f));
 
 	height -= 32;
-	TextRenderer::get().draw(ResourceManager::getShader("text"), ResourceManager::getFont("Antonio"), "KILLS: 10", width, height, 1.0f, glm::vec3(1.0f, 0.098f, 0.0f));
+	TextRenderer::get().draw(ResourceManager::getShader("text"), ResourceManager::getFont("Antonio"), "KILLS: -1", width, height, 1.0f, glm::vec3(1.0f, 0.098f, 0.0f));
 }
 

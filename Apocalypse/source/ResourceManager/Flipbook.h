@@ -19,7 +19,7 @@ public:
 	inline void setFramesPerSecond(const float& framesPerSecond) { this->framesPerSecond = framesPerSecond; }
 	inline void addFrame(const std::string& texture) { keyFrames.push_back(texture); }
 
-	Texture2D& getTextureAtTime(float time) const;
+	Texture2D& getTextureAtTime(double time) const;
 	Texture2D& getTextureAtIndex(int index) const;
 	int getNumFrames() const;
 
@@ -28,6 +28,6 @@ private:
 	std::vector<std::string> keyFrames;
 
 	float getTotalDuration() const;
-	int getKeyFrameIndexAtTime(float time) const;
+	int getKeyFrameIndexAtTime(double time) const;
 };
 

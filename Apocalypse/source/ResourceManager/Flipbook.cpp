@@ -28,7 +28,7 @@ float Flipbook::getTotalDuration() const
 	return 0.0f;
 }
 
-int Flipbook::getKeyFrameIndexAtTime(float time) const
+int Flipbook::getKeyFrameIndexAtTime(double time) const
 {
 	if (time < 0.0f)
 	{
@@ -41,7 +41,7 @@ int Flipbook::getKeyFrameIndexAtTime(float time) const
 	return static_cast<int>(floor(time));
 }
 
-Texture2D& Flipbook::getTextureAtTime(float time) const
+Texture2D& Flipbook::getTextureAtTime(double time) const
 {
 	const int keyFrameIndex = getKeyFrameIndexAtTime(time);
 	return ResourceManager::getTexture(keyFrames[keyFrameIndex]);
