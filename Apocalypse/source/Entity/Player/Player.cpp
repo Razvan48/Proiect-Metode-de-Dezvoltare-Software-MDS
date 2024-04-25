@@ -245,10 +245,6 @@ void Player::shoot()
 
 void Player::look(double xpos, double ypos)
 {
-	// double xCenter = static_cast<double>(WindowManager::get().getWindowWidth()) / 2.0;
-	// double yCenter = static_cast<double>(WindowManager::get().getWindowHeight()) / 2.0;
-
-	// Asa mi se pare mai bine.
 	glm::vec2 posCenter = Camera::get().screenPosition(this->x, this->y) + glm::vec2(WindowManager::get().getWindowWidth() / 2.0, WindowManager::get().getWindowHeight() / 2.0);
 	double xCenter = posCenter.x;
 	double yCenter = posCenter.y;

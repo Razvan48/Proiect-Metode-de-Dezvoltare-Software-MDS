@@ -3,13 +3,17 @@
 const double CollidableEntity::EPS = 0.0000001;
 
 CollidableEntity::CollidableEntity(double x, double y, double drawWidth, double drawHeight, double rotateAngle, double speed, double collideWidth, double collideHeight) :
-	Entity(x, y, drawWidth, drawHeight, rotateAngle, speed), collideWidth(collideWidth), collideHeight(collideHeight)
+	Entity(x, y, drawWidth, drawHeight, rotateAngle, speed), collideWidth(collideWidth), collideHeight(collideHeight),
+	collisionActive(true)
 {
 
 }
 
 glm::vec2 CollidableEntity::isInCollision(const CollidableEntity& other) const
 {
+	if (!this->collisionActive)
+		return glm::vec2(0.0, 0.0);
+
 	// TODO: testing
 
 	double left1 = this->getX() - this->collideWidth / 2.0;
@@ -29,3 +33,4 @@ CollidableEntity::~CollidableEntity()
 {
 
 }
+
