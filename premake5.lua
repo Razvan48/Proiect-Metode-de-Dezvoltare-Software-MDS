@@ -19,6 +19,7 @@ workspace "Apocalypse"
     IncludeDir["stb"] = "vendor/stb"
     IncludeDir["freetype"] = "vendor/freetype/include"
     IncludeDir["json"] = "vendor/json/include"
+    IncludeDir["fmod"] = "vendor/fmod/include"
 
 
 
@@ -223,14 +224,28 @@ workspace "Apocalypse"
             "%{IncludeDir.glm}",
             "%{IncludeDir.stb}",
             "%{IncludeDir.freetype}",
-            "%{IncludeDir.json}"
+            "%{IncludeDir.json}",
+            "%{IncludeDir.fmod}"
+        }
+
+        libdirs
+        {
+            "vendor/fmod/lib/x64"
         }
 
         links
         {
             "glfw",
             "glad",
-            "freetype"
+            "freetype",
+            "fmod_vc.lib",
+            "fmodL_vc.lib"
+        }
+
+        postbuildcommands 
+        {
+            '{COPY} "%{path.getabsolute("vendor/fmod/lib/x64/fmod.dll")}" "%{cfg.targetdir}"',
+            '{COPY} "%{path.getabsolute("vendor/fmod/lib/x64/fmodL.dll")}" "%{cfg.targetdir}"'
         }
 
         filter "system:windows"
@@ -280,19 +295,23 @@ workspace "Apocalypse"
             "%{IncludeDir.glm}",
             "%{IncludeDir.stb}",
             "%{IncludeDir.freetype}",
-            "%{IncludeDir.json}"
+            "%{IncludeDir.json}",
+            "%{IncludeDir.fmod}"
         }
 
         libdirs 
         {
-            "$(VCInstallDir)Auxiliary/VS/UnitTest/lib"
+            "$(VCInstallDir)Auxiliary/VS/UnitTest/lib",
+            "vendor/fmod/lib/x64"
         }
 
         links
         {
             "glfw",
             "glad",
-            "freetype"
+            "freetype",
+            "fmod_vc.lib",
+            "fmodL_vc.lib"
         }
 
         filter "system:windows"
