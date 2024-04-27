@@ -1,5 +1,7 @@
 #include "Game.h"
 
+#include <iostream> // TODO: delete
+
 #include "../WindowManager/WindowManager.h"
 #include "../ResourceManager/ResourceManager.h"
 #include "../Renderer/SpriteRenderer.h"
@@ -11,9 +13,8 @@
 #include "../Camera/Camera.h"
 #include "../CollisionManager/CollisionManager.h"
 #include "../HUD/HUDManager.h"
-
-#include <iostream>
 #include "../MainMenu/MainMenu.h"
+#include "../SoundManager/SoundManager.h"
 
 Game::Game()
 {
@@ -23,7 +24,7 @@ Game::Game()
 
 Game::~Game()
 {
-
+    // TODO: default?
 }
 
 Game& Game::get()
@@ -137,6 +138,20 @@ void Game::loadResources()
         std::cout << "ERROR::FLIPBOOK: other error" << std::endl;
     }
 
+    // Load Sounds
+    try
+    {
+        ResourceManager::loadSound("resources/sounds/footsteps.mp3", "footsteps");
+    }
+    catch (const std::runtime_error& err)
+    {
+        std::cout << "ERROR::SOUND: " << err.what() << std::endl;
+    }
+    catch (...)
+    {
+        std::cout << "ERROR::SOUND: other error" << std::endl;
+    }
+
     // Load Fonts
     try
     {
@@ -187,8 +202,11 @@ void Game::run()
     Player::get().setupPlayerInputComponent();
     MainMenu::get().setupMainMenuInputComponent();
 
-    // SetupInput
+    // Setup Input
     InputHandler::setInputComponent(InputHandler::getMenuInputComponent());
+
+    // TODO: test
+    SoundManager::get()->playSound(ResourceManager::getSound("footsteps"), 0, false, 0);
 
     while (!glfwWindowShouldClose(WindowManager::get().getWindow()))
     {

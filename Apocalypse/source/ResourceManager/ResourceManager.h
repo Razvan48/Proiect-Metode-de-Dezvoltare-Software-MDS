@@ -10,6 +10,8 @@
 #include "Font.h"
 #include "Flipbook.h"
 
+#include <fmod.hpp>
+
 class ResourceManager
 {
 public:
@@ -18,6 +20,7 @@ public:
 	static std::map<std::string, Texture2D> textures;
 	static std::map<std::string, Font> fonts;
 	static std::map<std::string, Flipbook> flipbooks;
+	static std::map<std::string, FMOD::Sound*> sounds;
 
 	// load and generate a shader program from files: vertex, fragment, geometry
 	static void loadShader(const char* vShaderFile, const char* fShaderFile, const char* gShaderFile, const std::string& name);
@@ -42,6 +45,12 @@ public:
 
 	// retrieve a stored flipbook
 	static Flipbook& getFlipbook(const std::string& name);
+
+	// load a new sound
+	static void loadSound(const char* file, const std::string& name);
+
+	// retrieve a stored sound
+	static FMOD::Sound* getSound(const std::string& name);
 
 	// de-allocate all resources
 	static void clear();

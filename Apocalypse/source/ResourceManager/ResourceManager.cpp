@@ -10,11 +10,14 @@
 #include <ft2build.h>
 #include FT_FREETYPE_H
 
+#include "../SoundManager/SoundManager.h"
+
 // instantiate static variables
 std::map<std::string, Texture2D> ResourceManager::textures;
 std::map<std::string, Shader> ResourceManager::shaders;
 std::map<std::string, Font> ResourceManager::fonts;
 std::map<std::string, Flipbook> ResourceManager::flipbooks;
+std::map<std::string, FMOD::Sound*> ResourceManager::sounds;
 
 void ResourceManager::loadShader(const char* vShaderFile, const char* fShaderFile, const char* gShaderFile, const std::string& name)
 {
@@ -239,6 +242,22 @@ Flipbook& ResourceManager::getFlipbook(const std::string& name)
 	}
 
 	return flipbooks[name];
+}
+
+void ResourceManager::loadSound(const char* file, const std::string& name)
+{
+	SoundManager::get()->createSound(file, FMOD_LOOP_OFF, 0, &sounds[name]);
+}
+
+FMOD::Sound* ResourceManager::getSound(const std::string& name)
+{
+	if (flipbooks.find(name) == flipbooks.end())
+	{
+		// TODO: conventie formatare mesaje eroare
+		std::cout << "ERROR::RESOURCEMANAGER: Could not find the sound!\n";
+	}
+
+	return sounds[name];
 }
 
 void ResourceManager::clear()
