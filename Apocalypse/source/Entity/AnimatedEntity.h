@@ -10,6 +10,8 @@
 
 class AnimatedEntity : public virtual Entity
 {
+	friend class MainMenu;
+
 protected:
 
 	enum class EntityStatus
@@ -24,6 +26,7 @@ protected:
 		CLICKED
 	};
 
+protected:
 	EntityStatus status;
 	double timeSinceStatus;
 
