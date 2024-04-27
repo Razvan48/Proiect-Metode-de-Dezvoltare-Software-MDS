@@ -10,6 +10,7 @@
 #include "../Entity/Player/Player.h"
 #include "../Camera/Camera.h"
 #include "../CollisionManager/CollisionManager.h"
+#include "../InteractionManager/InteractionManager.h"
 #include "../HUD/HUDManager.h"
 
 #include <iostream>
@@ -125,8 +126,8 @@ void Game::loadResources()
         ResourceManager::loadFlipbook("resources/animations/doorStatic0", 10.0f, "doorStatic0");
         ResourceManager::loadFlipbook("resources/animations/doorStatic1", 10.0f, "doorStatic1");
 
-        ResourceManager::loadFlipbook("resources/animations/doorOpening0", 50.0f, "doorOpening0");
-        ResourceManager::loadFlipbook("resources/animations/doorOpening1", 50.0f, "doorOpening1");
+        ResourceManager::loadFlipbook("resources/animations/doorOpening0", 5.0f, "doorOpening0");
+        ResourceManager::loadFlipbook("resources/animations/doorOpening1", 5.0f, "doorOpening1");
     }
     catch (const std::runtime_error& err)
     {
@@ -150,6 +151,18 @@ void Game::loadResources()
     {
         std::cout << "ERROR::FONT: other error" << std::endl;
     }
+
+    // Load Entities
+    this->entities.emplace_back(new Door(7.5, 14.5, 1.0, 1.0, 90.0, 0.0, 1.0, 1.0, 
+        {
+            { AnimatedEntity::EntityStatus::IDLE, "doorStatic0"},
+            {AnimatedEntity::EntityStatus::OPENED, "doorOpening0"}
+        }, 2.0, 2.0, 0)); // usa (doar sa testam) (usa gratis, cost 0)
+    this->entities.emplace_back(new Door(7.5, 16.5, 1.0, 1.0, 90.0, 0.0, 1.0, 1.0,
+        {
+            { AnimatedEntity::EntityStatus::IDLE, "doorStatic1"},
+            {AnimatedEntity::EntityStatus::OPENED, "doorOpening1"}
+        }, 2.0, 2.0, 0)); // usa (doar sa testam) (usa gratis, cost 0)
 
     // Configure Shaders
     glm::mat4 projection = glm::ortho(-0.5f * static_cast<float>(WindowManager::get().getWindowWidth()), 0.5f * static_cast<float>(WindowManager::get().getWindowWidth()), -0.5f * static_cast<float>(WindowManager::get().getWindowHeight()), 0.5f * static_cast<float>(WindowManager::get().getWindowHeight()));
@@ -186,6 +199,9 @@ void Game::run()
     // TODO: de pus in constructor
     Player::get().setupPlayerInputComponent();
     MainMenu::get().setupMainMenuInputComponent();
+    for (int i = 0; i < this->entities.size(); ++i)
+        if (std::dynamic_pointer_cast<Door>(this->entities[i]) != nullptr) // doar pentru usi momentan
+            std::dynamic_pointer_cast<Door>(this->entities[i])->setupPlayerInputComponent(); // TODO: am numit corect functia?
 
     // SetupInput
     InputHandler::setInputComponent(InputHandler::getMenuInputComponent());
@@ -198,6 +214,9 @@ void Game::run()
         // Collision System
         CollisionManager::get().handleCollisions(this->entities);
 
+        // Interactions System
+        InteractionManager::get().handleInteractions(this->entities);
+
         // Updates
         Camera::get().update();
         Player::get().update();
@@ -209,6 +228,9 @@ void Game::run()
         // Map
         Map::get().draw();
 
+        // Game Entities
+        this->drawEntities();
+
         // Player
         Player::get().draw();
 
@@ -216,6 +238,9 @@ void Game::run()
         HUDManager::get().draw();
 
         MainMenu::get().playMenu();
+
+        // Update Entities
+        this->updateEntities(); // TODO: asta presupune ca entitatile tinute in vector-ul din clasa game nu isi mai dau update altundeva decat aici
 
         // Update/Tick
         GlobalClock::get().updateTime();
@@ -226,5 +251,17 @@ void Game::run()
         // Check if any events have been activated (key pressed, mouse moved etc.) and call corresponding response functions
         glfwPollEvents();
     }
+}
+
+void Game::updateEntities()
+{
+    for (int i = 0; i < this->entities.size(); ++i)
+        this->entities[i]->update();
+}
+
+void Game::drawEntities()
+{
+    for (int i = 0; i < this->entities.size(); ++i)
+        this->entities[i]->draw();
 }
 

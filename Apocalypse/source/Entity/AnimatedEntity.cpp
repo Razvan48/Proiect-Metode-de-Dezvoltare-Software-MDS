@@ -25,7 +25,6 @@ void AnimatedEntity::draw()
 	}
 }
 
-/*
 void AnimatedEntity::updateStatus(EntityStatus newStatus)
 {
 	if (this->status != newStatus)
@@ -35,7 +34,6 @@ void AnimatedEntity::updateStatus(EntityStatus newStatus)
 
 	this->status = newStatus;
 }
-*/
 
 AnimatedEntity::~AnimatedEntity()
 {

@@ -12,9 +12,9 @@ class AnimatedEntity : public virtual Entity
 {
 	friend class MainMenu;
 
-protected:
+public:
 
-	enum class EntityStatus
+	static enum class EntityStatus
 	{
 		DEFAULT, //asta doar debug, NU FOLOSIM DEFAULT, FOLOSIM IDLE PENTRU STATUS DE INCEPUT
 		IDLE,
@@ -22,6 +22,7 @@ protected:
 		RUNNING,
 		TIRED,
 		DYING,
+		OPENED,
 		HOVERED,
 		CLICKED
 	};
@@ -36,9 +37,9 @@ public:
 
 	AnimatedEntity(double x, double y, double drawWidth, double drawHeight, double rotateAngle, double speed, const std::map<EntityStatus, std::string>& animationsName2D);
 	void draw() override;
-	//double getTimeSinceStatus() const { return this->timeSinceStatus; };
-	//void setTimeSinceStatus(double timeSinceStatus) { this->timeSinceStatus = timeSinceStatus; }
-	//EntityStatus getStatus() const { return this->status; }
-	//void updateStatus(EntityStatus newStatus);
+	double getTimeSinceStatus() const { return this->timeSinceStatus; };
+	void setTimeSinceStatus(double timeSinceStatus) { this->timeSinceStatus = timeSinceStatus; }
+	EntityStatus getStatus() const { return this->status; }
+	void updateStatus(EntityStatus newStatus);
 	virtual ~AnimatedEntity();
 };

@@ -1,6 +1,7 @@
 #pragma once
 
 #include <vector>
+#include <memory>
 
 #include "../Entity/Entity.h"
 
@@ -18,9 +19,12 @@ private:
 private:
 	void loadResources();
 
+	void updateEntities();
+	void drawEntities();
+
 private:
 
-	std::vector<Entity> entities; // Alte entitati decat cele ce au de a face cu harta / player-ul (deci in mare parte npc-uri, butoane)
+	std::vector<std::shared_ptr<Entity>> entities; // Alte entitati decat cele ce au de a face cu harta / player-ul (deci in mare parte npc-uri, butoane)
 
 public:
 	static Game& get();
