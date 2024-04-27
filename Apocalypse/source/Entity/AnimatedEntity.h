@@ -40,6 +40,5 @@ public:
 	//void setTimeSinceStatus(double timeSinceStatus) { this->timeSinceStatus = timeSinceStatus; }
 	//EntityStatus getStatus() const { return this->status; }
 	//void updateStatus(EntityStatus newStatus);
-	virtual void update() = 0;
 	virtual ~AnimatedEntity();
 };

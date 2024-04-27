@@ -17,6 +17,7 @@ public:
 
 	Entity(double x, double y, double drawWidth, double drawHeight, double rotateAngle, double speed);
 	virtual void draw() = 0;
+	virtual void update(); // virtual, dar nu pur virtual
 	double getX() const { return this->x; }
 	double getY() const { return this->y; }
 	double getDrawWidth() const { return this->drawWidth; }

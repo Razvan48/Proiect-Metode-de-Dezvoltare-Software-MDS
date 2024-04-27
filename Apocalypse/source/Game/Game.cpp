@@ -85,6 +85,10 @@ void Game::loadResources()
         ResourceManager::loadTexture("resources/textures/hud/knife0.png", true, "knife0");
         ResourceManager::loadTexture("resources/textures/hud/pistol0.png", true, "pistol0");
         ResourceManager::loadTexture("resources/textures/hud/grenade0.png", true, "grenade0");
+        ResourceManager::loadTexture("resources/textures/hud/shotgun0.png", true, "shotgun0");
+        ResourceManager::loadTexture("resources/textures/hud/automated0.png", true, "automated0");
+        ResourceManager::loadTexture("resources/textures/hud/automated1.png", true, "automated1");
+        ResourceManager::loadTexture("resources/textures/hud/minigun0.png", true, "minigun0");
 
         // Bullets
         ResourceManager::loadTexture("resources/textures/bullets/bullet0.png", true, "bullet0");
@@ -116,6 +120,13 @@ void Game::loadResources()
         // Environment Animations
         ResourceManager::loadFlipbook("resources/animations/grenadeExplosion", 40.0f, "grenadeExplosion");
         ResourceManager::loadFlipbook("resources/animations/bulletBlast", 40.0f, "bulletBlast");
+
+        // Doors
+        ResourceManager::loadFlipbook("resources/animations/doorStatic0", 10.0f, "doorStatic0");
+        ResourceManager::loadFlipbook("resources/animations/doorStatic1", 10.0f, "doorStatic1");
+
+        ResourceManager::loadFlipbook("resources/animations/doorOpening0", 50.0f, "doorOpening0");
+        ResourceManager::loadFlipbook("resources/animations/doorOpening1", 50.0f, "doorOpening1");
     }
     catch (const std::runtime_error& err)
     {

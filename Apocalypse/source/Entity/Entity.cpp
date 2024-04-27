@@ -6,6 +6,11 @@ Entity::Entity(double x, double y, double drawWidth, double drawHeight, double r
 
 }
 
+void Entity::update()
+{
+
+}
+
 Entity::~Entity()
 {
 

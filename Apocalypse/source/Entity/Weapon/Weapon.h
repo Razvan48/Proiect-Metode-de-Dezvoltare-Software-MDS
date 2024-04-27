@@ -10,6 +10,10 @@ protected:
 	double fireRate;
 	int numBullets;
 	double damage;
+	double reloadTime;
+
+	double timeSinceLastShot;
+	double timeSinceStartReload;
 
 public:
 
