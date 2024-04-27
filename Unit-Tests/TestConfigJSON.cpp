@@ -17,7 +17,7 @@ namespace TestConfigJSON
     public:
         TEST_METHOD(Input)
         {
-            Logger::WriteMessage("iInput.json");
+            Logger::WriteMessage("input.json");
 
             std::ifstream file("../../../Apocalypse/config/input.json");
             if (!file.is_open())

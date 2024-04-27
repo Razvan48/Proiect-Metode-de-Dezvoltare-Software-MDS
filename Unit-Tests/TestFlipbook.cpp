@@ -20,7 +20,7 @@ namespace TestFlipbook
 
             try
             {
-                ResourceManager::loadFlipbook("../../../Apocalypse/animations/playerIdle", 15.0f, "playerIdle");
+                ResourceManager::loadFlipbook("../../../Apocalypse/resources/animations/playerIdle", 15.0f, "playerIdle");
 
                 Assert::AreEqual(8, ResourceManager::getFlipbook("playerIdle").getNumFrames()); // 8
 
@@ -46,7 +46,7 @@ namespace TestFlipbook
 
             try
             {
-                ResourceManager::loadFlipbook("../../../Apocalypse/animations/playerWalking", 25.0f, "playerWalking");
+                ResourceManager::loadFlipbook("../../../Apocalypse/resources/animations/playerWalking", 25.0f, "playerWalking");
 
                 Assert::AreEqual(15, ResourceManager::getFlipbook("playerWalking").getNumFrames()); // 15
 
@@ -72,7 +72,7 @@ namespace TestFlipbook
 
             try
             {
-                ResourceManager::loadFlipbook("../../../Apocalypse/animations/playerRunning", 30.0f, "playerRunning");
+                ResourceManager::loadFlipbook("../../../Apocalypse/resources/animations/playerRunning", 30.0f, "playerRunning");
 
                 Assert::AreEqual(15, ResourceManager::getFlipbook("playerRunning").getNumFrames()); // 15
 
@@ -98,7 +98,7 @@ namespace TestFlipbook
 
             try
             {
-                ResourceManager::loadFlipbook("../../../Apocalypse/animations/playerTired", 30.0f, "playerTired");
+                ResourceManager::loadFlipbook("../../../Apocalypse/resources/animations/playerTired", 30.0f, "playerTired");
 
                 Assert::AreEqual(8, ResourceManager::getFlipbook("playerTired").getNumFrames()); // 8
 
