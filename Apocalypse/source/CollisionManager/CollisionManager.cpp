@@ -49,7 +49,6 @@ void CollisionManager::handleCollisions(std::vector<Entity>& entities)
 	}
 
 	// Others
-
 	for (int i = 0; i < entities.size(); ++i)
 	{
 		if (dynamic_cast<CollidableEntity*>(&entities[i]) == nullptr)

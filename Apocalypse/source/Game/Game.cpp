@@ -51,41 +51,48 @@ void Game::loadResources()
     // Load Textures
     try
     {
-        // ResourceManager::loadTexture("textures/OpenGL-test.png", true, "OpenGL");
-
         // Floors
-        ResourceManager::loadTexture("textures/floors/.0.png", true, ".0");
-        ResourceManager::loadTexture("textures/floors/.1.png", true, ".1");
-        ResourceManager::loadTexture("textures/floors/.2.png", true, ".2");
-        ResourceManager::loadTexture("textures/floors/.3.png", true, ".3");
-        ResourceManager::loadTexture("textures/floors/.4.png", true, ".4");
-        ResourceManager::loadTexture("textures/floors/.5.png", true, ".5");
-        ResourceManager::loadTexture("textures/floors/.6.png", true, ".6");
-        ResourceManager::loadTexture("textures/floors/.7.png", true, ".7");
-        ResourceManager::loadTexture("textures/floors/.8.png", true, ".8");
-        ResourceManager::loadTexture("textures/floors/.9.png", true, ".9");
-        ResourceManager::loadTexture("textures/floors/.a.png", true, ".a");
+        ResourceManager::loadTexture("resources/textures/floors/.0.png", true, ".0");
+        ResourceManager::loadTexture("resources/textures/floors/.1.png", true, ".1");
+        ResourceManager::loadTexture("resources/textures/floors/.2.png", true, ".2");
+        ResourceManager::loadTexture("resources/textures/floors/.3.png", true, ".3");
+        ResourceManager::loadTexture("resources/textures/floors/.4.png", true, ".4");
+        ResourceManager::loadTexture("resources/textures/floors/.5.png", true, ".5");
+        ResourceManager::loadTexture("resources/textures/floors/.6.png", true, ".6");
+        ResourceManager::loadTexture("resources/textures/floors/.7.png", true, ".7");
+        ResourceManager::loadTexture("resources/textures/floors/.8.png", true, ".8");
+        ResourceManager::loadTexture("resources/textures/floors/.9.png", true, ".9");
+        ResourceManager::loadTexture("resources/textures/floors/.a.png", true, ".a");
 
         // Walls
-        ResourceManager::loadTexture("textures/walls/M0.png", true, "M0");
-        ResourceManager::loadTexture("textures/walls/M1.png", true, "M1");
-        ResourceManager::loadTexture("textures/walls/M2.png", true, "M2");
+        ResourceManager::loadTexture("resources/textures/walls/M0.png", true, "M0");
+        ResourceManager::loadTexture("resources/textures/walls/M1.png", true, "M1");
+        ResourceManager::loadTexture("resources/textures/walls/M2.png", true, "M2");
 
         // Frames
-        ResourceManager::loadTexture("textures/hud/weaponFrame.png", true, "weaponFrame");
-        ResourceManager::loadTexture("textures/hud/healthFrame.png", true, "healthFrame");
-        ResourceManager::loadTexture("textures/hud/staminaFrame.png", true, "staminaFrame");
-        ResourceManager::loadTexture("textures/hud/armorFrame.png", true, "armorFrame");
+        ResourceManager::loadTexture("resources/textures/hud/weaponFrame.png", true, "weaponFrame");
+        ResourceManager::loadTexture("resources/textures/hud/healthFrame.png", true, "healthFrame");
+        ResourceManager::loadTexture("resources/textures/hud/staminaFrame.png", true, "staminaFrame");
+        ResourceManager::loadTexture("resources/textures/hud/armorFrame.png", true, "armorFrame");
 
-        ResourceManager::loadTexture("textures/hud/red.png", false, "redBar");
-        ResourceManager::loadTexture("textures/hud/green.png", false, "greenBar");
-        ResourceManager::loadTexture("textures/hud/blue.png", false, "blueBar");
+        ResourceManager::loadTexture("resources/textures/hud/red.png", false, "redBar");
+        ResourceManager::loadTexture("resources/textures/hud/green.png", false, "greenBar");
+        ResourceManager::loadTexture("resources/textures/hud/blue.png", false, "blueBar");
 
         // Weapons
-        ResourceManager::loadTexture("textures/hud/fist0.png", true, "fist0");
-        ResourceManager::loadTexture("textures/hud/knife0.png", true, "knife0");
-        ResourceManager::loadTexture("textures/hud/pistol0.png", true, "pistol0");
-        ResourceManager::loadTexture("textures/hud/grenade0.png", true, "grenade0");
+        ResourceManager::loadTexture("resources/textures/hud/fist0.png", true, "fist0");
+        ResourceManager::loadTexture("resources/textures/hud/knife0.png", true, "knife0");
+        ResourceManager::loadTexture("resources/textures/hud/pistol0.png", true, "pistol0");
+        ResourceManager::loadTexture("resources/textures/hud/grenade0.png", true, "grenade0");
+
+        // Bullets
+        ResourceManager::loadTexture("resources/textures/bullets/bullet0.png", true, "bullet0");
+        ResourceManager::loadTexture("resources/textures/bullets/bullet1.png", true, "bullet1");
+        ResourceManager::loadTexture("resources/textures/bullets/bullet2.png", true, "bullet2");
+        ResourceManager::loadTexture("resources/textures/bullets/bullet3.png", true, "bullet3");
+
+        // Shops
+        ResourceManager::loadTexture("resources/textures/shops/shop0.png", true, "shop0");
     }
     catch (const std::runtime_error& err)
     {
@@ -99,18 +106,15 @@ void Game::loadResources()
     // Load Flipbooks
     try
     {
-        // ResourceManager::loadFlipbook("textures/Fire+Sparks", "fire");
-
         // Player Animations
-        // TODO: sa putem seta cat dureaza un flipbook si apoi interpolam liniar
-        ResourceManager::loadFlipbook("animations/playerIdle", 15.0f, "playerIdle");
-        ResourceManager::loadFlipbook("animations/playerWalking", 25.0f, "playerWalking");
-        ResourceManager::loadFlipbook("animations/playerRunning", 30.0f, "playerRunning");
-        ResourceManager::loadFlipbook("animations/playerTired", 10.0f, "playerTired");
+        ResourceManager::loadFlipbook("resources/animations/playerIdle", 15.0f, "playerIdle");
+        ResourceManager::loadFlipbook("resources/animations/playerWalking", 25.0f, "playerWalking");
+        ResourceManager::loadFlipbook("resources/animations/playerRunning", 30.0f, "playerRunning");
+        ResourceManager::loadFlipbook("resources/animations/playerTired", 10.0f, "playerTired");
 
         // Environment Animations
-        ResourceManager::loadFlipbook("animations/grenadeExplosion", 40.0f, "grenadeExplosion");
-        ResourceManager::loadFlipbook("animations/bulletBlast", 40.0f, "bulletBlast");
+        ResourceManager::loadFlipbook("resources/animations/grenadeExplosion", 40.0f, "grenadeExplosion");
+        ResourceManager::loadFlipbook("resources/animations/bulletBlast", 40.0f, "bulletBlast");
     }
     catch (const std::runtime_error& err)
     {
@@ -197,24 +201,6 @@ void Game::run()
 
         // HUD
         HUDManager::get().draw();
-
-        // Sprite
-        /*
-        SpriteRenderer::get().draw(ResourceManager::getShader("sprite"), ResourceManager::getTexture("OpenGL"), glm::vec2(0.0f, 0.0f), glm::vec2(1000.0f, 433.5f), 0.0f);
-        SpriteRenderer::get().draw(ResourceManager::getShader("sprite"), ResourceManager::getTexture(".0"), glm::vec2(128.0f, 128.0f), glm::vec2(128.0f, 128.0f), 0.0f);
-        */
-        
-        // Text
-        /*
-        TextRenderer::get().draw(ResourceManager::getShader("text"), ResourceManager::getFont("Antonio"), "Hello World!", 50.0f, 50.0f, 1.0f, glm::vec3(0.0f, 0.0f, 0.6f));
-        */
-
-        // Flipbook
-        /*
-        SpriteRenderer::get().draw(ResourceManager::getShader("sprite"), ResourceManager::getFlipbook("fire").getTextureAtTime(GlobalClock::get().getCurrentTime()), glm::vec2(410.0f, 40.0f), glm::vec2(192.0f, 192.0f), 0.0f);
-        // 112.0f Player size // 128.0f debug
-        SpriteRenderer::get().draw(ResourceManager::getShader("sprite"), ResourceManager::getFlipbook("playerIdle").getTextureAtTime(GlobalClock::get().getCurrentTime()), glm::vec2(112.0f, 112.0f), glm::vec2(112.0f, 112.0f), 180.0f);
-        */
 
         // Update/Tick
         GlobalClock::get().updateTime();
