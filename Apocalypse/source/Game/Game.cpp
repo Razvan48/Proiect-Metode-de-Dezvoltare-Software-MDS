@@ -13,6 +13,7 @@
 #include "../HUD/HUDManager.h"
 
 #include <iostream>
+#include "../MainMenu/MainMenu.h"
 
 Game::Game()
 {
@@ -173,9 +174,10 @@ void Game::run()
 
     // TODO: de pus in constructor
     Player::get().setupPlayerInputComponent();
+    MainMenu::get().setupMainMenuInputComponent();
 
     // SetupInput
-    InputHandler::setInputComponent(InputHandler::getPlayerInputComponent());
+    InputHandler::setInputComponent(InputHandler::getMenuInputComponent());
 
     while (!glfwWindowShouldClose(WindowManager::get().getWindow()))
     {
@@ -201,6 +203,8 @@ void Game::run()
 
         // HUD
         HUDManager::get().draw();
+
+        MainMenu::get().playMenu();
 
         // Update/Tick
         GlobalClock::get().updateTime();
