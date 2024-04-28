@@ -20,6 +20,12 @@ SoundManager::SoundManager()
 	}
 }
 
+SoundManager::~SoundManager()
+{
+	fmodSystem->close();
+	fmodSystem->release();
+}
+
 FMOD::System* SoundManager::get()
 {
 	static SoundManager instance;

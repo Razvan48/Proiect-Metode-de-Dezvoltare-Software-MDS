@@ -9,7 +9,7 @@ public:
 
 private:
 	SoundManager();
-	~SoundManager() = default;
+	~SoundManager();
 
 	SoundManager(const SoundManager& other) = delete;
 	SoundManager& operator= (const SoundManager& other) = delete;
