@@ -251,7 +251,7 @@ void ResourceManager::loadSound(const char* file, const std::string& name)
 
 FMOD::Sound* ResourceManager::getSound(const std::string& name)
 {
-	if (flipbooks.find(name) == flipbooks.end())
+	if (sounds.find(name) == sounds.end())
 	{
 		// TODO: conventie formatare mesaje eroare
 		std::cout << "ERROR::RESOURCEMANAGER: Could not find the sound!\n";
