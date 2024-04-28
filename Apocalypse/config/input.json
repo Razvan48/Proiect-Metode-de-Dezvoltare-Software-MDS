@@ -6,6 +6,7 @@
   "INTERACT": 69,
   "SHOOT": 0,
   "RUN": 340,
-  "CLICK_BUTTON": 0
+  "CLICK_BUTTON": 0,
+  "PAUSE": 256
 }
 

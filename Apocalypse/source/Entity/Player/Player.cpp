@@ -12,6 +12,7 @@
 #include <iostream> // Debug
 #include <memory>
 #include <cmath>
+#include "../../PauseMenu/PauseMenu.h"
 
 Player::Player(double x, double y, double drawWidth, double drawHeight, double rotateAngle, double speed, double collideWidth, double collideHeight, const std::map<AnimatedEntity::EntityStatus, std::string>& animationsName2D, double runningSpeed, double health = 100.0, double stamina = 100.0, double armor = 0.0) :
 	Entity(x, y, drawWidth, drawHeight, rotateAngle, speed),
@@ -185,6 +186,8 @@ void Player::setupPlayerInputComponent()
 	InputHandler::getPlayerInputComponent().bindAction("SHOOT", InputEvent::IE_Pressed, std::bind(&Player::shoot, this));
 
 	InputHandler::getPlayerInputComponent().bindAxis(std::bind(&Player::look, this, std::placeholders::_1, std::placeholders::_2));
+
+	InputHandler::getPlayerInputComponent().bindAction("PAUSE", InputEvent::IE_Pressed, std::bind(&Player::pauseGame, this));
 }
 
 void Player::moveUp()
@@ -269,6 +272,13 @@ void Player::look(double xpos, double ypos)
 	{
 		this->rotateAngle = 270.0 + glm::degrees(glm::atan(xLungime / yLungime));
 	}
+}
+
+void Player::pauseGame()
+{
+	PauseMenu::get().setIsInGame(false);
+	PauseMenu::get().setupPauseMenuInputComponent();
+	InputHandler::setInputComponent(InputHandler::getMenuInputComponent());
 }
 
 void Player::draw()

@@ -36,8 +36,6 @@ void InputComponent::callbackAxis(double xpos, double ypos)
 	}
 }
 
-// TODO: e ok? (se poate si altfel?)
-
 void InputComponent::replaceAction(const std::string& actionName, const InputEvent& keyEvent, const std::function<void()>& func)
 {
 	std::ifstream inputFile("config/input.json");

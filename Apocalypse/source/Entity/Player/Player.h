@@ -32,6 +32,8 @@ private:
 
 	void shoot();
 
+	void pauseGame();
+
 	double runningSpeed;
 
 	double armor;

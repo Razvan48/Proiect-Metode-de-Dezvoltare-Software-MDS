@@ -18,7 +18,7 @@ PauseMenu::PauseMenu(double x, double y, double drawWidth, double drawHeight, do
 	buttonHeight(drawHeight * 0.1),
 	buttons(std::map<std::string, Button>{
 		{ "quit", Button(getButtonPosX(), getButtonPosY(0), buttonWidth, buttonHeight, 0, 0, buttonWidth, buttonHeight, std::map<AnimatedEntity::EntityStatus, std::string>(), "Quit")},
-		{ "continue", Button(getButtonPosX(), getButtonPosY(1), buttonWidth, buttonHeight, 0, 0, buttonWidth, buttonHeight, std::map<AnimatedEntity::EntityStatus, std::string>(), "Play") }
+		{ "continue", Button(getButtonPosX(), getButtonPosY(1), buttonWidth, buttonHeight, 0, 0, buttonWidth, buttonHeight, std::map<AnimatedEntity::EntityStatus, std::string>(), "Continue") }
 })
 {
 	buttons.setFunctions(

@@ -15,6 +15,7 @@
 
 #include <iostream>
 #include "../MainMenu/MainMenu.h"
+#include "../PauseMenu/PauseMenu.h"
 
 Game::Game()
 {
@@ -238,6 +239,7 @@ void Game::run()
         HUDManager::get().draw();
 
         MainMenu::get().playMenu();
+        PauseMenu::get().playMenu();
 
         // Update Entities
         this->updateEntities(); // TODO: asta presupune ca entitatile tinute in vector-ul din clasa game nu isi mai dau update altundeva decat aici

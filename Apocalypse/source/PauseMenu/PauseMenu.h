@@ -13,7 +13,7 @@ private:
 	double buttonWidth;
 	double buttonHeight;
 
-	double buttonOffsetX = 200;
+	double buttonOffsetX = 300;
 	double buttonOffsetY = 100;
 	double spaceAfterButton = 5;
 
@@ -22,7 +22,7 @@ private:
 	double getButtonPosX();
 	double getButtonPosY(int index = 0);
 
-	bool isInGame = false;
+	bool isInGame = true;
 
 private:
 	PauseMenu(double x, double y, double drawWidth, double drawHeight, double rotateAngle, double speed, const std::string& textureName2D);
@@ -45,6 +45,7 @@ public:
 	void setupPauseMenuInputComponent();
 
 	bool getIsInGame() const { return isInGame; }
+	void setIsInGame(bool isInGame_) { isInGame = isInGame_; }
 
 	void playMenu();
 
