@@ -314,6 +314,12 @@ workspace "Apocalypse"
             "fmodL_vc.lib"
         }
 
+        postbuildcommands 
+        {
+            '{COPY} "%{path.getabsolute("vendor/fmod/lib/x64/fmod.dll")}" "%{cfg.targetdir}"',
+            '{COPY} "%{path.getabsolute("vendor/fmod/lib/x64/fmodL.dll")}" "%{cfg.targetdir}"'
+        }
+
         filter "system:windows"
             staticruntime "On"
             systemversion "latest"
