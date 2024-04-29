@@ -14,133 +14,213 @@
 
   "textures": {
     ".0": {
-      "file": "textures/floors/.0.png",
+      "file": "resources/textures/floors/.0.png",
       "alpha": true
     },
     ".1": {
-      "file": "textures/floors/.1.png",
+      "file": "resources/textures/floors/.1.png",
       "alpha": true
     },
     ".2": {
-      "file": "textures/floors/.2.png",
+      "file": "resources/textures/floors/.2.png",
       "alpha": true
     },
     ".3": {
-      "file": "textures/floors/.3.png",
+      "file": "resources/textures/floors/.3.png",
       "alpha": true
     },
     ".4": {
-      "file": "textures/floors/.4.png",
+      "file": "resources/textures/floors/.4.png",
       "alpha": true
     },
     ".5": {
-      "file": "textures/floors/.5.png",
+      "file": "resources/textures/floors/.5.png",
       "alpha": true
     },
     ".6": {
-      "file": "textures/floors/.6.png",
+      "file": "resources/textures/floors/.6.png",
       "alpha": true
     },
     ".7": {
-      "file": "textures/floors/.7.png",
+      "file": "resources/textures/floors/.7.png",
       "alpha": true
     },
     ".8": {
-      "file": "textures/floors/.8.png",
+      "file": "resources/textures/floors/.8.png",
       "alpha": true
     },
     ".9": {
-      "file": "textures/floors/.9.png",
+      "file": "resources/textures/floors/.9.png",
       "alpha": true
     },
     ".a": {
-      "file": "textures/floors/.a.png",
+      "file": "resources/textures/floors/.a.png",
       "alpha": true
     },
 
     "M0": {
-      "file": "textures/walls/MO.png",
+      "file": "resources/textures/walls/M0.png",
       "alpha": true
     },
     "M1": {
-      "file": "textures/walls/M1.png",
+      "file": "resources/textures/walls/M1.png",
       "alpha": true
     },
     "M2": {
-      "file": "textures/walls/M2.png",
+      "file": "resources/textures/walls/M2.png",
       "alpha": true
     },
 
     "weaponFrame": {
-      "file": "textures/hud/weaponFrame.png",
+      "file": "resources/textures/hud/weaponFrame.png",
       "alpha": true
     },
     "healthFrame": {
-      "file": "textures/hud/healthFrame.png",
+      "file": "resources/textures/hud/healthFrame.png",
       "alpha": true
     },
     "staminaFrame": {
-      "file": "textures/hud/staminaFrame.png",
+      "file": "resources/textures/hud/staminaFrame.png",
       "alpha": true
     },
     "armorFrame": {
-      "file": "textures/hud/armorFrame.png",
+      "file": "resources/textures/hud/armorFrame.png",
       "alpha": true
     },
+
     "redBar": {
-      "file": "textures/hud/red.png",
-      "alpha": true
+      "file": "resources/textures/hud/red.png",
+      "alpha": false
     },
     "greenBar": {
-      "file": "textures/hud/green.png",
-      "alpha": true
+      "file": "resources/textures/hud/green.png",
+      "alpha": false
     },
     "blueBar": {
-      "file": "textures/hud/blue.png",
-      "alpha": true
+      "file": "resources/textures/hud/blue.png",
+      "alpha": false
     },
+
     "fist0": {
-      "file": "textures/hud/fist0.png",
+      "file": "resources/textures/hud/fist0.png",
       "alpha": true
     },
     "knife0": {
-      "file": "textures/hud/knife0.png",
+      "file": "resources/textures/hud/knife0.png",
       "alpha": true
     },
     "pistol0": {
-      "file": "textures/hud/pistol0.png",
+      "file": "resources/textures/hud/pistol0.png",
       "alpha": true
     },
     "grenade0": {
-      "file": "textures/hud/grenade0.png",
+      "file": "resources/textures/hud/grenade0.png",
+      "alpha": true
+    },
+    "shotgun0": {
+      "file": "resources/textures/hud/shotgun0.png",
+      "alpha": true
+    },
+    "automated0": {
+      "file": "resources/textures/hud/automated0.png",
+      "alpha": true
+    },
+    "automated1": {
+      "file": "resources/textures/hud/automated1.png",
+      "alpha": true
+    },
+    "minigun0": {
+      "file": "resources/textures/hud/minigun0.png",
+      "alpha": true
+    },
+
+    "bullet0": {
+      "file": "resources/textures/bullets/bullet0.png",
+      "alpha": true
+    },
+    "bullet1": {
+      "file": "resources/textures/bullets/bullet1.png",
+      "alpha": true
+    },
+    "bullet2": {
+      "file": "resources/textures/bullets/bullet2.png",
+      "alpha": true
+    },
+    "bullet3": {
+      "file": "resources/textures/bullets/bullet3.png",
+      "alpha": true
+    },
+
+    "shop0": {
+      "file": "resources/textures/shops/shop0.png",
       "alpha": true
     }
   },
 
   "flipbooks": {
     "playerIdle": {
-      "directory": "animations/playerIdle",
-      "framesPerSecond": 15.0
+      "directory": "resources/animations/playerIdle",
+      "framesPerSecond": 15.0,
+      "loop": true
     },
     "playerWalking": {
-      "directory": "animations/playerWalking",
-      "framesPerSecond": 25.0
+      "directory": "resources/animations/playerWalking",
+      "framesPerSecond": 25.0,
+      "loop": true
     },
     "playerRunning": {
-      "directory": "animations/playerRunning",
-      "framesPerSecond": 30.0
+      "directory": "resources/animations/playerRunning",
+      "framesPerSecond": 30.0,
+      "loop": true
     },
     "playerTired": {
-      "directory": "animations/playerTired",
-      "framesPerSecond": 10.0
+      "directory": "resources/animations/playerTired",
+      "framesPerSecond": 10.0,
+      "loop": true
     },
+
     "grenadeExplosion": {
-      "directory": "animations/grenadeExplosion",
-      "framesPerSecond": 40.0
+      "directory": "resources/animations/grenadeExplosion",
+      "framesPerSecond": 40.0,
+      "loop": false
     },
     "bulletBlast": {
-      "directory": "animations/bulletBlast",
-      "framesPerSecond": 40.0
+      "directory": "resources/animations/bulletBlast",
+      "framesPerSecond": 40.0,
+      "loop": false
+    },
+
+    "doorStatic0": {
+      "directory": "resources/animations/doorStatic0",
+      "framesPerSecond": 1.0,
+      "loop": false
+    },
+    "doorStatic1": {
+      "directory": "resources/animations/doorStatic1",
+      "framesPerSecond": 1.0,
+      "loop": false
+    },
+
+    "doorOpening0": {
+      "directory": "resources/animations/doorOpening0",
+      "framesPerSecond": 5.0,
+      "loop": false
+    },
+    "doorOpening1": {
+      "directory": "resources/animations/doorOpening1",
+      "framesPerSecond": 5.0,
+      "loop": false
+    }
+  },
+
+  "sounds": {
+    "walking": {
+      "file": "resources/sounds/walking.mp3",
+      "mode": 2
+    },
+    "running": {
+      "file": "resources/sounds/running.mp3",
+      "mode": 2
     }
   },
 
@@ -151,8 +231,6 @@
     }
   },
 
-  "maps": {
-    "sandbox": "maps/sandbox.map"
-  }
+  "map": "maps/sandbox.map"
 }
 

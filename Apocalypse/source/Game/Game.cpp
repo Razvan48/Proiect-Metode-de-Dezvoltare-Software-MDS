@@ -1,6 +1,9 @@
 #include "Game.h"
 
 #include <iostream> // TODO: delete
+#include <fstream>
+
+#include <nlohmann/json.hpp>
 
 #include "../WindowManager/WindowManager.h"
 #include "../ResourceManager/ResourceManager.h"
@@ -37,11 +40,27 @@ Game& Game::get()
 
 void Game::loadResources()
 {
+    // Load JSON
+    std::ifstream gameFile("config/game.json");
+    nlohmann::json gameJSON;
+    gameFile >> gameJSON;
+    gameFile.close();
+
     // Load Shaders
     try
     {
-        ResourceManager::loadShader("shaders/sprite.vert", "shaders/sprite.frag", nullptr, "sprite");
-        ResourceManager::loadShader("shaders/text.vert", "shaders/text.frag", nullptr, "text");
+        for (auto& [shaderName, shader] : gameJSON["shaders"].items())
+        {
+            std::string* vertex = new std::string(shader["vertex"].get<std::string>());
+            std::string* fragment = new std::string(shader["fragment"].get<std::string>());
+            std::string* geometry = shader["geometry"].is_null() ? nullptr : new std::string(shader["geometry"].get<std::string>());
+        
+            ResourceManager::loadShader(vertex->c_str(), fragment->c_str(), geometry ? geometry->c_str() : nullptr, shaderName);
+
+            delete vertex;
+            delete fragment;
+            delete geometry;
+        }
     }
     catch (const std::runtime_error& err)
     {
@@ -55,52 +74,13 @@ void Game::loadResources()
     // Load Textures
     try
     {
-        // Floors
-        ResourceManager::loadTexture("resources/textures/floors/.0.png", true, ".0");
-        ResourceManager::loadTexture("resources/textures/floors/.1.png", true, ".1");
-        ResourceManager::loadTexture("resources/textures/floors/.2.png", true, ".2");
-        ResourceManager::loadTexture("resources/textures/floors/.3.png", true, ".3");
-        ResourceManager::loadTexture("resources/textures/floors/.4.png", true, ".4");
-        ResourceManager::loadTexture("resources/textures/floors/.5.png", true, ".5");
-        ResourceManager::loadTexture("resources/textures/floors/.6.png", true, ".6");
-        ResourceManager::loadTexture("resources/textures/floors/.7.png", true, ".7");
-        ResourceManager::loadTexture("resources/textures/floors/.8.png", true, ".8");
-        ResourceManager::loadTexture("resources/textures/floors/.9.png", true, ".9");
-        ResourceManager::loadTexture("resources/textures/floors/.a.png", true, ".a");
+        for (auto& [textureName, texture] : gameJSON["textures"].items())
+        {
+            std::string file = texture["file"].get<std::string>();
+            bool alpha = texture["alpha"].get<bool>();
 
-        // Walls
-        ResourceManager::loadTexture("resources/textures/walls/M0.png", true, "M0");
-        ResourceManager::loadTexture("resources/textures/walls/M1.png", true, "M1");
-        ResourceManager::loadTexture("resources/textures/walls/M2.png", true, "M2");
-
-        // Frames
-        ResourceManager::loadTexture("resources/textures/hud/weaponFrame.png", true, "weaponFrame");
-        ResourceManager::loadTexture("resources/textures/hud/healthFrame.png", true, "healthFrame");
-        ResourceManager::loadTexture("resources/textures/hud/staminaFrame.png", true, "staminaFrame");
-        ResourceManager::loadTexture("resources/textures/hud/armorFrame.png", true, "armorFrame");
-
-        ResourceManager::loadTexture("resources/textures/hud/red.png", false, "redBar");
-        ResourceManager::loadTexture("resources/textures/hud/green.png", false, "greenBar");
-        ResourceManager::loadTexture("resources/textures/hud/blue.png", false, "blueBar");
-
-        // Weapons
-        ResourceManager::loadTexture("resources/textures/hud/fist0.png", true, "fist0");
-        ResourceManager::loadTexture("resources/textures/hud/knife0.png", true, "knife0");
-        ResourceManager::loadTexture("resources/textures/hud/pistol0.png", true, "pistol0");
-        ResourceManager::loadTexture("resources/textures/hud/grenade0.png", true, "grenade0");
-        ResourceManager::loadTexture("resources/textures/hud/shotgun0.png", true, "shotgun0");
-        ResourceManager::loadTexture("resources/textures/hud/automated0.png", true, "automated0");
-        ResourceManager::loadTexture("resources/textures/hud/automated1.png", true, "automated1");
-        ResourceManager::loadTexture("resources/textures/hud/minigun0.png", true, "minigun0");
-
-        // Bullets
-        ResourceManager::loadTexture("resources/textures/bullets/bullet0.png", true, "bullet0");
-        ResourceManager::loadTexture("resources/textures/bullets/bullet1.png", true, "bullet1");
-        ResourceManager::loadTexture("resources/textures/bullets/bullet2.png", true, "bullet2");
-        ResourceManager::loadTexture("resources/textures/bullets/bullet3.png", true, "bullet3");
-
-        // Shops
-        ResourceManager::loadTexture("resources/textures/shops/shop0.png", true, "shop0");
+            ResourceManager::loadTexture(file.c_str(), alpha, textureName);
+        }
     }
     catch (const std::runtime_error& err)
     {
@@ -114,22 +94,14 @@ void Game::loadResources()
     // Load Flipbooks
     try
     {
-        // Player Animations
-        ResourceManager::loadFlipbook("resources/animations/playerIdle", 15.0, true, "playerIdle");
-        ResourceManager::loadFlipbook("resources/animations/playerWalking", 25.0, true, "playerWalking");
-        ResourceManager::loadFlipbook("resources/animations/playerRunning", 30.0, true, "playerRunning");
-        ResourceManager::loadFlipbook("resources/animations/playerTired", 10.0, true, "playerTired");
+        for (auto& [flipbookName, flipbook] : gameJSON["flipbooks"].items())
+        {
+            std::string directory = flipbook["directory"].get<std::string>();
+            double framesPerSecond = flipbook["framesPerSecond"].get<double>();
+            bool loop = flipbook["loop"].get<bool>();
 
-        // Environment Animations
-        ResourceManager::loadFlipbook("resources/animations/grenadeExplosion", 40.0, false, "grenadeExplosion");
-        ResourceManager::loadFlipbook("resources/animations/bulletBlast", 40.0, false, "bulletBlast");
-
-        // Doors
-        ResourceManager::loadFlipbook("resources/animations/doorStatic0", 1.0, false, "doorStatic0");
-        ResourceManager::loadFlipbook("resources/animations/doorStatic1", 1.0, false, "doorStatic1");
-
-        ResourceManager::loadFlipbook("resources/animations/doorOpening0", 5.0, false, "doorOpening0");
-        ResourceManager::loadFlipbook("resources/animations/doorOpening1", 5.0, false, "doorOpening1");
+            ResourceManager::loadFlipbook(directory.c_str(), framesPerSecond, loop, flipbookName);
+        }
     }
     catch (const std::runtime_error& err)
     {
@@ -143,8 +115,13 @@ void Game::loadResources()
     // Load Sounds
     try
     {
-        ResourceManager::loadSound("resources/sounds/walking.mp3", FMOD_LOOP_NORMAL, "walking");
-        ResourceManager::loadSound("resources/sounds/running.mp3", FMOD_LOOP_NORMAL, "running");
+        for (auto& [soundName, sound] : gameJSON["sounds"].items())
+        {
+            std::string file = sound["file"].get<std::string>();
+            int mode = sound["mode"].get<int>();
+
+            ResourceManager::loadSound(file.c_str(), mode, soundName);
+        }
     }
     catch (const std::runtime_error& err)
     {
@@ -158,7 +135,13 @@ void Game::loadResources()
     // Load Fonts
     try
     {
-        ResourceManager::loadFont("fonts/Antonio-Bold.ttf", 24, "Antonio");
+        for (auto& [fontName, font] : gameJSON["fonts"].items())
+        {
+            std::string file = font["file"].get<std::string>();
+            int size = font["size"].get<int>();
+
+            ResourceManager::loadFont(file.c_str(), size, fontName);
+        }
     }
     catch (const std::runtime_error& err)
     {
@@ -167,6 +150,22 @@ void Game::loadResources()
     catch (...)
     {
         std::cout << "ERROR::FONT: other error" << std::endl;
+    }
+
+    // Load Map
+    try
+    {
+        std::string file = gameJSON["map"].get<std::string>();
+
+        Map::get().readMap(file);
+    }
+    catch (const std::runtime_error& err)
+    {
+        std::cout << "ERROR::MAP: " << err.what() << std::endl;
+    }
+    catch (...)
+    {
+        std::cout << "ERROR::MAP: other error" << std::endl;
     }
 
     // Load Entities
@@ -190,20 +189,6 @@ void Game::loadResources()
     glm::mat4 orho = glm::ortho(0.0f, static_cast<float>(WindowManager::get().getWindowWidth()), static_cast<float>(WindowManager::get().getWindowHeight()), 0.0f);
     ResourceManager::getShader("text").use().setMatrix4("projection", orho);
     ResourceManager::getShader("text").use().setInteger("text", 0);
-
-    // Load Map
-    try
-    {
-        Map::get().readMap("maps/sandbox.map");
-    }
-    catch (const std::runtime_error& err)
-    {
-        std::cout << "ERROR::MAP: " << err.what() << std::endl;
-    }
-    catch (...)
-    {
-        std::cout << "ERROR::MAP: other error" << std::endl;
-    }
 }
 
 void Game::run()
