@@ -22,11 +22,13 @@ private:
 	void moveRight();
 	void moveLeft();
 	void run();
+	void interact();
 	void moveUpReleased();
 	void moveDownReleased();
 	void moveRightReleased();
 	void moveLeftReleased();
 	void runReleased();
+	void interactReleased();
 
 	void look(double xpos, double ypos);
 
@@ -51,6 +53,7 @@ private:
 	bool moveRightUsed;
 	bool moveLeftUsed;
 	bool runUsed;
+	bool interactUsed;
 
 	double walkingOffsetSize;
 	double runningOffsetSize;
@@ -76,6 +79,8 @@ public:
 	inline int getGoldCap() const { return this->goldCap; }
 
 	inline void setGold(int gold) { this->gold = gold; }
+
+	inline bool getInteractUsed() const { return this->interactUsed; }
 
 	void draw() override;
 };

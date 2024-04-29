@@ -216,9 +216,6 @@ void Game::run()
     // TODO: de pus in constructor
     Player::get().setupPlayerInputComponent();
     MainMenu::get().setupMainMenuInputComponent();
-    for (int i = 0; i < this->entities.size(); ++i)
-        if (std::dynamic_pointer_cast<Door>(this->entities[i]) != nullptr) // doar pentru usi momentan
-            std::dynamic_pointer_cast<Door>(this->entities[i])->setupPlayerInputComponent(); // TODO: am numit corect functia?
 
     // Setup Input
     InputHandler::setInputComponent(InputHandler::getMenuInputComponent());

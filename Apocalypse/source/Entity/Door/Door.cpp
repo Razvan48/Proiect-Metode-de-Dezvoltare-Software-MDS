@@ -9,8 +9,7 @@ Door::Door(double x, double y, double drawWidth, double drawHeight, double rotat
 	CollidableEntity(x, y, drawWidth, drawHeight, rotateAngle, speed, collideWidth, collideHeight),
 	AnimatedEntity(x, y, drawWidth, drawHeight, rotateAngle, speed, animationsName2D),
 	InteractiveEntity(x, y, drawWidth, drawHeight, rotateAngle, speed, interactionWidth, interactionHeight),
-	openCost(openCost),
-	interactUsed(false)
+	openCost(openCost)
 {
 
 }
@@ -37,29 +36,12 @@ bool Door::isInInteraction()
 
 void Door::onInteraction()
 {
-	if (this->getStatus() != EntityStatus::OPENED && this->interactUsed && Player::get().getGold() >= this->openCost)
+	if (this->getStatus() != EntityStatus::OPENED && Player::get().getInteractUsed() && Player::get().getGold() >= this->openCost)
 	{
 		this->updateStatus(EntityStatus::OPENED);
 
 		Player::get().setGold(Player::get().getGold() - this->openCost);
 	}
-}
-
-void Door::setupPlayerInputComponent()
-{
-	InputHandler::getPlayerInputComponent().bindAction("INTERACT", InputEvent::IE_Pressed, std::bind(&Door::interact, this));
-	InputHandler::getPlayerInputComponent().bindAction("INTERACT", InputEvent::IE_Repeat, std::bind(&Door::interact, this));
-	InputHandler::getPlayerInputComponent().bindAction("INTERACT", InputEvent::IE_Released, std::bind(&Door::interactReleased, this));
-}
-
-void Door::interact()
-{
-	this->interactUsed = true;
-}
-
-void Door::interactReleased()
-{
-	this->interactUsed = false;
 }
 
 void Door::update()

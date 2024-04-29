@@ -224,6 +224,10 @@ void Player::setupPlayerInputComponent()
 	InputHandler::getPlayerInputComponent().bindAxis(std::bind(&Player::look, this, std::placeholders::_1, std::placeholders::_2));
 
 	InputHandler::getPlayerInputComponent().bindAction("PAUSE", InputEvent::IE_Pressed, std::bind(&Player::pauseGame, this));
+
+	InputHandler::getPlayerInputComponent().bindAction("INTERACT", InputEvent::IE_Pressed, std::bind(&Player::interact, this));
+	InputHandler::getPlayerInputComponent().bindAction("INTERACT", InputEvent::IE_Repeat, std::bind(&Player::interact, this));
+	InputHandler::getPlayerInputComponent().bindAction("INTERACT", InputEvent::IE_Released, std::bind(&Player::interactReleased, this));
 }
 
 void Player::moveUp()
@@ -251,6 +255,11 @@ void Player::run()
 	this->runUsed = true;
 }
 
+void Player::interact()
+{
+	this->interactUsed = true;
+}
+
 void Player::moveUpReleased()
 {
 	this->moveUpUsed = false;
@@ -274,6 +283,11 @@ void Player::moveLeftReleased()
 void Player::runReleased()
 {
 	this->runUsed = false;
+}
+
+void Player::interactReleased()
+{
+	this->interactUsed = false;
 }
 
 void Player::shoot()

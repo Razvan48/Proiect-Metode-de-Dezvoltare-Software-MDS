@@ -8,11 +8,6 @@ class Door : public virtual CollidableEntity, public virtual AnimatedEntity, pub
 {
 private:
 
-	bool interactUsed;
-
-	void interact();
-	void interactReleased();
-
 protected:
 	int openCost;
 
@@ -21,8 +16,6 @@ public:
 	virtual ~Door() = default;
 
 	void onCollide(CollidableEntity& other, glm::vec2 overlap) override;
-
-	void setupPlayerInputComponent();
 
 	bool isInInteraction() override;
 	void onInteraction() override;
