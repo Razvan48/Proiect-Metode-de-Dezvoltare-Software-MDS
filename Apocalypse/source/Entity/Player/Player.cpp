@@ -100,8 +100,6 @@ void Player::update()
 
 		if (this->stamina == this->staminaCap)
 			this->status = EntityStatus::IDLE;
-
-		return;
 	}
 
 	if (this->moveUpUsed == true || this->moveDownUsed == true
@@ -121,8 +119,6 @@ void Player::update()
 			if (this->stamina == 0.0)
 			{
 				this->status = EntityStatus::TIRED;
-
-				return;
 			}
 		}
 	}
@@ -134,28 +130,43 @@ void Player::update()
 		this->stamina = std::min(this->stamina, this->staminaCap);
 	}
 
-	// Sounds
+	// Sound
 	switch (this->status)
 	{
 	case EntityStatus::IDLE:
 		SoundManager::get().pause("walking");
+		SoundManager::get().pause("running");
 		break;
 
 	case EntityStatus::WALKING:
 		SoundManager::get().resume("walking");
+		SoundManager::get().pause("running");
 		break;
 
 	case EntityStatus::RUNNING:
 		SoundManager::get().pause("walking");
+		SoundManager::get().resume("running");
 		break;
 
 	case EntityStatus::TIRED:
 		SoundManager::get().pause("walking");
+		SoundManager::get().pause("running");
 		break;
 
 	case EntityStatus::DYING:
 		SoundManager::get().pause("walking");
+		SoundManager::get().pause("running");
 		break;
+
+	default:
+		SoundManager::get().pause("walking");
+		SoundManager::get().pause("running");
+		break;
+	}
+
+	if (this->status == EntityStatus::TIRED)
+	{
+		return;
 	}
 
 	double currentSpeed = this->speed;

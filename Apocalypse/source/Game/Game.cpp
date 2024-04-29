@@ -142,6 +142,7 @@ void Game::loadResources()
     try
     {
         ResourceManager::loadSound("resources/sounds/walking.mp3", FMOD_LOOP_NORMAL, "walking");
+        ResourceManager::loadSound("resources/sounds/running.mp3", FMOD_LOOP_NORMAL, "running");
     }
     catch (const std::runtime_error& err)
     {
@@ -207,6 +208,7 @@ void Game::run()
 
     // Setup Sound System
     SoundManager::get().play("walking", true);
+    SoundManager::get().play("running", true);
 
     while (!glfwWindowShouldClose(WindowManager::get().getWindow()))
     {
