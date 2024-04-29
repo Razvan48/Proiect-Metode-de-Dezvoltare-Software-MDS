@@ -6,14 +6,14 @@
 #include "../Entity/Button/Button.h"
 #include "../ButtonGroup/ButtonGroup.h"
 
-class MainMenu : public virtual TexturableEntity
+class PauseMenu : public virtual TexturableEntity
 {
 private:
-	
+
 	double buttonWidth;
 	double buttonHeight;
 
-	double buttonOffsetX = 200;
+	double buttonOffsetX = 300;
 	double buttonOffsetY = 100;
 	double spaceAfterButton = 5;
 
@@ -22,17 +22,16 @@ private:
 	double getButtonPosX();
 	double getButtonPosY(int index = 0);
 
-	bool isInGame = false;
+	bool isInGame = true;
 
 private:
-	MainMenu(double x, double y, double drawWidth, double drawHeight, double rotateAngle, double speed, const std::string& textureName2D);
-	MainMenu(const std::string& textureName2D); 
-	~MainMenu() = default;
-	MainMenu(const MainMenu& other) = delete;
-	MainMenu& operator=(const MainMenu& other) = delete;
-	MainMenu(const MainMenu&& other) = delete;
-	MainMenu& operator=(const MainMenu&& other) = delete;
-
+	PauseMenu(double x, double y, double drawWidth, double drawHeight, double rotateAngle, double speed, const std::string& textureName2D);
+	PauseMenu(const std::string& textureName2D);
+	~PauseMenu() = default;
+	PauseMenu(const PauseMenu& other) = delete;
+	PauseMenu& operator=(const PauseMenu& other) = delete;
+	PauseMenu(const PauseMenu&& other) = delete;
+	PauseMenu& operator=(const PauseMenu&& other) = delete;
 
 protected:
 	static std::string toUpper(const std::string& s);
@@ -40,12 +39,13 @@ protected:
 	static std::string initCap(const std::string& s);
 
 public:
-	static MainMenu& get();
+	static PauseMenu& get();
 	void draw() override;
 
-	void setupMainMenuInputComponent();
+	void setupPauseMenuInputComponent();
 
 	bool getIsInGame() const { return isInGame; }
+	void setIsInGame(bool isInGame_) { isInGame = isInGame_; }
 
 	void playMenu();
 

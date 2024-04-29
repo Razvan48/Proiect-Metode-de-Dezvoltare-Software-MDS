@@ -36,3 +36,19 @@ void InputComponent::callbackAxis(double xpos, double ypos)
 	}
 }
 
+void InputComponent::replaceAction(const std::string& actionName, const InputEvent& keyEvent, const std::function<void()>& func)
+{
+	std::ifstream inputFile("config/input.json");
+	nlohmann::json inputJSON;
+	inputFile >> inputJSON;
+	inputFile.close();
+
+	keyFunctionCallbacks[inputJSON[actionName]][static_cast<int>(keyEvent)].clear();
+	keyFunctionCallbacks[inputJSON[actionName]][static_cast<int>(keyEvent)].push_back(func);
+}
+
+void InputComponent::replaceAxis(const std::function<void(double, double)>& func)
+{
+	mouseFunctionCallbacks.clear();
+	mouseFunctionCallbacks.push_back(func);
+}

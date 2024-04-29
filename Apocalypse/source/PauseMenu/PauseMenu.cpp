@@ -1,4 +1,4 @@
-#include "MainMenu.h"
+#include "PauseMenu.h"
 #include "../WindowManager/WindowManager.h"
 #include "../Renderer/SpriteRenderer.h"
 #include "../ResourceManager/ResourceManager.h"
@@ -11,58 +11,57 @@
 
 
 
-MainMenu::MainMenu(double x, double y, double drawWidth, double drawHeight, double rotateAngle, double speed, const std::string& textureName2D) :
+PauseMenu::PauseMenu(double x, double y, double drawWidth, double drawHeight, double rotateAngle, double speed, const std::string& textureName2D) :
 	Entity(x, y, drawWidth, drawHeight, rotateAngle, speed),
 	TexturableEntity(x, y, drawWidth, drawHeight, rotateAngle, speed, textureName2D),
 	buttonWidth(drawWidth * 0.75),
 	buttonHeight(drawHeight * 0.1),
 	buttons(std::map<std::string, Button>{
 		{ "quit", Button(getButtonPosX(), getButtonPosY(0), buttonWidth, buttonHeight, 0, 0, buttonWidth, buttonHeight, std::map<AnimatedEntity::EntityStatus, std::string>(), "Quit")},
-		{ "play", Button(getButtonPosX(), getButtonPosY(1), buttonWidth, buttonHeight, 0, 0, buttonWidth, buttonHeight, std::map<AnimatedEntity::EntityStatus, std::string>(), "Play") },
-		{ "settings", Button(getButtonPosX(), getButtonPosY(2), buttonWidth, buttonHeight, 0, 0, buttonWidth, buttonHeight, std::map<AnimatedEntity::EntityStatus, std::string>(), "Settings") }
+		{ "continue", Button(getButtonPosX(), getButtonPosY(1), buttonWidth, buttonHeight, 0, 0, buttonWidth, buttonHeight, std::map<AnimatedEntity::EntityStatus, std::string>(), "Continue") }
 })
-{	
+{
 	buttons.setFunctions(
-		std::map<std::string, std::function<void(Button&)>>{{ButtonGroup::getAny(), MainMenu::hoverAnyButton }},
-		std::map<std::string, std::function<void(Button&)>>{{ButtonGroup::getAny(), MainMenu::hoverLostAnyButton }},
+		std::map<std::string, std::function<void(Button&)>>{{ButtonGroup::getAny(), PauseMenu::hoverAnyButton }},
+		std::map<std::string, std::function<void(Button&)>>{{ButtonGroup::getAny(), PauseMenu::hoverLostAnyButton }},
 		std::map<std::string, std::function<void(Button&)>>{{ButtonGroup::getAny(), [](Button&) {} },
-		{ "play", [](Button&) {
-			MainMenu::get().isInGame = true;
+		{ "continue", [](Button&) {
+			PauseMenu::get().isInGame = true;
 			InputHandler::setInputComponent(InputHandler::getPlayerInputComponent());
 		} } }
 	);
 }
 
 
-MainMenu& MainMenu::get()
+PauseMenu& PauseMenu::get()
 {
-	double dW = WindowManager::get().getWindowWidth(); //  *0.75;
+	double dW = WindowManager::get().getWindowWidth() * 0.6;
 	double dH = WindowManager::get().getWindowHeight();
 	double x = 0;
 	double y = 0;
 
 
-	static MainMenu instance(x, y, dW, dH, 0, 0, ".0");
+	static PauseMenu instance(x, y, dW, dH, 0, 0, ".0");
 	return instance;
 }
 
-void MainMenu::draw()
+void PauseMenu::draw()
 {
 	SpriteRenderer::get().draw(ResourceManager::getShader("sprite"), ResourceManager::getTexture(this->textureName2D), glm::vec2(x, y), glm::vec2(drawWidth, drawHeight), 0);
 
 	buttons.draw();
 }
 
-double MainMenu::getButtonPosX() { return x + buttonOffsetX; }
-double MainMenu::getButtonPosY(int index) { return y + buttonOffsetY + index * (buttonHeight + spaceAfterButton); }
+double PauseMenu::getButtonPosX() { return x + buttonOffsetX; }
+double PauseMenu::getButtonPosY(int index) { return y + buttonOffsetY + index * (buttonHeight + spaceAfterButton); }
 
 
-void MainMenu::setupMainMenuInputComponent()
+void PauseMenu::setupPauseMenuInputComponent()
 {
 	buttons.activate();
 }
 
-void MainMenu::playMenu()
+void PauseMenu::playMenu()
 {
 	while (isInGame == false && !glfwWindowShouldClose(WindowManager::get().getWindow()))
 	{
@@ -91,7 +90,7 @@ void MainMenu::playMenu()
 	}
 }
 
-std::string MainMenu::toUpper(const std::string& s)
+std::string PauseMenu::toUpper(const std::string& s)
 {
 	std::string rez = s;
 	for (size_t i = 0; i < rez.size(); ++i)
@@ -100,7 +99,7 @@ std::string MainMenu::toUpper(const std::string& s)
 	return rez;
 }
 
-std::string MainMenu::toLower(const std::string& s)
+std::string PauseMenu::toLower(const std::string& s)
 {
 	std::string rez = s;
 	for (size_t i = 0; i < rez.size(); ++i)
@@ -109,7 +108,7 @@ std::string MainMenu::toLower(const std::string& s)
 	return rez;
 }
 
-std::string MainMenu::initCap(const std::string& s)
+std::string PauseMenu::initCap(const std::string& s)
 {
 	std::string rez = toLower(s);
 	if (rez.size())
@@ -119,12 +118,12 @@ std::string MainMenu::initCap(const std::string& s)
 }
 
 
-void MainMenu::hoverAnyButton(Button& button)
+void PauseMenu::hoverAnyButton(Button& button)
 {
 	button.setLabel(toUpper(button.getLabel()));
 }
 
-void MainMenu::hoverLostAnyButton(Button& button)
+void PauseMenu::hoverLostAnyButton(Button& button)
 {
 	button.setLabel(initCap(button.getLabel()));
 }

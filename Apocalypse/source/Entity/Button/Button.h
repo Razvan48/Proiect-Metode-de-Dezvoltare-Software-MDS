@@ -12,7 +12,8 @@ protected:
 
 public:
 
-	Button(double x, double y, double drawWidth, double drawHeight, double rotateAngle, double speed, double collideWidth, double collideHeight, const std::map<AnimatedEntity::EntityStatus, std::string>& animationsName2D);
+	Button(double x, double y, double drawWidth, double drawHeight, double rotateAngle, double speed, double collideWidth, double collideHeight, const std::map<AnimatedEntity::EntityStatus, std::string>& animationsName2D, const std::string& label_ = "");
+	Button();
 	virtual ~Button();
 
 	void onCollide(CollidableEntity& other, glm::vec2 overlap) override;

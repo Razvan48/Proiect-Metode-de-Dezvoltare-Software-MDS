@@ -32,6 +32,8 @@ private:
 
 	void shoot();
 
+	void pauseGame();
+
 	double runningSpeed;
 
 	double armor;
@@ -72,6 +74,8 @@ public:
 	inline double getArmorCap() const { return this->armorCap; }
 	inline int getGold() const { return this->gold; }
 	inline int getGoldCap() const { return this->goldCap; }
+
+	inline void setGold(int gold) { this->gold = gold; }
 
 	void draw() override;
 };

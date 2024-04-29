@@ -24,7 +24,7 @@ CollisionManager& CollisionManager::get()
 	return instance;
 }
 
-void CollisionManager::handleCollisions(std::vector<Entity>& entities)
+void CollisionManager::handleCollisions(std::vector<std::shared_ptr<Entity>>& entities)
 {
 	// TODO: implementare
 
@@ -48,25 +48,43 @@ void CollisionManager::handleCollisions(std::vector<Entity>& entities)
 		}
 	}
 
-	// Others
+	// Player vs. Entities
+	// momentan doar door
 	for (int i = 0; i < entities.size(); ++i)
 	{
-		if (dynamic_cast<CollidableEntity*>(&entities[i]) == nullptr)
+		if (std::dynamic_pointer_cast<CollidableEntity>(entities[i]) == nullptr)
+			continue;
+
+		glm::vec2 overlap = std::dynamic_pointer_cast<CollidableEntity>(entities[i])->isInCollision(Player::get());
+
+		if (overlap.x > 0.0 && overlap.y > 0.0)
+		{
+			Player::get().onCollide(*std::dynamic_pointer_cast<CollidableEntity>(entities[i]), overlap);
+			std::dynamic_pointer_cast<CollidableEntity>(entities[i])->onCollide(Player::get(), overlap);
+		}
+	}
+
+	// Others
+	/*
+	for (int i = 0; i < entities.size(); ++i)
+	{
+		if (std::dynamic_pointer_cast<CollidableEntity>(entities[i]) == nullptr)
 			continue;
 
 		for (int j = i + 1; j < entities.size(); ++j)
 		{
-			if ((dynamic_cast<CollidableEntity*>(&entities[j])) == nullptr)
+			if (std::dynamic_pointer_cast<CollidableEntity>(entities[j]) == nullptr)
 				continue;
 
-			glm::vec2 overlap = dynamic_cast<CollidableEntity&>(entities[i]).isInCollision(dynamic_cast<CollidableEntity&>(entities[j]));
+			glm::vec2 overlap = std::dynamic_pointer_cast<CollidableEntity>(entities[i])->isInCollision(*std::dynamic_pointer_cast<CollidableEntity>(entities[j]));
 
 			if (overlap.x > 0.0 && overlap.y > 0.0)
 			{
-				dynamic_cast<CollidableEntity&>(entities[i]).onCollide(dynamic_cast<CollidableEntity&>(entities[j]), overlap);
-				dynamic_cast<CollidableEntity&>(entities[j]).onCollide(dynamic_cast<CollidableEntity&>(entities[i]), overlap);
+				std::dynamic_pointer_cast<CollidableEntity>(entities[i])->onCollide(*std::dynamic_pointer_cast<CollidableEntity>(entities[j]), overlap);
+				std::dynamic_pointer_cast<CollidableEntity>(entities[j])->onCollide(*std::dynamic_pointer_cast<CollidableEntity>(entities[i]), overlap);
 			}
 		}
 	}
+	*/
 }
 

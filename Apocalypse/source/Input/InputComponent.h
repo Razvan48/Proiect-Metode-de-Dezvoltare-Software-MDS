@@ -20,6 +20,9 @@ public:
 
 	void callbackAction(int key, int action);
 	void callbackAxis(double xpos, double ypos);
+	
+	void replaceAction(const std::string& actionName, const InputEvent& keyEvent, const std::function<void()>& func);
+	void replaceAxis(const std::function<void(double, double)>& func);
 
 private:
 	// [key][keyEvent] = vector<> functions

@@ -20,6 +20,6 @@ private:
 public:
 
 	static CollisionManager& get();
-	void handleCollisions(std::vector<Entity>& entities);
+	void handleCollisions(std::vector<std::shared_ptr<Entity>>& entities);
 };
 
