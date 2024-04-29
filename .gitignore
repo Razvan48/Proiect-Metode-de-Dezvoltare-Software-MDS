@@ -412,6 +412,8 @@ vendor/*
 !vendor/premake5/
 !vendor/glad/
 !vendor/stb/
+!vendor/fmod/
+!vendor/fmod/**/
 
 # Ignore TestResults folder
 TestResults/*

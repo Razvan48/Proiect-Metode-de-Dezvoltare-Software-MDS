@@ -10,11 +10,14 @@
 #include <ft2build.h>
 #include FT_FREETYPE_H
 
+#include "../SoundManager/SoundManager.h"
+
 // instantiate static variables
 std::map<std::string, Texture2D> ResourceManager::textures;
 std::map<std::string, Shader> ResourceManager::shaders;
 std::map<std::string, Font> ResourceManager::fonts;
 std::map<std::string, Flipbook> ResourceManager::flipbooks;
+std::map<std::string, FMOD::Sound*> ResourceManager::sounds;
 
 void ResourceManager::loadShader(const char* vShaderFile, const char* fShaderFile, const char* gShaderFile, const std::string& name)
 {
@@ -213,18 +216,25 @@ Font& ResourceManager::getFont(const std::string& name)
 
 void ResourceManager::loadFlipbook(const char* directoryPath, const float& framesPerSecond, const std::string& name)
 {
-	if (std::filesystem::exists(directoryPath) && std::filesystem::is_directory(directoryPath))
+	if (!std::filesystem::exists(directoryPath))
 	{
-		for (const auto& entry : std::filesystem::directory_iterator(directoryPath))
-		{
-			std::string path = entry.path().generic_string();
+		throw std::runtime_error("Cannot find directory: " + std::string(directoryPath));
+	}
 
-			// TODO: delete
-			std::cout << path << std::endl;
+	if (!std::filesystem::is_directory(directoryPath))
+	{
+		throw std::runtime_error("The given path is not a directory: " + std::string(directoryPath));
+	}
+
+	for (const auto& entry : std::filesystem::directory_iterator(directoryPath))
+	{
+		std::string path = entry.path().generic_string();
+
+		// TODO: delete
+		std::cout << path << std::endl;
 			
-			ResourceManager::loadTexture(path.c_str(), true, path);
-			flipbooks[name].addFrame(path);
-		}
+		ResourceManager::loadTexture(path.c_str(), true, path);
+		flipbooks[name].addFrame(path);
 	}
 
 	flipbooks[name].setFramesPerSecond(framesPerSecond);
@@ -239,6 +249,25 @@ Flipbook& ResourceManager::getFlipbook(const std::string& name)
 	}
 
 	return flipbooks[name];
+}
+
+void ResourceManager::loadSound(const char* file, FMOD_MODE mode, const std::string& name)
+{
+	if (SoundManager::get().getSystem()->createSound(file, mode, nullptr, &sounds[name]) != FMOD_OK)
+	{
+		throw std::runtime_error("Failed to load sound: " + std::string(file));
+	}
+}
+
+FMOD::Sound* ResourceManager::getSound(const std::string& name)
+{
+	if (sounds.find(name) == sounds.end())
+	{
+		// TODO: conventie formatare mesaje eroare
+		std::cout << "ERROR::RESOURCEMANAGER: Could not find the sound!\n";
+	}
+
+	return sounds[name];
 }
 
 void ResourceManager::clear()

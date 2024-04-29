@@ -1,5 +1,7 @@
 #include "Game.h"
 
+#include <iostream> // TODO: delete
+
 #include "../WindowManager/WindowManager.h"
 #include "../ResourceManager/ResourceManager.h"
 #include "../Renderer/SpriteRenderer.h"
@@ -12,10 +14,9 @@
 #include "../CollisionManager/CollisionManager.h"
 #include "../InteractionManager/InteractionManager.h"
 #include "../HUD/HUDManager.h"
-
-#include <iostream>
 #include "../MainMenu/MainMenu.h"
 #include "../PauseMenu/PauseMenu.h"
+#include "../SoundManager/SoundManager.h"
 
 Game::Game()
 {
@@ -25,7 +26,7 @@ Game::Game()
 
 Game::~Game()
 {
-
+    // TODO: default?
 }
 
 Game& Game::get()
@@ -139,6 +140,21 @@ void Game::loadResources()
         std::cout << "ERROR::FLIPBOOK: other error" << std::endl;
     }
 
+    // Load Sounds
+    try
+    {
+        ResourceManager::loadSound("resources/sounds/walking.mp3", FMOD_LOOP_NORMAL, "walking");
+        ResourceManager::loadSound("resources/sounds/running.mp3", FMOD_LOOP_NORMAL, "running");
+    }
+    catch (const std::runtime_error& err)
+    {
+        std::cout << "ERROR::SOUND: " << err.what() << std::endl;
+    }
+    catch (...)
+    {
+        std::cout << "ERROR::SOUND: other error" << std::endl;
+    }
+
     // Load Fonts
     try
     {
@@ -204,8 +220,12 @@ void Game::run()
         if (std::dynamic_pointer_cast<Door>(this->entities[i]) != nullptr) // doar pentru usi momentan
             std::dynamic_pointer_cast<Door>(this->entities[i])->setupPlayerInputComponent(); // TODO: am numit corect functia?
 
-    // SetupInput
+    // Setup Input
     InputHandler::setInputComponent(InputHandler::getMenuInputComponent());
+
+    // Setup Sound System
+    SoundManager::get().play("walking", true);
+    SoundManager::get().play("running", true);
 
     while (!glfwWindowShouldClose(WindowManager::get().getWindow()))
     {
@@ -238,6 +258,7 @@ void Game::run()
         // HUD
         HUDManager::get().draw();
 
+        // Main Menu
         MainMenu::get().playMenu();
         PauseMenu::get().playMenu();
 
