@@ -3,6 +3,7 @@
 #include "../Player/Player.h"
 
 #include "../../Input/InputHandler.h"
+#include "../../ResourceManager/ResourceManager.h"
 
 Door::Door(double x, double y, double drawWidth, double drawHeight, double rotateAngle, double speed, double collideWidth, double collideHeight, const std::map<AnimatedEntity::EntityStatus, std::string> animationsName2D, double interactionWidth, double interactionHeight, int openCost) :
 	Entity(x, y, drawWidth, drawHeight, rotateAngle, speed),
@@ -46,9 +47,7 @@ void Door::onInteraction()
 
 void Door::update()
 {
-	// TODO: cum aflam cand animatia de deschidere s-a incheiat ca sa setam collisionActive pe false??
-
-	if (this->getStatus() == EntityStatus::OPENED) // && timpul de cand e opened >= durata animatiei
+	if (this->getStatus() == EntityStatus::OPENED && ResourceManager::getFlipbook(animationsName2D[this->getStatus()]).getIsFinished(GlobalClock::get().getCurrentTime() - this->timeSinceStatus))
 		this->setCollisionActive(false);
 }
 

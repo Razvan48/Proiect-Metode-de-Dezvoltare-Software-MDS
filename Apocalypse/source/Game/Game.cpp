@@ -115,21 +115,21 @@ void Game::loadResources()
     try
     {
         // Player Animations
-        ResourceManager::loadFlipbook("resources/animations/playerIdle", 15.0f, "playerIdle");
-        ResourceManager::loadFlipbook("resources/animations/playerWalking", 25.0f, "playerWalking");
-        ResourceManager::loadFlipbook("resources/animations/playerRunning", 30.0f, "playerRunning");
-        ResourceManager::loadFlipbook("resources/animations/playerTired", 10.0f, "playerTired");
+        ResourceManager::loadFlipbook("resources/animations/playerIdle", 15.0, true, "playerIdle");
+        ResourceManager::loadFlipbook("resources/animations/playerWalking", 25.0, true, "playerWalking");
+        ResourceManager::loadFlipbook("resources/animations/playerRunning", 30.0, true, "playerRunning");
+        ResourceManager::loadFlipbook("resources/animations/playerTired", 10.0, true, "playerTired");
 
         // Environment Animations
-        ResourceManager::loadFlipbook("resources/animations/grenadeExplosion", 40.0f, "grenadeExplosion");
-        ResourceManager::loadFlipbook("resources/animations/bulletBlast", 40.0f, "bulletBlast");
+        ResourceManager::loadFlipbook("resources/animations/grenadeExplosion", 40.0, false, "grenadeExplosion");
+        ResourceManager::loadFlipbook("resources/animations/bulletBlast", 40.0, false, "bulletBlast");
 
         // Doors
-        ResourceManager::loadFlipbook("resources/animations/doorStatic0", 10.0f, "doorStatic0");
-        ResourceManager::loadFlipbook("resources/animations/doorStatic1", 10.0f, "doorStatic1");
+        ResourceManager::loadFlipbook("resources/animations/doorStatic0", 1.0, false, "doorStatic0");
+        ResourceManager::loadFlipbook("resources/animations/doorStatic1", 1.0, false, "doorStatic1");
 
-        ResourceManager::loadFlipbook("resources/animations/doorOpening0", 5.0f, "doorOpening0");
-        ResourceManager::loadFlipbook("resources/animations/doorOpening1", 5.0f, "doorOpening1");
+        ResourceManager::loadFlipbook("resources/animations/doorOpening0", 5.0, false, "doorOpening0");
+        ResourceManager::loadFlipbook("resources/animations/doorOpening1", 5.0, false, "doorOpening1");
     }
     catch (const std::runtime_error& err)
     {

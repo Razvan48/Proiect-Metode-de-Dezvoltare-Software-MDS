@@ -83,15 +83,15 @@ void HUDManager::draw()
 	height = textureScaleHeight + 10;
 
 	std::string gold = std::to_string(Player::get().getGold());
-	TextRenderer::get().draw(ResourceManager::getShader("text"), ResourceManager::getFont("Antonio"), "GOLD: " + gold, width, height, 1.0f, glm::vec3(1.0f, 0.8745f, 0.0f));
+	TextRenderer::get().draw(ResourceManager::getShader("text"), ResourceManager::getFont("Antonio"), "GOLD: " + gold, static_cast<float>(width), static_cast<float>(height), 1.0f, glm::vec3(1.0f, 0.8745f, 0.0f));
 
 	// down-right
 	width = WindowManager::get().getWindowWidth() - textureScaleWidth;
 	height = WindowManager::get().getWindowHeight() - 64;
 
-	TextRenderer::get().draw(ResourceManager::getShader("text"), ResourceManager::getFont("Antonio"), "WAVE: -1", width, height, 1.0f, glm::vec3(1.0f, 0.098f, 0.0f));
+	TextRenderer::get().draw(ResourceManager::getShader("text"), ResourceManager::getFont("Antonio"), "WAVE: -1", static_cast<float>(width), static_cast<float>(height), 1.0f, glm::vec3(1.0f, 0.098f, 0.0f));
 
 	height -= 32;
-	TextRenderer::get().draw(ResourceManager::getShader("text"), ResourceManager::getFont("Antonio"), "KILLS: -1", width, height, 1.0f, glm::vec3(1.0f, 0.098f, 0.0f));
+	TextRenderer::get().draw(ResourceManager::getShader("text"), ResourceManager::getFont("Antonio"), "KILLS: -1", static_cast<float>(width), static_cast<float>(height), 1.0f, glm::vec3(1.0f, 0.098f, 0.0f));
 }
 

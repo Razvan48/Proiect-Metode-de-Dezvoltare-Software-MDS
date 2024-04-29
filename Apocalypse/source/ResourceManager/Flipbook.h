@@ -16,18 +16,21 @@ public:
 
 	// TODO: move constructor
 
-	inline void setFramesPerSecond(const float& framesPerSecond) { this->framesPerSecond = framesPerSecond; }
+	inline void setFramesPerSecond(const double& framesPerSecond) { this->framesPerSecond = framesPerSecond; }
 	inline void addFrame(const std::string& texture) { keyFrames.push_back(texture); }
+	inline void setLoop(bool loop) { this->loop = loop; }
 
 	Texture2D& getTextureAtTime(double time) const;
 	Texture2D& getTextureAtIndex(int index) const;
 	int getNumFrames() const;
+	bool getIsFinished(double time) const;
 
 private:
-	float framesPerSecond;
+	double framesPerSecond;
 	std::vector<std::string> keyFrames;
+	bool loop;
 
-	float getTotalDuration() const;
+	double getTotalDuration() const;
 	int getKeyFrameIndexAtTime(double time) const;
 };
 

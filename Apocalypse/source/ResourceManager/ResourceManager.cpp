@@ -214,7 +214,7 @@ Font& ResourceManager::getFont(const std::string& name)
 	return fonts[name];
 }
 
-void ResourceManager::loadFlipbook(const char* directoryPath, const float& framesPerSecond, const std::string& name)
+void ResourceManager::loadFlipbook(const char* directoryPath, const double& framesPerSecond, bool loop, const std::string& name)
 {
 	if (!std::filesystem::exists(directoryPath))
 	{
@@ -238,6 +238,7 @@ void ResourceManager::loadFlipbook(const char* directoryPath, const float& frame
 	}
 
 	flipbooks[name].setFramesPerSecond(framesPerSecond);
+	flipbooks[name].setLoop(loop);
 }
 
 Flipbook& ResourceManager::getFlipbook(const std::string& name)

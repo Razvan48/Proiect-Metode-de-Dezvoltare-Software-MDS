@@ -41,7 +41,7 @@ public:
 	static Font& getFont(const std::string& name);
 
 	// load and genereate flipbook
-	static void loadFlipbook(const char* directoryPath, const float& framesPerSecond, const std::string& name);
+	static void loadFlipbook(const char* directoryPath, const double& framesPerSecond, bool loop, const std::string& name);
 
 	// retrieve a stored flipbook
 	static Flipbook& getFlipbook(const std::string& name);
