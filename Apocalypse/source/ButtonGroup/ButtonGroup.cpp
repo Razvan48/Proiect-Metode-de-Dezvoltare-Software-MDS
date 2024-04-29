@@ -11,8 +11,7 @@ ButtonGroup::ButtonGroup(const std::map<std::string, Button>& buttons_,
 	const std::map<std::string, std::function<void(Button&)>>& clickFunctions_) : buttons(buttons_),
 																		   hoverFunctions(hoverFunctions_),
 	                                                                       hoverLostFunctions(hoverLostFunctions_),
-	                                                                       clickFunctions(clickFunctions_),
-	                                                                       buttonIsHovered(std::map<std::string, bool>()) {}
+	                                                                       clickFunctions(clickFunctions_) {}
 
 void ButtonGroup::activate()
 {
@@ -26,6 +25,11 @@ void ButtonGroup::onHover(double x, double y)
 	{
 		bool buttonIsHovered = hoverBox(x, y, i.second.getX(), i.second.getY(), i.second.getCollideWidth(), i.second.getCollideHeight());
 		if (buttonIsHovered)
+			i.second.setHovered();
+		else
+			i.second.setDefault();
+
+		if (buttonIsHovered)
 			callHoverFunction(i.first, i.second);
 		else
 			callHoverLostFunction(i.first, i.second);
@@ -34,11 +38,11 @@ void ButtonGroup::onHover(double x, double y)
 
 void ButtonGroup::onClick()
 {
-	for(auto& i : buttonIsHovered)
-		if (i.second == true)
+	for(auto& i : buttons)
+		if (i.second.getStatus() == Button::Status::HOVERED)
 		{
-			buttonIsHovered[i.first] = false;
-			callClickFunction(i.first, buttons[i.first]);
+			// buttonIsHovered[i.first] = false;
+			callClickFunction(i.first, i.second);
 			break; // TODO: e necesar? (daca butoanele nu au overlap, unul singur va avea hover la un moment dat)
 		}
 }
@@ -47,7 +51,6 @@ void ButtonGroup::onClick()
 bool ButtonGroup::hoverBox(double mouseX, double mouseY, double x, double y, double width, double height)
 {
 	return mouseX >= x && mouseX <= x + width && mouseY >= y && mouseY <= y + height;
-
 }
 
 void ButtonGroup::callHoverFunction(std::string ButtonName, Button& button)
@@ -66,8 +69,6 @@ void ButtonGroup::callHoverFunction(std::string ButtonName, Button& button)
 		else
 			throw std::runtime_error("callHoverFunction() error: no function found");
 	}
-
-	buttonIsHovered[ButtonName] = true;
 }
 
 void ButtonGroup::callHoverLostFunction(std::string ButtonName, Button& button)
@@ -87,7 +88,6 @@ void ButtonGroup::callHoverLostFunction(std::string ButtonName, Button& button)
 			throw std::runtime_error("callHoverFunction() error: no function found");
 	}
 
-	buttonIsHovered[ButtonName] = false;
 }
 
 void ButtonGroup::callClickFunction(std::string ButtonName, Button& button)

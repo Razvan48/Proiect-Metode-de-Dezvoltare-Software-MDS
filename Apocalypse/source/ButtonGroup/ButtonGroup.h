@@ -13,7 +13,7 @@ private:
 	std::map<std::string, std::function<void(Button&)>> hoverLostFunctions;
 	std::map<std::string, std::function<void(Button&)>> clickFunctions;
 
-	std::map<std::string, bool> buttonIsHovered;
+	// std::map<std::string, bool> buttonIsHovered;
 
 	static std::string any; // key of a function that can be used with any button 
 

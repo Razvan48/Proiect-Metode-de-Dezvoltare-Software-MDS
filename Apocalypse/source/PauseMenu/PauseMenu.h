@@ -13,8 +13,8 @@ private:
 	double buttonWidth;
 	double buttonHeight;
 
-	double buttonOffsetX = 300;
-	double buttonOffsetY = 100;
+	double buttonOffsetX = 70;
+	double buttonOffsetY = 50;
 	double spaceAfterButton = 5;
 
 	ButtonGroup buttons;

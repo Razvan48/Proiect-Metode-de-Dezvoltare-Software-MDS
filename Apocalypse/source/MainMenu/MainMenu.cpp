@@ -17,9 +17,9 @@ MainMenu::MainMenu(double x, double y, double drawWidth, double drawHeight, doub
 	buttonWidth(drawWidth * 0.75),
 	buttonHeight(drawHeight * 0.1),
 	buttons(std::map<std::string, Button>{
-		{ "quit", Button(getButtonPosX(), getButtonPosY(0), buttonWidth, buttonHeight, 0, 0, buttonWidth, buttonHeight, std::map<AnimatedEntity::EntityStatus, std::string>(), "Quit")},
-		{ "play", Button(getButtonPosX(), getButtonPosY(1), buttonWidth, buttonHeight, 0, 0, buttonWidth, buttonHeight, std::map<AnimatedEntity::EntityStatus, std::string>(), "Play") },
-		{ "settings", Button(getButtonPosX(), getButtonPosY(2), buttonWidth, buttonHeight, 0, 0, buttonWidth, buttonHeight, std::map<AnimatedEntity::EntityStatus, std::string>(), "Settings") }
+		{ "quit", Button(getButtonPosX(), getButtonPosY(0), buttonWidth, buttonHeight, 0, 0, buttonWidth, buttonHeight, std::map<Button::Status, std::string>{{Button::Status::DEFAULT, ".0"}, { Button::Status::HOVERED, ".1" }, { Button::Status::CLICKED, ".2" }}, "Quit")},
+		{ "play", Button(getButtonPosX(), getButtonPosY(1), buttonWidth, buttonHeight, 0, 0, buttonWidth, buttonHeight, std::map<Button::Status, std::string>{{Button::Status::DEFAULT, ".0"}, { Button::Status::HOVERED, ".1" }, { Button::Status::CLICKED, ".2" }}, "Play") },
+		{ "settings", Button(getButtonPosX(), getButtonPosY(2), buttonWidth, buttonHeight, 0, 0, buttonWidth, buttonHeight, std::map<Button::Status, std::string>{{Button::Status::DEFAULT, ".0"}, { Button::Status::HOVERED, ".1" }, { Button::Status::CLICKED, ".2" }}, "Settings") }
 })
 {	
 	buttons.setFunctions(
@@ -31,6 +31,7 @@ MainMenu::MainMenu(double x, double y, double drawWidth, double drawHeight, doub
 			InputHandler::setInputComponent(InputHandler::getPlayerInputComponent());
 		} } }
 	);
+
 }
 
 
@@ -51,10 +52,18 @@ void MainMenu::draw()
 	SpriteRenderer::get().draw(ResourceManager::getShader("sprite"), ResourceManager::getTexture(this->textureName2D), glm::vec2(x, y), glm::vec2(drawWidth, drawHeight), 0);
 
 	buttons.draw();
+
 }
 
-double MainMenu::getButtonPosX() { return x + buttonOffsetX; }
-double MainMenu::getButtonPosY(int index) { return y + buttonOffsetY + index * (buttonHeight + spaceAfterButton); }
+double MainMenu::getButtonPosX() {
+	return x + WindowManager::get().getWindowWidth() / 2.0 - drawWidth / 2 + buttonOffsetX;
+	// return  buttonOffsetX;
+}
+
+double MainMenu::getButtonPosY(int index) {
+	return -y + WindowManager::get().getWindowHeight() / 2.0 - drawHeight / 2 + buttonOffsetY + index * (buttonHeight + spaceAfterButton);
+	// return drawHeight / 2.0 - buttonOffsetY - buttonHeight / 2.0 - index * (buttonHeight + spaceAfterButton);
+}
 
 
 void MainMenu::setupMainMenuInputComponent()
@@ -121,10 +130,12 @@ std::string MainMenu::initCap(const std::string& s)
 
 void MainMenu::hoverAnyButton(Button& button)
 {
+	button.setHovered();
 	button.setLabel(toUpper(button.getLabel()));
 }
 
 void MainMenu::hoverLostAnyButton(Button& button)
 {
+	button.setDefault();
 	button.setLabel(initCap(button.getLabel()));
 }

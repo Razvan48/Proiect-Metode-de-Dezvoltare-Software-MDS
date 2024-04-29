@@ -17,8 +17,8 @@ PauseMenu::PauseMenu(double x, double y, double drawWidth, double drawHeight, do
 	buttonWidth(drawWidth * 0.75),
 	buttonHeight(drawHeight * 0.1),
 	buttons(std::map<std::string, Button>{
-		{ "quit", Button(getButtonPosX(), getButtonPosY(0), buttonWidth, buttonHeight, 0, 0, buttonWidth, buttonHeight, std::map<AnimatedEntity::EntityStatus, std::string>(), "Quit")},
-		{ "continue", Button(getButtonPosX(), getButtonPosY(1), buttonWidth, buttonHeight, 0, 0, buttonWidth, buttonHeight, std::map<AnimatedEntity::EntityStatus, std::string>(), "Continue") }
+		{ "quit", Button(getButtonPosX(), getButtonPosY(0), buttonWidth, buttonHeight, 0, 0, buttonWidth, buttonHeight, std::map<Button::Status, std::string>{{Button::Status::DEFAULT, ".0"}, { Button::Status::HOVERED, ".1" }, { Button::Status::CLICKED, ".2" }}, "Quit")},
+		{ "continue", Button(getButtonPosX(), getButtonPosY(1), buttonWidth, buttonHeight, 0, 0, buttonWidth, buttonHeight, std::map<Button::Status, std::string>{{Button::Status::DEFAULT, ".0"}, { Button::Status::HOVERED, ".1" }, { Button::Status::CLICKED, ".2" }}, "Continue") }
 })
 {
 	buttons.setFunctions(
@@ -36,7 +36,7 @@ PauseMenu::PauseMenu(double x, double y, double drawWidth, double drawHeight, do
 PauseMenu& PauseMenu::get()
 {
 	double dW = WindowManager::get().getWindowWidth() * 0.6;
-	double dH = WindowManager::get().getWindowHeight();
+	double dH = WindowManager::get().getWindowHeight()* 0.5;
 	double x = 0;
 	double y = 0;
 
@@ -52,8 +52,15 @@ void PauseMenu::draw()
 	buttons.draw();
 }
 
-double PauseMenu::getButtonPosX() { return x + buttonOffsetX; }
-double PauseMenu::getButtonPosY(int index) { return y + buttonOffsetY + index * (buttonHeight + spaceAfterButton); }
+double PauseMenu::getButtonPosX() {
+	return x + WindowManager::get().getWindowWidth() / 2.0 - drawWidth / 2 + buttonOffsetX;
+	// return  buttonOffsetX;
+}
+
+double PauseMenu::getButtonPosY(int index) {
+	return -y + WindowManager::get().getWindowHeight() / 2.0 - drawHeight / 2 + buttonOffsetY + index * (buttonHeight + spaceAfterButton);
+	// return drawHeight / 2.0 - buttonOffsetY - buttonHeight / 2.0 - index * (buttonHeight + spaceAfterButton);
+}
 
 
 void PauseMenu::setupPauseMenuInputComponent()
@@ -120,10 +127,12 @@ std::string PauseMenu::initCap(const std::string& s)
 
 void PauseMenu::hoverAnyButton(Button& button)
 {
+	button.setHovered();
 	button.setLabel(toUpper(button.getLabel()));
 }
 
 void PauseMenu::hoverLostAnyButton(Button& button)
 {
+	button.setDefault();
 	button.setLabel(initCap(button.getLabel()));
 }

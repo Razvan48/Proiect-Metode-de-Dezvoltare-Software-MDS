@@ -1,18 +1,32 @@
 #pragma once
 
 #include "../CollidableEntity.h"
-#include "../AnimatedEntity.h"
+#include "../TexturableEntity.h"
 
 #include <map>
 
-class Button : public virtual CollidableEntity, public virtual AnimatedEntity
+class Button : public virtual CollidableEntity, public virtual TexturableEntity
 {
+public:
+
+	static enum class Status
+	{
+		DEFAULT = 0,
+		HOVERED = 1,
+		CLICKED = 2
+	};
+
 protected:
+
 	std::string label;
+	std::map<Button::Status, std::string> status_TextureNames;
+	Status status = Button::Status::DEFAULT;
+
+	void updateTexture();
 
 public:
 
-	Button(double x, double y, double drawWidth, double drawHeight, double rotateAngle, double speed, double collideWidth, double collideHeight, const std::map<AnimatedEntity::EntityStatus, std::string>& animationsName2D, const std::string& label_ = "");
+	Button(double x, double y, double drawWidth, double drawHeight, double rotateAngle, double speed, double collideWidth, double collideHeight, const std::map<Button::Status, std::string>& status_TextureNames_, const std::string& label_ = "");
 	Button();
 	virtual ~Button();
 
@@ -26,4 +40,12 @@ public:
 
 	void setX(double x) { this->x = x; }
 	void setY(double y) { this->y = y; }
+
+	void setStatus(Button::Status st) { status = st; }
+	Button::Status getStatus() const { return status; }
+
+	void setDefault();
+	void setHovered();
+	void setClicked();
+
 };
