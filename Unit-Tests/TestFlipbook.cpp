@@ -26,8 +26,8 @@ namespace TestFlipbook
 
                 for (int i = 0; i < ResourceManager::getFlipbook("playerIdle").getNumFrames(); i++)
                 {
-                    Assert::AreEqual(static_cast<unsigned int>(128), ResourceManager::getFlipbook("playerIdle").getTextureAtIndex(i).width); // 128
-                    Assert::AreEqual(static_cast<unsigned int>(128), ResourceManager::getFlipbook("playerIdle").getTextureAtIndex(i).height); // 128
+                    Assert::AreEqual(128u, ResourceManager::getFlipbook("playerIdle").getTextureAtIndex(i).width); // 128
+                    Assert::AreEqual(128u, ResourceManager::getFlipbook("playerIdle").getTextureAtIndex(i).height); // 128
                 }
             }
             catch (const std::runtime_error& err)
@@ -52,8 +52,8 @@ namespace TestFlipbook
 
                 for (int i = 0; i < ResourceManager::getFlipbook("playerWalking").getNumFrames(); i++)
                 {
-                    Assert::AreEqual(static_cast<unsigned int>(128), ResourceManager::getFlipbook("playerWalking").getTextureAtIndex(i).width); // 128
-                    Assert::AreEqual(static_cast<unsigned int>(128), ResourceManager::getFlipbook("playerWalking").getTextureAtIndex(i).height); // 128
+                    Assert::AreEqual(128u, ResourceManager::getFlipbook("playerWalking").getTextureAtIndex(i).width); // 128
+                    Assert::AreEqual(128u, ResourceManager::getFlipbook("playerWalking").getTextureAtIndex(i).height); // 128
                 }
             }
             catch (const std::runtime_error& err)
@@ -78,8 +78,8 @@ namespace TestFlipbook
 
                 for (int i = 0; i < ResourceManager::getFlipbook("playerRunning").getNumFrames(); i++)
                 {
-                    Assert::AreEqual(static_cast<unsigned int>(128), ResourceManager::getFlipbook("playerRunning").getTextureAtIndex(i).width); // 128
-                    Assert::AreEqual(static_cast<unsigned int>(128), ResourceManager::getFlipbook("playerRunning").getTextureAtIndex(i).height); // 128
+                    Assert::AreEqual(128u, ResourceManager::getFlipbook("playerRunning").getTextureAtIndex(i).width); // 128
+                    Assert::AreEqual(128u, ResourceManager::getFlipbook("playerRunning").getTextureAtIndex(i).height); // 128
                 }
             }
             catch (const std::runtime_error& err)
@@ -104,8 +104,8 @@ namespace TestFlipbook
 
                 for (int i = 0; i < ResourceManager::getFlipbook("playerTired").getNumFrames(); i++)
                 {
-                    Assert::AreEqual(static_cast<unsigned int>(128), ResourceManager::getFlipbook("playerTired").getTextureAtIndex(i).width); // 128
-                    Assert::AreEqual(static_cast<unsigned int>(128), ResourceManager::getFlipbook("playerTired").getTextureAtIndex(i).height); // 128
+                    Assert::AreEqual(128u, ResourceManager::getFlipbook("playerTired").getTextureAtIndex(i).width); // 128
+                    Assert::AreEqual(128u, ResourceManager::getFlipbook("playerTired").getTextureAtIndex(i).height); // 128
                 }
             }
             catch (const std::runtime_error& err)

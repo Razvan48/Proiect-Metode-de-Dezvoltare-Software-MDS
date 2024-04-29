@@ -22,8 +22,8 @@ namespace TestTexture
             {
                 ResourceManager::loadTexture("../../../Apocalypse/resources/textures/OpenGL-test.png", true, "OpenGL-Logo");
 
-                Assert::AreEqual(static_cast<unsigned int>(2000), ResourceManager::getTexture("OpenGL-Logo").width); // 2000
-                Assert::AreEqual(static_cast<unsigned int>(867), ResourceManager::getTexture("OpenGL-Logo").height); // 867
+                Assert::AreEqual(2000u, ResourceManager::getTexture("OpenGL-Logo").width); // 2000
+                Assert::AreEqual(867u, ResourceManager::getTexture("OpenGL-Logo").height); // 867
             }
             catch (const std::runtime_error& err)
             {
