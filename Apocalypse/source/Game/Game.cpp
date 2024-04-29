@@ -141,7 +141,7 @@ void Game::loadResources()
     // Load Sounds
     try
     {
-        ResourceManager::loadSound("resources/sounds/footsteps.mp3", "footsteps");
+        ResourceManager::loadSound("resources/sounds/walking.mp3", FMOD_LOOP_NORMAL, "walking");
     }
     catch (const std::runtime_error& err)
     {
@@ -205,8 +205,8 @@ void Game::run()
     // Setup Input
     InputHandler::setInputComponent(InputHandler::getMenuInputComponent());
 
-    // TODO: test
-    SoundManager::get()->playSound(ResourceManager::getSound("footsteps"), 0, false, 0);
+    // Setup Sound System
+    SoundManager::get().play("walking", true);
 
     while (!glfwWindowShouldClose(WindowManager::get().getWindow()))
     {
@@ -233,6 +233,7 @@ void Game::run()
         // HUD
         HUDManager::get().draw();
 
+        // Main Menu
         MainMenu::get().playMenu();
 
         // Update/Tick

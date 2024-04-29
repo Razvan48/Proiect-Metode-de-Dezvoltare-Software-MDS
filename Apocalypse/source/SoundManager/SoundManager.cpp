@@ -2,6 +2,8 @@
 
 #include <iostream> // TODO: delete
 
+#include "../ResourceManager/ResourceManager.h"
+
 // instantiate static variables
 FMOD::System* SoundManager::fmodSystem = nullptr;
 
@@ -26,9 +28,24 @@ SoundManager::~SoundManager()
 	fmodSystem->release();
 }
 
-FMOD::System* SoundManager::get()
+SoundManager& SoundManager::get()
 {
 	static SoundManager instance;
-	return fmodSystem;
+	return instance;
+}
+
+void SoundManager::play(const std::string& name, bool paused)
+{
+	fmodSystem->playSound(ResourceManager::getSound(name), nullptr, paused, &channels[name]);
+}
+
+void SoundManager::pause(const std::string& name)
+{
+	channels[name]->setPaused(true);
+}
+
+void SoundManager::resume(const std::string& name)
+{
+	channels[name]->setPaused(false);
 }
 

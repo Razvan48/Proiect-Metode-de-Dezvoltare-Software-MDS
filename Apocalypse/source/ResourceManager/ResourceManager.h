@@ -47,7 +47,7 @@ public:
 	static Flipbook& getFlipbook(const std::string& name);
 
 	// load a new sound
-	static void loadSound(const char* file, const std::string& name);
+	static void loadSound(const char* file, FMOD_MODE mode, const std::string& name);
 
 	// retrieve a stored sound
 	static FMOD::Sound* getSound(const std::string& name);

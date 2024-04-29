@@ -8,6 +8,7 @@
 #include "../../WindowManager/WindowManager.h"
 #include "../../Camera/Camera.h"
 #include "../../Renderer/SpriteRenderer.h"
+#include "../../SoundManager/SoundManager.h"
 
 #include <iostream> // Debug
 #include <memory>
@@ -131,6 +132,30 @@ void Player::update()
 
 		this->stamina += this->staminaChangeSpeed * GlobalClock::get().getDeltaTime();
 		this->stamina = std::min(this->stamina, this->staminaCap);
+	}
+
+	// Sounds
+	switch (this->status)
+	{
+	case EntityStatus::IDLE:
+		SoundManager::get().pause("walking");
+		break;
+
+	case EntityStatus::WALKING:
+		SoundManager::get().resume("walking");
+		break;
+
+	case EntityStatus::RUNNING:
+		SoundManager::get().pause("walking");
+		break;
+
+	case EntityStatus::TIRED:
+		SoundManager::get().pause("walking");
+		break;
+
+	case EntityStatus::DYING:
+		SoundManager::get().pause("walking");
+		break;
 	}
 
 	double currentSpeed = this->speed;

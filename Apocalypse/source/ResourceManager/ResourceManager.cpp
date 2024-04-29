@@ -216,18 +216,25 @@ Font& ResourceManager::getFont(const std::string& name)
 
 void ResourceManager::loadFlipbook(const char* directoryPath, const float& framesPerSecond, const std::string& name)
 {
-	if (std::filesystem::exists(directoryPath) && std::filesystem::is_directory(directoryPath))
+	if (!std::filesystem::exists(directoryPath))
 	{
-		for (const auto& entry : std::filesystem::directory_iterator(directoryPath))
-		{
-			std::string path = entry.path().generic_string();
+		throw std::runtime_error("Cannot find directory: " + std::string(directoryPath));
+	}
 
-			// TODO: delete
-			std::cout << path << std::endl;
+	if (!std::filesystem::is_directory(directoryPath))
+	{
+		throw std::runtime_error("The given path is not a directory: " + std::string(directoryPath));
+	}
+
+	for (const auto& entry : std::filesystem::directory_iterator(directoryPath))
+	{
+		std::string path = entry.path().generic_string();
+
+		// TODO: delete
+		std::cout << path << std::endl;
 			
-			ResourceManager::loadTexture(path.c_str(), true, path);
-			flipbooks[name].addFrame(path);
-		}
+		ResourceManager::loadTexture(path.c_str(), true, path);
+		flipbooks[name].addFrame(path);
 	}
 
 	flipbooks[name].setFramesPerSecond(framesPerSecond);
@@ -244,9 +251,12 @@ Flipbook& ResourceManager::getFlipbook(const std::string& name)
 	return flipbooks[name];
 }
 
-void ResourceManager::loadSound(const char* file, const std::string& name)
+void ResourceManager::loadSound(const char* file, FMOD_MODE mode, const std::string& name)
 {
-	SoundManager::get()->createSound(file, FMOD_LOOP_OFF, 0, &sounds[name]);
+	if (SoundManager::get().getSystem()->createSound(file, mode, nullptr, &sounds[name]) != FMOD_OK)
+	{
+		throw std::runtime_error("Failed to load sound: " + std::string(file));
+	}
 }
 
 FMOD::Sound* ResourceManager::getSound(const std::string& name)
