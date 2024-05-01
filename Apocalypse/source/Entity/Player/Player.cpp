@@ -1,19 +1,21 @@
 #include "Player.h"
 
-#include "../Wall/Wall.h"
+#include <iostream> // TODO: debug
+#include <fstream>
+#include <memory>
+#include <cmath>
 
+#include <nlohmann/json.hpp>
+
+#include "../../WindowManager/WindowManager.h"
 #include "../../ResourceManager/ResourceManager.h"
 #include "../../Input/InputHandler.h"
 #include "../../GlobalClock/GlobalClock.h"
-#include "../../WindowManager/WindowManager.h"
 #include "../../Camera/Camera.h"
 #include "../../Renderer/SpriteRenderer.h"
 #include "../../SoundManager/SoundManager.h"
-
-#include <iostream> // Debug
-#include <memory>
-#include <cmath>
 #include "../../PauseMenu/PauseMenu.h"
+#include "../Wall/Wall.h"
 
 Player::Player(double x, double y, double drawWidth, double drawHeight, double rotateAngle, double speed, double collideWidth, double collideHeight, const std::map<AnimatedEntity::EntityStatus, std::string>& animationsName2D, double runningSpeed, double health = 100.0, double stamina = 100.0, double armor = 0.0) :
 	Entity(x, y, drawWidth, drawHeight, rotateAngle, speed),
@@ -352,5 +354,46 @@ void Player::draw()
 			SpriteRenderer::get().draw(ResourceManager::getShader("sprite"), ResourceManager::getFlipbook(this->animationsName2D[this->status]).getTextureAtTime(GlobalClock::get().getCurrentTime() - this->timeSinceStatus), Camera::get().screenPosition(this->x, this->y), Camera::get().screenSize(this->drawWidth, this->drawHeight), this->rotateAngle);
 		}
 	}
+}
+
+void Player::save()
+{
+	std::ofstream saveFile("config/save.json");
+	nlohmann::json saveJSON;
+
+	saveJSON["health"] = health;
+	saveJSON["healthCap"] = healthCap;
+
+	saveJSON["armor"] = armor;
+	saveJSON["armorCap"] = armorCap;
+
+	saveJSON["staminaCap"] = staminaCap;
+
+	saveJSON["gold"] = gold;
+
+	// TODO
+
+	saveFile << std::setw(4) << saveJSON << std::endl;
+	saveFile.close();
+}
+
+void Player::load()
+{
+	std::ifstream saveFile("config/save.json");
+	nlohmann::json saveJSON;
+	saveFile >> saveJSON;
+	saveFile.close();
+
+	health = saveJSON["health"].get<double>();
+	healthCap = saveJSON["healthCap"].get<double>();
+
+	armor = saveJSON["armor"].get<double>();
+	armorCap = saveJSON["armorCap"].get<double>();
+
+	staminaCap = saveJSON["staminaCap"].get<double>();
+
+	gold = saveJSON["gold"].get<int>();
+
+	// TODO
 }
 

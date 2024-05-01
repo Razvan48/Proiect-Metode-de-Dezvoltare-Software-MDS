@@ -418,3 +418,5 @@ vendor/*
 # Ignore TestResults folder
 TestResults/*
 
+# Ignore save.json
+Apocalypse/config/save.json

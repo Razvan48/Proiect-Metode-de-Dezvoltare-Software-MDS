@@ -43,7 +43,7 @@ private:
 
 	double stamina;
 	double staminaChangeSpeed;
-	const double staminaCap;
+	double staminaCap;
 
 	int gold;
 	const int goldCap;
@@ -83,5 +83,8 @@ public:
 	inline bool getInteractUsed() const { return this->interactUsed; }
 
 	void draw() override;
+
+	void save();
+	void load();
 };
 

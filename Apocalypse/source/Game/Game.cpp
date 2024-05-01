@@ -209,6 +209,9 @@ void Game::run()
     SoundManager::get().play("walking", true);
     SoundManager::get().play("running", true);
 
+    // TODO: test
+    // Player::get().load();
+
     while (!glfwWindowShouldClose(WindowManager::get().getWindow()))
     {
         // Input
@@ -256,6 +259,9 @@ void Game::run()
         // Check if any events have been activated (key pressed, mouse moved etc.) and call corresponding response functions
         glfwPollEvents();
     }
+
+    // TODO: test
+    Player::get().save();
 }
 
 void Game::updateEntities()
