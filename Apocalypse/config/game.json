@@ -133,6 +133,10 @@
       "file": "resources/textures/hud/minigun0.png",
       "alpha": true
     },
+    "medicalKit0": {
+      "file": "resources/textures/hud/medicalKit0.png",
+      "alpha": true
+    },
 
     "bullet0": {
       "file": "resources/textures/bullets/bullet0.png",
@@ -150,7 +154,6 @@
       "file": "resources/textures/bullets/bullet3.png",
       "alpha": true
     },
-
     "shop0": {
       "file": "resources/textures/shops/shop0.png",
       "alpha": true
@@ -178,6 +181,105 @@
       "framesPerSecond": 10.0,
       "loop": true
     },
+
+
+
+
+    "armsHoldingGrenade": {
+      "directory": "resources/animations/playerComponents/arms/armsHoldingGrenade",
+      "framesPerSecond": 1.0,
+      "loop": true
+    },
+    "armsHoldingKnife": {
+      "directory": "resources/animations/playerComponents/arms/armsHoldingKnife",
+      "framesPerSecond": 1.0,
+      "loop": true
+    },
+    "armsHoldingPistol": {
+      "directory": "resources/animations/playerComponents/arms/armsHoldingPistol",
+      "framesPerSecond": 1.0,
+      "loop": true
+    },
+    "armsMovingAhead": {
+      "directory": "resources/animations/playerComponents/arms/armsMovingAhead",
+      "framesPerSecond": 15.0,
+      "loop": true
+    },
+    "armsMovingAroundWalking": {
+      "directory": "resources/animations/playerComponents/arms/armsMovingAround",
+      "framesPerSecond": 25.0,
+      "loop": true
+    },
+    "armsMovingAroundRunning": {
+      "directory": "resources/animations/playerComponents/arms/armsMovingAround",
+      "framesPerSecond": 30.0,
+      "loop": true
+    },
+    "armsNot": {
+      "directory": "resources/animations/playerComponents/arms/armsNot",
+      "framesPerSecond": 1.0,
+      "loop": true
+    },
+    "armsReloadingPistol": {
+      "directory": "resources/animations/playerComponents/arms/armsReloadingPistol",
+      "framesPerSecond": 15.0,
+      "loop": false
+    },
+    "armsUsingGrenade": {
+      "directory": "resources/animations/playerComponents/arms/armsUsingGrenade",
+      "framesPerSecond": 1.0,
+      "loop": false
+    },
+    "armsUsingKnife": {
+      "directory": "resources/animations/playerComponents/arms/armsUsingKnife",
+      "framesPerSecond": 15.0,
+      "loop": false
+    },
+    "armsUsingPistol": {
+      "directory": "resources/animations/playerComponents/arms/armsUsingPistol",
+      "framesPerSecond": 15.0,
+      "loop": false
+    },
+    "bodyIdle": {
+      "directory": "resources/animations/playerComponents/body/bodyIdle",
+      "framesPerSecond": 1.0,
+      "loop": true
+    },
+    "headAngry": {
+      "directory": "resources/animations/playerComponents/head/headAngry",
+      "framesPerSecond": 30.0,
+      "loop": false
+    },
+    "headIdle": {
+      "directory": "resources/animations/playerComponents/head/headIdle",
+      "framesPerSecond": 1.0,
+      "loop": true
+    },
+    "headSatisfied": {
+      "directory": "resources/animations/playerComponents/head/headSatisfied",
+      "framesPerSecond": 30.0,
+      "loop": false
+    },
+    "headTired": {
+      "directory": "resources/animations/playerComponents/head/headTired",
+      "framesPerSecond": 10.0,
+      "loop": true
+    },
+    "legsMovingAround": {
+      "directory": "resources/animations/playerComponents/legs/legsMovingAround",
+      "framesPerSecond": 30.0,
+      "loop": true
+    },
+    "legsNot": {
+      "directory": "resources/animations/playerComponents/legs/legsNot",
+      "framesPerSecond": 1.0,
+      "loop": true
+    },
+
+
+
+
+
 
     "grenadeExplosion": {
       "directory": "resources/animations/grenadeExplosion",

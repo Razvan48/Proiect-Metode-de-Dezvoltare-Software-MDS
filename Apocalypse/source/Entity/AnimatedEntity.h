@@ -24,7 +24,18 @@ public:
 		DYING,
 		OPENED,
 		HOVERED,
-		CLICKED
+		CLICKED,
+
+		/*
+		BODY_IDLE,
+		ARMS_IDLE,
+		LEGS_IDLE,
+		ARMS_WALKING,
+		ARMS_RUNNING,
+		HEAD_IDLE,
+		HEAD_TIRED,
+		LEGS_RUNNING,
+		*/
 	};
 
 protected:
