@@ -25,7 +25,8 @@ Player::Player(double x, double y, double drawWidth, double drawHeight, double r
 	runningSpeed(runningSpeed), stamina(stamina), armor(armor), armorCap(100.0), staminaChangeSpeed(50.0), staminaCap(100.0), gold(0), goldCap(9999999), // TODO: mai frumos pt goldCap se poate?
 	moveUpUsed(false), moveDownUsed(false), moveRightUsed(false), moveLeftUsed(false), runUsed(false), interactUsed(false),
 	walkingOffsetSize(0.01), runningOffsetSize(0.05),
-	walkingOffsetSpeed(10.0), runningOffsetSpeed(15.0)
+	walkingOffsetSpeed(10.0), runningOffsetSpeed(15.0),
+	headStatus(EntityStatus::HEAD_IDLE), bodyStatus(EntityStatus::BODY_IDLE), armsStatus(EntityStatus::ARMS_MOVING_AHEAD), legsStatus(EntityStatus::LEGS_NOT)
 {
 
 }
@@ -354,6 +355,8 @@ void Player::draw()
 			SpriteRenderer::get().draw(ResourceManager::getShader("sprite"), ResourceManager::getFlipbook(this->animationsName2D[this->status]).getTextureAtTime(GlobalClock::get().getCurrentTime() - this->timeSinceStatus), Camera::get().screenPosition(this->x, this->y), Camera::get().screenSize(this->drawWidth, this->drawHeight), this->rotateAngle);
 		}
 	}
+
+	//SpriteRenderer::get().draw(ResourceManager::getShader("sprite"), ResourceManager::getFlipbook(this->animationsName2D[this->status]).getTextureAtTime(GlobalClock::get().getCurrentTime() - this->timeSinceStatus), Camera::get().screenPosition(this->x, this->y), Camera::get().screenSize(this->drawWidth, this->drawHeight), this->rotateAngle);
 }
 
 void Player::save()

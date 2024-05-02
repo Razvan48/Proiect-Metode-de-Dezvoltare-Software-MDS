@@ -10,6 +10,8 @@
 
 class AnimatedEntity : public virtual Entity
 {
+private:
+
 	friend class MainMenu;
 
 public:
@@ -36,6 +38,28 @@ public:
 		HEAD_TIRED,
 		LEGS_RUNNING,
 		*/
+
+		ARMS_HOLDING_GRENADE,
+		ARMS_HOLDING_KNIFE,
+		ARMS_HOLDING_PISTOL,
+		ARMS_MOVING_AHEAD,
+		ARMS_MOVING_AROUND_WALKING,
+		ARMS_MOVING_AROUND_RUNNING,
+		ARMS_NOT,
+		ARMS_RELOADING_PISTOL,
+		ARMS_USING_GRENADE,
+		ARMS_USING_KNIFE,
+		ARMS_USING_PISTOL,
+
+		BODY_IDLE,
+
+		HEAD_ANGRY,
+		HEAD_IDLE,
+		HEAD_SATISFIED,
+		HEAD_TIRED,
+
+		LEGS_MOVING_AROUND,
+		LEGS_NOT,
 	};
 
 protected:

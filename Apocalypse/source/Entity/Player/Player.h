@@ -62,6 +62,11 @@ private:
 
 	std::vector<Weapon> weapons;
 
+	EntityStatus headStatus;
+	EntityStatus bodyStatus;
+	EntityStatus armsStatus;
+	EntityStatus legsStatus;
+
 public:
 
 	static Player& get();
