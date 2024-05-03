@@ -4,6 +4,7 @@
 #include "../Weapon/Weapon.h"
 
 #include <glm/vec2.hpp>
+#include <memory>
 
 class Player : public virtual Human // singleton
 {
@@ -60,7 +61,7 @@ private:
 	double walkingOffsetSpeed;
 	double runningOffsetSpeed;
 
-	std::vector<Weapon> weapons;
+	std::vector<std::shared_ptr<Weapon>> weapons;
 
 public:
 
