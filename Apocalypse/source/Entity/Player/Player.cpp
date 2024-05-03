@@ -29,6 +29,7 @@ Player::Player(double x, double y, double drawWidth, double drawHeight, double r
 	moveUpUsed(false), moveDownUsed(false), moveRightUsed(false), moveLeftUsed(false), runUsed(false), interactUsed(false),
 	walkingOffsetSize(0.01), runningOffsetSize(0.05),
 	walkingOffsetSpeed(10.0), runningOffsetSpeed(15.0)
+	// , weapons({nullptr, nullptr, nullptr, nullptr, nullptr}) TODO: !!!!
 {
 
 }
