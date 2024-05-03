@@ -38,6 +38,11 @@ private:
 
 	void pauseGame();
 
+	void weaponSlot1();
+	void weaponSlot2();
+	void weaponSlot3();
+	void weaponSlot4();
+
 	double runningSpeed;
 
 	double armor;

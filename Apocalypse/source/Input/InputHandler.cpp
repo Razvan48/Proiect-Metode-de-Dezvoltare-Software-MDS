@@ -44,14 +44,13 @@ void InputHandler::callbackAxis(double xpos, double ypos)
 void InputHandler::update()
 {
 	// TODO: Pressed/Repeat
-
-	for (const auto& key : keys)
-	{
-		if (key.second == 1 || key.second == 2)
-		{
-			activeInputComponent->callbackAction(key.first, key.second);
-		}
-	}
+	//for (const auto& key : keys)
+	//{
+	//	if (key.second == 1 || key.second == 2)
+	//	{
+	//		activeInputComponent->callbackAction(key.first, key.second);
+	//	}
+	//}
 
 	// TODO
 	//for (const auto& key : mouseButtons)

@@ -249,23 +249,18 @@ void Player::update()
 void Player::setupPlayerInputComponent()
 {
 	InputHandler::getPlayerInputComponent().bindAction("MOVE_UP", InputEvent::IE_Pressed, std::bind(&Player::moveUp, this));
-	InputHandler::getPlayerInputComponent().bindAction("MOVE_UP", InputEvent::IE_Repeat, std::bind(&Player::moveUp, this));
 	InputHandler::getPlayerInputComponent().bindAction("MOVE_UP", InputEvent::IE_Released, std::bind(&Player::moveUpReleased, this));
 
 	InputHandler::getPlayerInputComponent().bindAction("MOVE_DOWN", InputEvent::IE_Pressed, std::bind(&Player::moveDown, this));
-	InputHandler::getPlayerInputComponent().bindAction("MOVE_DOWN", InputEvent::IE_Repeat, std::bind(&Player::moveDown, this));
 	InputHandler::getPlayerInputComponent().bindAction("MOVE_DOWN", InputEvent::IE_Released, std::bind(&Player::moveDownReleased, this));
 
 	InputHandler::getPlayerInputComponent().bindAction("MOVE_RIGHT", InputEvent::IE_Pressed, std::bind(&Player::moveRight, this));
-	InputHandler::getPlayerInputComponent().bindAction("MOVE_RIGHT", InputEvent::IE_Repeat, std::bind(&Player::moveRight, this));
 	InputHandler::getPlayerInputComponent().bindAction("MOVE_RIGHT", InputEvent::IE_Released, std::bind(&Player::moveRightReleased, this));
 
 	InputHandler::getPlayerInputComponent().bindAction("MOVE_LEFT", InputEvent::IE_Pressed, std::bind(&Player::moveLeft, this));
-	InputHandler::getPlayerInputComponent().bindAction("MOVE_LEFT", InputEvent::IE_Repeat, std::bind(&Player::moveLeft, this));
 	InputHandler::getPlayerInputComponent().bindAction("MOVE_LEFT", InputEvent::IE_Released, std::bind(&Player::moveLeftReleased, this));
 
 	InputHandler::getPlayerInputComponent().bindAction("RUN", InputEvent::IE_Pressed, std::bind(&Player::run, this));
-	InputHandler::getPlayerInputComponent().bindAction("RUN", InputEvent::IE_Repeat, std::bind(&Player::run, this));
 	InputHandler::getPlayerInputComponent().bindAction("RUN", InputEvent::IE_Released, std::bind(&Player::runReleased, this));
 
 	InputHandler::getPlayerInputComponent().bindAction("SHOOT", InputEvent::IE_Pressed, std::bind(&Player::shoot, this));
@@ -275,8 +270,12 @@ void Player::setupPlayerInputComponent()
 	InputHandler::getPlayerInputComponent().bindAction("PAUSE", InputEvent::IE_Pressed, std::bind(&Player::pauseGame, this));
 
 	InputHandler::getPlayerInputComponent().bindAction("INTERACT", InputEvent::IE_Pressed, std::bind(&Player::interact, this));
-	InputHandler::getPlayerInputComponent().bindAction("INTERACT", InputEvent::IE_Repeat, std::bind(&Player::interact, this));
 	InputHandler::getPlayerInputComponent().bindAction("INTERACT", InputEvent::IE_Released, std::bind(&Player::interactReleased, this));
+
+	InputHandler::getPlayerInputComponent().bindAction("WEAPON_SLOT_1", InputEvent::IE_Pressed, std::bind(&Player::weaponSlot1, this));
+	InputHandler::getPlayerInputComponent().bindAction("WEAPON_SLOT_2", InputEvent::IE_Pressed, std::bind(&Player::weaponSlot2, this));
+	InputHandler::getPlayerInputComponent().bindAction("WEAPON_SLOT_3", InputEvent::IE_Pressed, std::bind(&Player::weaponSlot3, this));
+	InputHandler::getPlayerInputComponent().bindAction("WEAPON_SLOT_4", InputEvent::IE_Pressed, std::bind(&Player::weaponSlot4, this));
 }
 
 void Player::moveUp()
@@ -389,6 +388,30 @@ void Player::pauseGame()
 	PauseMenu::get().setIsInGame(false);
 	PauseMenu::get().setupPauseMenuInputComponent();
 	InputHandler::setInputComponent(InputHandler::getMenuInputComponent());
+}
+
+void Player::weaponSlot1()
+{
+	// TODO
+	std::cout << "Weapon Slot 1" << std::endl;
+}
+
+void Player::weaponSlot2()
+{
+	// TODO
+	std::cout << "Weapon Slot 2" << std::endl;
+}
+
+void Player::weaponSlot3()
+{
+	// TODO
+	std::cout << "Weapon Slot 3" << std::endl;
+}
+
+void Player::weaponSlot4()
+{
+	// TODO
+	std::cout << "Weapon Slot 4" << std::endl;
 }
 
 void Player::draw()
