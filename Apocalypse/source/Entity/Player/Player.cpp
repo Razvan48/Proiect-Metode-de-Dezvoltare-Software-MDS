@@ -17,16 +17,15 @@
 #include "../../PauseMenu/PauseMenu.h"
 #include "../Wall/Wall.h"
 
-Player::Player(double x, double y, double drawWidth, double drawHeight, double rotateAngle, double speed, double collideWidth, double collideHeight, const std::map<AnimatedEntity::EntityStatus, std::string>& animationsName2D, double runningSpeed, double health = 100.0, double stamina = 100.0, double armor = 0.0) :
+Player::Player(double x, double y, double drawWidth, double drawHeight, double rotateAngle, double speed, double collideWidth, double collideHeight, const std::map<AnimatedEntity::EntityStatus, std::string>& animationsName2D, std::vector<EntityStatus> statuses, double runningSpeed, double health = 100.0, double stamina = 100.0, double armor = 0.0) :
 	Entity(x, y, drawWidth, drawHeight, rotateAngle, speed),
 	CollidableEntity(x, y, drawWidth, drawHeight, rotateAngle, speed, collideWidth, collideHeight),
-	AnimatedEntity(x, y, drawWidth, drawHeight, rotateAngle, speed, animationsName2D),
-	Human(x, y, drawWidth, drawHeight, rotateAngle, speed, collideWidth, collideHeight, animationsName2D, health),
+	AnimatedEntity(x, y, drawWidth, drawHeight, rotateAngle, speed, animationsName2D, statuses),
+	Human(x, y, drawWidth, drawHeight, rotateAngle, speed, collideWidth, collideHeight, animationsName2D, statuses, health),
 	runningSpeed(runningSpeed), stamina(stamina), armor(armor), armorCap(100.0), staminaChangeSpeed(50.0), staminaCap(100.0), gold(0), goldCap(9999999), // TODO: mai frumos pt goldCap se poate?
 	moveUpUsed(false), moveDownUsed(false), moveRightUsed(false), moveLeftUsed(false), runUsed(false), interactUsed(false),
 	walkingOffsetSize(0.01), runningOffsetSize(0.05),
-	walkingOffsetSpeed(10.0), runningOffsetSpeed(15.0),
-	headStatus(EntityStatus::HEAD_IDLE), bodyStatus(EntityStatus::BODY_IDLE), armsStatus(EntityStatus::ARMS_MOVING_AHEAD), legsStatus(EntityStatus::LEGS_NOT)
+	walkingOffsetSpeed(10.0), runningOffsetSpeed(15.0)
 {
 
 }
@@ -35,11 +34,32 @@ Player& Player::get()
 {
 	static Player instance(5.0, 5.0, 1.0, 1.0, 0.0, 5.0, 0.4, 0.4, std::map<AnimatedEntity::EntityStatus, std::string>
 	{
-		   { AnimatedEntity::EntityStatus::IDLE, "playerIdle" },
-		   { AnimatedEntity::EntityStatus::WALKING, "playerWalking" },
-		   { AnimatedEntity::EntityStatus::RUNNING, "playerRunning" },
-		   { AnimatedEntity::EntityStatus::TIRED, "playerTired" }
-	}, 7.5);
+		   { EntityStatus::ARMS_HOLDING_GRENADE, "armsHoldingGrenade" },
+		   { EntityStatus::ARMS_HOLDING_KNIFE, "armsHoldingKnife" },
+		   { EntityStatus::ARMS_HOLDING_PISTOL, "armsHoldingPistol" },
+		   { EntityStatus::ARMS_MOVING_AHEAD, "armsMovingAhead" },
+		   { EntityStatus::ARMS_MOVING_AROUND_WALKING, "armsMovingAroundWalking"},
+		   { EntityStatus::ARMS_MOVING_AROUND_RUNNING, "armsMovingAroundRunning"},
+		   { EntityStatus::ARMS_NOT, "armsNot"},
+		   { EntityStatus::ARMS_RELOADING_PISTOL, "armsReloadingPistol"},
+		   { EntityStatus::ARMS_USING_GRENADE, "armsUsingGrenade"},
+		   { EntityStatus::ARMS_USING_KNIFE, "armsUsingKnife"},
+		   { EntityStatus::ARMS_USING_PISTOL, "armsUsingPistol"},
+		   { EntityStatus::BODY_IDLE, "bodyIdle"},
+		   { EntityStatus::HEAD_ANGRY, "headAngry"},
+		   { EntityStatus::HEAD_IDLE, "headIdle"},
+		   { EntityStatus::HEAD_SATISFIED, "headSatisfied"},
+		   { EntityStatus::HEAD_TIRED, "headTired"},
+		   { EntityStatus::LEGS_MOVING_AROUND, "legsMovingAround"},
+		   { EntityStatus::LEGS_NOT, "legsNot"}
+	},
+		{
+			EntityStatus::LEGS_NOT,
+			EntityStatus::ARMS_MOVING_AHEAD,
+			EntityStatus::BODY_IDLE,
+			EntityStatus::HEAD_IDLE
+		}
+	, 7.5);
 
 	return instance;
 }
@@ -97,70 +117,92 @@ Player::~Player()
 
 void Player::update()
 {
-	if (this->status == EntityStatus::TIRED)
+	// head
+	if (this->statuses[3] == EntityStatus::HEAD_TIRED)
 	{
 		this->stamina += this->staminaChangeSpeed * GlobalClock::get().getDeltaTime();
 		this->stamina = std::min(this->stamina, this->staminaCap);
 
 		if (this->stamina == this->staminaCap)
-			this->status = EntityStatus::IDLE;
+			this->statuses[3] = EntityStatus::HEAD_IDLE;
 	}
 
+	if (this->statuses[3] == EntityStatus::HEAD_TIRED)
+	{
+		this->statuses[0] = EntityStatus::LEGS_NOT;
+		this->statuses[1] = EntityStatus::ARMS_NOT;
+		this->statuses[2] = EntityStatus::BODY_IDLE;
+
+		return;
+	}
+
+	// body (nu avem nimic, o singura animatie de un frame, atat)
+
+	// arms
 	if (this->moveUpUsed == true || this->moveDownUsed == true
 		|| this->moveRightUsed == true || this->moveLeftUsed == true)
 	{
 		if (this->runUsed == false)
 		{
-			this->status = EntityStatus::WALKING;
+			this->statuses[0] = EntityStatus::LEGS_NOT;
+			this->statuses[1] = EntityStatus::ARMS_MOVING_AROUND_WALKING;
+			this->statuses[2] = EntityStatus::BODY_IDLE;
 		}
 		else
 		{
-			this->status = EntityStatus::RUNNING;
+			this->statuses[0] = EntityStatus::LEGS_MOVING_AROUND;
+			this->statuses[1] = EntityStatus::ARMS_MOVING_AROUND_RUNNING;
+			this->statuses[2] = EntityStatus::BODY_IDLE;
 
 			this->stamina -= this->staminaChangeSpeed * GlobalClock::get().getDeltaTime();
 			this->stamina = std::max(0.0, this->stamina);
 
 			if (this->stamina == 0.0)
 			{
-				this->status = EntityStatus::TIRED;
+				this->statuses[3] = EntityStatus::HEAD_TIRED;
 			}
 		}
 	}
 	else // IDLE
 	{
-		this->status = EntityStatus::IDLE;
+		this->statuses[0] = EntityStatus::LEGS_NOT;
+		this->statuses[1] = EntityStatus::ARMS_MOVING_AHEAD;
+		this->statuses[2] = EntityStatus::BODY_IDLE;
 
 		this->stamina += this->staminaChangeSpeed * GlobalClock::get().getDeltaTime();
 		this->stamina = std::min(this->stamina, this->staminaCap);
 	}
 
 	// Sound
-	switch (this->status)
+	switch (this->statuses[1])
 	{
-	case EntityStatus::IDLE:
+	case EntityStatus::ARMS_MOVING_AHEAD:
 		SoundManager::get().pause("walking");
 		SoundManager::get().pause("running");
 		break;
 
-	case EntityStatus::WALKING:
+	case EntityStatus::ARMS_MOVING_AROUND_WALKING:
 		SoundManager::get().resume("walking");
 		SoundManager::get().pause("running");
 		break;
 
-	case EntityStatus::RUNNING:
+	case EntityStatus::ARMS_MOVING_AROUND_RUNNING:
 		SoundManager::get().pause("walking");
 		SoundManager::get().resume("running");
 		break;
+	}
 
-	case EntityStatus::TIRED:
+	switch (this->statuses[3])
+	{
+	case EntityStatus::HEAD_TIRED:
 		SoundManager::get().pause("walking");
 		SoundManager::get().pause("running");
 		break;
 
-	case EntityStatus::DYING:
-		SoundManager::get().pause("walking");
-		SoundManager::get().pause("running");
-		break;
+	//case EntityStatus::DYING:
+	//	SoundManager::get().pause("walking");
+	//	SoundManager::get().pause("running");
+	//	break;
 
 	default:
 		SoundManager::get().pause("walking");
@@ -168,14 +210,14 @@ void Player::update()
 		break;
 	}
 
-	if (this->status == EntityStatus::TIRED)
+	if (this->statuses[3] == EntityStatus::HEAD_TIRED)
 	{
 		return;
 	}
 
 	double currentSpeed = this->speed;
 
-	if (this->status == EntityStatus::RUNNING)
+	if (this->statuses[1] == EntityStatus::ARMS_MOVING_AROUND_RUNNING)
 		currentSpeed = this->runningSpeed;
 
 	double xOffset = 0.0;
@@ -336,27 +378,28 @@ void Player::pauseGame()
 
 void Player::draw()
 {
+	/* TODO: exceptii?
 	if (this->animationsName2D.find(this->status) == this->animationsName2D.end())
 	{
 		// exceptii
 	}
+	*/
+
+	if (this->statuses[1] == EntityStatus::ARMS_MOVING_AROUND_WALKING)
+	{
+		for (int i = 0; i < this->statuses.size(); ++i)
+			SpriteRenderer::get().draw(ResourceManager::getShader("sprite"), ResourceManager::getFlipbook(this->animationsName2D[this->statuses[i]]).getTextureAtTime(GlobalClock::get().getCurrentTime() - this->timesSinceStatuses[i]), Camera::get().screenPosition(this->x, this->y), Camera::get().screenSize(this->drawWidth + this->walkingOffsetSize * glm::sin(this->walkingOffsetSpeed * (GlobalClock::get().getCurrentTime() - this->timesSinceStatuses[i])), this->drawHeight + this->walkingOffsetSize * glm::sin(this->walkingOffsetSpeed * (GlobalClock::get().getCurrentTime() - this->timesSinceStatuses[i]))), this->rotateAngle);
+	}
+	else if (this->statuses[1] == EntityStatus::ARMS_MOVING_AROUND_RUNNING)
+	{
+		for (int i = 0; i < this->statuses.size(); ++i)
+			SpriteRenderer::get().draw(ResourceManager::getShader("sprite"), ResourceManager::getFlipbook(this->animationsName2D[this->statuses[i]]).getTextureAtTime(GlobalClock::get().getCurrentTime() - this->timesSinceStatuses[i]), Camera::get().screenPosition(this->x, this->y), Camera::get().screenSize(this->drawWidth + this->runningOffsetSize * glm::sin(this->runningOffsetSpeed * (GlobalClock::get().getCurrentTime() - this->timesSinceStatuses[i])), this->drawHeight + this->runningOffsetSize * glm::sin(this->runningOffsetSpeed * (GlobalClock::get().getCurrentTime() - this->timesSinceStatuses[i]))), this->rotateAngle);
+	}
 	else
 	{
-		if (this->status == EntityStatus::WALKING)
-		{
-			SpriteRenderer::get().draw(ResourceManager::getShader("sprite"), ResourceManager::getFlipbook(this->animationsName2D[this->status]).getTextureAtTime(GlobalClock::get().getCurrentTime() - this->timeSinceStatus), Camera::get().screenPosition(this->x, this->y), Camera::get().screenSize(this->drawWidth + this->walkingOffsetSize * glm::sin(this->walkingOffsetSpeed * (GlobalClock::get().getCurrentTime() - this->timeSinceStatus)), this->drawHeight + this->walkingOffsetSize * glm::sin(this->walkingOffsetSpeed * (GlobalClock::get().getCurrentTime() - this->timeSinceStatus))), this->rotateAngle);
-		}
-		else if (this->status == EntityStatus::RUNNING)
-		{
-			SpriteRenderer::get().draw(ResourceManager::getShader("sprite"), ResourceManager::getFlipbook(this->animationsName2D[this->status]).getTextureAtTime(GlobalClock::get().getCurrentTime() - this->timeSinceStatus), Camera::get().screenPosition(this->x, this->y), Camera::get().screenSize(this->drawWidth + this->runningOffsetSize * glm::sin(this->runningOffsetSpeed * (GlobalClock::get().getCurrentTime() - this->timeSinceStatus)), this->drawHeight + this->runningOffsetSize * glm::sin(this->runningOffsetSpeed * (GlobalClock::get().getCurrentTime() - this->timeSinceStatus))), this->rotateAngle);
-		}
-		else
-		{
-			SpriteRenderer::get().draw(ResourceManager::getShader("sprite"), ResourceManager::getFlipbook(this->animationsName2D[this->status]).getTextureAtTime(GlobalClock::get().getCurrentTime() - this->timeSinceStatus), Camera::get().screenPosition(this->x, this->y), Camera::get().screenSize(this->drawWidth, this->drawHeight), this->rotateAngle);
-		}
+		for (int i = 0; i < this->statuses.size(); ++i)
+			SpriteRenderer::get().draw(ResourceManager::getShader("sprite"), ResourceManager::getFlipbook(this->animationsName2D[this->statuses[i]]).getTextureAtTime(GlobalClock::get().getCurrentTime() - this->timesSinceStatuses[i]), Camera::get().screenPosition(this->x, this->y), Camera::get().screenSize(this->drawWidth, this->drawHeight), this->rotateAngle);
 	}
-
-	//SpriteRenderer::get().draw(ResourceManager::getShader("sprite"), ResourceManager::getFlipbook(this->animationsName2D[this->status]).getTextureAtTime(GlobalClock::get().getCurrentTime() - this->timeSinceStatus), Camera::get().screenPosition(this->x, this->y), Camera::get().screenSize(this->drawWidth, this->drawHeight), this->rotateAngle);
 }
 
 void Player::save()

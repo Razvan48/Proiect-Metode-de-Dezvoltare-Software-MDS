@@ -63,18 +63,18 @@ public:
 	};
 
 protected:
-	EntityStatus status;
-	double timeSinceStatus;
+	std::vector<EntityStatus> statuses;
+	std::vector<double> timesSinceStatuses;
 
 	std::map<EntityStatus, std::string> animationsName2D;
 
 public:
 
-	AnimatedEntity(double x, double y, double drawWidth, double drawHeight, double rotateAngle, double speed, const std::map<EntityStatus, std::string>& animationsName2D);
+	AnimatedEntity(double x, double y, double drawWidth, double drawHeight, double rotateAngle, double speed, const std::map<EntityStatus, std::string>& animationsName2D, std::vector<EntityStatus> statuses);
 	void draw() override;
-	double getTimeSinceStatus() const { return this->timeSinceStatus; };
-	void setTimeSinceStatus(double timeSinceStatus) { this->timeSinceStatus = timeSinceStatus; }
-	EntityStatus getStatus() const { return this->status; }
-	void updateStatus(EntityStatus newStatus);
+	double getTimeSinceStatus(int index = 0) const { return this->timesSinceStatuses[index]; };
+	void setTimeSinceStatus(double timeSinceStatus, int index = 0) { this->timesSinceStatuses[index] = timeSinceStatus; }
+	EntityStatus getStatus(int index = 0) const { return this->statuses[0]; }
+	void updateStatus(EntityStatus newStatus, int index = 0);
 	virtual ~AnimatedEntity();
 };

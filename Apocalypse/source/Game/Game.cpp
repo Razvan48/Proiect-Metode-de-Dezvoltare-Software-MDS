@@ -172,13 +172,21 @@ void Game::loadResources()
     this->entities.emplace_back(new Door(7.5, 14.5, 1.0, 1.0, 90.0, 0.0, 1.0, 1.0, 
         {
             { AnimatedEntity::EntityStatus::IDLE, "doorStatic0"},
-            {AnimatedEntity::EntityStatus::OPENED, "doorOpening0"}
-        }, 2.0, 2.0, 0)); // usa (doar sa testam) (usa gratis, cost 0)
+            { AnimatedEntity::EntityStatus::OPENED, "doorOpening0"}
+        },
+        {
+            AnimatedEntity::EntityStatus::IDLE
+        }
+        , 2.0, 2.0, 0)); // usa (doar sa testam) (usa gratis, cost 0)
     this->entities.emplace_back(new Door(7.5, 16.5, 1.0, 1.0, 90.0, 0.0, 1.0, 1.0,
         {
             { AnimatedEntity::EntityStatus::IDLE, "doorStatic1"},
-            {AnimatedEntity::EntityStatus::OPENED, "doorOpening1"}
-        }, 2.0, 2.0, 0)); // usa (doar sa testam) (usa gratis, cost 0)
+            { AnimatedEntity::EntityStatus::OPENED, "doorOpening1"}
+        },
+        {
+            AnimatedEntity::EntityStatus::IDLE
+        }
+        , 2.0, 2.0, 0)); // usa (doar sa testam) (usa gratis, cost 0)
 
     // Configure Shaders
     glm::mat4 projection = glm::ortho(-0.5f * static_cast<float>(WindowManager::get().getWindowWidth()), 0.5f * static_cast<float>(WindowManager::get().getWindowWidth()), -0.5f * static_cast<float>(WindowManager::get().getWindowHeight()), 0.5f * static_cast<float>(WindowManager::get().getWindowHeight()));

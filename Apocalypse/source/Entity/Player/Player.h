@@ -9,7 +9,7 @@ class Player : public virtual Human // singleton
 {
 private:
 
-	Player(double x, double y, double drawWidth, double drawHeight, double rotateAngle, double speed, double collideWidth, double collideHeight, const std::map<AnimatedEntity::EntityStatus, std::string>& animationsName2D, double runningSpeed, double health, double stamina, double armor);
+	Player(double x, double y, double drawWidth, double drawHeight, double rotateAngle, double speed, double collideWidth, double collideHeight, const std::map<AnimatedEntity::EntityStatus, std::string>& animationsName2D, std::vector<EntityStatus> statuses, double runningSpeed, double health, double stamina, double armor);
 	virtual ~Player();
 
 	Player(const Player& other) = delete;
@@ -61,11 +61,6 @@ private:
 	double runningOffsetSpeed;
 
 	std::vector<Weapon> weapons;
-
-	EntityStatus headStatus;
-	EntityStatus bodyStatus;
-	EntityStatus armsStatus;
-	EntityStatus legsStatus;
 
 public:
 

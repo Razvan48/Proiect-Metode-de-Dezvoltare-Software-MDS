@@ -12,7 +12,7 @@ protected:
 	int openCost;
 
 public:
-	Door(double x, double y, double drawWidth, double drawHeight, double rotateAngle, double speed, double collideWidth, double collideHeight, const std::map<AnimatedEntity::EntityStatus, std::string> animationsName2D, double interactionWidth, double interactionHeight, int openCost);
+	Door(double x, double y, double drawWidth, double drawHeight, double rotateAngle, double speed, double collideWidth, double collideHeight, const std::map<AnimatedEntity::EntityStatus, std::string> animationsName2D, std::vector<EntityStatus> statuses, double interactionWidth, double interactionHeight, int openCost);
 	virtual ~Door() = default;
 
 	void onCollide(CollidableEntity& other, glm::vec2 overlap) override;
