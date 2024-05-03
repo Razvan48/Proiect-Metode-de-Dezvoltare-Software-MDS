@@ -6,6 +6,7 @@
 #include <cmath>
 
 #include <nlohmann/json.hpp>
+#include <glm/gtc/matrix_transform.hpp>
 
 #include "../../WindowManager/WindowManager.h"
 #include "../../ResourceManager/ResourceManager.h"
@@ -15,6 +16,8 @@
 #include "../../Renderer/SpriteRenderer.h"
 #include "../../SoundManager/SoundManager.h"
 #include "../../PauseMenu/PauseMenu.h"
+#include "../../Game/Game.h"
+#include "../Bullet/Bullet.h"
 #include "../Wall/Wall.h"
 
 Player::Player(double x, double y, double drawWidth, double drawHeight, double rotateAngle, double speed, double collideWidth, double collideHeight, const std::map<AnimatedEntity::EntityStatus, std::string>& animationsName2D, std::vector<EntityStatus> statuses, double runningSpeed, double health = 100.0, double stamina = 100.0, double armor = 0.0) :
@@ -337,8 +340,19 @@ void Player::interactReleased()
 
 void Player::shoot()
 {
-	// TODO
 	std::cout << "SHOOT" << std::endl;
+
+	glm::mat4 model = glm::mat4(1.0f);
+	model = glm::translate(model, glm::vec3(Camera::get().screenPosition(this->x, this->y), 0.0f));
+	model = glm::rotate(model, glm::radians(static_cast<float>(this->rotateAngle)), glm::vec3(0.0f, 0.0f, 1.0f));
+
+	glm::vec4 bulletRelativeLocation = model * glm::vec4(0.4f, 0.4f, 0.0f, 0.0f);	// TODO: change offset.x and offset.y
+	glm::vec2 bulletLocation = glm::vec2(
+		this->x + bulletRelativeLocation.x,
+		this->y + bulletRelativeLocation.y
+	);
+
+	Game::get().addEntity(std::make_shared<Bullet>(static_cast<double>(bulletLocation.x), static_cast<double>(bulletLocation.y), 0.3, 0.3, this->rotateAngle, 10.0, 0.3, 0.3, "bullet0", 20.0)); // TODO: change speed
 }
 
 void Player::look(double xpos, double ypos)

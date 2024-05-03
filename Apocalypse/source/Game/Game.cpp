@@ -284,3 +284,8 @@ void Game::drawEntities()
         this->entities[i]->draw();
 }
 
+void Game::addEntity(const std::shared_ptr<Entity>& entity)
+{
+    this->entities.emplace_back(entity);
+}
+

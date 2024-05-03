@@ -3,7 +3,7 @@
 #include "../Human/Human.h"
 #include "../Weapon/Weapon.h"
 
-#include <glm/vec2.hpp>
+#include <glm/glm.hpp>
 
 class Player : public virtual Human // singleton
 {
