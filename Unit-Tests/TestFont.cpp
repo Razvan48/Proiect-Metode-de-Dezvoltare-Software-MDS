@@ -20,7 +20,7 @@ namespace TestFont
 
             try
             {
-                ResourceManager::loadFont("../../../Apocalypse/fonts/Antonio-Bold.ttf", 24, "Antonio");
+                ResourceManager::loadFont("../../../Apocalypse/resources/fonts/Antonio-Bold.ttf", 24, "Antonio");
 
                 Assert::AreEqual(static_cast<size_t>(128), ResourceManager::getFont("Antonio").Characters.size()); // 128
             }

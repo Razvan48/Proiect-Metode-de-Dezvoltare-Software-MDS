@@ -336,7 +336,7 @@
 
   "fonts": {
     "Antonio": {
-      "file": "fonts/Antonio-Bold.ttf",
+      "file": "resources/fonts/Antonio-Bold.ttf",
       "size": 24
     }
   },
