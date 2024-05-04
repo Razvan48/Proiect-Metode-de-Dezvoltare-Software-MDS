@@ -5,6 +5,7 @@
   "MOVE_LEFT": 65,
   "INTERACT": 69,
   "SHOOT": 0,
+  "RELOAD": 82,
   "RUN": 340,
   "CLICK_BUTTON": 0,
   "PAUSE": 256,

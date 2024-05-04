@@ -264,6 +264,7 @@ void Player::setupPlayerInputComponent()
 	InputHandler::getPlayerInputComponent().bindAction("RUN", InputEvent::IE_Released, std::bind(&Player::runReleased, this));
 
 	InputHandler::getPlayerInputComponent().bindAction("SHOOT", InputEvent::IE_Pressed, std::bind(&Player::shoot, this));
+	InputHandler::getPlayerInputComponent().bindAction("RELOAD", InputEvent::IE_Pressed, std::bind(&Player::reload, this));
 
 	InputHandler::getPlayerInputComponent().bindAxis(std::bind(&Player::look, this, std::placeholders::_1, std::placeholders::_2));
 
@@ -340,6 +341,7 @@ void Player::interactReleased()
 
 void Player::shoot()
 {
+	// TODO: muta in weapon.OnClick()
 	std::cout << "SHOOT" << std::endl;
 
 	glm::mat4 model = glm::mat4(1.0f);
@@ -352,7 +354,17 @@ void Player::shoot()
 		this->y + bulletRelativeLocation.y
 	);
 
+	SoundManager::get().play("pistolShot", false);
+
 	Game::get().addEntity(std::make_shared<Bullet>(static_cast<double>(bulletLocation.x), static_cast<double>(bulletLocation.y), 0.3, 0.3, this->rotateAngle, 10.0, 0.3, 0.3, "bullet0", 20.0)); // TODO: change speed
+}
+
+void Player::reload()
+{
+	// TODO
+	std::cout << "RELOAD" << std::endl;
+
+	SoundManager::get().play("pistolReload", false);
 }
 
 void Player::look(double xpos, double ypos)

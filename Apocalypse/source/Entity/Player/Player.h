@@ -35,6 +35,7 @@ private:
 	void look(double xpos, double ypos);
 
 	void shoot();
+	void reload();
 
 	void pauseGame();
 

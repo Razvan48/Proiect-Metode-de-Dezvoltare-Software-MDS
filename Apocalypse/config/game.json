@@ -323,6 +323,14 @@
     "running": {
       "file": "resources/sounds/running.mp3",
       "mode": 2
+    },
+    "pistolShot": {
+      "file": "resources/sounds/pistolShot.mp3",
+      "mode": 1
+    },
+    "pistolReload": {
+      "file": "resources/sounds/pistolReload.mp3",
+      "mode": 1
     }
   },
 

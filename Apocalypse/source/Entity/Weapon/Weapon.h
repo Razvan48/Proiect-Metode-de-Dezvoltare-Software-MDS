@@ -1,5 +1,7 @@
 #pragma once
 
+#include <string>
+
 #include "../PickUp/PickUp.h"
 
 class Weapon : public virtual PickUp
