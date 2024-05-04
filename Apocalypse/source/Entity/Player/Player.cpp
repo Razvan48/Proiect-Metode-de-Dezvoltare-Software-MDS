@@ -15,10 +15,11 @@
 #include "../../Camera/Camera.h"
 #include "../../Renderer/SpriteRenderer.h"
 #include "../../SoundManager/SoundManager.h"
-#include "../../PauseMenu/PauseMenu.h"
+#include "../../MenuManager/PauseMenu/PauseMenu.h"
 #include "../../Game/Game.h"
 #include "../Bullet/Bullet.h"
 #include "../Wall/Wall.h"
+#include "../../MenuManager/MenuManager.h"
 
 Player::Player(double x, double y, double drawWidth, double drawHeight, double rotateAngle, double speed, double collideWidth, double collideHeight, const std::map<AnimatedEntity::EntityStatus, std::string>& animationsName2D, std::vector<EntityStatus> statuses, double runningSpeed, double health = 100.0, double stamina = 100.0, double armor = 0.0) :
 	Entity(x, y, drawWidth, drawHeight, rotateAngle, speed),
@@ -397,8 +398,9 @@ void Player::look(double xpos, double ypos)
 
 void Player::pauseGame()
 {
-	PauseMenu::get().setIsInGame(false);
-	PauseMenu::get().setupPauseMenuInputComponent();
+	MenuManager::get().push(PauseMenu::get());
+	// PauseMenu::get().setIsInGame(false);
+	// PauseMenu::get().setupPauseMenuInputComponent();
 	InputHandler::setInputComponent(InputHandler::getMenuInputComponent());
 }
 
