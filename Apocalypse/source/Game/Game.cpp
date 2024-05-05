@@ -225,15 +225,16 @@ void Game::run()
         // Input
         InputHandler::update();
 
+        // Updates
+        Camera::get().update();
+        Player::get().update();
+        this->updateEntities(); // TODO: asta presupune ca entitatile tinute in vector-ul din clasa game nu isi mai dau update altundeva decat aici
+
         // Collision System
         CollisionManager::get().handleCollisions(this->entities);
 
         // Interactions System
         InteractionManager::get().handleInteractions(this->entities);
-
-        // Updates
-        Camera::get().update();
-        Player::get().update();
 
         // Render
         glClearColor(0.733f, 0.024f, 0.259f, 1.0f);
@@ -255,9 +256,6 @@ void Game::run()
         MainMenu::get().playMenu();
         PauseMenu::get().playMenu();
 
-        // Update Entities
-        this->updateEntities(); // TODO: asta presupune ca entitatile tinute in vector-ul din clasa game nu isi mai dau update altundeva decat aici
-
         // Update/Tick
         GlobalClock::get().updateTime();
 
@@ -274,6 +272,18 @@ void Game::run()
 
 void Game::updateEntities()
 {
+    for (std::vector<std::shared_ptr<Entity>>::iterator it = entities.begin(); it != entities.end(); )
+    {
+        if ((*it)->getDeleteEntity())
+        {
+            it = entities.erase(it);
+        }
+        else
+        {
+            it++;
+        }
+    }
+
     for (int i = 0; i < this->entities.size(); ++i)
         this->entities[i]->update();
 }

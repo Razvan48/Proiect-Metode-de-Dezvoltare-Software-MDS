@@ -14,6 +14,8 @@ Bullet::Bullet(double x, double y, double drawWidth, double drawHeight, double r
 void Bullet::onCollide(CollidableEntity& other, glm::vec2 overlap)
 {
 	std::cout << "On collide" << std::endl;
+
+	setDeleteEntity(true);
 }
 
 void Bullet::update()

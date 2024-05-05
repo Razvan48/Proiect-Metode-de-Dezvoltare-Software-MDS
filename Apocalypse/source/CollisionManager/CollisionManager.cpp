@@ -49,12 +49,13 @@ void CollisionManager::handleCollisions(std::vector<std::shared_ptr<Entity>>& en
 		}
 	}
 
+	// TODO: refactor
 	// Bullets vs Map
-	for (std::vector<std::shared_ptr<Entity>>::iterator it = entities.begin(); it != entities.end(); )
+	for (const std::shared_ptr<Entity> entity : entities)
 	{
 		bool deleteEntity = false;
 
-		if (std::shared_ptr<Bullet> bullet = std::dynamic_pointer_cast<Bullet>(*it))
+		if (std::shared_ptr<Bullet> bullet = std::dynamic_pointer_cast<Bullet>(entity))
 		{
 			for (int i = 0; i < Map::get().getMap().size() && !deleteEntity; ++i)
 			{
@@ -68,22 +69,10 @@ void CollisionManager::handleCollisions(std::vector<std::shared_ptr<Entity>>& en
 						{
 							bullet->onCollide(*std::dynamic_pointer_cast<CollidableEntity>(Map::get().getMap()[i][j]), overlap);
 							std::dynamic_pointer_cast<CollidableEntity>(Map::get().getMap()[i][j])->onCollide(*bullet, overlap);
-
-							// Delete bullet
-							deleteEntity = true;
 						}
 					}
 				}
 			}
-		}
-
-		if (deleteEntity)
-		{
-			it = entities.erase(it);
-		}
-		else
-		{
-			it++;
 		}
 	}
 

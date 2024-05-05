@@ -182,9 +182,6 @@
       "loop": true
     },
 
-
-
-
     "armsHoldingGrenade": {
       "directory": "resources/animations/playerComponents/arms/armsHoldingGrenade",
       "framesPerSecond": 1.0,
@@ -275,11 +272,6 @@
       "framesPerSecond": 1.0,
       "loop": true
     },
-
-
-
-
-
 
     "grenadeExplosion": {
       "directory": "resources/animations/grenadeExplosion",
