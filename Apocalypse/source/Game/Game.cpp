@@ -225,7 +225,7 @@ void Game::run()
 
     while (!glfwWindowShouldClose(WindowManager::get().getWindow()))
     {
-        // Input
+        // Update
         InputHandler::update();
         GlobalClock::get().updateTime();
         Camera::get().update();
@@ -255,20 +255,17 @@ void Game::run()
         HUDManager::get().draw();
 
         // Main Menu
-<<<<<<< HEAD
-        MainMenu::get().playMenu();
-        PauseMenu::get().playMenu();
-=======
-        try {
+        try
+        {
             MenuManager::get().top().playMenu();
         }
-        catch(noMenuOpened& err){}
+        catch (noMenuOpened& err) {   }
+
         // Update Entities
         this->updateEntities(); // TODO: asta presupune ca entitatile tinute in vector-ul din clasa game nu isi mai dau update altundeva decat aici
 
         // Update/Tick
         GlobalClock::get().updateTime();
->>>>>>> 5c77da227888deac2d8ec2d05a8fa29da5f5aeac
 
         // Swap the screen buffers
         glfwSwapBuffers(WindowManager::get().getWindow());
