@@ -2,16 +2,14 @@
 
 #include <cctype>
 
-#include "../Entity/TexturableEntity.h"
-#include "../Entity/Button/Button.h"
-#include "../ButtonGroup/ButtonGroup.h"
+#include "../../Entity/TexturableEntity.h"
+#include "../../Entity/Button/Button.h"
+#include "../../ButtonGroup/ButtonGroup.h"
+#include "../MenuBase/MenuBase.h"
 
-class PauseMenu : public virtual TexturableEntity
+class PauseMenu : public virtual MenuBase
 {
 private:
-
-	double buttonWidth;
-	double buttonHeight;
 
 	double buttonOffsetX = 70;
 	double buttonOffsetY = 50;
@@ -22,7 +20,6 @@ private:
 	double getButtonPosX();
 	double getButtonPosY(int index = 0);
 
-	bool isInGame = true;
 
 private:
 	PauseMenu(double x, double y, double drawWidth, double drawHeight, double rotateAngle, double speed, const std::string& textureName2D);
@@ -34,23 +31,15 @@ private:
 	PauseMenu& operator=(const PauseMenu&& other) = delete;
 
 protected:
-	static std::string toUpper(const std::string& s);
-	static std::string toLower(const std::string& s);
-	static std::string initCap(const std::string& s);
+
 
 public:
 	static PauseMenu& get();
 	void draw() override;
 
-	void setupPauseMenuInputComponent();
-
-	bool getIsInGame() const { return isInGame; }
-	void setIsInGame(bool isInGame_) { isInGame = isInGame_; }
+	void setupInputComponent();
 
 	void playMenu();
-
-	static void hoverAnyButton(Button& button);
-	static void hoverLostAnyButton(Button& button);
 
 };
 

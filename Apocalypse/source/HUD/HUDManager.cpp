@@ -75,7 +75,8 @@ void HUDManager::draw()
 	width = WindowManager::get().getWindowWidth() / 2 - textureScaleWidth / 2;
 	height = WindowManager::get().getWindowHeight() / 2 - textureScaleHeight / 2;
 
-	SpriteRenderer::get().draw(ResourceManager::getShader("sprite"), ResourceManager::getTexture("fist0"), glm::vec2(width, height), glm::vec2(textureScaleWidth, textureScaleHeight), 0.0f);
+	//SpriteRenderer::get().draw(ResourceManager::getShader("sprite"), ResourceManager::getTexture("fist0"), glm::vec2(width, height), glm::vec2(textureScaleWidth, textureScaleHeight), 0.0f);
+	SpriteRenderer::get().draw(ResourceManager::getShader("sprite"), ResourceManager::getTexture(Player::get().getCurrentWeaponTexture()), glm::vec2(width, height), glm::vec2(textureScaleWidth, textureScaleHeight), 0.0f);
 	// SpriteRenderer::get().draw(ResourceManager::getShader("sprite"), ResourceManager::getTexture("pistol0"), glm::vec2(width, height), glm::vec2(textureWidth, textureHeight, 0.0f);
 	SpriteRenderer::get().draw(ResourceManager::getShader("sprite"), ResourceManager::getTexture("weaponFrame"), glm::vec2(width, height), glm::vec2(textureScaleWidth, textureScaleHeight), 0.0f);
 

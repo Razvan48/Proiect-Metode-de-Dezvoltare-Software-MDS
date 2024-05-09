@@ -1,34 +1,46 @@
 #include "PauseMenu.h"
-#include "../WindowManager/WindowManager.h"
-#include "../Renderer/SpriteRenderer.h"
-#include "../ResourceManager/ResourceManager.h"
+#include "../../WindowManager/WindowManager.h"
+#include "../../Renderer/SpriteRenderer.h"
+#include "../../ResourceManager/ResourceManager.h"
 
 #include <iostream>
-#include "../Input/InputHandler.h"
-#include "../Map/Map.h"
-#include "../Entity/Player/Player.h"
-#include "../HUD/HUDManager.h"
+#include "../../Input/InputHandler.h"
+#include "../../Map/Map.h"
+#include "../../Entity/Player/Player.h"
+#include "../../HUD/HUDManager.h"
+#include "../MenuManager.h"
+#include "../../ButtonBuilder/ButtonBuilder.h"
 
 
 
 PauseMenu::PauseMenu(double x, double y, double drawWidth, double drawHeight, double rotateAngle, double speed, const std::string& textureName2D) :
 	Entity(x, y, drawWidth, drawHeight, rotateAngle, speed),
 	TexturableEntity(x, y, drawWidth, drawHeight, rotateAngle, speed, textureName2D),
-	buttonWidth(drawWidth * 0.75),
-	buttonHeight(drawHeight * 0.1),
+	MenuBase(x, y, drawWidth, drawHeight, rotateAngle, speed, textureName2D, drawWidth * 0.75, drawHeight * 0.1),
 	buttons(std::map<std::string, Button>{
 		{ "quit", Button(getButtonPosX(), getButtonPosY(0), buttonWidth, buttonHeight, 0, 0, buttonWidth, buttonHeight, std::map<Button::Status, std::string>{{Button::Status::DEFAULT, ".0"}, { Button::Status::HOVERED, ".1" }, { Button::Status::CLICKED, ".2" }}, "Quit")},
-		{ "continue", Button(getButtonPosX(), getButtonPosY(1), buttonWidth, buttonHeight, 0, 0, buttonWidth, buttonHeight, std::map<Button::Status, std::string>{{Button::Status::DEFAULT, ".0"}, { Button::Status::HOVERED, ".1" }, { Button::Status::CLICKED, ".2" }}, "Continue") }
+		{ "continue", Button(getButtonPosX(), getButtonPosY(1), buttonWidth, buttonHeight, 0, 0, buttonWidth, buttonHeight, std::map<Button::Status, std::string>{{Button::Status::DEFAULT, ".0"}, { Button::Status::HOVERED, ".1" }, { Button::Status::CLICKED, ".2" }}, "Continue") },
+		{ "back", ButtonBuilder::backButton(getButtonCoordsX(), getButtonCoordsY())}
+			//Button(getButtonCoordsX(), getButtonCoordsY(), 20, 20, 0, 0, 20, 20, std::map<Button::Status, std::string>{{Button::Status::DEFAULT, ".0"}, { Button::Status::HOVERED, ".1" }, { Button::Status::CLICKED, ".2" }}, "")}
 })
 {
+	isInMenu = false;
+
 	buttons.setFunctions(
 		std::map<std::string, std::function<void(Button&)>>{{ButtonGroup::getAny(), PauseMenu::hoverAnyButton }},
 		std::map<std::string, std::function<void(Button&)>>{{ButtonGroup::getAny(), PauseMenu::hoverLostAnyButton }},
 		std::map<std::string, std::function<void(Button&)>>{{ButtonGroup::getAny(), [](Button&) {} },
-		{ "continue", [](Button&) {
-			PauseMenu::get().isInGame = true;
-			InputHandler::setInputComponent(InputHandler::getPlayerInputComponent());
-		} } }
+		{
+			"continue", [](Button&) {
+				PauseMenu::get().isInMenu = false;
+				MenuManager::get().pop();
+				// InputHandler::setInputComponent(InputHandler::getPlayerInputComponent());
+			}
+		},
+		{
+			"back", ButtonBuilder::backButtonClickFunction
+		}
+		}
 	);
 }
 
@@ -52,26 +64,26 @@ void PauseMenu::draw()
 	buttons.draw();
 }
 
+
 double PauseMenu::getButtonPosX() {
-	return x + WindowManager::get().getWindowWidth() / 2.0 - drawWidth / 2 + buttonOffsetX;
-	// return  buttonOffsetX;
+	return getButtonCoordsX() + buttonOffsetX;
 }
 
 double PauseMenu::getButtonPosY(int index) {
-	return -y + WindowManager::get().getWindowHeight() / 2.0 - drawHeight / 2 + buttonOffsetY + index * (buttonHeight + spaceAfterButton);
-	// return drawHeight / 2.0 - buttonOffsetY - buttonHeight / 2.0 - index * (buttonHeight + spaceAfterButton);
+	return getButtonCoordsY() + buttonOffsetY + index * (buttonHeight + spaceAfterButton);
 }
 
 
-void PauseMenu::setupPauseMenuInputComponent()
+void PauseMenu::setupInputComponent()
 {
 	buttons.activate();
 }
 
 void PauseMenu::playMenu()
 {
-	while (isInGame == false && !glfwWindowShouldClose(WindowManager::get().getWindow()))
+	while (isInMenu == true && !glfwWindowShouldClose(WindowManager::get().getWindow()))
 	{
+
 		InputHandler::update();
 
 		// Map
@@ -97,42 +109,3 @@ void PauseMenu::playMenu()
 	}
 }
 
-std::string PauseMenu::toUpper(const std::string& s)
-{
-	std::string rez = s;
-	for (size_t i = 0; i < rez.size(); ++i)
-		rez[i] = toupper(rez[i]);
-
-	return rez;
-}
-
-std::string PauseMenu::toLower(const std::string& s)
-{
-	std::string rez = s;
-	for (size_t i = 0; i < rez.size(); ++i)
-		rez[i] = tolower(rez[i]);
-
-	return rez;
-}
-
-std::string PauseMenu::initCap(const std::string& s)
-{
-	std::string rez = toLower(s);
-	if (rez.size())
-		rez[0] = toupper(rez[0]);
-
-	return rez;
-}
-
-
-void PauseMenu::hoverAnyButton(Button& button)
-{
-	button.setHovered();
-	button.setLabel(toUpper(button.getLabel()));
-}
-
-void PauseMenu::hoverLostAnyButton(Button& button)
-{
-	button.setDefault();
-	button.setLabel(initCap(button.getLabel()));
-}

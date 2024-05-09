@@ -17,9 +17,10 @@
 #include "../CollisionManager/CollisionManager.h"
 #include "../InteractionManager/InteractionManager.h"
 #include "../HUD/HUDManager.h"
-#include "../MainMenu/MainMenu.h"
-#include "../PauseMenu/PauseMenu.h"
+#include "../MenuManager/MainMenu/MainMenu.h"
+#include "../MenuManager/PauseMenu/PauseMenu.h"
 #include "../SoundManager/SoundManager.h"
+#include "../MenuManager/MenuManager.h"
 
 Game::Game()
 {
@@ -208,7 +209,9 @@ void Game::run()
 
     // TODO: de pus in constructor
     Player::get().setupPlayerInputComponent();
-    MainMenu::get().setupMainMenuInputComponent();
+
+    // MainMenu::get().setupMainMenuInputComponent();
+    MenuManager::get().push(MainMenu::get());
 
     // Setup Input
     InputHandler::setInputComponent(InputHandler::getMenuInputComponent());
@@ -252,8 +255,20 @@ void Game::run()
         HUDManager::get().draw();
 
         // Main Menu
+<<<<<<< HEAD
         MainMenu::get().playMenu();
         PauseMenu::get().playMenu();
+=======
+        try {
+            MenuManager::get().top().playMenu();
+        }
+        catch(noMenuOpened& err){}
+        // Update Entities
+        this->updateEntities(); // TODO: asta presupune ca entitatile tinute in vector-ul din clasa game nu isi mai dau update altundeva decat aici
+
+        // Update/Tick
+        GlobalClock::get().updateTime();
+>>>>>>> 5c77da227888deac2d8ec2d05a8fa29da5f5aeac
 
         // Swap the screen buffers
         glfwSwapBuffers(WindowManager::get().getWindow());
