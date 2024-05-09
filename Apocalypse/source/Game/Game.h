@@ -5,7 +5,6 @@
 
 #include "../Entity/Entity.h"
 
-
 class Game
 {
 private:
@@ -30,6 +29,6 @@ public:
 
 	void run();
 
-	void addEntity(const std::shared_ptr<Entity>& entity);
+	void addEntity(std::shared_ptr<Entity> const entity);
 };
 

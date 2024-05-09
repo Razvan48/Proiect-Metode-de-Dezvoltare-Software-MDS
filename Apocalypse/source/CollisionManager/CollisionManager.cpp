@@ -51,12 +51,12 @@ void CollisionManager::handleCollisions(std::vector<std::shared_ptr<Entity>>& en
 
 	// TODO: refactor
 	// Bullets vs Map
-	for (const std::shared_ptr<Entity> entity : entities)
+	for (const std::shared_ptr<Entity>& entity : entities)
 	{
-		bool deleteEntity = false;
-
 		if (std::shared_ptr<Bullet> bullet = std::dynamic_pointer_cast<Bullet>(entity))
 		{
+			bool deleteEntity = false;
+			
 			for (int i = 0; i < Map::get().getMap().size() && !deleteEntity; ++i)
 			{
 				for (int j = 0; j < Map::get().getMap()[i].size() && !deleteEntity; ++j)

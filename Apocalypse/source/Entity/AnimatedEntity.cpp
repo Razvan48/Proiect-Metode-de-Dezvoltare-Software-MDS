@@ -7,10 +7,9 @@
 
 #include "../Camera/Camera.h"
 
-AnimatedEntity::AnimatedEntity(double x, double y, double drawWidth, double drawHeight, double rotateAngle, double speed, const std::map<EntityStatus, std::string>& animationsName2D, std::vector<EntityStatus> statuses) :
-	Entity(x, y, drawWidth, drawHeight, rotateAngle, speed), animationsName2D(animationsName2D)
+AnimatedEntity::AnimatedEntity(double x, double y, double drawWidth, double drawHeight, double rotateAngle, double speed, const std::map<EntityStatus, std::string>& animationsName2D, const std::vector<EntityStatus>& statuses) :
+	Entity(x, y, drawWidth, drawHeight, rotateAngle, speed), animationsName2D(animationsName2D), statuses(statuses)
 {
-	this->statuses = statuses;
 	this->timesSinceStatuses.resize(statuses.size());
 	for (int i = 0; i < statuses.size(); ++i)
 		this->timesSinceStatuses[i] = GlobalClock::get().getCurrentTime();

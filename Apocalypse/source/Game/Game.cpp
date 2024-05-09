@@ -224,8 +224,7 @@ void Game::run()
     {
         // Input
         InputHandler::update();
-
-        // Updates
+        GlobalClock::get().updateTime();
         Camera::get().update();
         Player::get().update();
         this->updateEntities(); // TODO: asta presupune ca entitatile tinute in vector-ul din clasa game nu isi mai dau update altundeva decat aici
@@ -256,9 +255,6 @@ void Game::run()
         MainMenu::get().playMenu();
         PauseMenu::get().playMenu();
 
-        // Update/Tick
-        GlobalClock::get().updateTime();
-
         // Swap the screen buffers
         glfwSwapBuffers(WindowManager::get().getWindow());
        
@@ -272,15 +268,26 @@ void Game::run()
 
 void Game::updateEntities()
 {
-    for (std::vector<std::shared_ptr<Entity>>::iterator it = entities.begin(); it != entities.end(); )
+    // TODO: delete
+    //for (std::vector<std::shared_ptr<Entity>>::iterator it = entities.begin(); it != entities.end(); )
+    //{
+    //    if ((*it)->getDeleteEntity())
+    //    {
+    //        it = entities.erase(it);
+    //    }
+    //    else
+    //    {
+    //        it++;
+    //    }
+    //}
+
+    for (int i = 0; i < this->entities.size(); ++i)
     {
-        if ((*it)->getDeleteEntity())
+        if (entities[i]->getDeleteEntity())
         {
-            it = entities.erase(it);
-        }
-        else
-        {
-            it++;
+            std::swap(entities[i], entities[entities.size() - 1]);
+            entities.pop_back();
+            --i;
         }
     }
 
@@ -294,7 +301,7 @@ void Game::drawEntities()
         this->entities[i]->draw();
 }
 
-void Game::addEntity(const std::shared_ptr<Entity>& entity)
+void Game::addEntity(std::shared_ptr<Entity> const entity)
 {
     this->entities.emplace_back(entity);
 }
