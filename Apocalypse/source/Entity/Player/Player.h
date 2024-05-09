@@ -43,6 +43,8 @@ private:
 	void weaponSlot2();
 	void weaponSlot3();
 	void weaponSlot4();
+	void weaponSlot5();
+	void weaponSlot6();
 
 	double runningSpeed;
 
@@ -70,6 +72,8 @@ private:
 
 	std::vector<std::shared_ptr<Weapon>> weapons;
 
+	int currentWeaponIndex;
+
 public:
 
 	static Player& get();
@@ -89,6 +93,8 @@ public:
 	inline void setGold(int gold) { this->gold = gold; }
 
 	inline bool getInteractUsed() const { return this->interactUsed; }
+
+	inline std::string getCurrentWeaponTexture() const { return this->weapons[this->currentWeaponIndex]->getTextureName2D(); }
 
 	void draw() override;
 

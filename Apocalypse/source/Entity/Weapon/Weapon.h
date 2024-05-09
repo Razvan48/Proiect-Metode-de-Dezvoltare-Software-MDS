@@ -2,19 +2,12 @@
 
 #include <string>
 
+#include "../../GlobalClock/GlobalClock.h"
 #include "../PickUp/PickUp.h"
 
 class Weapon : public virtual PickUp
 {
-protected:
-
-	double fireRate;
-	int numBullets;
-	double damage;
-	double reloadTime;
-
-	double timeSinceLastShot;
-	double timeSinceStartReload;
+public:
 
 	static enum class WeaponType
 	{
@@ -27,6 +20,16 @@ protected:
 		MINIGUN
 	};
 
+protected:
+
+	double fireRate;
+	int numBullets;
+	double damage;
+	double reloadTime;
+
+	double timeSinceLastShot;
+	double timeSinceStartReload;
+
 	WeaponType weaponType;
 
 	double shortRangeAttackRadius;
@@ -38,7 +41,13 @@ public:
 	virtual bool isInInteraction() override;
 	virtual void onInteraction() override;
 
+	inline WeaponType getWeaponType() const { return this->weaponType; }
+
 	virtual void onClick();
+
+	inline bool stillReloading() const { return GlobalClock::get().getCurrentTime() - this->timeSinceLastShot < this->reloadTime; }
+
+	virtual void update() override;
 
 	virtual ~Weapon();
 };

@@ -29,8 +29,14 @@ Player::Player(double x, double y, double drawWidth, double drawHeight, double r
 	runningSpeed(runningSpeed), stamina(stamina), armor(armor), armorCap(100.0), staminaChangeSpeed(50.0), staminaCap(100.0), gold(0), goldCap(9999999), // TODO: mai frumos pt goldCap se poate?
 	moveUpUsed(false), moveDownUsed(false), moveRightUsed(false), moveLeftUsed(false), runUsed(false), interactUsed(false),
 	walkingOffsetSize(0.01), runningOffsetSize(0.05),
-	walkingOffsetSpeed(10.0), runningOffsetSpeed(15.0)
-	// , weapons({nullptr, nullptr, nullptr, nullptr, nullptr}) TODO: !!!!
+	walkingOffsetSpeed(10.0), runningOffsetSpeed(15.0),
+	weapons({ std::make_shared<Weapon>(0.0, 0.0, 0.0, 0.0, 0.0, 0.0, "fist0", 0.0, 0.0, 0.0, 0, 0.0, 0.0, Weapon::WeaponType::FIST, 0.0)
+		, std::make_shared<Weapon>(0.0, 0.0, 0.0, 0.0, 0.0, 0.0, "pistol0", 0.0, 0.0, 0.0, 0, 0.0, 5.0, Weapon::WeaponType::PISTOL, 0.0)
+		, nullptr
+		, nullptr
+		, nullptr
+		, nullptr}),
+	currentWeaponIndex(0)
 {
 
 }
@@ -135,7 +141,12 @@ void Player::update()
 	if (this->statuses[3] == EntityStatus::HEAD_TIRED)
 	{
 		this->statuses[0] = EntityStatus::LEGS_NOT;
-		this->statuses[1] = EntityStatus::ARMS_NOT;
+
+		if (this->statuses[1] == EntityStatus::ARMS_MOVING_AHEAD ||
+			this->statuses[1] == EntityStatus::ARMS_MOVING_AROUND_WALKING ||
+			this->statuses[1] == EntityStatus::ARMS_MOVING_AROUND_RUNNING)
+			this->statuses[1] = EntityStatus::ARMS_NOT;
+
 		this->statuses[2] = EntityStatus::BODY_IDLE;
 
 		return;
@@ -150,13 +161,19 @@ void Player::update()
 		if (this->runUsed == false)
 		{
 			this->statuses[0] = EntityStatus::LEGS_NOT;
-			this->statuses[1] = EntityStatus::ARMS_MOVING_AROUND_WALKING;
+			if (this->statuses[1] == EntityStatus::ARMS_MOVING_AHEAD ||
+				this->statuses[1] == EntityStatus::ARMS_MOVING_AROUND_WALKING ||
+				this->statuses[1] == EntityStatus::ARMS_MOVING_AROUND_RUNNING)
+				this->statuses[1] = EntityStatus::ARMS_MOVING_AROUND_WALKING;
 			this->statuses[2] = EntityStatus::BODY_IDLE;
 		}
 		else
 		{
 			this->statuses[0] = EntityStatus::LEGS_MOVING_AROUND;
-			this->statuses[1] = EntityStatus::ARMS_MOVING_AROUND_RUNNING;
+			if (this->statuses[1] == EntityStatus::ARMS_MOVING_AHEAD ||
+				this->statuses[1] == EntityStatus::ARMS_MOVING_AROUND_WALKING ||
+				this->statuses[1] == EntityStatus::ARMS_MOVING_AROUND_RUNNING)
+				this->statuses[1] = EntityStatus::ARMS_MOVING_AROUND_RUNNING;
 			this->statuses[2] = EntityStatus::BODY_IDLE;
 
 			this->stamina -= this->staminaChangeSpeed * GlobalClock::get().getDeltaTime();
@@ -171,11 +188,22 @@ void Player::update()
 	else // IDLE
 	{
 		this->statuses[0] = EntityStatus::LEGS_NOT;
-		this->statuses[1] = EntityStatus::ARMS_MOVING_AHEAD;
+		if (this->statuses[1] == EntityStatus::ARMS_MOVING_AHEAD ||
+			this->statuses[1] == EntityStatus::ARMS_MOVING_AROUND_WALKING ||
+			this->statuses[1] == EntityStatus::ARMS_MOVING_AROUND_RUNNING)
+			this->statuses[1] = EntityStatus::ARMS_MOVING_AHEAD;
 		this->statuses[2] = EntityStatus::BODY_IDLE;
 
 		this->stamina += this->staminaChangeSpeed * GlobalClock::get().getDeltaTime();
 		this->stamina = std::min(this->stamina, this->staminaCap);
+	}
+
+	if (this->weapons[this->currentWeaponIndex]->getWeaponType() == Weapon::WeaponType::PISTOL)
+	{
+		this->statuses[1] = EntityStatus::ARMS_HOLDING_PISTOL;
+
+		if (this->weapons[this->currentWeaponIndex]->stillReloading())
+			this->statuses[1] = EntityStatus::ARMS_RELOADING_PISTOL;
 	}
 
 	// Sound
@@ -278,6 +306,8 @@ void Player::setupPlayerInputComponent()
 	InputHandler::getPlayerInputComponent().bindAction("WEAPON_SLOT_2", InputEvent::IE_Pressed, std::bind(&Player::weaponSlot2, this));
 	InputHandler::getPlayerInputComponent().bindAction("WEAPON_SLOT_3", InputEvent::IE_Pressed, std::bind(&Player::weaponSlot3, this));
 	InputHandler::getPlayerInputComponent().bindAction("WEAPON_SLOT_4", InputEvent::IE_Pressed, std::bind(&Player::weaponSlot4, this));
+	InputHandler::getPlayerInputComponent().bindAction("WEAPON_SLOT_5", InputEvent::IE_Pressed, std::bind(&Player::weaponSlot5, this));
+	InputHandler::getPlayerInputComponent().bindAction("WEAPON_SLOT_6", InputEvent::IE_Pressed, std::bind(&Player::weaponSlot6, this));
 }
 
 void Player::moveUp()
@@ -342,22 +372,7 @@ void Player::interactReleased()
 
 void Player::shoot()
 {
-	// TODO: muta in weapon.OnClick()
-	std::cout << "SHOOT" << std::endl;
-
-	glm::mat4 model = glm::mat4(1.0f);
-	model = glm::translate(model, glm::vec3(Camera::get().screenPosition(this->x, this->y), 0.0f));
-	model = glm::rotate(model, glm::radians(static_cast<float>(this->rotateAngle)), glm::vec3(0.0f, 0.0f, 1.0f));
-
-	glm::vec4 bulletRelativeLocation = model * glm::vec4(0.4f, 0.4f, 0.0f, 0.0f);	// TODO: change offset.x and offset.y
-	glm::vec2 bulletLocation = glm::vec2(
-		this->x + bulletRelativeLocation.x,
-		this->y + bulletRelativeLocation.y
-	);
-
-	SoundManager::get().play("pistolShot", false);
-
-	Game::get().addEntity(std::make_shared<Bullet>(static_cast<double>(bulletLocation.x), static_cast<double>(bulletLocation.y), 0.3, 0.3, this->rotateAngle, 10.0, 0.3, 0.3, "bullet0", 20.0)); // TODO: change speed
+	this->weapons[this->currentWeaponIndex]->onClick();
 }
 
 void Player::reload()
@@ -406,26 +421,38 @@ void Player::pauseGame()
 
 void Player::weaponSlot1()
 {
-	// TODO
-	std::cout << "Weapon Slot 1" << std::endl;
+	if (this->weapons[0] != nullptr)
+		this->currentWeaponIndex = 0;
 }
 
 void Player::weaponSlot2()
 {
-	// TODO
-	std::cout << "Weapon Slot 2" << std::endl;
+	if (this->weapons[1] != nullptr)
+		this->currentWeaponIndex = 1;
 }
 
 void Player::weaponSlot3()
 {
-	// TODO
-	std::cout << "Weapon Slot 3" << std::endl;
+	if (this->weapons[2] != nullptr)
+		this->currentWeaponIndex = 2;
 }
 
 void Player::weaponSlot4()
 {
-	// TODO
-	std::cout << "Weapon Slot 4" << std::endl;
+	if (this->weapons[3] != nullptr)
+		this->currentWeaponIndex = 3;
+}
+
+void Player::weaponSlot5()
+{
+	if (this->weapons[4] != nullptr)
+		this->currentWeaponIndex = 4;
+}
+
+void Player::weaponSlot6()
+{
+	if (this->weapons[5] != nullptr)
+		this->currentWeaponIndex = 5;
 }
 
 void Player::draw()
