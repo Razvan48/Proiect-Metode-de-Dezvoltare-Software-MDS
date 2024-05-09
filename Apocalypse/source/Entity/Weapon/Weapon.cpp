@@ -54,7 +54,7 @@ void Weapon::onClick() // TODO: mai trb adaugate chestii
 		model = glm::translate(model, glm::vec3(Camera::get().screenPosition(Player::get().getX(), Player::get().getY()), 0.0f));
 		model = glm::rotate(model, glm::radians(static_cast<float>(Player::get().getRotateAngle())), glm::vec3(0.0f, 0.0f, 1.0f));
 
-		glm::vec4 bulletRelativeLocation = model * glm::vec4(0.4f, 0.4f, 0.0f, 0.0f);	// TODO: change offset.x and offset.y
+		glm::vec4 bulletRelativeLocation = model * glm::vec4(0.5f, 0.05f, 0.0f, 0.0f);	// TODO: change offset.x and offset.y
 		glm::vec2 bulletLocation = glm::vec2(
 			Player::get().getX() + bulletRelativeLocation.x,
 			Player::get().getY() + bulletRelativeLocation.y
