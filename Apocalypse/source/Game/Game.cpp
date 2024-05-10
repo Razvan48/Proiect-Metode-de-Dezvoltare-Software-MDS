@@ -226,11 +226,10 @@ void Game::run()
     while (!glfwWindowShouldClose(WindowManager::get().getWindow()))
     {
         // Update
-        InputHandler::update();
-        GlobalClock::get().updateTime();
+        InputHandler::update(); // TODO: delete?
         Camera::get().update();
         Player::get().update();
-        this->updateEntities(); // TODO: asta presupune ca entitatile tinute in vector-ul din clasa game nu isi mai dau update altundeva decat aici
+        this->updateEntities();
 
         // Collision System
         CollisionManager::get().handleCollisions(this->entities);
