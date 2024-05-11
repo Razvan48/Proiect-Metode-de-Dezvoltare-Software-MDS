@@ -13,14 +13,14 @@ protected:
 	std::vector<std::vector<bool>> blockedCell;
 	std::vector<std::vector<int>> cellDistance;
 	std::queue<std::pair<int, int>> q;
-	std::pair<int, int> lastChosenCell;
-
-	std::pair<int, int> chosenCell;
-	int chosenCellIndex;
+	std::vector<std::pair<int, int>> visitedCells;
 
 	double rotateSpeed;
 
 	double probToChangeDir;
+
+	std::pair<double, double> currentTarget;
+	std::pair<double, double> nextTarget;
 
 public:
 

@@ -2,6 +2,7 @@
 
 const double AIEntity::EPSILON = 0.05;
 const double AIEntity::EPSILON_ANGLE = 7.5;
+const double AIEntity::EPSILON_MOVEMENT = 0.3;
 const std::vector<std::pair<int, int>> AIEntity::neighbors = { {0, -1}, {0, 1}, {-1, 0}, {1, 0} };
 const std::vector<std::pair<int, int>> AIEntity::extendedNeighbors = { {-1, -1}, {-1, 0}, {-1, 1}, {0, -1}, {0, 1}, {1, -1}, {1, 0}, {1, 1} };
 const std::vector<double> AIEntity::neighborsAngles = { 270.0, 90.0, 180.0, 0.0 };

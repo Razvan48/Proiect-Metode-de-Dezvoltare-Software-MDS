@@ -44,26 +44,26 @@ Player::Player(double x, double y, double drawWidth, double drawHeight, double r
 
 Player& Player::get()
 {
-	static Player instance(5.0, 5.0, 1.0, 1.0, 0.0, 5.0, 0.4, 0.4, std::map<AnimatedEntity::EntityStatus, std::string>
+	static Player instance(10.5, 10.5, 1.0, 1.0, 0.0, 5.0, 0.4, 0.4, std::map<AnimatedEntity::EntityStatus, std::string>
 	{
-		   { EntityStatus::ARMS_HOLDING_GRENADE, "armsHoldingGrenade" },
-		   { EntityStatus::ARMS_HOLDING_KNIFE, "armsHoldingKnife" },
-		   { EntityStatus::ARMS_HOLDING_PISTOL, "armsHoldingPistol" },
-		   { EntityStatus::ARMS_MOVING_AHEAD, "armsMovingAhead" },
-		   { EntityStatus::ARMS_MOVING_AROUND_WALKING, "armsMovingAroundWalking"},
-		   { EntityStatus::ARMS_MOVING_AROUND_RUNNING, "armsMovingAroundRunning"},
-		   { EntityStatus::ARMS_NOT, "armsNot"},
-		   { EntityStatus::ARMS_RELOADING_PISTOL, "armsReloadingPistol"},
-		   { EntityStatus::ARMS_USING_GRENADE, "armsUsingGrenade"},
-		   { EntityStatus::ARMS_USING_KNIFE, "armsUsingKnife"},
-		   { EntityStatus::ARMS_USING_PISTOL, "armsUsingPistol"},
-		   { EntityStatus::BODY_IDLE, "bodyIdle"},
-		   { EntityStatus::HEAD_ANGRY, "headAngry"},
-		   { EntityStatus::HEAD_IDLE, "headIdle"},
-		   { EntityStatus::HEAD_SATISFIED, "headSatisfied"},
-		   { EntityStatus::HEAD_TIRED, "headTired"},
-		   { EntityStatus::LEGS_MOVING_AROUND, "legsMovingAround"},
-		   { EntityStatus::LEGS_NOT, "legsNot"}
+		   { EntityStatus::ARMS_HOLDING_GRENADE, "player0ArmsHoldingGrenade" },
+		   { EntityStatus::ARMS_HOLDING_KNIFE, "player0ArmsHoldingKnife" },
+		   { EntityStatus::ARMS_HOLDING_PISTOL, "player0ArmsHoldingPistol" },
+		   { EntityStatus::ARMS_MOVING_AHEAD, "player0ArmsMovingAhead" },
+		   { EntityStatus::ARMS_MOVING_AROUND_WALKING, "player0ArmsMovingAroundWalking"},
+		   { EntityStatus::ARMS_MOVING_AROUND_RUNNING, "player0ArmsMovingAroundRunning"},
+		   { EntityStatus::ARMS_NOT, "player0ArmsNot"},
+		   { EntityStatus::ARMS_RELOADING_PISTOL, "player0ArmsReloadingPistol"},
+		   { EntityStatus::ARMS_USING_GRENADE, "player0ArmsUsingGrenade"},
+		   { EntityStatus::ARMS_USING_KNIFE, "player0ArmsUsingKnife"},
+		   { EntityStatus::ARMS_USING_PISTOL, "player0ArmsUsingPistol"},
+		   { EntityStatus::BODY_IDLE, "player0BodyIdle"},
+		   { EntityStatus::HEAD_ANGRY, "player0HeadAngry"},
+		   { EntityStatus::HEAD_IDLE, "player0HeadIdle"},
+		   { EntityStatus::HEAD_SATISFIED, "player0HeadSatisfied"},
+		   { EntityStatus::HEAD_TIRED, "player0HeadTired"},
+		   { EntityStatus::LEGS_MOVING_AROUND, "player0LegsMovingAround"},
+		   { EntityStatus::LEGS_NOT, "player0LegsNot"}
 	},
 		{
 			EntityStatus::LEGS_NOT,

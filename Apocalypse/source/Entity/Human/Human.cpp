@@ -67,7 +67,24 @@ void Human::onCollide(CollidableEntity& other, glm::vec2 overlap)
 				this->y += (overlap.y + CollidableEntity::EPS) / 2.0;
 		}
 	}
-	/* Nu vrem sa se intersecteze inamicii intre ei
+	else if (dynamic_cast<Human*>(&other) != nullptr)
+	{
+		if (overlap.x < overlap.y)
+		{
+			if (this->x < other.getX())
+				this->x -= (overlap.x + CollidableEntity::EPS) / 2.0;
+			else
+				this->x += (overlap.x + CollidableEntity::EPS) / 2.0;
+		}
+		else
+		{
+			if (this->y < other.getY())
+				this->y -= (overlap.y + CollidableEntity::EPS) / 2.0;
+			else
+				this->y += (overlap.y + CollidableEntity::EPS) / 2.0;
+		}
+	}
+	/*
 	else if (dynamic_cast<CollidableEntity*>(&other) != nullptr)
 	{
 		if (overlap.x < overlap.y)

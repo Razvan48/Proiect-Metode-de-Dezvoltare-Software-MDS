@@ -41,11 +41,11 @@ void Map::readMap(const std::string& path)
 		{
 			if (code[0] == 'M')
 			{
-				this->map.back().emplace_back(std::make_shared<Wall>((double)this->map.back().size() - 0.5, (double)this->map.size() - 0.5, 1.0, 1.0, 0.0, 0.0, 1.0, 1.0, code));
+				this->map.back().emplace_back(std::make_shared<Wall>((double)this->map.back().size() + 0.5, (double)this->map.size() - 0.5, 1.0, 1.0, 0.0, 0.0, 1.0, 1.0, code));
 			}
 			else if (code[0] == '.')
 			{
-				this->map.back().emplace_back(std::make_shared<Floor>((double)this->map.back().size() - 0.5, (double)this->map.size() - 0.5, 1.0, 1.0, 0.0, 0.0, code));
+				this->map.back().emplace_back(std::make_shared<Floor>((double)this->map.back().size() + 0.5, (double)this->map.size() - 0.5, 1.0, 1.0, 0.0, 0.0, code));
 			}
 			else if (code[0] == 'D')
 			{

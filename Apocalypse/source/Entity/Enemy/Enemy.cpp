@@ -15,7 +15,8 @@ Enemy::Enemy(double x, double y, double drawWidth, double drawHeight, double rot
 	, AnimatedEntity(x, y, drawWidth, drawHeight, rotateAngle, speed, animationsName2D, statuses)
 	, Human(x, y, drawWidth, drawHeight, rotateAngle, speed, collideWidth, collideHeight, animationsName2D, statuses, health)
 	, AIEntity(x, y, drawWidth, drawHeight, rotateAngle, speed)
-	, rotateSpeed(rotateSpeed), lastChosenCell(std::make_pair(-1, -1)), chosenCell(std::make_pair(-1, -1)), chosenCellIndex(-1), probToChangeDir(1.0 / 250.0)
+	, rotateSpeed(rotateSpeed), probToChangeDir(1.0 / 250.0)
+	, currentTarget(std::make_pair(x, y)), nextTarget(std::make_pair(x, y))
 {
 
 }
@@ -23,11 +24,12 @@ Enemy::Enemy(double x, double y, double drawWidth, double drawHeight, double rot
 
 void Enemy::pathFindingTarget()
 {
-	// clear
+	// Clear
 	while (!this->q.empty())
 	{
 		this->q.pop();
 	}
+	this->visitedCells.clear();
 	//
 
 
@@ -60,21 +62,28 @@ void Enemy::pathFindingTarget()
 	}
 	for (int i = 0; i < Game::get().getEntities().size(); ++i)
 	{
-		if (std::dynamic_pointer_cast<Door>(Game::get().getEntities()[i]))
+		if (std::dynamic_pointer_cast<Door>(Game::get().getEntities()[i]) && std::dynamic_pointer_cast<Door>(Game::get().getEntities()[i])->getCollisionActive())
 		{
-			int xDoor = static_cast<int>(Game::get().getEntities()[i]->getX() + 0.5);
-			int yDoor = static_cast<int>(Game::get().getEntities()[i]->getY() + 0.5);
+			int xDoor = static_cast<int>(Game::get().getEntities()[i]->getX());
+			int yDoor = static_cast<int>(Game::get().getEntities()[i]->getY());
 			this->blockedCell[yDoor][xDoor] = true;
 		}
 	}
 
-	int xCell = static_cast<int>(this->x + 0.5);
-	int yCell = static_cast<int>(this->y + 0.5);
-	int xTarget = static_cast<int>(Player::get().getX() + 0.5);
-	int yTarget = static_cast<int>(Player::get().getY() + 0.5);
+	int xCell = static_cast<int>(this->x);
+	int yCell = static_cast<int>(this->y);
+	int xTarget = static_cast<int>(Player::get().getX());
+	int yTarget = static_cast<int>(Player::get().getY());
+
+	if (xCell == xTarget && yCell == yTarget)
+	{
+		this->nextTarget = std::make_pair(xTarget + 0.5, yTarget + 0.5);
+		return;
+	}
 
 	this->cellDistance[yCell][xCell] = 1;
 	this->q.emplace(std::make_pair(xCell, yCell));
+	this->visitedCells.emplace_back(std::make_pair(xCell, yCell));
 
 	bool done = false;
 	while (!done && !this->q.empty())
@@ -100,6 +109,7 @@ void Enemy::pathFindingTarget()
 			}
 
 			this->q.emplace(std::make_pair(newX, newY));
+			this->visitedCells.emplace_back(std::make_pair(newX, newY));
 		}
 	}
 
@@ -110,6 +120,8 @@ void Enemy::pathFindingTarget()
 
 		while (currentCell != std::make_pair(xCell, yCell))
 		{
+			std::vector<std::pair<int, int>> previousCells;
+
 			for (int i = 0; i < AIEntity::neighbors.size(); ++i)
 			{
 				int newX = currentCell.first + AIEntity::neighbors[i].first;
@@ -117,143 +129,79 @@ void Enemy::pathFindingTarget()
 
 				if (this->cellDistance[newY][newX] + 1 == this->cellDistance[currentCell.second][currentCell.first])
 				{
-					lastCurrentCell = currentCell;
-					currentCell = std::make_pair(newX, newY);
-					break;
+					previousCells.emplace_back(std::make_pair(newX, newY));
 				}
 			}
+
+			int previousCellsIndex = (int)(random01() * ((double)previousCells.size() - AIEntity::EPSILON));
+			lastCurrentCell = currentCell;
+			currentCell = previousCells[previousCellsIndex];
 		}
 
-		std::cout << "DIST: " << this->cellDistance[lastCurrentCell.second][lastCurrentCell.first] << ' ' << lastCurrentCell.second << ' ' << lastCurrentCell.first << '\n';
-
-		this->lastChosenCell = this->chosenCell;
-		this->chosenCell = std::make_pair(lastCurrentCell.first - xCell, lastCurrentCell.second - yCell);
+		this->nextTarget = std::make_pair(lastCurrentCell.first + 0.5, lastCurrentCell.second + 0.5);
 	}
 	else
 	{
-		if (this->lastChosenCell != std::make_pair(-1, -1))
-		{
-			this->chosenCell = this->lastChosenCell;
-
-			if (AIEntity::random01() < this->probToChangeDir)
-			{
-				this->chosenCell = AIEntity::neighbors[(int)(AIEntity::random01() * ((int)AIEntity::neighbors.size() - AIEntity::EPSILON))];
-				this->lastChosenCell = this->chosenCell;
-			}
-		}
-		else
-		{
-			this->chosenCell = AIEntity::neighbors[(int)(AIEntity::random01() * ((int)AIEntity::neighbors.size() - AIEntity::EPSILON))];
-			this->lastChosenCell = this->chosenCell;
-		}
+		int indexRandom = (int)(random01() * ((double)this->visitedCells.size() - AIEntity::EPSILON));
+		this->nextTarget = std::make_pair(this->visitedCells[indexRandom].first + 0.5, this->visitedCells[indexRandom].second + 0.5);
 	}
-
-	for (int i = 0; i < AIEntity::neighbors.size(); ++i)
-	{
-		if (this->chosenCell == AIEntity::neighbors[i])
-		{
-			this->chosenCellIndex = i;
-			break;
-		}
-	}
-
-	//debug
-	std::cout << xCell << ' ' << yCell << ' ' << xTarget << ' ' << yTarget << ' ' <<
-		AIEntity::neighbors[this->chosenCellIndex].first << ' ' << AIEntity::neighbors[this->chosenCellIndex].second << std::endl;
-
-	/*
-	for (int i = 25; i >= 0; --i)
-	{
-		for (int j = 0; j <= 25; ++j)
-		{
-			std::cout << this->blockedCell[i][j] << ' ';
-		}
-		std::cout << '\n';
-	}
-	*/
 }
 
 void Enemy::onTargetReach()
 {
-	std::cout << "NEAR!\n";
 	// TODO: (sau putem lasa asa)
 }
 
 bool Enemy::nearTarget()
 {
-	return (this->x - Player::get().getX()) * (this->x - Player::get().getX()) +
-		(this->y - Player::get().getY()) * (this->y - Player::get().getY()) < this->nearTargetRadius * this->nearTargetRadius;
+	if (this->cellDistance[(int)Player::get().getY()][(int)Player::get().getX()] == 0)
+		return false;
+	return this->cellDistance[(int)Player::get().getY()][(int)Player::get().getX()] - 1 < (int)this->nearTargetRadius;
 }
 
 void Enemy::update()
 {
+	this->pathFindingTarget();
+
 	if (this->nearTarget())
 	{
+		this->statuses[0] = EntityStatus::LEGS_NOT;
+
 		this->onTargetReach();
+
 		return;
 	}
 
-	this->pathFindingTarget();
+	this->statuses[0] = EntityStatus::LEGS_MOVING_AROUND;
 
+	if ((this->x - this->currentTarget.first) * (this->x - this->currentTarget.first) +
+		(this->y - this->currentTarget.second) * (this->y - this->currentTarget.second) < AIEntity::EPSILON_MOVEMENT * AIEntity::EPSILON_MOVEMENT)
+	{
+		this->currentTarget = this->nextTarget;
+	}
+	else
+	{
+		double currentTargetAngle = std::atan2f(this->currentTarget.second - this->y, this->currentTarget.first - this->x);
+		this->x += this->speed * std::cos(currentTargetAngle) * GlobalClock::get().getDeltaTime();
+		this->y += this->speed * std::sin(currentTargetAngle) * GlobalClock::get().getDeltaTime();
+	}
 
+	double currentTargetAngle = glm::degrees(std::atan2f(this->currentTarget.second - this->y, this->currentTarget.first - this->x));
+	if (currentTargetAngle < 0.0)
+		currentTargetAngle += 180.0;
 
+	double angleDist = std::min(std::abs(this->rotateAngle - currentTargetAngle),
+		std::abs(360.0 - std::max(this->rotateAngle, currentTargetAngle) +
+			std::min(this->rotateAngle, currentTargetAngle)));
+
+	this->rotateAngle = currentTargetAngle;
 
 	/*
-	for (int i = 25; i >= 0; --i)
+	if (angleDist > AIEntity::EPSILON_ANGLE)
 	{
-		for (int j = 0; j <= 25; ++j)
-		{
-			std::cout << this->cellDistance[i][j] << ' ';
-		}
-		std::cout << std::endl;
-	}
-	std::cout << "DIRECTIE " << this->chosenCell.first << ' ' << this->chosenCell.second << '\n';
-	std::cout << "########################\n";
-	*/
-
-
-
-
-
-	int xCell = static_cast<int>(this->x + 0.5);
-	int yCell = static_cast<int>(this->y + 0.5);
-	int newX = xCell + AIEntity::neighbors[this->chosenCellIndex].first;
-	int newY = yCell + AIEntity::neighbors[this->chosenCellIndex].second;
-
-	int deltaX = AIEntity::neighbors[this->chosenCellIndex].first;
-	int deltaY = AIEntity::neighbors[this->chosenCellIndex].second;
-
-	double speedDeltaX = this->speed * std::cos(glm::radians(this->rotateAngle)) * GlobalClock::get().getDeltaTime();
-	double speedDeltaY = this->speed * std::sin(glm::radians(this->rotateAngle)) * GlobalClock::get().getDeltaTime();
-
-	//debug
-	//this->x = newX;
-	//this->y = newY;
-	//
-
-	/*
-	if (speedDeltaX * deltaX + speedDeltaY * deltaY > 0.0)
-	{
-		this->x += speedDeltaX;
-		this->y += speedDeltaY;
-	}
-	*/
-	//if (speedDeltaX * deltaX > 0.0)
-	//	this->x += speedDeltaX;
-	//if (speedDeltaY * deltaY > 0.0)
-	//	this->y += speedDeltaY;
-	this->x += this->speed * AIEntity::neighbors[this->chosenCellIndex].first * GlobalClock::get().getDeltaTime();
-	this->y += this->speed * AIEntity::neighbors[this->chosenCellIndex].second * GlobalClock::get().getDeltaTime();
-
-	double anglesDistance = std::min(std::abs(this->rotateAngle - AIEntity::neighborsAngles[this->chosenCellIndex]),
-		std::abs(360.0 - std::max(this->rotateAngle, AIEntity::neighborsAngles[this->chosenCellIndex]) +
-			std::min(this->rotateAngle, AIEntity::neighborsAngles[this->chosenCellIndex])));
-
-	if (anglesDistance > AIEntity::EPSILON_ANGLE)
-	{
-		if (std::abs(this->rotateAngle - AIEntity::neighborsAngles[this->chosenCellIndex]) <
-			std::abs(360.0 - std::max(this->rotateAngle, AIEntity::neighborsAngles[this->chosenCellIndex]) +
-				std::min(this->rotateAngle, AIEntity::neighborsAngles[this->chosenCellIndex]))) // rotatie in sens trigonometric
+		if (std::abs(this->rotateAngle - currentTargetAngle) <
+			std::abs(360.0 - std::max(this->rotateAngle, currentTargetAngle) +
+				std::min(this->rotateAngle, currentTargetAngle))) // rotatie in sens trigonometric
 		{
 			this->rotateAngle += this->rotateSpeed * GlobalClock::get().getDeltaTime();
 			while (this->rotateAngle >= 360.0)
@@ -266,6 +214,7 @@ void Enemy::update()
 				this->rotateAngle += 360.0;
 		}
 	}
+	*/
 }
 
 Enemy::~Enemy()

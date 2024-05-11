@@ -161,115 +161,124 @@
   },
 
   "flipbooks": {
-    "playerIdle": {
-      "directory": "resources/animations/playerIdle",
-      "framesPerSecond": 15.0,
-      "loop": true
-    },
-    "playerWalking": {
-      "directory": "resources/animations/playerWalking",
-      "framesPerSecond": 25.0,
-      "loop": true
-    },
-    "playerRunning": {
-      "directory": "resources/animations/playerRunning",
-      "framesPerSecond": 30.0,
-      "loop": true
-    },
-    "playerTired": {
-      "directory": "resources/animations/playerTired",
-      "framesPerSecond": 10.0,
-      "loop": true
-    },
-
-    "armsHoldingGrenade": {
+    "player0ArmsHoldingGrenade": {
       "directory": "resources/animations/playerComponents/arms/armsHoldingGrenade",
       "framesPerSecond": 1.0,
       "loop": true
     },
-    "armsHoldingKnife": {
+    "player0ArmsHoldingKnife": {
       "directory": "resources/animations/playerComponents/arms/armsHoldingKnife",
       "framesPerSecond": 1.0,
       "loop": true
     },
-    "armsHoldingPistol": {
+    "player0ArmsHoldingPistol": {
       "directory": "resources/animations/playerComponents/arms/armsHoldingPistol",
       "framesPerSecond": 1.0,
       "loop": true
     },
-    "armsMovingAhead": {
+    "player0ArmsMovingAhead": {
       "directory": "resources/animations/playerComponents/arms/armsMovingAhead",
       "framesPerSecond": 15.0,
       "loop": true
     },
-    "armsMovingAroundWalking": {
+    "player0ArmsMovingAroundWalking": {
       "directory": "resources/animations/playerComponents/arms/armsMovingAround",
       "framesPerSecond": 25.0,
       "loop": true
     },
-    "armsMovingAroundRunning": {
+    "player0ArmsMovingAroundRunning": {
       "directory": "resources/animations/playerComponents/arms/armsMovingAround",
       "framesPerSecond": 30.0,
       "loop": true
     },
-    "armsNot": {
+    "player0ArmsNot": {
       "directory": "resources/animations/playerComponents/arms/armsNot",
       "framesPerSecond": 1.0,
       "loop": true
     },
-    "armsReloadingPistol": {
+    "player0ArmsReloadingPistol": {
       "directory": "resources/animations/playerComponents/arms/armsReloadingPistol",
       "framesPerSecond": 15.0,
       "loop": false
     },
-    "armsUsingGrenade": {
+    "player0ArmsUsingGrenade": {
       "directory": "resources/animations/playerComponents/arms/armsUsingGrenade",
       "framesPerSecond": 1.0,
       "loop": false
     },
-    "armsUsingKnife": {
+    "player0ArmsUsingKnife": {
       "directory": "resources/animations/playerComponents/arms/armsUsingKnife",
       "framesPerSecond": 15.0,
       "loop": false
     },
-    "armsUsingPistol": {
+    "player0ArmsUsingPistol": {
       "directory": "resources/animations/playerComponents/arms/armsUsingPistol",
       "framesPerSecond": 15.0,
       "loop": false
     },
-    "bodyIdle": {
+    "player0BodyIdle": {
       "directory": "resources/animations/playerComponents/body/bodyIdle",
       "framesPerSecond": 1.0,
       "loop": true
     },
-    "headAngry": {
+    "player0HeadAngry": {
       "directory": "resources/animations/playerComponents/head/headAngry",
       "framesPerSecond": 30.0,
       "loop": false
     },
-    "headIdle": {
+    "player0HeadIdle": {
       "directory": "resources/animations/playerComponents/head/headIdle",
       "framesPerSecond": 1.0,
       "loop": true
     },
-    "headSatisfied": {
+    "player0HeadSatisfied": {
       "directory": "resources/animations/playerComponents/head/headSatisfied",
       "framesPerSecond": 30.0,
       "loop": false
     },
-    "headTired": {
+    "player0HeadTired": {
       "directory": "resources/animations/playerComponents/head/headTired",
       "framesPerSecond": 10.0,
       "loop": true
     },
-    "legsMovingAround": {
+    "player0LegsMovingAround": {
       "directory": "resources/animations/playerComponents/legs/legsMovingAround",
       "framesPerSecond": 30.0,
       "loop": true
     },
-    "legsNot": {
+    "player0LegsNot": {
       "directory": "resources/animations/playerComponents/legs/legsNot",
       "framesPerSecond": 1.0,
+      "loop": true
+    },
+    "enemy0ArmsNot": {
+      "directory": "resources/animations/enemyComponents/arms/armsNot",
+      "framesPerSecond": 1.0,
+      "loop": true
+    },
+    "enemy0ArmsStayingAhead": {
+      "directory": "resources/animations/enemyComponents/arms/armsStayingAhead",
+      "framesPerSecond": 1.0,
+      "loop": true
+    },
+    "enemy0BodyIdle": {
+      "directory": "resources/animations/enemyComponents/body/bodyIdle",
+      "framesPerSecond": 1.0,
+      "loop": true
+    },
+    "enemy0HeadIdle": {
+      "directory": "resources/animations/enemyComponents/head/headIdle",
+      "framesPerSecond": 1.0,
+      "loop": true
+    },
+    "enemy0LegsNot": {
+      "directory": "resources/animations/enemyComponents/legs/legsNot",
+      "framesPerSecond": 1.0,
+      "loop": true
+    },
+    "enemy0LegsMovingAround": {
+      "directory": "resources/animations/enemyComponents/legs/legsMovingAround",
+      "framesPerSecond": 30.0,
       "loop": true
     },
 
