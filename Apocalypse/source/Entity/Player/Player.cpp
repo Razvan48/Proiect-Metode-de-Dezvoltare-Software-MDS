@@ -19,9 +19,10 @@
 #include "../../Game/Game.h"
 #include "../Bullet/Bullet.h"
 #include "../Wall/Wall.h"
+#include "../Door/Door.h"
 #include "../../MenuManager/MenuManager.h"
 
-Player::Player(double x, double y, double drawWidth, double drawHeight, double rotateAngle, double speed, double collideWidth, double collideHeight, const std::map<AnimatedEntity::EntityStatus, std::string>& animationsName2D, std::vector<EntityStatus> statuses, double runningSpeed, double health = 100.0, double stamina = 100.0, double armor = 0.0) :
+Player::Player(double x, double y, double drawWidth, double drawHeight, double rotateAngle, double speed, double collideWidth, double collideHeight, const std::map<AnimatedEntity::EntityStatus, std::string>& animationsName2D, const std::vector<EntityStatus>& statuses, double runningSpeed, double health = 100.0, double stamina = 100.0, double armor = 0.0) :
 	Entity(x, y, drawWidth, drawHeight, rotateAngle, speed),
 	CollidableEntity(x, y, drawWidth, drawHeight, rotateAngle, speed, collideWidth, collideHeight),
 	AnimatedEntity(x, y, drawWidth, drawHeight, rotateAngle, speed, animationsName2D, statuses),
@@ -96,13 +97,24 @@ void Player::onCollide(CollidableEntity& other, glm::vec2 overlap)
 				this->y += (overlap.y + CollidableEntity::EPS);
 		}
 	}
-	/*
 	else if (dynamic_cast<Door*>(&other) != nullptr)
 	{
-		// TODO: implementare
+		if (overlap.x < overlap.y)
+		{
+			if (this->x < other.getX())
+				this->x -= (overlap.x + CollidableEntity::EPS);
+			else
+				this->x += (overlap.x + CollidableEntity::EPS);
+		}
+		else
+		{
+			if (this->y < other.getY())
+				this->y -= (overlap.y + CollidableEntity::EPS);
+			else
+				this->y += (overlap.y + CollidableEntity::EPS);
+		}
 	}
-	*/
-	else if (dynamic_cast<CollidableEntity*>(&other) != nullptr)
+	else if (dynamic_cast<CollidableEntity*>(&other) != nullptr) // TODO: aici intra in calcul si bullets !!!!
 	{
 		if (overlap.x < overlap.y)
 		{

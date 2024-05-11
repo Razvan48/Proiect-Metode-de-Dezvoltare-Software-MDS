@@ -30,5 +30,7 @@ public:
 	void run();
 
 	void addEntity(std::shared_ptr<Entity> const entity);
+
+	inline std::vector<std::shared_ptr<Entity>>& getEntities() { return this->entities; }
 };
 
