@@ -41,6 +41,14 @@ void InputHandler::callbackAxis(double xpos, double ypos)
 	}
 }
 
+void InputHandler::callbackScroll(double xoffset, double yoffset)
+{
+	if (activeInputComponent)
+	{
+		activeInputComponent->callbackScroll(xoffset, yoffset);
+	}
+}
+
 void InputHandler::update()
 {
 	// TODO: Pressed/Repeat

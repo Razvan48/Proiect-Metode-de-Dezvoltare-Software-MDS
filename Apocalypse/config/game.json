@@ -157,6 +157,26 @@
     "shop0": {
       "file": "resources/textures/shops/shop0.png",
       "alpha": true
+    },
+    "tab1": {
+      "file": "resources/textures/menus/shop/Tab1.png",
+      "alpha": true
+    },
+    "tab2": {
+      "file": "resources/textures/menus/shop/Tab2.png",
+      "alpha": true
+    },
+    "tab3": {
+      "file": "resources/textures/menus/shop/Tab3.png",
+      "alpha": true
+    },
+    "back": {
+      "file": "resources/textures/menus/BackButton/Back.png",
+      "alpha": true
+    },
+    "backHovered": {
+      "file": "resources/textures/menus/BackButton/BackHovered.png",
+      "alpha": true
     }
   },
 

@@ -20,6 +20,7 @@
 #include "../Bullet/Bullet.h"
 #include "../Wall/Wall.h"
 #include "../../MenuManager/MenuManager.h"
+#include "../../MenuManager/ShopMenu/ShopMenu.h"
 
 Player::Player(double x, double y, double drawWidth, double drawHeight, double rotateAngle, double speed, double collideWidth, double collideHeight, const std::map<AnimatedEntity::EntityStatus, std::string>& animationsName2D, std::vector<EntityStatus> statuses, double runningSpeed, double health = 100.0, double stamina = 100.0, double armor = 0.0) :
 	Entity(x, y, drawWidth, drawHeight, rotateAngle, speed),
@@ -278,6 +279,9 @@ void Player::setupPlayerInputComponent()
 	InputHandler::getPlayerInputComponent().bindAction("WEAPON_SLOT_2", InputEvent::IE_Pressed, std::bind(&Player::weaponSlot2, this));
 	InputHandler::getPlayerInputComponent().bindAction("WEAPON_SLOT_3", InputEvent::IE_Pressed, std::bind(&Player::weaponSlot3, this));
 	InputHandler::getPlayerInputComponent().bindAction("WEAPON_SLOT_4", InputEvent::IE_Pressed, std::bind(&Player::weaponSlot4, this));
+
+	// shop test
+	InputHandler::getPlayerInputComponent().bindAction("SHOP", InputEvent::IE_Pressed, std::bind(&Player::enterShop, this));
 }
 
 void Player::moveUp()
@@ -493,5 +497,12 @@ void Player::load()
 	gold = saveJSON["gold"].get<int>();
 
 	// TODO
+}
+
+
+void Player::enterShop()
+{
+	MenuManager::get().push(ShopMenuWeapons::get());
+	InputHandler::setInputComponent(InputHandler::getMenuInputComponent());
 }
 

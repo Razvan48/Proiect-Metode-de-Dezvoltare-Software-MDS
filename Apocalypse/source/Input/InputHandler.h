@@ -23,6 +23,7 @@ public:
 
 	static void callbackAction(int key, int action);
 	static void callbackAxis(double xpos, double ypos);
+	static void callbackScroll(double xoffset, double yoffset);
 
 	static void update();
 

@@ -38,11 +38,11 @@ void ButtonGroup::onHover(double x, double y)
 
 void ButtonGroup::onClick()
 {
-	for(auto& i : buttons)
-		if (i.second.getStatus() == Button::Status::HOVERED)
+	for(auto& i = buttons.rbegin(); i != buttons.rend(); ++i)
+		if (i->second.getStatus() == Button::Status::HOVERED)
 		{
 			// buttonIsHovered[i.first] = false;
-			callClickFunction(i.first, i.second);
+			callClickFunction(i->first, i->second);
 			break; // TODO: e necesar? (daca butoanele nu au overlap, unul singur va avea hover la un moment dat)
 		}
 }
@@ -112,6 +112,12 @@ void ButtonGroup::draw()
 {
 	for (auto& i : buttons)
 		i.second.draw();
+}
+
+void ButtonGroup::draw(float x, float y, float width, float height)
+{
+	for (auto& i : buttons)
+		i.second.draw(x, y, width, height);
 }
 
 

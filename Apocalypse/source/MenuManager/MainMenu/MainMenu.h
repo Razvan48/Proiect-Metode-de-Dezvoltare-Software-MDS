@@ -40,7 +40,7 @@ public:
 	void setupInputComponent();
 
 
-	void playMenu();
+	void playMenu() override;
 
 };
 

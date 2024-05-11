@@ -16,6 +16,7 @@ public:
     void draw(Shader& shader, Font& font, const std::string& text, float x, float y, float scale, const glm::vec3& color = glm::vec3(1.0f));
 
     double getTextHeight(Font& font, double scale) const { return font.Characters['H'].bearing.y * scale; }
+    double getTextWidth(Font& font, double scale, const std::string& str) const;
 
 private:
     TextRenderer();

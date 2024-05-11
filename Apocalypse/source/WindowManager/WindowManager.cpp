@@ -46,6 +46,8 @@ WindowManager::WindowManager()
 	glfwSetKeyCallback(window, keyCallback);
 	glfwSetCursorPosCallback(window, cursorPosCallback);
 	glfwSetMouseButtonCallback(window, mouseButtonCallback);
+	
+	glfwSetScrollCallback(window, mouseScrollCallback);
 
 	// OpenGL configuration
 	// TODO: glViewport(0, 0, WINDOW_WIDTH, WINDOW_HEIGHT);
@@ -85,5 +87,10 @@ void WindowManager::mouseButtonCallback(GLFWwindow* window, int button, int acti
 {
 	InputHandler::setMouseButtons(button, action);
 	InputHandler::callbackAction(button, action);
+}
+
+void WindowManager::mouseScrollCallback(GLFWwindow* window, double xoffset, double yoffset)
+{
+	InputHandler::callbackScroll(xoffset, yoffset);
 }
 
