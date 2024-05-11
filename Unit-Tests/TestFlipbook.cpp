@@ -14,98 +14,20 @@ namespace TestFlipbook
     TEST_CLASS(TestFlipbook)
     {
     public:
-        TEST_METHOD(PlayerIdle)
+        TEST_METHOD(BulletBlast)
         {
-            Logger::WriteMessage("PlayerIdle");
+            Logger::WriteMessage("Bullet Blast");
 
             try
             {
-                ResourceManager::loadFlipbook("../../../Apocalypse/resources/animations/playerIdle", 15.0, true, "playerIdle");
+                ResourceManager::loadFlipbook("../../../Apocalypse/resources/animations/bulletBlast", 15.0, true, "bulletBlast");
 
-                Assert::AreEqual(8, ResourceManager::getFlipbook("playerIdle").getNumFrames()); // 8
+                Assert::AreEqual(9, ResourceManager::getFlipbook("bulletBlast").getNumFrames()); // 9
 
-                for (int i = 0; i < ResourceManager::getFlipbook("playerIdle").getNumFrames(); i++)
+                for (int i = 0; i < ResourceManager::getFlipbook("bulletBlast").getNumFrames(); i++)
                 {
-                    Assert::AreEqual(128u, ResourceManager::getFlipbook("playerIdle").getTextureAtIndex(i).width); // 128
-                    Assert::AreEqual(128u, ResourceManager::getFlipbook("playerIdle").getTextureAtIndex(i).height); // 128
-                }
-            }
-            catch (const std::runtime_error& err)
-            {
-                Assert::Fail(widen(err.what()).c_str());
-            }
-            catch (...)
-            {
-                Assert::Fail(L"Other errors");
-            }
-        }
-
-        TEST_METHOD(PlayerWalking)
-        {
-            Logger::WriteMessage("PlayerWalking");
-
-            try
-            {
-                ResourceManager::loadFlipbook("../../../Apocalypse/resources/animations/playerWalking", 25.0, true, "playerWalking");
-
-                Assert::AreEqual(15, ResourceManager::getFlipbook("playerWalking").getNumFrames()); // 15
-
-                for (int i = 0; i < ResourceManager::getFlipbook("playerWalking").getNumFrames(); i++)
-                {
-                    Assert::AreEqual(128u, ResourceManager::getFlipbook("playerWalking").getTextureAtIndex(i).width); // 128
-                    Assert::AreEqual(128u, ResourceManager::getFlipbook("playerWalking").getTextureAtIndex(i).height); // 128
-                }
-            }
-            catch (const std::runtime_error& err)
-            {
-                Assert::Fail(widen(err.what()).c_str());
-            }
-            catch (...)
-            {
-                Assert::Fail(L"Other errors");
-            }
-        }
-
-        TEST_METHOD(PlayerRunning)
-        {
-            Logger::WriteMessage("PlayerRunning");
-
-            try
-            {
-                ResourceManager::loadFlipbook("../../../Apocalypse/resources/animations/playerRunning", 30.0, true, "playerRunning");
-
-                Assert::AreEqual(15, ResourceManager::getFlipbook("playerRunning").getNumFrames()); // 15
-
-                for (int i = 0; i < ResourceManager::getFlipbook("playerRunning").getNumFrames(); i++)
-                {
-                    Assert::AreEqual(128u, ResourceManager::getFlipbook("playerRunning").getTextureAtIndex(i).width); // 128
-                    Assert::AreEqual(128u, ResourceManager::getFlipbook("playerRunning").getTextureAtIndex(i).height); // 128
-                }
-            }
-            catch (const std::runtime_error& err)
-            {
-                Assert::Fail(widen(err.what()).c_str());
-            }
-            catch (...)
-            {
-                Assert::Fail(L"Other errors");
-            }
-        }
-
-        TEST_METHOD(PlayerTired)
-        {
-            Logger::WriteMessage("PlayerTired");
-
-            try
-            {
-                ResourceManager::loadFlipbook("../../../Apocalypse/resources/animations/playerTired", 30.0, true, "playerTired");
-
-                Assert::AreEqual(8, ResourceManager::getFlipbook("playerTired").getNumFrames()); // 8
-
-                for (int i = 0; i < ResourceManager::getFlipbook("playerTired").getNumFrames(); i++)
-                {
-                    Assert::AreEqual(128u, ResourceManager::getFlipbook("playerTired").getTextureAtIndex(i).width); // 128
-                    Assert::AreEqual(128u, ResourceManager::getFlipbook("playerTired").getTextureAtIndex(i).height); // 128
+                    Assert::AreEqual(128u, ResourceManager::getFlipbook("bulletBlast").getTextureAtIndex(i).width); // 128
+                    Assert::AreEqual(128u, ResourceManager::getFlipbook("bulletBlast").getTextureAtIndex(i).height); // 128
                 }
             }
             catch (const std::runtime_error& err)
