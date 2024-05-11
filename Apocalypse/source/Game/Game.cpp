@@ -13,6 +13,8 @@
 #include "../Map/Map.h"
 #include "../Input/InputHandler.h"
 #include "../Entity/Player/Player.h"
+#include "../Entity/Enemy/Enemy.h"
+#include "../Entity/AnimatedEntity.h"
 #include "../Camera/Camera.h"
 #include "../CollisionManager/CollisionManager.h"
 #include "../InteractionManager/InteractionManager.h"
@@ -170,6 +172,7 @@ void Game::loadResources()
     }
 
     // Load Entities
+    // Doors
     this->entities.emplace_back(new Door(7.5, 14.5, 1.0, 1.0, 90.0, 0.0, 1.0, 1.0, 
         {
             { AnimatedEntity::EntityStatus::IDLE, "doorStatic0"},
@@ -188,6 +191,35 @@ void Game::loadResources()
             AnimatedEntity::EntityStatus::IDLE
         }
         , 2.0, 2.0, 0)); // usa (doar sa testam) (usa gratis, cost 0)
+
+    // Enemies
+    this->entities.emplace_back(new Enemy(10.5, 10.5, 1.0, 1.0, 90.0, 5.0, 0.4, 0.4, std::map<AnimatedEntity::EntityStatus, std::string>
+    {
+        { AnimatedEntity::EntityStatus::ARMS_HOLDING_GRENADE, "armsHoldingGrenade" },
+        { AnimatedEntity::EntityStatus::ARMS_HOLDING_KNIFE, "armsHoldingKnife" },
+        { AnimatedEntity::EntityStatus::ARMS_HOLDING_PISTOL, "armsHoldingPistol" },
+        { AnimatedEntity::EntityStatus::ARMS_MOVING_AHEAD, "armsMovingAhead" },
+        { AnimatedEntity::EntityStatus::ARMS_MOVING_AROUND_WALKING, "armsMovingAroundWalking" },
+        { AnimatedEntity::EntityStatus::ARMS_MOVING_AROUND_RUNNING, "armsMovingAroundRunning" },
+        { AnimatedEntity::EntityStatus::ARMS_NOT, "armsNot" },
+        { AnimatedEntity::EntityStatus::ARMS_RELOADING_PISTOL, "armsReloadingPistol" },
+        { AnimatedEntity::EntityStatus::ARMS_USING_GRENADE, "armsUsingGrenade" },
+        { AnimatedEntity::EntityStatus::ARMS_USING_KNIFE, "armsUsingKnife" },
+        { AnimatedEntity::EntityStatus::ARMS_USING_PISTOL, "armsUsingPistol" },
+        { AnimatedEntity::EntityStatus::BODY_IDLE, "bodyIdle" },
+        { AnimatedEntity::EntityStatus::HEAD_ANGRY, "headAngry" },
+        { AnimatedEntity::EntityStatus::HEAD_IDLE, "headIdle" },
+        { AnimatedEntity::EntityStatus::HEAD_SATISFIED, "headSatisfied" },
+        { AnimatedEntity::EntityStatus::HEAD_TIRED, "headTired" },
+        { AnimatedEntity::EntityStatus::LEGS_MOVING_AROUND, "legsMovingAround" },
+        { AnimatedEntity::EntityStatus::LEGS_NOT, "legsNot" }
+    },
+    {
+        AnimatedEntity::EntityStatus::LEGS_NOT,
+        AnimatedEntity::EntityStatus::ARMS_MOVING_AHEAD,
+        AnimatedEntity::EntityStatus::BODY_IDLE,
+        AnimatedEntity::EntityStatus::HEAD_IDLE
+    }, 100.0, 25.0));
 
     // Configure Shaders
     glm::mat4 projection = glm::ortho(-0.5f * static_cast<float>(WindowManager::get().getWindowWidth()), 0.5f * static_cast<float>(WindowManager::get().getWindowWidth()), -0.5f * static_cast<float>(WindowManager::get().getWindowHeight()), 0.5f * static_cast<float>(WindowManager::get().getWindowHeight()));

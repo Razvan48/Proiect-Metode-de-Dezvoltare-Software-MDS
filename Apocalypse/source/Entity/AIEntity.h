@@ -10,6 +10,7 @@ class AIEntity : public virtual Entity
 protected:
 
 	static const double EPSILON;
+	static const double EPSILON_ANGLE;
 	static const std::vector<std::pair<int, int>> neighbors;
 	static const std::vector<std::pair<int, int>> extendedNeighbors;
 	static const std::vector<double> neighborsAngles;

@@ -1,6 +1,8 @@
 #include <queue>
 #include <memory>
 
+#include <iostream> // TODO: debug
+
 #include "Enemy.h"
 #include "../Player/Player.h"
 #include "../../Map/Map.h"
@@ -13,7 +15,7 @@ Enemy::Enemy(double x, double y, double drawWidth, double drawHeight, double rot
 	, AnimatedEntity(x, y, drawWidth, drawHeight, rotateAngle, speed, animationsName2D, statuses)
 	, Human(x, y, drawWidth, drawHeight, rotateAngle, speed, collideWidth, collideHeight, animationsName2D, statuses, health)
 	, AIEntity(x, y, drawWidth, drawHeight, rotateAngle, speed)
-	, rotateSpeed(rotateSpeed), lastChosenCell(std::make_pair(-1, -1)), chosenCell(std::make_pair(-1, -1)), chosenCellIndex(-1), probToChangeDir(1.0 / 10.0)
+	, rotateSpeed(rotateSpeed), lastChosenCell(std::make_pair(-1, -1)), chosenCell(std::make_pair(-1, -1)), chosenCellIndex(-1), probToChangeDir(1.0 / 250.0)
 {
 
 }
@@ -22,8 +24,6 @@ Enemy::Enemy(double x, double y, double drawWidth, double drawHeight, double rot
 void Enemy::pathFindingTarget()
 {
 	// clear
-	this->blockedCell.clear();
-	this->cellDistance.clear();
 	while (!this->q.empty())
 	{
 		this->q.pop();
@@ -36,13 +36,21 @@ void Enemy::pathFindingTarget()
 	this->cellDistance.resize(Map::get().getMap().size());
 	for (int i = 0; i < Map::get().getMap().size(); ++i)
 	{
-		this->blockedCell[i].resize(Map::get().getMap()[i].size(), false);
-		this->cellDistance[i].resize(Map::get().getMap()[i].size(), 0);
+		this->blockedCell[i].resize(Map::get().getMap()[i].size());
+		this->cellDistance[i].resize(Map::get().getMap()[i].size());
+	}
+	for (int i = 0; i < Map::get().getMap().size(); ++i)
+	{
+		for (int j = 0; j < Map::get().getMap()[i].size(); ++j)
+		{
+			this->blockedCell[i][j] = false;
+			this->cellDistance[i][j] = 0;
+		}
 	}
 
 	for (int i = 0; i < Map::get().getMap().size(); ++i)
 	{
-		for (int j = 0; j < Map::get().getMap()[0].size(); ++j)
+		for (int j = 0; j < Map::get().getMap()[i].size(); ++j)
 		{
 			if (std::dynamic_pointer_cast<Wall>(Map::get().getMap()[i][j]))
 			{
@@ -68,7 +76,8 @@ void Enemy::pathFindingTarget()
 	this->cellDistance[yCell][xCell] = 1;
 	this->q.emplace(std::make_pair(xCell, yCell));
 
-	while (!this->q.empty())
+	bool done = false;
+	while (!done && !this->q.empty())
 	{
 		int currentX = this->q.front().first;
 		int currentY = this->q.front().second;
@@ -83,6 +92,13 @@ void Enemy::pathFindingTarget()
 				continue;
 
 			this->cellDistance[newY][newX] = this->cellDistance[currentY][currentX] + 1;
+
+			if (newX == xTarget && newY == yTarget)
+			{
+				done = true;
+				break;
+			}
+
 			this->q.emplace(std::make_pair(newX, newY));
 		}
 	}
@@ -108,8 +124,10 @@ void Enemy::pathFindingTarget()
 			}
 		}
 
+		std::cout << "DIST: " << this->cellDistance[lastCurrentCell.second][lastCurrentCell.first] << ' ' << lastCurrentCell.second << ' ' << lastCurrentCell.first << '\n';
+
 		this->lastChosenCell = this->chosenCell;
-		this->chosenCell = lastCurrentCell;
+		this->chosenCell = std::make_pair(lastCurrentCell.first - xCell, lastCurrentCell.second - yCell);
 	}
 	else
 	{
@@ -138,10 +156,26 @@ void Enemy::pathFindingTarget()
 			break;
 		}
 	}
+
+	//debug
+	std::cout << xCell << ' ' << yCell << ' ' << xTarget << ' ' << yTarget << ' ' <<
+		AIEntity::neighbors[this->chosenCellIndex].first << ' ' << AIEntity::neighbors[this->chosenCellIndex].second << std::endl;
+
+	/*
+	for (int i = 25; i >= 0; --i)
+	{
+		for (int j = 0; j <= 25; ++j)
+		{
+			std::cout << this->blockedCell[i][j] << ' ';
+		}
+		std::cout << '\n';
+	}
+	*/
 }
 
 void Enemy::onTargetReach()
 {
+	std::cout << "NEAR!\n";
 	// TODO: (sau putem lasa asa)
 }
 
@@ -153,13 +187,32 @@ bool Enemy::nearTarget()
 
 void Enemy::update()
 {
-	this->pathFindingTarget();
-
 	if (this->nearTarget())
 	{
 		this->onTargetReach();
 		return;
 	}
+
+	this->pathFindingTarget();
+
+
+
+
+	/*
+	for (int i = 25; i >= 0; --i)
+	{
+		for (int j = 0; j <= 25; ++j)
+		{
+			std::cout << this->cellDistance[i][j] << ' ';
+		}
+		std::cout << std::endl;
+	}
+	std::cout << "DIRECTIE " << this->chosenCell.first << ' ' << this->chosenCell.second << '\n';
+	std::cout << "########################\n";
+	*/
+
+
+
 
 
 	int xCell = static_cast<int>(this->x + 0.5);
@@ -173,29 +226,42 @@ void Enemy::update()
 	double speedDeltaX = this->speed * std::cos(glm::radians(this->rotateAngle)) * GlobalClock::get().getDeltaTime();
 	double speedDeltaY = this->speed * std::sin(glm::radians(this->rotateAngle)) * GlobalClock::get().getDeltaTime();
 
+	//debug
+	//this->x = newX;
+	//this->y = newY;
+	//
+
+	/*
 	if (speedDeltaX * deltaX + speedDeltaY * deltaY > 0.0)
 	{
 		this->x += speedDeltaX;
 		this->y += speedDeltaY;
 	}
+	*/
+	//if (speedDeltaX * deltaX > 0.0)
+	//	this->x += speedDeltaX;
+	//if (speedDeltaY * deltaY > 0.0)
+	//	this->y += speedDeltaY;
+	this->x += this->speed * AIEntity::neighbors[this->chosenCellIndex].first * GlobalClock::get().getDeltaTime();
+	this->y += this->speed * AIEntity::neighbors[this->chosenCellIndex].second * GlobalClock::get().getDeltaTime();
 
 	double anglesDistance = std::min(std::abs(this->rotateAngle - AIEntity::neighborsAngles[this->chosenCellIndex]),
 		std::abs(360.0 - std::max(this->rotateAngle, AIEntity::neighborsAngles[this->chosenCellIndex]) +
 			std::min(this->rotateAngle, AIEntity::neighborsAngles[this->chosenCellIndex])));
 
-	if (anglesDistance > AIEntity::EPSILON)
+	if (anglesDistance > AIEntity::EPSILON_ANGLE)
 	{
 		if (std::abs(this->rotateAngle - AIEntity::neighborsAngles[this->chosenCellIndex]) <
 			std::abs(360.0 - std::max(this->rotateAngle, AIEntity::neighborsAngles[this->chosenCellIndex]) +
 				std::min(this->rotateAngle, AIEntity::neighborsAngles[this->chosenCellIndex]))) // rotatie in sens trigonometric
 		{
-			this->rotateAngle += this->rotateSpeed * GlobalClock::get().getCurrentTime();
+			this->rotateAngle += this->rotateSpeed * GlobalClock::get().getDeltaTime();
 			while (this->rotateAngle >= 360.0)
 				this->rotateAngle -= 360.0;
 		}
 		else // sens opus
 		{
-			this->rotateAngle -= this->rotateSpeed * GlobalClock::get().getCurrentTime();
+			this->rotateAngle -= this->rotateSpeed * GlobalClock::get().getDeltaTime();
 			while (this->rotateAngle < 0.0)
 				this->rotateAngle += 360.0;
 		}
