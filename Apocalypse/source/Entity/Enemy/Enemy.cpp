@@ -188,33 +188,40 @@ void Enemy::update()
 
 	double currentTargetAngle = glm::degrees(std::atan2f(this->currentTarget.second - this->y, this->currentTarget.first - this->x));
 	if (currentTargetAngle < 0.0)
-		currentTargetAngle += 180.0;
+		currentTargetAngle += 360.0;
 
 	double angleDist = std::min(std::abs(this->rotateAngle - currentTargetAngle),
 		std::abs(360.0 - std::max(this->rotateAngle, currentTargetAngle) +
 			std::min(this->rotateAngle, currentTargetAngle)));
 
-	this->rotateAngle = currentTargetAngle;
+	// this->rotateAngle = currentTargetAngle;
 
-	/*
 	if (angleDist > AIEntity::EPSILON_ANGLE)
 	{
 		if (std::abs(this->rotateAngle - currentTargetAngle) <
 			std::abs(360.0 - std::max(this->rotateAngle, currentTargetAngle) +
-				std::min(this->rotateAngle, currentTargetAngle))) // rotatie in sens trigonometric
+				std::min(this->rotateAngle, currentTargetAngle)))
+		{
+			if (this->rotateAngle < currentTargetAngle) // sens trigonometric
+			{
+				this->rotateAngle += this->rotateSpeed * GlobalClock::get().getDeltaTime();
+				while (this->rotateAngle >= 360.0)
+					this->rotateAngle -= 360.0;
+			}
+			else // sens opus
+			{
+				this->rotateAngle -= this->rotateSpeed * GlobalClock::get().getDeltaTime();
+				while (this->rotateAngle < 0.0)
+					this->rotateAngle += 360.0;
+			}
+		}
+		else // sens trigonometric
 		{
 			this->rotateAngle += this->rotateSpeed * GlobalClock::get().getDeltaTime();
 			while (this->rotateAngle >= 360.0)
 				this->rotateAngle -= 360.0;
 		}
-		else // sens opus
-		{
-			this->rotateAngle -= this->rotateSpeed * GlobalClock::get().getDeltaTime();
-			while (this->rotateAngle < 0.0)
-				this->rotateAngle += 360.0;
-		}
 	}
-	*/
 }
 
 Enemy::~Enemy()

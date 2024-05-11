@@ -216,7 +216,7 @@ void Game::loadResources()
         AnimatedEntity::EntityStatus::ARMS_STAYING_AHEAD,
         AnimatedEntity::EntityStatus::BODY_IDLE,
         AnimatedEntity::EntityStatus::HEAD_IDLE
-    }, 100.0, 25.0));
+    }, 100.0, 1000.0));
     this->entities.emplace_back(new Enemy(1.0, 1.0, 1.0, 1.0, 90.0, 5.0, 0.5, 0.5, std::map<AnimatedEntity::EntityStatus, std::string>
     {
         { AnimatedEntity::EntityStatus::ARMS_STAYING_AHEAD, "enemy0ArmsStayingAhead" },
@@ -231,7 +231,7 @@ void Game::loadResources()
         AnimatedEntity::EntityStatus::ARMS_STAYING_AHEAD,
         AnimatedEntity::EntityStatus::BODY_IDLE,
         AnimatedEntity::EntityStatus::HEAD_IDLE
-    }, 100.0, 25.0));
+    }, 100.0, 1000.0));
     this->entities.emplace_back(new Enemy(6.0, 3.0, 1.0, 1.0, 90.0, 5.0, 0.5, 0.5, std::map<AnimatedEntity::EntityStatus, std::string>
     {
         { AnimatedEntity::EntityStatus::ARMS_STAYING_AHEAD, "enemy0ArmsStayingAhead" },
@@ -246,7 +246,7 @@ void Game::loadResources()
         AnimatedEntity::EntityStatus::ARMS_STAYING_AHEAD,
         AnimatedEntity::EntityStatus::BODY_IDLE,
         AnimatedEntity::EntityStatus::HEAD_IDLE
-    }, 100.0, 25.0));
+    }, 100.0, 1000.0));
 
     // Configure Shaders
     glm::mat4 projection = glm::ortho(-0.5f * static_cast<float>(WindowManager::get().getWindowWidth()), 0.5f * static_cast<float>(WindowManager::get().getWindowWidth()), -0.5f * static_cast<float>(WindowManager::get().getWindowHeight()), 0.5f * static_cast<float>(WindowManager::get().getWindowHeight()));
