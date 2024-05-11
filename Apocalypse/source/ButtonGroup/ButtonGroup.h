@@ -7,7 +7,7 @@
 
 class ButtonGroup
 {
-private:
+protected:
 	std::map<std::string, Button> buttons;
 	std::map<std::string, std::function<void(Button&)>> hoverFunctions;
 	std::map<std::string, std::function<void(Button&)>> hoverLostFunctions;
@@ -39,6 +39,7 @@ public:
 	static std::string getAny() { return any; }
 
 	void draw();
+	void draw(float x, float y, float width, float height);
 
 	void setButtons(const std::map<std::string, Button>& buttons_);
 	void setFunctions(const std::map<std::string, std::function<void(Button&)>>& hoverFunctions_,

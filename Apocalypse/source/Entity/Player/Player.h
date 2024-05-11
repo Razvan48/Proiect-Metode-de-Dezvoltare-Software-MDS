@@ -38,6 +38,7 @@ private:
 	void reload();
 
 	void pauseGame();
+	void enterShop();
 
 	void weaponSlot1();
 	void weaponSlot2();

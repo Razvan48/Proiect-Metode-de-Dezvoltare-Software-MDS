@@ -2,6 +2,7 @@
 
 #include "../CollidableEntity.h"
 #include "../TexturableEntity.h"
+#include "../../Renderer/TextRenderer.h"
 
 #include <map>
 
@@ -22,11 +23,16 @@ protected:
 	std::map<Button::Status, std::string> status_TextureNames;
 	Status status = Button::Status::DEFAULT;
 
+	double textOffsetX;
+	double textScale;
+	std::string font;
+	glm::vec3 fontColor;
+
 	void updateTexture();
 
 public:
 
-	Button(double x, double y, double drawWidth, double drawHeight, double rotateAngle, double speed, double collideWidth, double collideHeight, const std::map<Button::Status, std::string>& status_TextureNames_, const std::string& label_ = "");
+	Button(double x, double y, double drawWidth, double drawHeight, double rotateAngle, double speed, double collideWidth, double collideHeight, const std::map<Button::Status, std::string>& status_TextureNames_, const std::string& label_ = "", double textOffsetX_ = 50, double textScale = 1.0, const std::string& font_ = "Antonio", bool textCenteredX = false, const glm::vec3& fontColor_ = glm::vec3{0.0, 0.0, 0.0});
 	Button();
 	virtual ~Button();
 
@@ -36,7 +42,11 @@ public:
 	std::string getLabel() const { return label; }
 	void setLabel(const std::string& label) { this->label = label; }
 
+	double getTextScale()const { return textScale; }
+	void setTextScale(double textScale_) { textScale = textScale_; }
+
 	void draw() override;
+	void draw(double x_, double y_, double width_, double height_);
 
 	void setX(double x) { this->x = x; }
 	void setY(double y) { this->y = y; }

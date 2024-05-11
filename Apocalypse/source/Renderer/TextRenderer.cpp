@@ -80,3 +80,16 @@ void TextRenderer::draw(Shader& shader, Font& font, const std::string& text, flo
     glBindTexture(GL_TEXTURE_2D, 0);
 }
 
+double TextRenderer::getTextWidth(Font& font, double scale, const std::string& str) const
+{
+    double res = 0.0;
+
+    for (auto& c : str)
+    {
+        Character ch = font.Characters[c];
+        res +=  (ch.advance >> 6) * scale;
+    }
+
+    return res;
+}
+

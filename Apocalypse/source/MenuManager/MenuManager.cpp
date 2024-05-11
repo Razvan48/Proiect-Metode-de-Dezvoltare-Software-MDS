@@ -8,7 +8,9 @@ MenuManager& MenuManager::get()
 	return instance;
 }
 
-void MenuManager::pop() { 
+void MenuManager::pop() {
+	if (!menuStack.empty())
+		menuStack.top()->setIsInMenu(false);
 	menuStack.pop(); 
 	if (!menuStack.empty())
 	{

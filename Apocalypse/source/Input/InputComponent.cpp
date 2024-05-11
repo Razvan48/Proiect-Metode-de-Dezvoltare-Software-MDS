@@ -20,6 +20,11 @@ void InputComponent::bindAxis(const std::function<void(double, double)>& func)
 	mouseFunctionCallbacks.push_back(func);
 }
 
+void InputComponent::bindScroll(const std::function<void(double, double)>& func)
+{
+	scrollFunctionCallbacks.push_back(func);
+}
+
 void InputComponent::callbackAction(int key, int action)
 {
 	for (const auto& f : keyFunctionCallbacks[key][action])
@@ -33,6 +38,14 @@ void InputComponent::callbackAxis(double xpos, double ypos)
 	for (const auto& f : mouseFunctionCallbacks)
 	{
 		f(xpos, ypos);
+	}
+}
+
+void InputComponent::callbackScroll(double xoffset, double yoffset)
+{
+	for (const auto& f : scrollFunctionCallbacks)
+	{
+		f(xoffset, yoffset);
 	}
 }
 
@@ -51,4 +64,10 @@ void InputComponent::replaceAxis(const std::function<void(double, double)>& func
 {
 	mouseFunctionCallbacks.clear();
 	mouseFunctionCallbacks.push_back(func);
+}
+
+void InputComponent::replaceScroll(const std::function<void(double, double)>& func)
+{
+	scrollFunctionCallbacks.clear();
+	scrollFunctionCallbacks.push_back(func);
 }
