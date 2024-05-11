@@ -1,12 +1,91 @@
 #include "Human.h"
+#include "../Wall/Wall.h"
+#include "../Door/Door.h"
+#include "../Bullet/Bullet.h"
 
-Human::Human(double x, double y, double drawWidth, double drawHeight, double rotateAngle, double speed, double collideWidth, double collideHeight, const std::map<AnimatedEntity::EntityStatus, std::string>& animationsName2D, std::vector<EntityStatus> statuses, double health) :
+Human::Human(double x, double y, double drawWidth, double drawHeight, double rotateAngle, double speed, double collideWidth, double collideHeight, const std::map<AnimatedEntity::EntityStatus, std::string>& animationsName2D, const std::vector<EntityStatus>& statuses, double health) :
 	Entity(x, y, drawWidth, drawHeight, rotateAngle, speed),
 	CollidableEntity(x, y, drawWidth, drawHeight, rotateAngle, speed, collideWidth, collideHeight),
 	AnimatedEntity(x, y, drawWidth, drawHeight, rotateAngle, speed, animationsName2D, statuses),
 	health(health), healthCap(100.0)
 {
 
+}
+
+void Human::onCollide(CollidableEntity& other, glm::vec2 overlap)
+{
+	// TODO: nu e totul implementat
+
+	if (dynamic_cast<Wall*>(&other) != nullptr)
+	{
+		if (overlap.x < overlap.y)
+		{
+			if (this->x < other.getX())
+				this->x -= (overlap.x + CollidableEntity::EPS);
+			else
+				this->x += (overlap.x + CollidableEntity::EPS);
+		}
+		else
+		{
+			if (this->y < other.getY())
+				this->y -= (overlap.y + CollidableEntity::EPS);
+			else
+				this->y += (overlap.y + CollidableEntity::EPS);
+		}
+	}
+	else if (dynamic_cast<Door*>(&other) != nullptr)
+	{
+		if (overlap.x < overlap.y)
+		{
+			if (this->x < other.getX())
+				this->x -= (overlap.x + CollidableEntity::EPS);
+			else
+				this->x += (overlap.x + CollidableEntity::EPS);
+		}
+		else
+		{
+			if (this->y < other.getY())
+				this->y -= (overlap.y + CollidableEntity::EPS);
+			else
+				this->y += (overlap.y + CollidableEntity::EPS);
+		}
+	} // doar bullets
+	else if (dynamic_cast<Bullet*>(&other) != nullptr)
+	{
+		if (overlap.x < overlap.y)
+		{
+			if (this->x < other.getX())
+				this->x -= (overlap.x + CollidableEntity::EPS) / 2.0;
+			else
+				this->x += (overlap.x + CollidableEntity::EPS) / 2.0;
+		}
+		else
+		{
+			if (this->y < other.getY())
+				this->y -= (overlap.y + CollidableEntity::EPS) / 2.0;
+			else
+				this->y += (overlap.y + CollidableEntity::EPS) / 2.0;
+		}
+	}
+	/* Nu vrem sa se intersecteze inamicii intre ei
+	else if (dynamic_cast<CollidableEntity*>(&other) != nullptr)
+	{
+		if (overlap.x < overlap.y)
+		{
+			if (this->x < other.getX())
+				this->x -= (overlap.x + CollidableEntity::EPS) / 2.0;
+			else
+				this->x += (overlap.x + CollidableEntity::EPS) / 2.0;
+		}
+		else
+		{
+			if (this->y < other.getY())
+				this->y -= (overlap.y + CollidableEntity::EPS) / 2.0;
+			else
+				this->y += (overlap.y + CollidableEntity::EPS) / 2.0;
+		}
+	}
+	*/
 }
 
 Human::~Human()

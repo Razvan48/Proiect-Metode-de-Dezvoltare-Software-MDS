@@ -1,9 +1,11 @@
 #pragma once
 
-#include "../CollidableEntity.h"
-#include "../TexturableEntity.h"
+#include <string>
 
 #include <glm/glm.hpp>
+
+#include "../CollidableEntity.h"
+#include "../TexturableEntity.h"
 
 class Bullet : public virtual CollidableEntity, public virtual TexturableEntity
 {

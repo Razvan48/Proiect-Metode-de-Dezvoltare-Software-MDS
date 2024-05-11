@@ -11,7 +11,7 @@ class Player : public virtual Human // singleton
 {
 private:
 
-	Player(double x, double y, double drawWidth, double drawHeight, double rotateAngle, double speed, double collideWidth, double collideHeight, const std::map<AnimatedEntity::EntityStatus, std::string>& animationsName2D, std::vector<EntityStatus> statuses, double runningSpeed, double health, double stamina, double armor);
+	Player(double x, double y, double drawWidth, double drawHeight, double rotateAngle, double speed, double collideWidth, double collideHeight, const std::map<AnimatedEntity::EntityStatus, std::string>& animationsName2D, const std::vector<EntityStatus>& statuses, double runningSpeed, double health, double stamina, double armor);
 	virtual ~Player();
 
 	Player(const Player& other) = delete;
@@ -44,6 +44,8 @@ private:
 	void weaponSlot2();
 	void weaponSlot3();
 	void weaponSlot4();
+	void weaponSlot5();
+	void weaponSlot6();
 
 	double runningSpeed;
 
@@ -71,11 +73,14 @@ private:
 
 	std::vector<std::shared_ptr<Weapon>> weapons;
 
+	int currentWeaponIndex;
+
 public:
 
 	static Player& get();
 
 	void onCollide(CollidableEntity& other, glm::vec2 overlap) override;
+
 	void update() override;
 
 	void setupPlayerInputComponent();
@@ -90,6 +95,8 @@ public:
 	inline void setGold(int gold) { this->gold = gold; }
 
 	inline bool getInteractUsed() const { return this->interactUsed; }
+
+	inline std::string getCurrentWeaponTexture() const { return this->weapons[this->currentWeaponIndex]->getTextureName2D(); }
 
 	void draw() override;
 

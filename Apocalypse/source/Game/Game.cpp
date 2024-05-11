@@ -13,6 +13,8 @@
 #include "../Map/Map.h"
 #include "../Input/InputHandler.h"
 #include "../Entity/Player/Player.h"
+#include "../Entity/Enemy/Enemy.h"
+#include "../Entity/AnimatedEntity.h"
 #include "../Camera/Camera.h"
 #include "../CollisionManager/CollisionManager.h"
 #include "../InteractionManager/InteractionManager.h"
@@ -170,6 +172,7 @@ void Game::loadResources()
     }
 
     // Load Entities
+    // Doors
     this->entities.emplace_back(new Door(7.5, 14.5, 1.0, 1.0, 90.0, 0.0, 1.0, 1.0, 
         {
             { AnimatedEntity::EntityStatus::IDLE, "doorStatic0"},
@@ -188,6 +191,35 @@ void Game::loadResources()
             AnimatedEntity::EntityStatus::IDLE
         }
         , 2.0, 2.0, 0)); // usa (doar sa testam) (usa gratis, cost 0)
+
+    // Enemies
+    this->entities.emplace_back(new Enemy(10.5, 10.5, 1.0, 1.0, 90.0, 5.0, 0.4, 0.4, std::map<AnimatedEntity::EntityStatus, std::string>
+    {
+        { AnimatedEntity::EntityStatus::ARMS_HOLDING_GRENADE, "armsHoldingGrenade" },
+        { AnimatedEntity::EntityStatus::ARMS_HOLDING_KNIFE, "armsHoldingKnife" },
+        { AnimatedEntity::EntityStatus::ARMS_HOLDING_PISTOL, "armsHoldingPistol" },
+        { AnimatedEntity::EntityStatus::ARMS_MOVING_AHEAD, "armsMovingAhead" },
+        { AnimatedEntity::EntityStatus::ARMS_MOVING_AROUND_WALKING, "armsMovingAroundWalking" },
+        { AnimatedEntity::EntityStatus::ARMS_MOVING_AROUND_RUNNING, "armsMovingAroundRunning" },
+        { AnimatedEntity::EntityStatus::ARMS_NOT, "armsNot" },
+        { AnimatedEntity::EntityStatus::ARMS_RELOADING_PISTOL, "armsReloadingPistol" },
+        { AnimatedEntity::EntityStatus::ARMS_USING_GRENADE, "armsUsingGrenade" },
+        { AnimatedEntity::EntityStatus::ARMS_USING_KNIFE, "armsUsingKnife" },
+        { AnimatedEntity::EntityStatus::ARMS_USING_PISTOL, "armsUsingPistol" },
+        { AnimatedEntity::EntityStatus::BODY_IDLE, "bodyIdle" },
+        { AnimatedEntity::EntityStatus::HEAD_ANGRY, "headAngry" },
+        { AnimatedEntity::EntityStatus::HEAD_IDLE, "headIdle" },
+        { AnimatedEntity::EntityStatus::HEAD_SATISFIED, "headSatisfied" },
+        { AnimatedEntity::EntityStatus::HEAD_TIRED, "headTired" },
+        { AnimatedEntity::EntityStatus::LEGS_MOVING_AROUND, "legsMovingAround" },
+        { AnimatedEntity::EntityStatus::LEGS_NOT, "legsNot" }
+    },
+    {
+        AnimatedEntity::EntityStatus::LEGS_NOT,
+        AnimatedEntity::EntityStatus::ARMS_MOVING_AHEAD,
+        AnimatedEntity::EntityStatus::BODY_IDLE,
+        AnimatedEntity::EntityStatus::HEAD_IDLE
+    }, 100.0, 25.0));
 
     // Configure Shaders
     glm::mat4 projection = glm::ortho(-0.5f * static_cast<float>(WindowManager::get().getWindowWidth()), 0.5f * static_cast<float>(WindowManager::get().getWindowWidth()), -0.5f * static_cast<float>(WindowManager::get().getWindowHeight()), 0.5f * static_cast<float>(WindowManager::get().getWindowHeight()));
@@ -225,18 +257,17 @@ void Game::run()
 
     while (!glfwWindowShouldClose(WindowManager::get().getWindow()))
     {
-        // Input
-        InputHandler::update();
+        // Update
+        InputHandler::update(); // TODO: delete?
+        Camera::get().update();
+        Player::get().update();
+        this->updateEntities();
 
         // Collision System
         CollisionManager::get().handleCollisions(this->entities);
 
         // Interactions System
         InteractionManager::get().handleInteractions(this->entities);
-
-        // Updates
-        Camera::get().update();
-        Player::get().update();
 
         // Render
         glClearColor(0.733f, 0.024f, 0.259f, 1.0f);
@@ -255,10 +286,12 @@ void Game::run()
         HUDManager::get().draw();
 
         // Main Menu
-        try {
+        try
+        {
             MenuManager::get().top().playMenu();
         }
-        catch(noMenuOpened& err){}
+        catch (noMenuOpened& err) {   }
+
         // Update Entities
         this->updateEntities(); // TODO: asta presupune ca entitatile tinute in vector-ul din clasa game nu isi mai dau update altundeva decat aici
 
@@ -278,6 +311,29 @@ void Game::run()
 
 void Game::updateEntities()
 {
+    // TODO: delete
+    //for (std::vector<std::shared_ptr<Entity>>::iterator it = entities.begin(); it != entities.end(); )
+    //{
+    //    if ((*it)->getDeleteEntity())
+    //    {
+    //        it = entities.erase(it);
+    //    }
+    //    else
+    //    {
+    //        it++;
+    //    }
+    //}
+
+    for (int i = 0; i < this->entities.size(); ++i)
+    {
+        if (entities[i]->getDeleteEntity())
+        {
+            std::swap(entities[i], entities[entities.size() - 1]);
+            entities.pop_back();
+            --i;
+        }
+    }
+
     for (int i = 0; i < this->entities.size(); ++i)
         this->entities[i]->update();
 }
@@ -288,7 +344,7 @@ void Game::drawEntities()
         this->entities[i]->draw();
 }
 
-void Game::addEntity(const std::shared_ptr<Entity>& entity)
+void Game::addEntity(std::shared_ptr<Entity> const entity)
 {
     this->entities.emplace_back(entity);
 }
