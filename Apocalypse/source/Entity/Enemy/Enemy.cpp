@@ -77,6 +77,7 @@ void Enemy::pathFindingTarget()
 
 	if (xCell == xTarget && yCell == yTarget)
 	{
+		this->cellDistance[yTarget][xTarget] = 1;
 		this->nextTarget = std::make_pair(xTarget + 0.5, yTarget + 0.5);
 		return;
 	}
