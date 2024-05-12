@@ -8,6 +8,11 @@
 #include "../Renderer/TextRenderer.h"
 
 
+std::map<Button::Status, std::string> ButtonBuilder::buttonTextures0()
+{
+	return std::map<Button::Status, std::string>{{Button::Status::DEFAULT, "button0Normal"}, { Button::Status::HOVERED, "button0Hovered" }, { Button::Status::CLICKED, "button0Hovered" }};
+}
+
 Button ButtonBuilder::backButton(double x, double y)
 {
 	return Button(x, y, 40, 40, 0, 0, 40, 40, std::map<Button::Status, std::string>{{Button::Status::DEFAULT, "back"}, { Button::Status::HOVERED, "backHovered" }, { Button::Status::CLICKED, "backHovered" }}, "");
@@ -40,8 +45,8 @@ std::map<std::string, Button> ButtonBuilder::WeaponCard(double x, double y, doub
 	std::string damageStr = "Damage: " + std::to_string(dmg);
 	std::string firerateStr = "Firerate: " + std::to_string(firerate);
 
-	Button dmgInfo(weaponInfoOffsetX, y + (height - weaponInfoHeight) * 0.5, weaponInfoWidth, weaponInfoHeight, 0, 0, weaponInfoWidth, weaponInfoHeight, std::map<Button::Status, std::string>{{Button::Status::DEFAULT, ".0"}, {Button::Status::HOVERED, ".0"}, {Button::Status::CLICKED, ".0"}}, damageStr, 0.0, textScale);
-	Button firerateInfo(firerateOffsetX, y + (height - weaponInfoHeight) * 0.5, weaponInfoWidth, weaponInfoHeight, 0, 0, weaponInfoWidth, weaponInfoHeight, std::map<Button::Status, std::string>{{Button::Status::DEFAULT, ".0"}, { Button::Status::HOVERED, ".0" }, { Button::Status::CLICKED, ".0" }}, firerateStr, 0.0, textScale);
+	Button dmgInfo(weaponInfoOffsetX, y + (height - weaponInfoHeight) * 0.5, weaponInfoWidth, weaponInfoHeight, 0, 0, weaponInfoWidth, weaponInfoHeight, std::map<Button::Status, std::string>{{Button::Status::DEFAULT, "noBackground"}, {Button::Status::HOVERED, "noBackground"}, {Button::Status::CLICKED, "noBackground"}}, damageStr, 0.0, textScale);
+	Button firerateInfo(firerateOffsetX, y + (height - weaponInfoHeight) * 0.5, weaponInfoWidth, weaponInfoHeight, 0, 0, weaponInfoWidth, weaponInfoHeight, std::map<Button::Status, std::string>{{Button::Status::DEFAULT, "noBackground"}, { Button::Status::HOVERED, "noBackground" }, { Button::Status::CLICKED, "noBackground" }}, firerateStr, 0.0, textScale);
 
 	double buyOffsetX = firerateOffsetX + weaponInfoWidth + width / 15.0;
 	double buyWidth = width / 6.0;
@@ -49,7 +54,7 @@ std::map<std::string, Button> ButtonBuilder::WeaponCard(double x, double y, doub
 
 	std::string buyStr = std::to_string(price) + " G";
 
-	Button buy(buyOffsetX, y + (height - buyHeight) * 0.5, buyWidth, buyHeight, 0, 0, buyWidth, buyHeight, std::map<Button::Status, std::string>{{Button::Status::DEFAULT, ".0"}, { Button::Status::HOVERED, ".1" }, { Button::Status::CLICKED, ".2" }}, buyStr, 0.0, textScale);
+	Button buy(buyOffsetX, y + (height - buyHeight) * 0.5, buyWidth, buyHeight, 0, 0, buyWidth, buyHeight, std::map<Button::Status, std::string>{{Button::Status::DEFAULT, "button0Normal"}, { Button::Status::HOVERED, "button0Hovered" }, { Button::Status::CLICKED, "button0Hovered" }}, buyStr, 0.0, textScale, "Antonio", true, glm::vec3(1.0, 1.0, 0.0));
 
 
 	std::map<std::string, Button> buttons{
@@ -139,7 +144,7 @@ std::vector<std::vector<std::string>> ButtonBuilder::tabTexturesHealthArmorSelec
 
 std::map<std::string, Button> ButtonBuilder::ShopTitleCard(double x, double y, double totalWidth, double totalHeight)
 {
-	double scale = 1.0;
+	double scale = 1.5;
 
 	std::string titleStr = "Shop";
 	
@@ -152,7 +157,7 @@ std::map<std::string, Button> ButtonBuilder::ShopTitleCard(double x, double y, d
 
 	double titleX = x + (totalWidth - buttonWidth) / 2.0;
 
-	Button TitleButton(titleX, y, buttonWidth, buttonHeight, 0, 0, buttonWidth, buttonHeight, std::map<Button::Status, std::string>{{Button::Status::DEFAULT, ".0"}, { Button::Status::HOVERED, ".1" }, { Button::Status::CLICKED, ".2" }}, titleStr, 0, scale, font, true);
+	Button TitleButton(titleX, y, buttonWidth, buttonHeight, 0, 0, buttonWidth, buttonHeight, std::map<Button::Status, std::string>{{Button::Status::DEFAULT, "button0Hovered"}, { Button::Status::HOVERED, "button0Hovered" }, { Button::Status::CLICKED, "button0Hovered" }}, titleStr, 0, scale, font, true, glm::vec3(1.0, 1.0, 0.0));
 
 	std::map<std::string, Button> buttons{ {titleStr, TitleButton} };
 

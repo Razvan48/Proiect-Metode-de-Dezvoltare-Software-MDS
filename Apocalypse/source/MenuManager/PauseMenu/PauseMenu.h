@@ -11,8 +11,8 @@ class PauseMenu : public virtual MenuBase
 {
 private:
 
-	double buttonOffsetX = 70;
-	double buttonOffsetY = 50;
+	double buttonOffsetX = 200;
+	double buttonOffsetY = 250;
 	double spaceAfterButton = 5;
 
 	ButtonGroup buttons;

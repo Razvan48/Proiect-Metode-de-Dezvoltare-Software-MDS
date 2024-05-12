@@ -11,8 +11,8 @@ class MainMenu : public virtual MenuBase
 {
 private:
 
-	double buttonOffsetX = 200;
-	double buttonOffsetY = 100;
+	double buttonOffsetX = 350;
+	double buttonOffsetY = 400;
 	double spaceAfterButton = 5;
 
 	ButtonGroup buttons;

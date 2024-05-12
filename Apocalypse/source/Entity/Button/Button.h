@@ -58,4 +58,6 @@ public:
 	void setHovered();
 	void setClicked();
 
+	void setFontColor(const glm::vec3& fontColor_);
+
 };

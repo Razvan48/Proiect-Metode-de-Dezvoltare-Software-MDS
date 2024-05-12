@@ -177,6 +177,22 @@
     "backHovered": {
       "file": "resources/textures/menus/BackButton/BackHovered.png",
       "alpha": true
+    },
+    "button0Normal": {
+      "file": "resources/textures/menus/button0Normal.png",
+      "alpha": true
+    },
+    "button0Hovered": {
+      "file": "resources/textures/menus/button0Hovered.png",
+      "alpha": true
+    },
+    "menuScreen0": {
+      "file": "resources/textures/menus/menuScreen0.png",
+      "alpha": true
+    },
+    "noBackground": {
+      "file": "resources/textures/menus/noBackground.png",
+      "alpha": true
     }
   },
 

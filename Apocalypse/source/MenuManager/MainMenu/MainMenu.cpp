@@ -9,17 +9,18 @@
 #include "../../Entity/Player/Player.h"
 #include "../../HUD/HUDManager.h"
 #include "../MenuManager.h"
+#include "../../ButtonBuilder/ButtonBuilder.h"
 
 
 
 MainMenu::MainMenu(double x, double y, double drawWidth, double drawHeight, double rotateAngle, double speed, const std::string& textureName2D) :
 	Entity(x, y, drawWidth, drawHeight, rotateAngle, speed),
 	TexturableEntity(x, y, drawWidth, drawHeight, rotateAngle, speed, textureName2D),
-	MenuBase(x, y, drawWidth, drawHeight, rotateAngle, speed, textureName2D, drawWidth * 0.75, drawHeight * 0.1),
+	MenuBase(x, y, drawWidth, drawHeight, rotateAngle, speed, textureName2D, drawWidth * 0.3, drawHeight * 0.1),
 	buttons(std::map<std::string, Button>{
-		{ "quit", Button(getButtonPosX(), getButtonPosY(0), buttonWidth, buttonHeight, 0, 0, buttonWidth, buttonHeight, std::map<Button::Status, std::string>{{Button::Status::DEFAULT, ".0"}, { Button::Status::HOVERED, ".1" }, { Button::Status::CLICKED, ".2" }}, "Quit")},
-		{ "play", Button(getButtonPosX(), getButtonPosY(1), buttonWidth, buttonHeight, 0, 0, buttonWidth, buttonHeight, std::map<Button::Status, std::string>{{Button::Status::DEFAULT, ".0"}, { Button::Status::HOVERED, ".1" }, { Button::Status::CLICKED, ".2" }}, "Play") },
-		{ "settings", Button(getButtonPosX(), getButtonPosY(2), buttonWidth, buttonHeight, 0, 0, buttonWidth, buttonHeight, std::map<Button::Status, std::string>{{Button::Status::DEFAULT, ".0"}, { Button::Status::HOVERED, ".1" }, { Button::Status::CLICKED, ".2" }}, "Settings") }
+		{ "quit", Button(getButtonPosX(), getButtonPosY(0), buttonWidth, buttonHeight, 0, 0, buttonWidth, buttonHeight, ButtonBuilder::buttonTextures0(), "Quit", 0, 1.0, "Antonio", true) },
+		{ "play", Button(getButtonPosX(), getButtonPosY(1), buttonWidth, buttonHeight, 0, 0, buttonWidth, buttonHeight, ButtonBuilder::buttonTextures0(), "Play", 0, 1.0, "Antonio", true) },
+		{ "settings", Button(getButtonPosX(), getButtonPosY(2), buttonWidth, buttonHeight, 0, 0, buttonWidth, buttonHeight, ButtonBuilder::buttonTextures0(), "Settings", 0, 1.0, "Antonio", true) }
 })
 {	
 	buttons.setFunctions(
@@ -44,7 +45,7 @@ MainMenu& MainMenu::get()
 	double y = 0;
 
 
-	static MainMenu instance(x, y, dW, dH, 0, 0, ".0");
+	static MainMenu instance(x, y, dW, dH, 0, 0, "menuScreen0");
 	return instance;
 }
 

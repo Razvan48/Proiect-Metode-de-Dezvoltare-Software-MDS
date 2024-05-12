@@ -45,10 +45,12 @@ void MenuBase::hoverAnyButton(Button& button)
 {
 	button.setHovered();
 	button.setLabel(toUpper(button.getLabel()));
+	button.setFontColor(glm::vec3(1.0, 1.0, 0.0));
 }
 
 void MenuBase::hoverLostAnyButton(Button& button)
 {
 	button.setDefault();
 	button.setLabel(initCap(button.getLabel()));
+	button.setFontColor(glm::vec3(0.0, 0.0, 0.0));
 }

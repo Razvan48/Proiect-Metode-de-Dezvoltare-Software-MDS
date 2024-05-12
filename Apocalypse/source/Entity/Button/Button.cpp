@@ -117,3 +117,8 @@ void Button::setClicked()
 	updateTexture();
 }
 
+void Button::setFontColor(const glm::vec3& fontColor_)
+{
+	fontColor = fontColor_;
+}
+

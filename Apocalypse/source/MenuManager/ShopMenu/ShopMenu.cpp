@@ -145,7 +145,7 @@ std::map<std::string, Button> ShopMenuWeapons::loadMenuItems()
 
 	for (int i = 0;i < 3;i++)
 	{
-		auto card = ButtonBuilder::WeaponCard(getCardPosX(), getCardPosY(id - 1), buttonWidth, buttonHeight, std::to_string(id), 10, 500, 250, ".0");
+		auto card = ButtonBuilder::WeaponCard(getCardPosX(), getCardPosY(id - 1), buttonWidth, buttonHeight, std::to_string(id), 10, 500, 250, "automated1");
 		rez.insert(card.begin(), card.end());
 		
 		id++;
@@ -162,7 +162,7 @@ ShopMenuAbstract& ShopMenuWeapons::get()
 	double y = (-WindowManager::get().getWindowHeight() + dH) / 2.0;
 
 
-	static ShopMenuWeapons instance(x, y, dW, dH, 0, 0, ".0");
+	static ShopMenuWeapons instance(x, y, dW, dH, 0, 0, "menuScreen0");
 	return instance;
 }
 
@@ -242,7 +242,7 @@ std::map<std::string, Button> ShopMenuBullets::loadMenuItems()
 
 	for (int i = 0;i < 5;i++)
 	{
-		auto card = ButtonBuilder::WeaponCard(getCardPosX(), getCardPosY(id - 1), buttonWidth, buttonHeight, std::to_string(id), 10, 500, 250, ".0");
+		auto card = ButtonBuilder::WeaponCard(getCardPosX(), getCardPosY(id - 1), buttonWidth, buttonHeight, std::to_string(id), 10, 500, 250, "automated1");
 		rez.insert(card.begin(), card.end());
 
 		id++;
@@ -259,7 +259,7 @@ ShopMenuAbstract& ShopMenuBullets::get()
 	double y = (-WindowManager::get().getWindowHeight() + dH) / 2.0;
 
 
-	static ShopMenuBullets instance(x, y, dW, dH, 0, 0, ".0");
+	static ShopMenuBullets instance(x, y, dW, dH, 0, 0, "menuScreen0");
 	return instance;
 }
 
@@ -340,7 +340,7 @@ std::map<std::string, Button> ShopMenuHealthArmor::loadMenuItems()
 
 	for (int i = 0;i < 1;i++)
 	{
-		auto card = ButtonBuilder::WeaponCard(getCardPosX(), getCardPosY(id-1), buttonWidth, buttonHeight, std::to_string(id), 10, 500, 250, ".0");
+		auto card = ButtonBuilder::WeaponCard(getCardPosX(), getCardPosY(id-1), buttonWidth, buttonHeight, std::to_string(id), 10, 500, 250, "automated1");
 		rez.insert(card.begin(), card.end());
 
 		id++;
@@ -357,7 +357,7 @@ ShopMenuAbstract& ShopMenuHealthArmor::get()
 	double y = (-WindowManager::get().getWindowHeight() + dH) / 2.0;
 
 
-	static ShopMenuHealthArmor instance(x, y, dW, dH, 0, 0, ".0");
+	static ShopMenuHealthArmor instance(x, y, dW, dH, 0, 0, "menuScreen0");
 	return instance;
 }
 
