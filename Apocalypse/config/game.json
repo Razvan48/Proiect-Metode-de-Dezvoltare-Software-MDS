@@ -345,12 +345,20 @@
       "file": "resources/sounds/running.mp3",
       "mode": 2
     },
-    "pistolShot": {
-      "file": "resources/sounds/pistolShot.mp3",
+    "fist": {
+      "file": "resources/sounds/fist.mp3",
       "mode": 1
     },
-    "pistolReload": {
-      "file": "resources/sounds/pistolReload.mp3",
+    "revolver_01": {
+      "file": "resources/sounds/revolver_01.wav",
+      "mode": 1
+    },
+    "revolverEmpty": {
+      "file": "resources/sounds/revolverEmpty.wav",
+      "mode": 1
+    },
+    "revolverDraw": {
+      "file": "resources/sounds/revolverDraw.wav",
       "mode": 1
     }
   },

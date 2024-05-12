@@ -8,7 +8,6 @@
 class Weapon : public virtual PickUp
 {
 public:
-
 	static enum class WeaponType
 	{
 		FIST,
@@ -21,7 +20,6 @@ public:
 	};
 
 protected:
-
 	double fireRate;
 	int numBullets;
 	double damage;
@@ -35,8 +33,8 @@ protected:
 	double shortRangeAttackRadius;
 
 public:
-
 	Weapon(double x, double y, double drawWidth, double drawHeight, double rotateAngle, double speed, const std::string& textureName2D, double interactionWidth, double interactionHeight, double fireRate, int numBullets, double damage, double reloadTime, WeaponType weaponType, double shortRangeAttackRadius);
+	virtual ~Weapon() = default;
 
 	virtual bool isInInteraction() override;
 	virtual void onInteraction() override;
@@ -49,6 +47,6 @@ public:
 
 	virtual void update() override;
 
-	virtual ~Weapon();
+	void drawWeapon();
 };
 

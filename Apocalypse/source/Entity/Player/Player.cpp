@@ -32,8 +32,8 @@ Player::Player(double x, double y, double drawWidth, double drawHeight, double r
 	moveUpUsed(false), moveDownUsed(false), moveRightUsed(false), moveLeftUsed(false), runUsed(false), interactUsed(false),
 	walkingOffsetSize(0.01), runningOffsetSize(0.05),
 	walkingOffsetSpeed(10.0), runningOffsetSpeed(15.0),
-	weapons({ std::make_shared<Weapon>(0.0, 0.0, 0.0, 0.0, 0.0, 0.0, "fist0", 0.0, 0.0, 0.0, 0, 0.0, 0.0, Weapon::WeaponType::FIST, 0.0)
-		, std::make_shared<Weapon>(0.0, 0.0, 0.0, 0.0, 0.0, 0.0, "pistol0", 0.0, 0.0, 0.0, 0, 0.0, 5.0, Weapon::WeaponType::PISTOL, 0.0)
+	weapons({ std::make_shared<Weapon>(0.0, 0.0, 0.0, 0.0, 0.0, 0.0, "fist0", 0.0, 0.0, 0.0, 1, 0.0, 0.0, Weapon::WeaponType::FIST, 0.0)
+		, std::make_shared<Weapon>(0.0, 0.0, 0.0, 0.0, 0.0, 0.0, "pistol0", 0.0, 0.0, 0.5, 20, 0.0, 5.0, Weapon::WeaponType::PISTOL, 0.0)
 		, nullptr
 		, nullptr
 		, nullptr
@@ -438,36 +438,42 @@ void Player::pauseGame()
 void Player::weaponSlot1()
 {
 	if (this->weapons[0] != nullptr)
+		weapons[0]->drawWeapon();
 		this->currentWeaponIndex = 0;
 }
 
 void Player::weaponSlot2()
 {
 	if (this->weapons[1] != nullptr)
+		weapons[1]->drawWeapon();
 		this->currentWeaponIndex = 1;
 }
 
 void Player::weaponSlot3()
 {
 	if (this->weapons[2] != nullptr)
+		weapons[2]->drawWeapon();
 		this->currentWeaponIndex = 2;
 }
 
 void Player::weaponSlot4()
 {
 	if (this->weapons[3] != nullptr)
+		weapons[3]->drawWeapon();
 		this->currentWeaponIndex = 3;
 }
 
 void Player::weaponSlot5()
 {
 	if (this->weapons[4] != nullptr)
+		weapons[4]->drawWeapon();
 		this->currentWeaponIndex = 4;
 }
 
 void Player::weaponSlot6()
 {
 	if (this->weapons[5] != nullptr)
+		weapons[5]->drawWeapon();
 		this->currentWeaponIndex = 5;
 }
 

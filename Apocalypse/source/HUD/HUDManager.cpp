@@ -19,14 +19,11 @@ void HUDManager::draw()
 	// top-left
 	int numberOfTextures = 5;
 
-	int widthOffset = 32;	// TODO: delete
-	int heightOffset = 32;	// TODO: delete
-
 	int textureScaleWidth = 32;
 	int textureScaleHeight = 32;
 	
-	int width = -1 * WindowManager::get().getWindowWidth() / 2 + widthOffset;
-	int height = WindowManager::get().getWindowHeight() / 2 - heightOffset;
+	int width = -1 * WindowManager::get().getWindowWidth() / 2 + 32;
+	int height = WindowManager::get().getWindowHeight() / 2 - 32;
 
 	// health bar
 	double fill = Player::get().getHealth() / Player::get().getHealthCap();
@@ -75,16 +72,20 @@ void HUDManager::draw()
 	width = WindowManager::get().getWindowWidth() / 2 - textureScaleWidth / 2;
 	height = WindowManager::get().getWindowHeight() / 2 - textureScaleHeight / 2;
 
-	//SpriteRenderer::get().draw(ResourceManager::getShader("sprite"), ResourceManager::getTexture("fist0"), glm::vec2(width, height), glm::vec2(textureScaleWidth, textureScaleHeight), 0.0f);
 	SpriteRenderer::get().draw(ResourceManager::getShader("sprite"), ResourceManager::getTexture(Player::get().getCurrentWeaponTexture()), glm::vec2(width, height), glm::vec2(textureScaleWidth, textureScaleHeight), 0.0f);
-	// SpriteRenderer::get().draw(ResourceManager::getShader("sprite"), ResourceManager::getTexture("pistol0"), glm::vec2(width, height), glm::vec2(textureWidth, textureHeight, 0.0f);
 	SpriteRenderer::get().draw(ResourceManager::getShader("sprite"), ResourceManager::getTexture("weaponFrame"), glm::vec2(width, height), glm::vec2(textureScaleWidth, textureScaleHeight), 0.0f);
 
 	width = WindowManager::get().getWindowWidth() - textureScaleWidth;
 	height = textureScaleHeight + 10;
 
+	TextRenderer::get().draw(ResourceManager::getShader("text"), ResourceManager::getFont("Antonio"), "10/32", static_cast<float>(width), static_cast<float>(height), 1.0f, glm::vec3(1.0f, 0.8745f, 0.0f));
+
+	width = WindowManager::get().getWindowWidth() - textureScaleWidth;
+	height += 25;
+
 	std::string gold = std::to_string(Player::get().getGold());
 	TextRenderer::get().draw(ResourceManager::getShader("text"), ResourceManager::getFont("Antonio"), "GOLD: " + gold, static_cast<float>(width), static_cast<float>(height), 1.0f, glm::vec3(1.0f, 0.8745f, 0.0f));
+
 
 	// down-right
 	width = WindowManager::get().getWindowWidth() - textureScaleWidth;

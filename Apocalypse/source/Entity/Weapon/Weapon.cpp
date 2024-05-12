@@ -41,40 +41,107 @@ void Weapon::onInteraction()
 	// TODO:
 }
 
-void Weapon::onClick() // TODO: mai trb adaugate chestii
+void Weapon::onClick()
 {
-	if (this->weaponType == WeaponType::FIST)
-		return;
-
-	if (this->weaponType == WeaponType::PISTOL && GlobalClock::get().getCurrentTime() - this->timeSinceLastShot > 0.0)
+	if (numBullets == 0)
 	{
-		this->timeSinceLastShot = GlobalClock::get().getCurrentTime();
+		switch (weaponType)
+		{
+		case Weapon::WeaponType::PISTOL:
+			SoundManager::get().play("revolverEmpty", false);
+			break;
 
+		case Weapon::WeaponType::SHOTGUN:
+			// TODO
+			break;
+
+		case Weapon::WeaponType::AK47:
+			// TODO
+			break;
+
+		case Weapon::WeaponType::M4:
+			// TODO
+			break;
+
+		case Weapon::WeaponType::MINIGUN:
+			// TODO
+			break;
+		}
+
+		return;
+	}
+
+	if (GlobalClock::get().getCurrentTime() - this->timeSinceLastShot <= this->fireRate)
+	{
+		return;
+	}
+
+	this->timeSinceLastShot = GlobalClock::get().getCurrentTime();
+
+	if (this->weaponType == WeaponType::FIST || this->weaponType == WeaponType::KNIFE)
+	{
+		switch (weaponType)
+		{
+		case WeaponType::FIST:
+			SoundManager::get().play("fist", false);
+			break;
+
+		case WeaponType::KNIFE:
+			// TODO
+			// SoundManager::get().play("pistolShot", false);
+			break;
+		}
+	}
+	else // spawn bullet
+	{
 		glm::mat4 model = glm::mat4(1.0f);
 		model = glm::translate(model, glm::vec3(Camera::get().screenPosition(Player::get().getX(), Player::get().getY()), 0.0f));
 		model = glm::rotate(model, glm::radians(static_cast<float>(Player::get().getRotateAngle())), glm::vec3(0.0f, 0.0f, 1.0f));
 
-		glm::vec4 bulletRelativeLocation = model * glm::vec4(0.5f, 0.05f, 0.0f, 0.0f);	// TODO: change offset.x and offset.y
+		glm::vec4 bulletRelativeLocation = model * glm::vec4(0.5f, 0.05f, 0.0f, 0.0f);
 		glm::vec2 bulletLocation = glm::vec2(
 			Player::get().getX() + bulletRelativeLocation.x,
 			Player::get().getY() + bulletRelativeLocation.y
 		);
 
-		SoundManager::get().play("pistolShot", false); //TODO: de schimbat in ceva mai general sound effect-ul
+		switch (weaponType)
+		{
+		case WeaponType::PISTOL:
+			SoundManager::get().play("revolver_01", false);
+			Game::get().addEntity(std::make_shared<Bullet>(static_cast<double>(bulletLocation.x), static_cast<double>(bulletLocation.y), 0.3, 0.3, Player::get().getRotateAngle(), 10.0, 0.3, 0.3, "bullet0", 20.0));
+			break;
 
-		Game::get().addEntity(std::make_shared<Bullet>(static_cast<double>(bulletLocation.x), static_cast<double>(bulletLocation.y), 0.3, 0.3, Player::get().getRotateAngle(), 10.0, 0.3, 0.3, "bullet0", 20.0)); // TODO: change speed + textura bullet (mai multe probleme)
+		case WeaponType::SHOTGUN:
+			// TODO
+			// SoundManager::get().play("pistolShot", false);
+			// Game::get().addEntity(std::make_shared<Bullet>(static_cast<double>(bulletLocation.x), static_cast<double>(bulletLocation.y), 0.3, 0.3, Player::get().getRotateAngle(), 10.0, 0.3, 0.3, "bullet0", 20.0));
+			break;
 
-		Player::get().updateStatus(AnimatedEntity::EntityStatus::ARMS_USING_PISTOL, 1);
-	}
-	else
-	{
-		Player::get().updateStatus(AnimatedEntity::EntityStatus::ARMS_RELOADING_PISTOL, 1);
+		case WeaponType::AK47:
+			// TODO
+			// SoundManager::get().play("pistolShot", false);
+			// Game::get().addEntity(std::make_shared<Bullet>(static_cast<double>(bulletLocation.x), static_cast<double>(bulletLocation.y), 0.3, 0.3, Player::get().getRotateAngle(), 10.0, 0.3, 0.3, "bullet0", 20.0));
+			break;
+
+		case WeaponType::M4:
+			// TODO
+			// SoundManager::get().play("pistolShot", false);
+			// Game::get().addEntity(std::make_shared<Bullet>(static_cast<double>(bulletLocation.x), static_cast<double>(bulletLocation.y), 0.3, 0.3, Player::get().getRotateAngle(), 10.0, 0.3, 0.3, "bullet0", 20.0));
+			break;
+
+		case WeaponType::MINIGUN:
+			// TODO
+			// SoundManager::get().play("pistolShot", false);
+			// Game::get().addEntity(std::make_shared<Bullet>(static_cast<double>(bulletLocation.x), static_cast<double>(bulletLocation.y), 0.3, 0.3, Player::get().getRotateAngle(), 10.0, 0.3, 0.3, "bullet0", 20.0));
+			break;
+		}
 	}
 }
 
 void Weapon::update()
 {
 	// TODO: aici trb contorizat daca a trecut mai mult timp de la ultima utilizare decat reloadTime-ul, fapt in care posibila animatie de reload se opreste si obiectul redevine utilizabil
+
 
 	if (this->weaponType == WeaponType::FIST)
 		return;
@@ -85,8 +152,31 @@ void Weapon::update()
 	}
 }
 
-
-Weapon::~Weapon()
+void Weapon::drawWeapon()
 {
+	switch (weaponType)
+	{
+	case Weapon::WeaponType::FIST:
+		break;
 
+	case Weapon::WeaponType::KNIFE:
+		break;
+
+	case Weapon::WeaponType::PISTOL:
+		SoundManager::get().play("revolverDraw", false);
+		break;
+
+	case Weapon::WeaponType::SHOTGUN:
+		break;
+
+	case Weapon::WeaponType::AK47:
+		break;
+
+	case Weapon::WeaponType::M4:
+		break;
+
+	case Weapon::WeaponType::MINIGUN:
+		break;
+	}
 }
+
