@@ -75,6 +75,8 @@ private:
 
 	int currentWeaponIndex;
 
+	std::map<Weapon::WeaponType, int> bullets;
+
 public:
 
 	static Player& get();
@@ -99,6 +101,10 @@ public:
 	inline std::string getCurrentWeaponTexture() const { return this->weapons[this->currentWeaponIndex]->getTextureName2D(); }
 
 	void draw() override;
+
+	void modifyBullets(Weapon::WeaponType weaponType, int amount);
+	inline int getTotalBulletsCurrentWeapon() { return bullets[this->weapons[this->currentWeaponIndex]->getWeaponType()]; }
+	inline int getBulletsCurrentWeapon() { return this->weapons[this->currentWeaponIndex]->getBullets(); }
 
 	void save();
 	void load();

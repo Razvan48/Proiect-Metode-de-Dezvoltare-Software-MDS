@@ -13,6 +13,7 @@ public:
 	void play(const std::string& name, bool paused);
 	void pause(const std::string& name);
 	void resume(const std::string& name);
+	bool isPlaying(const std::string& name);
 
 	inline FMOD::System* getSystem() { return fmodSystem; }
 

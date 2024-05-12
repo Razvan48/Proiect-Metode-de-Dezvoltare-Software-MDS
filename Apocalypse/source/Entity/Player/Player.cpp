@@ -32,15 +32,16 @@ Player::Player(double x, double y, double drawWidth, double drawHeight, double r
 	moveUpUsed(false), moveDownUsed(false), moveRightUsed(false), moveLeftUsed(false), runUsed(false), interactUsed(false),
 	walkingOffsetSize(0.01), runningOffsetSize(0.05),
 	walkingOffsetSpeed(10.0), runningOffsetSpeed(15.0),
-	weapons({ std::make_shared<Weapon>(0.0, 0.0, 0.0, 0.0, 0.0, 0.0, "fist0", 0.0, 0.0, 0.0, 1, 0.0, 0.0, Weapon::WeaponType::FIST, 0.0)
-		, std::make_shared<Weapon>(0.0, 0.0, 0.0, 0.0, 0.0, 0.0, "pistol0", 0.0, 0.0, 0.5, 20, 0.0, 5.0, Weapon::WeaponType::PISTOL, 0.0)
+	weapons({ std::make_shared<Weapon>(0.0, 0.0, 0.0, 0.0, 0.0, 0.0, "fist0", 0.0, 0.0, 0.0, 1, 0.0, Weapon::WeaponType::FIST, 0.0, "", "", "")
+		, std::make_shared<Weapon>(0.0, 0.0, 0.0, 0.0, 0.0, 0.0, "pistol0", 0.0, 0.0, 0.5, 20, 5.0, Weapon::WeaponType::REVOLVER, 0.0, "revolverReload", "revolverDraw", "revolverEmpty")
 		, nullptr
 		, nullptr
 		, nullptr
 		, nullptr}),
 	currentWeaponIndex(0)
 {
-
+	// TODO: test
+	bullets[Weapon::WeaponType::REVOLVER] = 1024;
 }
 
 Player& Player::get()
@@ -141,6 +142,9 @@ Player::~Player()
 
 void Player::update()
 {
+	// weapon
+	this->weapons[this->currentWeaponIndex]->update();
+
 	// head
 	if (this->statuses[3] == EntityStatus::HEAD_TIRED)
 	{
@@ -211,7 +215,7 @@ void Player::update()
 		this->stamina = std::min(this->stamina, this->staminaCap);
 	}
 
-	if (this->weapons[this->currentWeaponIndex]->getWeaponType() == Weapon::WeaponType::PISTOL)
+	if (this->weapons[this->currentWeaponIndex]->getWeaponType() == Weapon::WeaponType::REVOLVER)
 	{
 		this->statuses[1] = EntityStatus::ARMS_HOLDING_PISTOL;
 
@@ -393,10 +397,8 @@ void Player::shoot()
 
 void Player::reload()
 {
-	// TODO
 	std::cout << "RELOAD" << std::endl;
-
-	SoundManager::get().play("pistolReload", false);
+	this->weapons[this->currentWeaponIndex]->reload();
 }
 
 void Player::look(double xpos, double ypos)
@@ -438,43 +440,55 @@ void Player::pauseGame()
 void Player::weaponSlot1()
 {
 	if (this->weapons[0] != nullptr)
+	{
 		weapons[0]->drawWeapon();
 		this->currentWeaponIndex = 0;
+	}
 }
 
 void Player::weaponSlot2()
 {
 	if (this->weapons[1] != nullptr)
+	{
 		weapons[1]->drawWeapon();
 		this->currentWeaponIndex = 1;
+	}
 }
 
 void Player::weaponSlot3()
 {
 	if (this->weapons[2] != nullptr)
+	{
 		weapons[2]->drawWeapon();
 		this->currentWeaponIndex = 2;
+	}
 }
 
 void Player::weaponSlot4()
 {
 	if (this->weapons[3] != nullptr)
+	{
 		weapons[3]->drawWeapon();
 		this->currentWeaponIndex = 3;
+	}
 }
 
 void Player::weaponSlot5()
 {
 	if (this->weapons[4] != nullptr)
+	{
 		weapons[4]->drawWeapon();
 		this->currentWeaponIndex = 4;
+	}
 }
 
 void Player::weaponSlot6()
 {
 	if (this->weapons[5] != nullptr)
+	{
 		weapons[5]->drawWeapon();
 		this->currentWeaponIndex = 5;
+	}
 }
 
 void Player::draw()
@@ -501,6 +515,11 @@ void Player::draw()
 		for (int i = 0; i < this->statuses.size(); ++i)
 			SpriteRenderer::get().draw(ResourceManager::getShader("sprite"), ResourceManager::getFlipbook(this->animationsName2D[this->statuses[i]]).getTextureAtTime(GlobalClock::get().getCurrentTime() - this->timesSinceStatuses[i]), Camera::get().screenPosition(this->x, this->y), Camera::get().screenSize(this->drawWidth, this->drawHeight), this->rotateAngle);
 	}
+}
+
+void Player::modifyBullets(Weapon::WeaponType weaponType, int amount)
+{
+	bullets[weaponType] += amount;
 }
 
 void Player::save()

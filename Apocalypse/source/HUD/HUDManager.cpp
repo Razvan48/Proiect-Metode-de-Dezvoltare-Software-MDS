@@ -78,7 +78,8 @@ void HUDManager::draw()
 	width = WindowManager::get().getWindowWidth() - textureScaleWidth;
 	height = textureScaleHeight + 10;
 
-	TextRenderer::get().draw(ResourceManager::getShader("text"), ResourceManager::getFont("Antonio"), "10/32", static_cast<float>(width), static_cast<float>(height), 1.0f, glm::vec3(1.0f, 0.8745f, 0.0f));
+	std::string ammo = std::to_string(Player::get().getBulletsCurrentWeapon()) + "/" + std::to_string(Player::get().getTotalBulletsCurrentWeapon());
+	TextRenderer::get().draw(ResourceManager::getShader("text"), ResourceManager::getFont("Antonio"), ammo, static_cast<float>(width), static_cast<float>(height), 1.0f, glm::vec3(1.0f, 0.8745f, 0.0f));
 
 	width = WindowManager::get().getWindowWidth() - textureScaleWidth;
 	height += 25;

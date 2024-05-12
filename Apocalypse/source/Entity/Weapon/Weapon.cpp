@@ -10,13 +10,14 @@
 
 #include <glm/gtc/matrix_transform.hpp>
 
-Weapon::Weapon(double x, double y, double drawWidth, double drawHeight, double rotateAngle, double speed, const std::string& textureName2D, double interactionWidth, double interactionHeight, double fireRate, int numBullets, double damage, double reloadTime, WeaponType weaponType, double shortRangeAttackRadius)
+Weapon::Weapon(double x, double y, double drawWidth, double drawHeight, double rotateAngle, double speed, const std::string& textureName2D, double interactionWidth, double interactionHeight, double fireRate, int maxBullets, double damage, WeaponType weaponType, double shortRangeAttackRadius, const std::string& reloadSound, const std::string& drawSound, const std::string& emptySound)
 	: Entity(x, y, drawWidth, drawHeight, rotateAngle, speed)
 	, TexturableEntity(x, y, drawWidth, drawHeight, rotateAngle, speed, textureName2D)
 	, InteractiveEntity(x, y, drawWidth, drawHeight, rotateAngle, speed, interactionWidth, interactionHeight)
 	, PickUp(x, y, drawWidth, drawHeight, rotateAngle, speed, textureName2D, interactionWidth, interactionHeight)
-	, fireRate(fireRate), numBullets(numBullets), damage(damage), reloadTime(reloadTime), weaponType(weaponType), shortRangeAttackRadius(shortRangeAttackRadius)
-	, timeSinceLastShot(GlobalClock::get().getCurrentTime()), timeSinceStartReload(GlobalClock::get().getCurrentTime())
+	, fireRate(fireRate), maxBullets(maxBullets), numBullets(maxBullets), damage(damage), weaponType(weaponType), shortRangeAttackRadius(shortRangeAttackRadius)
+	, reloadSound(reloadSound), drawSound(drawSound), emptySound(emptySound)
+	, isReloading(false), timeSinceLastShot(GlobalClock::get().getCurrentTime())
 {
 
 }
@@ -43,31 +44,14 @@ void Weapon::onInteraction()
 
 void Weapon::onClick()
 {
-	if (numBullets == 0)
+	if (this->isReloading)
 	{
-		switch (weaponType)
-		{
-		case Weapon::WeaponType::PISTOL:
-			SoundManager::get().play("revolverEmpty", false);
-			break;
+		return;
+	}
 
-		case Weapon::WeaponType::SHOTGUN:
-			// TODO
-			break;
-
-		case Weapon::WeaponType::AK47:
-			// TODO
-			break;
-
-		case Weapon::WeaponType::M4:
-			// TODO
-			break;
-
-		case Weapon::WeaponType::MINIGUN:
-			// TODO
-			break;
-		}
-
+	if (numBullets == 0 && weaponType != WeaponType::FIST && weaponType != WeaponType::KNIFE)
+	{
+		SoundManager::get().play(emptySound, false);
 		return;
 	}
 
@@ -104,11 +88,14 @@ void Weapon::onClick()
 			Player::get().getY() + bulletRelativeLocation.y
 		);
 
+		--this->numBullets;
+
+		// TODO: refactor
 		switch (weaponType)
 		{
-		case WeaponType::PISTOL:
+		case WeaponType::REVOLVER:
 			SoundManager::get().play("revolver_01", false);
-			Game::get().addEntity(std::make_shared<Bullet>(static_cast<double>(bulletLocation.x), static_cast<double>(bulletLocation.y), 0.3, 0.3, Player::get().getRotateAngle(), 10.0, 0.3, 0.3, "bullet0", 20.0));
+			Game::get().addEntity(std::make_shared<Bullet>(static_cast<double>(bulletLocation.x), static_cast<double>(bulletLocation.y), 0.3, 0.3, Player::get().getRotateAngle(), 10.0, 0.3, 0.3, "bullet0", this->damage));
 			break;
 
 		case WeaponType::SHOTGUN:
@@ -140,43 +127,37 @@ void Weapon::onClick()
 
 void Weapon::update()
 {
-	// TODO: aici trb contorizat daca a trecut mai mult timp de la ultima utilizare decat reloadTime-ul, fapt in care posibila animatie de reload se opreste si obiectul redevine utilizabil
-
-
-	if (this->weaponType == WeaponType::FIST)
-		return;
-
-	if (this->weaponType == WeaponType::PISTOL) // TODO: nu e ok deloc
+	if (this->isReloading)
 	{
-
+		this->isReloading = SoundManager::get().isPlaying(reloadSound);
 	}
 }
 
 void Weapon::drawWeapon()
 {
-	switch (weaponType)
+	SoundManager::get().play(drawSound, false);
+}
+
+void Weapon::reload()
+{
+	if (this->isReloading)
 	{
-	case Weapon::WeaponType::FIST:
-		break;
-
-	case Weapon::WeaponType::KNIFE:
-		break;
-
-	case Weapon::WeaponType::PISTOL:
-		SoundManager::get().play("revolverDraw", false);
-		break;
-
-	case Weapon::WeaponType::SHOTGUN:
-		break;
-
-	case Weapon::WeaponType::AK47:
-		break;
-
-	case Weapon::WeaponType::M4:
-		break;
-
-	case Weapon::WeaponType::MINIGUN:
-		break;
+		return;
 	}
+
+	if (this->numBullets == this->maxBullets)
+	{
+		return;
+	}
+
+	this->isReloading = true;
+
+	int need = this->maxBullets - this->numBullets;
+	int available = std::min(need, Player::get().getTotalBulletsCurrentWeapon());
+
+	this->numBullets += available;
+	Player::get().modifyBullets(weaponType, -available);
+
+	SoundManager::get().play(reloadSound, false);
 }
 

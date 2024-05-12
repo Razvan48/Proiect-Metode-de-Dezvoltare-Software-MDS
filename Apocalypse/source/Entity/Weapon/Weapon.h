@@ -12,7 +12,7 @@ public:
 	{
 		FIST,
 		KNIFE,
-		PISTOL,
+		REVOLVER,
 		SHOTGUN,
 		AK47,
 		M4,
@@ -22,18 +22,19 @@ public:
 protected:
 	double fireRate;
 	int numBullets;
+	int maxBullets;
 	double damage;
-	double reloadTime;
-
-	double timeSinceLastShot;
-	double timeSinceStartReload;
-
 	WeaponType weaponType;
-
 	double shortRangeAttackRadius;
+	std::string reloadSound;
+	std::string drawSound;
+	std::string emptySound;
+
+	bool isReloading;
+	double timeSinceLastShot;
 
 public:
-	Weapon(double x, double y, double drawWidth, double drawHeight, double rotateAngle, double speed, const std::string& textureName2D, double interactionWidth, double interactionHeight, double fireRate, int numBullets, double damage, double reloadTime, WeaponType weaponType, double shortRangeAttackRadius);
+	Weapon(double x, double y, double drawWidth, double drawHeight, double rotateAngle, double speed, const std::string& textureName2D, double interactionWidth, double interactionHeight, double fireRate, int maxBullets, double damage, WeaponType weaponType, double shortRangeAttackRadius, const std::string& reloadSound, const std::string& drawSound, const std::string& emptySound);
 	virtual ~Weapon() = default;
 
 	virtual bool isInInteraction() override;
@@ -43,10 +44,13 @@ public:
 
 	virtual void onClick();
 
-	inline bool stillReloading() const { return GlobalClock::get().getCurrentTime() - this->timeSinceLastShot < this->reloadTime; }
+	inline bool stillReloading() const { return isReloading; }
 
 	virtual void update() override;
 
 	void drawWeapon();
+	void reload();
+
+	inline int getBullets() const { return numBullets; }
 };
 

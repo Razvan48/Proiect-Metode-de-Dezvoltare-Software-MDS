@@ -360,6 +360,10 @@
     "revolverDraw": {
       "file": "resources/sounds/revolverDraw.wav",
       "mode": 1
+    },
+    "revolverReload": {
+      "file": "resources/sounds/revolverReload.wav",
+      "mode": 1
     }
   },
 

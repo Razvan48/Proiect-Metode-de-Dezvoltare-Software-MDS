@@ -49,3 +49,10 @@ void SoundManager::resume(const std::string& name)
 	channels[name]->setPaused(false);
 }
 
+bool SoundManager::isPlaying(const std::string& name)
+{
+	bool playing;
+	channels[name]->isPlaying(&playing);
+	return playing;
+}
+
