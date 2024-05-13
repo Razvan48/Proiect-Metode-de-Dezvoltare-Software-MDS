@@ -96,7 +96,7 @@ void PauseMenu::playMenu()
 		// HUD
 		HUDManager::get().draw();
 
-		draw();
+		MenuManager::get().draw();
 
 
 

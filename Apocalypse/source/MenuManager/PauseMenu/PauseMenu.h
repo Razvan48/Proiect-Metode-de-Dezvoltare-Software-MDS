@@ -37,9 +37,9 @@ public:
 	static PauseMenu& get();
 	void draw() override;
 
-	void setupInputComponent();
+	void setupInputComponent() override;
 
-	void playMenu();
+	void playMenu() override;
 
 };
 

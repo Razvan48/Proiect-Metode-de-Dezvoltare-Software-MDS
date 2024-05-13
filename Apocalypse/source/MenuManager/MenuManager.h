@@ -1,7 +1,7 @@
 #pragma once
 
 #include <iostream>
-#include <stack>
+#include <vector>
 #include <exception>
 
 #include "MenuBase/MenuBase.h"
@@ -15,7 +15,7 @@ public:
 
 class MenuManager
 {
-	std::stack<MenuBase*> menuStack;
+	std::vector<MenuBase*> menuStack;
 
 public:
 	
@@ -26,6 +26,8 @@ public:
 	void pop();
 
 	void push(MenuBase& m);
+
+	void draw() const;
 
 };
 

@@ -79,6 +79,7 @@ void MainMenu::playMenu()
 {
 	while (isInMenu == true && !glfwWindowShouldClose(WindowManager::get().getWindow()))
 	{
+
 		InputHandler::update();
 
 		// Map
@@ -90,7 +91,7 @@ void MainMenu::playMenu()
 		// HUD
 		HUDManager::get().draw();
 
-		draw();
+		MenuManager::get().draw();
 
 
 

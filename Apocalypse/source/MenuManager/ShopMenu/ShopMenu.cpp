@@ -6,6 +6,7 @@
 #include "../../Entity/Player/Player.h"
 #include "../../HUD/HUDManager.h"
 #include "../MenuManager.h"
+#include "../AlertBox/AlertBox.h"
 
 
 // Shop menu abstract
@@ -56,7 +57,7 @@ void ShopMenuAbstract::playMenu()
 		// HUD
 		HUDManager::get().draw();
 
-		draw();
+		MenuManager::get().draw();
 
 
 
@@ -112,7 +113,7 @@ ShopMenuWeapons::ShopMenuWeapons(double x, double y, double drawWidth, double dr
 		std::map<std::string, std::function<void(Button&)>>{{ButtonGroup::getAny(), [](Button&) {} },
 		{
 			"1_1_buy", [](Button&) {
-				ShopMenuWeapons::get().setIsInMenu(false);
+				// ShopMenuWeapons::get().setIsInMenu(false);
 				MenuManager::get().pop();
 			}
 		},
@@ -121,14 +122,14 @@ ShopMenuWeapons::ShopMenuWeapons(double x, double y, double drawWidth, double dr
 		},
 		{
 			"Bullets", [](Button&) {
-				ShopMenuWeapons::get().setIsInMenu(false);
+				// ShopMenuWeapons::get().setIsInMenu(false);
 				MenuManager::get().pop();
 				MenuManager::get().push(ShopMenuBullets::get());
 }
 		},
 		{
 			"Health/Armor", [](Button&) {
-				ShopMenuWeapons::get().setIsInMenu(false);
+				// ShopMenuWeapons::get().setIsInMenu(false);
 				MenuManager::get().pop();
 				MenuManager::get().push(ShopMenuHealthArmor::get());
 }
@@ -145,7 +146,7 @@ std::map<std::string, Button> ShopMenuWeapons::loadMenuItems()
 
 	for (int i = 0;i < 3;i++)
 	{
-		auto card = ButtonBuilder::WeaponCard(getCardPosX(), getCardPosY(id - 1), buttonWidth, buttonHeight, std::to_string(id), 10, 500, 250, "automated1");
+		auto card = ButtonBuilder::WeaponCard(getCardPosX(), getCardPosY(id - 1), buttonWidth, buttonHeight, std::to_string(id), 10, 500, 250, 250, "automated1");
 		rez.insert(card.begin(), card.end());
 		
 		id++;
@@ -208,7 +209,7 @@ ShopMenuBullets::ShopMenuBullets(double x, double y, double drawWidth, double dr
 		std::map<std::string, std::function<void(Button&)>>{{ButtonGroup::getAny(), [](Button&) {} },
 		{
 			"1_1_buy", [](Button&) {
-				ShopMenuWeapons::get().setIsInMenu(false);
+				// ShopMenuWeapons::get().setIsInMenu(false);
 				MenuManager::get().pop();
 			}
 		},
@@ -217,15 +218,14 @@ ShopMenuBullets::ShopMenuBullets(double x, double y, double drawWidth, double dr
 		},
 		{
 			"Weapons", [](Button&) {
-				// std::cout << "-------------------\n";
-				ShopMenuWeapons::get().setIsInMenu(false);
+				// ShopMenuWeapons::get().setIsInMenu(false);
 				MenuManager::get().pop();
 				MenuManager::get().push(ShopMenuWeapons::get());
 }
 		},
 		{
 			"Health/Armor", [](Button&) {
-				ShopMenuWeapons::get().setIsInMenu(false);
+				// ShopMenuWeapons::get().setIsInMenu(false);
 				MenuManager::get().pop();
 				MenuManager::get().push(ShopMenuHealthArmor::get());
 }
@@ -242,7 +242,7 @@ std::map<std::string, Button> ShopMenuBullets::loadMenuItems()
 
 	for (int i = 0;i < 5;i++)
 	{
-		auto card = ButtonBuilder::WeaponCard(getCardPosX(), getCardPosY(id - 1), buttonWidth, buttonHeight, std::to_string(id), 10, 500, 250, "automated1");
+		auto card = ButtonBuilder::WeaponCard(getCardPosX(), getCardPosY(id - 1), buttonWidth, buttonHeight, std::to_string(id), 10, 500, 250, 250, "automated1");
 		rez.insert(card.begin(), card.end());
 
 		id++;
@@ -307,8 +307,10 @@ ShopMenuHealthArmor::ShopMenuHealthArmor(double x, double y, double drawWidth, d
 		std::map<std::string, std::function<void(Button&)>>{{ButtonGroup::getAny(), [](Button&) {} },
 		{
 			"1_1_buy", [](Button&) {
-				ShopMenuWeapons::get().setIsInMenu(false);
-				MenuManager::get().pop();
+				// ShopMenuHealthArmor::get().setIsInMenu(false);
+				// MenuManager::get().pop();
+
+				MenuManager::get().push(AlertBox::getCenteredAlertBox("Not enough money"));
 			}
 		},
 		{
@@ -316,14 +318,14 @@ ShopMenuHealthArmor::ShopMenuHealthArmor(double x, double y, double drawWidth, d
 		},
 		{
 			"Weapons", [](Button&) {
-				ShopMenuWeapons::get().setIsInMenu(false);
+				// ShopMenuWeapons::get().setIsInMenu(false);
 				MenuManager::get().pop();
 				MenuManager::get().push(ShopMenuWeapons::get());
 }
 		},
 		{
 			"Bullets", [](Button&) {
-				ShopMenuWeapons::get().setIsInMenu(false);
+				// ShopMenuWeapons::get().setIsInMenu(false);
 				MenuManager::get().pop();
 				MenuManager::get().push(ShopMenuBullets::get());
 }
@@ -340,7 +342,7 @@ std::map<std::string, Button> ShopMenuHealthArmor::loadMenuItems()
 
 	for (int i = 0;i < 1;i++)
 	{
-		auto card = ButtonBuilder::WeaponCard(getCardPosX(), getCardPosY(id-1), buttonWidth, buttonHeight, std::to_string(id), 10, 500, 250, "automated1");
+		auto card = ButtonBuilder::HealthArmorCard(getCardPosX(), getCardPosY(id-1), buttonWidth, buttonHeight, std::to_string(id), 10, "medicalKit0", "Fully restores Health");
 		rez.insert(card.begin(), card.end());
 
 		id++;

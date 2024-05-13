@@ -24,11 +24,11 @@ void ButtonBuilder::backButtonClickFunction(Button& button) {
 }
 
 
-std::map<std::string, Button> ButtonBuilder::WeaponCard(double x, double y, double width, double height, const std::string& id, int dmg, int firerate, int price, const std::string& weaponIconTextureName)
+std::map<std::string, Button> ButtonBuilder::WeaponCard(double x, double y, double width, double height, const std::string& id, int dmg, int firerate, int price, int upgradePrice, const std::string& weaponIconTextureName)
 {
 	const double textScale = width / 700.0;
 
-	Button card(x, y, width, height, 0, 0, width, height, std::map<Button::Status, std::string>{{Button::Status::DEFAULT, ".0"}, { Button::Status::HOVERED, ".0" }, { Button::Status::CLICKED, ".0" }});
+	Button card(x, y, width, height, 0, 0, width, height, std::map<Button::Status, std::string>{{Button::Status::DEFAULT, "button0Normal"}, { Button::Status::HOVERED, "button0Normal" }, { Button::Status::CLICKED, "button0Normal" }});
 	
 	double widthWeaponIcon = width / 6.0;
 	double heightWeaponIcon = height * 0.8;
@@ -48,21 +48,32 @@ std::map<std::string, Button> ButtonBuilder::WeaponCard(double x, double y, doub
 	Button dmgInfo(weaponInfoOffsetX, y + (height - weaponInfoHeight) * 0.5, weaponInfoWidth, weaponInfoHeight, 0, 0, weaponInfoWidth, weaponInfoHeight, std::map<Button::Status, std::string>{{Button::Status::DEFAULT, "noBackground"}, {Button::Status::HOVERED, "noBackground"}, {Button::Status::CLICKED, "noBackground"}}, damageStr, 0.0, textScale);
 	Button firerateInfo(firerateOffsetX, y + (height - weaponInfoHeight) * 0.5, weaponInfoWidth, weaponInfoHeight, 0, 0, weaponInfoWidth, weaponInfoHeight, std::map<Button::Status, std::string>{{Button::Status::DEFAULT, "noBackground"}, { Button::Status::HOVERED, "noBackground" }, { Button::Status::CLICKED, "noBackground" }}, firerateStr, 0.0, textScale);
 
-	double buyOffsetX = firerateOffsetX + weaponInfoWidth + width / 15.0;
-	double buyWidth = width / 6.0;
-	double buyHeight = height / 5.0;
+	double buyOffsetX = firerateOffsetX + weaponInfoWidth + width / 20.0;
+	double buyWidth = width / 4.5;
+	double buyHeight = height / 3.0;
 
-	std::string buyStr = std::to_string(price) + " G";
+	double upgradeOffsetX = firerateOffsetX + weaponInfoWidth + width / 20.0;
+	double upgradeWidth = width / 4.5;
+	double upgradeHeight = height / 3.0;
 
-	Button buy(buyOffsetX, y + (height - buyHeight) * 0.5, buyWidth, buyHeight, 0, 0, buyWidth, buyHeight, std::map<Button::Status, std::string>{{Button::Status::DEFAULT, "button0Normal"}, { Button::Status::HOVERED, "button0Hovered" }, { Button::Status::CLICKED, "button0Hovered" }}, buyStr, 0.0, textScale, "Antonio", true, glm::vec3(1.0, 1.0, 0.0));
+	double buyOffsetY = y + (height - buyHeight - upgradeHeight) * 0.25;
+	double upgradeOffsetY = y + (height - buyHeight - upgradeHeight) * 0.75 + buyHeight;
 
+	std::string buyStr = "Buy   " +  std::to_string(price) + " G";
+
+	Button buy(buyOffsetX, buyOffsetY, buyWidth, buyHeight, 0, 0, buyWidth, buyHeight, std::map<Button::Status, std::string>{{Button::Status::DEFAULT, "button0Normal"}, { Button::Status::HOVERED, "button0Hovered" }, { Button::Status::CLICKED, "button0Hovered" }}, buyStr, 0.0, textScale, "Antonio", true, glm::vec3(1.0, 1.0, 0.0));
+
+	std::string upgradeStr = "Upgrade  " + std::to_string(upgradePrice) + " G";
+
+	Button upgrade(upgradeOffsetX, upgradeOffsetY, upgradeWidth, upgradeHeight, 0, 0, upgradeWidth, upgradeHeight, std::map<Button::Status, std::string>{{Button::Status::DEFAULT, "button0Normal"}, { Button::Status::HOVERED, "button0Hovered" }, { Button::Status::CLICKED, "button0Hovered" }}, upgradeStr, 0.0, textScale, "Antonio", true, glm::vec3(1.0, 1.0, 0.0));
 
 	std::map<std::string, Button> buttons{
 		{id + "_0_card", card},
 		{id + "_1_weaponIcon", weaponIcon},
 		{id + "_1_dmgInfo", dmgInfo},
 		{id + "_1_firerateInfo", firerateInfo},
-		{id + "_1_buy", buy}
+		{id + "_1_buy", buy},
+		{id + "_1_upgrade", upgrade}
 	};
 
 	return buttons;
@@ -163,5 +174,43 @@ std::map<std::string, Button> ButtonBuilder::ShopTitleCard(double x, double y, d
 
 	return buttons;
 
+}
+
+
+std::map<std::string, Button> ButtonBuilder::HealthArmorCard(double x, double y, double width, double height, const std::string& id, int price, const std::string& weaponIconTextureName, const std::string& description)
+{
+	const double textScale = width / 700.0;
+
+	Button card(x, y, width, height, 0, 0, width, height, std::map<Button::Status, std::string>{{Button::Status::DEFAULT, "button0Normal"}, { Button::Status::HOVERED, "button0Normal" }, { Button::Status::CLICKED, "button0Normal" }});
+
+	double widthHealthArmorIcon = width / 6.0;
+	double heightHealthArmorIcon = height * 0.8;
+	double healthArmorIconOffsetX = x + width / 15.0;
+
+	Button healthArmorIcon(healthArmorIconOffsetX, y + (height - heightHealthArmorIcon) * 0.5, widthHealthArmorIcon, heightHealthArmorIcon, 0, 0, widthHealthArmorIcon, heightHealthArmorIcon, std::map<Button::Status, std::string>{{Button::Status::DEFAULT, weaponIconTextureName}, { Button::Status::HOVERED, weaponIconTextureName }, { Button::Status::CLICKED, weaponIconTextureName }});
+
+	double descOffsetX = healthArmorIconOffsetX + widthHealthArmorIcon + width / 15.0;
+	double descWidth = width / 3.0;
+	double descHeight = height / 4.0;
+
+	Button descriptionCard(descOffsetX, y + (height - descHeight) * 0.5, descWidth, descHeight, 0, 0, descWidth, descHeight, std::map<Button::Status, std::string>{{Button::Status::DEFAULT, "noBackground"}, { Button::Status::HOVERED, "noBackground" }, { Button::Status::CLICKED, "noBackground" }}, description, 0.0, textScale);
+
+	double buyOffsetX = descOffsetX + descWidth + width / 15.0;
+	double buyWidth = width / 4.5;
+	double buyHeight = height / 3.0;
+
+	std::string buyStr = "Buy   " + std::to_string(price) + " G";
+
+	Button buy(buyOffsetX, y + (height - buyHeight) * 0.5, buyWidth, buyHeight, 0, 0, buyWidth, buyHeight, std::map<Button::Status, std::string>{{Button::Status::DEFAULT, "button0Normal"}, { Button::Status::HOVERED, "button0Hovered" }, { Button::Status::CLICKED, "button0Hovered" }}, buyStr, 0.0, textScale, "Antonio", true, glm::vec3(1.0, 1.0, 0.0));
+
+
+	std::map<std::string, Button> buttons{
+		{id + "_0_card", card},
+		{id + "_1_healthArmorIcon", healthArmorIcon},
+		{id + "_1_description", descriptionCard},
+		{id + "_1_buy", buy}
+	};
+
+	return buttons;
 }
 

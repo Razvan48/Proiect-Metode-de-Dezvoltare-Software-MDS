@@ -10,19 +10,21 @@ MenuManager& MenuManager::get()
 
 void MenuManager::pop() {
 	if (!menuStack.empty())
-		menuStack.top()->setIsInMenu(false);
-	menuStack.pop(); 
+		menuStack[menuStack.size()-1]->setIsInMenu(false);
+	menuStack.pop_back(); 
 	if (!menuStack.empty())
 	{
-		menuStack.top()->setIsInMenu(true);
-		menuStack.top()->setupInputComponent();
+		menuStack[menuStack.size() - 1]->setIsInMenu(true);
+		menuStack[menuStack.size() - 1]->setupInputComponent();
 	}
 }
 
 void MenuManager::push(MenuBase& m) { 
-	menuStack.push(&m); 
-	menuStack.top()->setIsInMenu(true);
-	menuStack.top()->setupInputComponent();
+	if (!menuStack.empty())
+		menuStack[menuStack.size() - 1]->setIsInMenu(false);
+	menuStack.push_back(&m); 
+	menuStack[menuStack.size() - 1]->setIsInMenu(true);
+	menuStack[menuStack.size() - 1]->setupInputComponent();
 }
 
 MenuBase& MenuManager::top() const
@@ -33,7 +35,12 @@ MenuBase& MenuManager::top() const
 		throw noMenuOpened();
 	}
 
-	return *menuStack.top();
+	return *menuStack[menuStack.size() - 1];
 }
 
+void MenuManager::draw() const
+{
+	for (auto& i : menuStack)
+		i->draw();
+}
 
