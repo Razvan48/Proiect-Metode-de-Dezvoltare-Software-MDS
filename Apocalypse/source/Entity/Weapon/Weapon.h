@@ -44,13 +44,13 @@ public:
 
 	virtual void onClick();
 
-	inline bool stillReloading() const { return isReloading; }
+	inline bool stillReloading() const { return this->isReloading; }
 
 	virtual void update() override;
 
 	void drawWeapon();
 	void reload();
 
-	inline int getBullets() const { return numBullets; }
+	inline int getBullets() const { return this->numBullets; }
 };
 

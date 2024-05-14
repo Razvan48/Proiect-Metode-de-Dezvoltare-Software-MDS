@@ -215,11 +215,18 @@ void Player::update()
 		this->stamina = std::min(this->stamina, this->staminaCap);
 	}
 
-	if (this->weapons[this->currentWeaponIndex]->getWeaponType() == Weapon::WeaponType::REVOLVER)
+	if (this->weapons[this->currentWeaponIndex]->getWeaponType() == Weapon::WeaponType::FIST)
 	{
-		this->statuses[1] = EntityStatus::ARMS_HOLDING_PISTOL;
-
-		if (this->weapons[this->currentWeaponIndex]->stillReloading())
+		if (this->statuses[1] != EntityStatus::ARMS_MOVING_AHEAD &&
+			this->statuses[1] != EntityStatus::ARMS_MOVING_AROUND_WALKING &&
+			this->statuses[1] != EntityStatus::ARMS_MOVING_AROUND_RUNNING)
+				this->statuses[1] = EntityStatus::ARMS_MOVING_AHEAD;
+	}
+	else if (this->weapons[this->currentWeaponIndex]->getWeaponType() == Weapon::WeaponType::REVOLVER)
+	{
+		if (!this->weapons[this->currentWeaponIndex]->stillReloading())
+			this->statuses[1] = EntityStatus::ARMS_HOLDING_PISTOL;
+		else
 			this->statuses[1] = EntityStatus::ARMS_RELOADING_PISTOL;
 	}
 
@@ -267,7 +274,7 @@ void Player::update()
 
 	double currentSpeed = this->speed;
 
-	if (this->statuses[1] == EntityStatus::ARMS_MOVING_AROUND_RUNNING)
+	if (this->runUsed)
 		currentSpeed = this->runningSpeed;
 
 	double xOffset = 0.0;
@@ -493,13 +500,7 @@ void Player::weaponSlot6()
 
 void Player::draw()
 {
-	/* TODO: exceptii?
-	if (this->animationsName2D.find(this->status) == this->animationsName2D.end())
-	{
-		// exceptii
-	}
-	*/
-
+	// TODO: (pana miercuri) boolene isRunning si isWalking + de rezolvat bug la reload + offset cu sin pentru zombie cand merg
 	if (this->statuses[1] == EntityStatus::ARMS_MOVING_AROUND_WALKING)
 	{
 		for (int i = 0; i < this->statuses.size(); ++i)
