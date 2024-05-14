@@ -38,7 +38,10 @@ Player::Player(double x, double y, double drawWidth, double drawHeight, double r
 		, nullptr
 		, nullptr
 		, nullptr}),
-	currentWeaponIndex(0)
+	currentWeaponIndex(0),
+	isTired(false),
+	isWalking(false),
+	isRunning(false)
 {
 	// TODO: test
 	bullets[Weapon::WeaponType::REVOLVER] = 1024;
@@ -142,74 +145,85 @@ Player::~Player()
 
 void Player::update()
 {
+	this->isTired = false;
+	this->isWalking = false;
+	this->isRunning = false;
 	// weapon
 	this->weapons[this->currentWeaponIndex]->update();
 
 	// head
 	if (this->statuses[3] == EntityStatus::HEAD_TIRED)
 	{
+		this->isTired = true;
+
 		this->stamina += this->staminaChangeSpeed * GlobalClock::get().getDeltaTime();
 		this->stamina = std::min(this->stamina, this->staminaCap);
 
 		if (this->stamina == this->staminaCap)
-			this->statuses[3] = EntityStatus::HEAD_IDLE;
+		{
+			this->isTired = false;
+
+			updateStatus(EntityStatus::HEAD_IDLE, 3);
+		}
 	}
 
-	if (this->statuses[3] == EntityStatus::HEAD_TIRED)
+	if (this->isTired)
 	{
-		this->statuses[0] = EntityStatus::LEGS_NOT;
+		updateStatus(EntityStatus::LEGS_NOT, 0);
 
 		if (this->statuses[1] == EntityStatus::ARMS_MOVING_AHEAD ||
 			this->statuses[1] == EntityStatus::ARMS_MOVING_AROUND_WALKING ||
 			this->statuses[1] == EntityStatus::ARMS_MOVING_AROUND_RUNNING)
-			this->statuses[1] = EntityStatus::ARMS_NOT;
+			updateStatus(EntityStatus::ARMS_NOT, 1);
 
-		this->statuses[2] = EntityStatus::BODY_IDLE;
-
-		return;
+		updateStatus(EntityStatus::BODY_IDLE, 2);
 	}
 
 	// body (nu avem nimic, o singura animatie de un frame, atat)
 
 	// arms
-	if (this->moveUpUsed == true || this->moveDownUsed == true
-		|| this->moveRightUsed == true || this->moveLeftUsed == true)
+	if (!this->isTired && (this->moveUpUsed == true || this->moveDownUsed == true
+		|| this->moveRightUsed == true || this->moveLeftUsed == true))
 	{
 		if (this->runUsed == false)
 		{
-			this->statuses[0] = EntityStatus::LEGS_NOT;
+			this->isWalking = true;
+
+			updateStatus(EntityStatus::LEGS_NOT, 0);
 			if (this->statuses[1] == EntityStatus::ARMS_MOVING_AHEAD ||
 				this->statuses[1] == EntityStatus::ARMS_MOVING_AROUND_WALKING ||
 				this->statuses[1] == EntityStatus::ARMS_MOVING_AROUND_RUNNING)
-				this->statuses[1] = EntityStatus::ARMS_MOVING_AROUND_WALKING;
-			this->statuses[2] = EntityStatus::BODY_IDLE;
+				updateStatus(EntityStatus::ARMS_MOVING_AROUND_WALKING, 1);
+			updateStatus(EntityStatus::BODY_IDLE, 2);
 		}
 		else
 		{
-			this->statuses[0] = EntityStatus::LEGS_MOVING_AROUND;
+			this->isRunning = true;
+
+			updateStatus(EntityStatus::LEGS_MOVING_AROUND, 0);
 			if (this->statuses[1] == EntityStatus::ARMS_MOVING_AHEAD ||
 				this->statuses[1] == EntityStatus::ARMS_MOVING_AROUND_WALKING ||
 				this->statuses[1] == EntityStatus::ARMS_MOVING_AROUND_RUNNING)
-				this->statuses[1] = EntityStatus::ARMS_MOVING_AROUND_RUNNING;
-			this->statuses[2] = EntityStatus::BODY_IDLE;
+				updateStatus(EntityStatus::ARMS_MOVING_AROUND_RUNNING, 1);
+			updateStatus(EntityStatus::BODY_IDLE, 2);
 
 			this->stamina -= this->staminaChangeSpeed * GlobalClock::get().getDeltaTime();
 			this->stamina = std::max(0.0, this->stamina);
 
 			if (this->stamina == 0.0)
 			{
-				this->statuses[3] = EntityStatus::HEAD_TIRED;
+				updateStatus(EntityStatus::HEAD_TIRED, 3);
 			}
 		}
 	}
 	else // IDLE
 	{
-		this->statuses[0] = EntityStatus::LEGS_NOT;
+		updateStatus(EntityStatus::LEGS_NOT, 0);
 		if (this->statuses[1] == EntityStatus::ARMS_MOVING_AHEAD ||
 			this->statuses[1] == EntityStatus::ARMS_MOVING_AROUND_WALKING ||
 			this->statuses[1] == EntityStatus::ARMS_MOVING_AROUND_RUNNING)
-			this->statuses[1] = EntityStatus::ARMS_MOVING_AHEAD;
-		this->statuses[2] = EntityStatus::BODY_IDLE;
+			updateStatus(EntityStatus::ARMS_MOVING_AHEAD, 1);
+		updateStatus(EntityStatus::BODY_IDLE, 2);
 
 		this->stamina += this->staminaChangeSpeed * GlobalClock::get().getDeltaTime();
 		this->stamina = std::min(this->stamina, this->staminaCap);
@@ -220,17 +234,29 @@ void Player::update()
 		if (this->statuses[1] != EntityStatus::ARMS_MOVING_AHEAD &&
 			this->statuses[1] != EntityStatus::ARMS_MOVING_AROUND_WALKING &&
 			this->statuses[1] != EntityStatus::ARMS_MOVING_AROUND_RUNNING)
-				this->statuses[1] = EntityStatus::ARMS_MOVING_AHEAD;
+				updateStatus(EntityStatus::ARMS_MOVING_AHEAD, 1);
 	}
 	else if (this->weapons[this->currentWeaponIndex]->getWeaponType() == Weapon::WeaponType::REVOLVER)
 	{
 		if (!this->weapons[this->currentWeaponIndex]->stillReloading())
-			this->statuses[1] = EntityStatus::ARMS_HOLDING_PISTOL;
+			updateStatus(EntityStatus::ARMS_HOLDING_PISTOL, 1);
 		else
-			this->statuses[1] = EntityStatus::ARMS_RELOADING_PISTOL;
+			updateStatus(EntityStatus::ARMS_RELOADING_PISTOL, 1);
 	}
 
 	// Sound
+	SoundManager::get().pause("walking");
+	SoundManager::get().pause("running");
+	if (this->isWalking)
+	{
+		SoundManager::get().resume("walking");
+	}
+	else if (this->isRunning)
+	{
+		SoundManager::get().pause("running");
+	}
+
+	/*
 	switch (this->statuses[1])
 	{
 	case EntityStatus::ARMS_MOVING_AHEAD:
@@ -261,20 +287,21 @@ void Player::update()
 	//	SoundManager::get().pause("running");
 	//	break;
 
-	default:
-		SoundManager::get().pause("walking");
-		SoundManager::get().pause("running");
-		break;
+	//default:
+	//	SoundManager::get().pause("walking");
+	//	SoundManager::get().pause("running");
+	//	break;
 	}
+	*/
 
-	if (this->statuses[3] == EntityStatus::HEAD_TIRED)
+	if (this->isTired)
 	{
 		return;
 	}
 
 	double currentSpeed = this->speed;
 
-	if (this->runUsed)
+	if (this->isRunning)
 		currentSpeed = this->runningSpeed;
 
 	double xOffset = 0.0;
@@ -500,16 +527,15 @@ void Player::weaponSlot6()
 
 void Player::draw()
 {
-	// TODO: (pana miercuri) boolene isRunning si isWalking + de rezolvat bug la reload + offset cu sin pentru zombie cand merg
-	if (this->statuses[1] == EntityStatus::ARMS_MOVING_AROUND_WALKING)
+	if (this->isWalking)
 	{
 		for (int i = 0; i < this->statuses.size(); ++i)
-			SpriteRenderer::get().draw(ResourceManager::getShader("sprite"), ResourceManager::getFlipbook(this->animationsName2D[this->statuses[i]]).getTextureAtTime(GlobalClock::get().getCurrentTime() - this->timesSinceStatuses[i]), Camera::get().screenPosition(this->x, this->y), Camera::get().screenSize(this->drawWidth + this->walkingOffsetSize * glm::sin(this->walkingOffsetSpeed * (GlobalClock::get().getCurrentTime() - this->timesSinceStatuses[i])), this->drawHeight + this->walkingOffsetSize * glm::sin(this->walkingOffsetSpeed * (GlobalClock::get().getCurrentTime() - this->timesSinceStatuses[i]))), this->rotateAngle);
+			SpriteRenderer::get().draw(ResourceManager::getShader("sprite"), ResourceManager::getFlipbook(this->animationsName2D[this->statuses[i]]).getTextureAtTime(GlobalClock::get().getCurrentTime() - this->timesSinceStatuses[i]), Camera::get().screenPosition(this->x, this->y), Camera::get().screenSize(this->drawWidth + this->walkingOffsetSize * glm::sin(this->walkingOffsetSpeed * GlobalClock::get().getCurrentTime()), this->drawHeight + this->walkingOffsetSize * glm::sin(this->walkingOffsetSpeed * GlobalClock::get().getCurrentTime())), this->rotateAngle);
 	}
-	else if (this->statuses[1] == EntityStatus::ARMS_MOVING_AROUND_RUNNING)
+	else if (this->isRunning)
 	{
 		for (int i = 0; i < this->statuses.size(); ++i)
-			SpriteRenderer::get().draw(ResourceManager::getShader("sprite"), ResourceManager::getFlipbook(this->animationsName2D[this->statuses[i]]).getTextureAtTime(GlobalClock::get().getCurrentTime() - this->timesSinceStatuses[i]), Camera::get().screenPosition(this->x, this->y), Camera::get().screenSize(this->drawWidth + this->runningOffsetSize * glm::sin(this->runningOffsetSpeed * (GlobalClock::get().getCurrentTime() - this->timesSinceStatuses[i])), this->drawHeight + this->runningOffsetSize * glm::sin(this->runningOffsetSpeed * (GlobalClock::get().getCurrentTime() - this->timesSinceStatuses[i]))), this->rotateAngle);
+			SpriteRenderer::get().draw(ResourceManager::getShader("sprite"), ResourceManager::getFlipbook(this->animationsName2D[this->statuses[i]]).getTextureAtTime(GlobalClock::get().getCurrentTime() - this->timesSinceStatuses[i]), Camera::get().screenPosition(this->x, this->y), Camera::get().screenSize(this->drawWidth + this->runningOffsetSize * glm::sin(this->runningOffsetSpeed * GlobalClock::get().getCurrentTime()), this->drawHeight + this->runningOffsetSize * glm::sin(this->runningOffsetSpeed * GlobalClock::get().getCurrentTime())), this->rotateAngle);
 	}
 	else
 	{

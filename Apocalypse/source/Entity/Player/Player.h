@@ -77,6 +77,10 @@ private:
 
 	std::map<Weapon::WeaponType, int> bullets;
 
+	bool isTired;
+	bool isWalking;
+	bool isRunning;
+
 public:
 
 	static Player& get();

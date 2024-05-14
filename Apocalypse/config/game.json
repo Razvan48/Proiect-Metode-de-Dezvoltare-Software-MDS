@@ -234,7 +234,7 @@
     },
     "player0ArmsReloadingPistol": {
       "directory": "resources/animations/playerComponents/arms/armsReloadingPistol",
-      "framesPerSecond": 15.0,
+      "framesPerSecond": 6.0,
       "loop": false
     },
     "player0ArmsUsingGrenade": {

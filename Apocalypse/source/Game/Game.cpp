@@ -319,9 +319,6 @@ void Game::run()
         }
         catch (noMenuOpened& err) {   }
 
-        // Update Entities
-        this->updateEntities(); // TODO: asta presupune ca entitatile tinute in vector-ul din clasa game nu isi mai dau update altundeva decat aici
-
         // Update/Tick
         GlobalClock::get().updateTime();
 
