@@ -66,6 +66,9 @@ void Human::onCollide(CollidableEntity& other, glm::vec2 overlap)
 			else
 				this->y += (overlap.y + CollidableEntity::EPS) / 2.0;
 		}
+
+		this->health -= dynamic_cast<Bullet*>(&other)->getDamage();
+		this->health = std::max(0.0, this->health);
 	}
 	else if (dynamic_cast<Human*>(&other) != nullptr)
 	{

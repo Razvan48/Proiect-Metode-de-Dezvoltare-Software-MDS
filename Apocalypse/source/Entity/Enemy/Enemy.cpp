@@ -4,10 +4,14 @@
 #include <iostream> // TODO: debug
 
 #include "Enemy.h"
+#include "../../Camera/Camera.h"
 #include "../Player/Player.h"
 #include "../../Map/Map.h"
 #include "../../Game/Game.h"
 #include "../Wall/Wall.h"
+#include "../../ResourceManager/ResourceManager.h"
+#include "../../Renderer/SpriteRenderer.h"
+#include "../../Random/Random.h"
 
 Enemy::Enemy(double x, double y, double drawWidth, double drawHeight, double rotateAngle, double speed, double collideWidth, double collideHeight, const std::map<AnimatedEntity::EntityStatus, std::string>& animationsName2D, const std::vector<EntityStatus>& statuses, double health, double rotateSpeed)
 	: Entity(x, y, drawWidth, drawHeight, rotateAngle, speed)
@@ -17,6 +21,8 @@ Enemy::Enemy(double x, double y, double drawWidth, double drawHeight, double rot
 	, AIEntity(x, y, drawWidth, drawHeight, rotateAngle, speed)
 	, rotateSpeed(rotateSpeed), probToChangeDir(1.0 / 250.0)
 	, currentTarget(std::make_pair(x, y)), nextTarget(std::make_pair(x, y))
+	, movingOffsetSize(0.05), movingOffsetSpeed(15.0), isMoving(false)
+	, deathResize(1.5), deadTextureIndex(-1), deadRotateAngle(-1.0)
 {
 
 }
@@ -25,9 +31,9 @@ Enemy::Enemy(double x, double y, double drawWidth, double drawHeight, double rot
 void Enemy::pathFindingTarget()
 {
 	// Clear
-	while (!this->q.empty())
+	while (!this->pq.empty())
 	{
-		this->q.pop();
+		this->pq.pop();
 	}
 	this->visitedCells.clear();
 	//
@@ -83,15 +89,15 @@ void Enemy::pathFindingTarget()
 	}
 
 	this->cellDistance[yCell][xCell] = 1;
-	this->q.emplace(std::make_pair(xCell, yCell));
+	this->pq.emplace(std::make_pair(std::abs(xCell - xTarget) + std::abs(yCell - yTarget), std::make_pair(xCell, yCell)));
 	this->visitedCells.emplace_back(std::make_pair(xCell, yCell));
 
 	bool done = false;
-	while (!done && !this->q.empty())
+	while (!done && !this->pq.empty())
 	{
-		int currentX = this->q.front().first;
-		int currentY = this->q.front().second;
-		this->q.pop();
+		int currentX = this->pq.top().second.first;
+		int currentY = this->pq.top().second.second;
+		this->pq.pop();
 
 		for (int i = 0; i < AIEntity::neighbors.size(); ++i)
 		{
@@ -109,12 +115,12 @@ void Enemy::pathFindingTarget()
 				break;
 			}
 
-			this->q.emplace(std::make_pair(newX, newY));
+			this->pq.emplace(std::make_pair(std::abs(newX - xTarget) + std::abs(newY - yTarget), std::make_pair(newX, newY)));
 			this->visitedCells.emplace_back(std::make_pair(newX, newY));
 		}
 	}
 
-	if (this->cellDistance[yTarget][xTarget] > 0)
+	if (!Player::get().isDead() && this->cellDistance[yTarget][xTarget] > 0)
 	{
 		std::pair<int, int> lastCurrentCell = std::make_pair(-1, -1);
 		std::pair<int, int> currentCell = std::make_pair(xTarget, yTarget);
@@ -134,7 +140,7 @@ void Enemy::pathFindingTarget()
 				}
 			}
 
-			int previousCellsIndex = (int)(random01() * ((double)previousCells.size() - AIEntity::EPSILON));
+			int previousCellsIndex = (int)(Random::random01() * ((double)previousCells.size() - Random::EPSILON));
 			lastCurrentCell = currentCell;
 			currentCell = previousCells[previousCellsIndex];
 		}
@@ -143,7 +149,7 @@ void Enemy::pathFindingTarget()
 	}
 	else
 	{
-		int indexRandom = (int)(random01() * ((double)this->visitedCells.size() - AIEntity::EPSILON));
+		int indexRandom = (int)(Random::random01() * ((double)this->visitedCells.size() - Random::EPSILON));
 		this->nextTarget = std::make_pair(this->visitedCells[indexRandom].first + 0.5, this->visitedCells[indexRandom].second + 0.5);
 	}
 }
@@ -160,20 +166,53 @@ bool Enemy::nearTarget()
 	return this->cellDistance[(int)Player::get().getY()][(int)Player::get().getX()] - 1 < (int)this->nearTargetRadius;
 }
 
+void Enemy::draw()
+{
+	if (this->isDead())
+	{
+		if (this->deadTextureIndex == -1)
+			this->deadTextureIndex = (int)(Random::random01() > 0.5);
+
+		if (this->deadRotateAngle == -1.0)
+			this->deadRotateAngle = (Random::random01() * 360.0 - Random::EPSILON);
+
+		SpriteRenderer::get().draw(ResourceManager::getShader("sprite"), ResourceManager::getFlipbook("enemy" + std::to_string(this->deadTextureIndex) + "Dead").getTextureAtTime(0.0), Camera::get().screenPosition(this->x, this->y), Camera::get().screenSize(this->deathResize * this->drawWidth, this->deathResize * this->drawHeight), this->deadRotateAngle);
+	}
+	else if (this->isMoving)
+	{
+		for (int i = 0; i < this->statuses.size(); ++i)
+			SpriteRenderer::get().draw(ResourceManager::getShader("sprite"), ResourceManager::getFlipbook(this->animationsName2D[this->statuses[i]]).getTextureAtTime(GlobalClock::get().getCurrentTime() - this->timesSinceStatuses[i]), Camera::get().screenPosition(this->x, this->y), Camera::get().screenSize(this->drawWidth + this->movingOffsetSize * glm::sin(this->movingOffsetSpeed * GlobalClock::get().getCurrentTime()), this->drawHeight + this->movingOffsetSize * glm::sin(this->movingOffsetSpeed * GlobalClock::get().getCurrentTime())), this->rotateAngle);
+	}
+	else
+	{
+		for (int i = 0; i < this->statuses.size(); ++i)
+			SpriteRenderer::get().draw(ResourceManager::getShader("sprite"), ResourceManager::getFlipbook(this->animationsName2D[this->statuses[i]]).getTextureAtTime(GlobalClock::get().getCurrentTime() - this->timesSinceStatuses[i]), Camera::get().screenPosition(this->x, this->y), Camera::get().screenSize(this->drawWidth, this->drawHeight), this->rotateAngle);
+	}
+}
+
 void Enemy::update()
 {
+	this->isMoving = false;
+
+	if (this->isDead())
+	{
+		this->collisionActive = false;
+		return;
+	}
+
 	this->pathFindingTarget();
 
 	if (this->nearTarget())
 	{
-		this->statuses[0] = EntityStatus::LEGS_NOT;
+		updateStatus(EntityStatus::LEGS_NOT, 0);
 
 		this->onTargetReach();
 
 		return;
 	}
 
-	this->statuses[0] = EntityStatus::LEGS_MOVING_AROUND;
+	this->isMoving = true;
+	updateStatus(EntityStatus::LEGS_MOVING_AROUND, 0);
 
 	if ((this->x - this->currentTarget.first) * (this->x - this->currentTarget.first) +
 		(this->y - this->currentTarget.second) * (this->y - this->currentTarget.second) < AIEntity::EPSILON_MOVEMENT * AIEntity::EPSILON_MOVEMENT)

@@ -81,6 +81,11 @@ private:
 	bool isWalking;
 	bool isRunning;
 
+	double deathResize;
+
+	int deadTextureIndex;
+	double deadRotateAngle;
+
 public:
 
 	static Player& get();

@@ -139,6 +139,9 @@ void CollisionManager::handleCollisions(std::vector<std::shared_ptr<Entity>>& en
 			if (std::dynamic_pointer_cast<Enemy>(entities[j]) == nullptr)
 				continue;
 
+			if (!std::dynamic_pointer_cast<CollidableEntity>(entities[j])->getCollisionActive())
+				continue;
+
 			glm::vec2 overlap = std::dynamic_pointer_cast<CollidableEntity>(entities[i])->isInCollision(*std::dynamic_pointer_cast<CollidableEntity>(entities[j]));
 
 			if (overlap.x > 0.0 && overlap.y > 0.0)

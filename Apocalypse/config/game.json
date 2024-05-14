@@ -287,6 +287,19 @@
       "framesPerSecond": 1.0,
       "loop": true
     },
+    "player0Dead": {
+      "directory": "resources/animations/playerDead/player0Dead",
+      "framesPerSecond": 1.0,
+      "loop": true
+    },
+    "player1Dead": {
+      "directory": "resources/animations/playerDead/player1Dead",
+      "framesPerSecond": 1.0,
+      "loop": true
+    },
+
+
+
     "enemy0ArmsNot": {
       "directory": "resources/animations/enemyComponents/arms/armsNot",
       "framesPerSecond": 1.0,
@@ -317,6 +330,20 @@
       "framesPerSecond": 30.0,
       "loop": true
     },
+    "enemy0Dead": {
+      "directory": "resources/animations/enemyDead/enemy0Dead",
+      "framesPerSecond": 1.0,
+      "loop": true
+    },
+    "enemy1Dead": {
+      "directory": "resources/animations/enemyDead/enemy1Dead",
+      "framesPerSecond": 1.0,
+      "loop": true
+    },
+
+
+
+
 
     "grenadeExplosion": {
       "directory": "resources/animations/grenadeExplosion",

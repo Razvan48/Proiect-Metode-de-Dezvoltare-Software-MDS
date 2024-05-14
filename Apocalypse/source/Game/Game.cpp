@@ -300,14 +300,14 @@ void Game::run()
         glClearColor(0.733f, 0.024f, 0.259f, 1.0f);
         glClear(GL_COLOR_BUFFER_BIT);
 
-        // Map
+        // Map // TODO: usile de mutat in Map
         Map::get().draw();
 
         // Game Entities
-        this->drawEntities();
-
-        // Player
-        Player::get().draw();
+        // Dead Entities (including Player)
+        this->drawDeadEntities();
+        // Alive Entities (including Player)
+        this->drawAliveEntities();
 
         // HUD
         HUDManager::get().draw();
@@ -362,10 +362,28 @@ void Game::updateEntities()
         this->entities[i]->update();
 }
 
-void Game::drawEntities()
+void Game::drawAliveEntities() // TODO: refactor
 {
     for (int i = 0; i < this->entities.size(); ++i)
-        this->entities[i]->draw();
+        if (std::dynamic_pointer_cast<Door>(this->entities[i]))
+            this->entities[i]->draw();
+
+    if (!Player::get().isDead())
+        Player::get().draw();
+
+    for (int i = 0; i < this->entities.size(); ++i)
+        if (!std::dynamic_pointer_cast<Human>(this->entities[i]) || !std::dynamic_pointer_cast<Human>(this->entities[i])->isDead())
+            this->entities[i]->draw();
+}
+
+void Game::drawDeadEntities() // TODO: refactor
+{
+    for (int i = 0; i < this->entities.size(); ++i)
+        if (std::dynamic_pointer_cast<Human>(this->entities[i]) && std::dynamic_pointer_cast<Human>(this->entities[i])->isDead())
+            this->entities[i]->draw();
+
+    if (Player::get().isDead())
+        Player::get().draw();
 }
 
 void Game::addEntity(std::shared_ptr<Entity> const entity)

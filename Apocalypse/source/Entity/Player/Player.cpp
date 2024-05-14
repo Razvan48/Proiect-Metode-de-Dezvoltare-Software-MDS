@@ -22,6 +22,7 @@
 #include "../Door/Door.h"
 #include "../../MenuManager/MenuManager.h"
 #include "../../MenuManager/ShopMenu/ShopMenu.h"
+#include "../../Random/Random.h"
 
 Player::Player(double x, double y, double drawWidth, double drawHeight, double rotateAngle, double speed, double collideWidth, double collideHeight, const std::map<AnimatedEntity::EntityStatus, std::string>& animationsName2D, const std::vector<EntityStatus>& statuses, double runningSpeed, double health = 100.0, double stamina = 100.0, double armor = 0.0) :
 	Entity(x, y, drawWidth, drawHeight, rotateAngle, speed),
@@ -41,7 +42,9 @@ Player::Player(double x, double y, double drawWidth, double drawHeight, double r
 	currentWeaponIndex(0),
 	isTired(false),
 	isWalking(false),
-	isRunning(false)
+	isRunning(false),
+	deathResize(1.5),
+	deadTextureIndex(-1), deadRotateAngle(-1.0)
 {
 	// TODO: test
 	bullets[Weapon::WeaponType::REVOLVER] = 1024;
@@ -148,6 +151,13 @@ void Player::update()
 	this->isTired = false;
 	this->isWalking = false;
 	this->isRunning = false;
+
+	if (this->isDead())
+	{
+		this->collisionActive = false;
+		return;
+	}
+
 	// weapon
 	this->weapons[this->currentWeaponIndex]->update();
 
@@ -255,44 +265,6 @@ void Player::update()
 	{
 		SoundManager::get().pause("running");
 	}
-
-	/*
-	switch (this->statuses[1])
-	{
-	case EntityStatus::ARMS_MOVING_AHEAD:
-		SoundManager::get().pause("walking");
-		SoundManager::get().pause("running");
-		break;
-
-	case EntityStatus::ARMS_MOVING_AROUND_WALKING:
-		SoundManager::get().resume("walking");
-		SoundManager::get().pause("running");
-		break;
-
-	case EntityStatus::ARMS_MOVING_AROUND_RUNNING:
-		SoundManager::get().pause("walking");
-		SoundManager::get().resume("running");
-		break;
-	}
-
-	switch (this->statuses[3])
-	{
-	case EntityStatus::HEAD_TIRED:
-		SoundManager::get().pause("walking");
-		SoundManager::get().pause("running");
-		break;
-
-	//case EntityStatus::DYING:
-	//	SoundManager::get().pause("walking");
-	//	SoundManager::get().pause("running");
-	//	break;
-
-	//default:
-	//	SoundManager::get().pause("walking");
-	//	SoundManager::get().pause("running");
-	//	break;
-	}
-	*/
 
 	if (this->isTired)
 	{
@@ -527,7 +499,17 @@ void Player::weaponSlot6()
 
 void Player::draw()
 {
-	if (this->isWalking)
+	if (this->isDead())
+	{
+		if (this->deadTextureIndex == -1)
+			this->deadTextureIndex = (int)(Random::random01() > 0.5);
+
+		if (this->deadRotateAngle == -1.0)
+			this->deadRotateAngle = (Random::random01() * 360.0 - Random::EPSILON);
+
+		SpriteRenderer::get().draw(ResourceManager::getShader("sprite"), ResourceManager::getFlipbook("player" + std::to_string(this->deadTextureIndex) + "Dead").getTextureAtTime(0.0), Camera::get().screenPosition(this->x, this->y), Camera::get().screenSize(this->deathResize * this->drawWidth, this->deathResize * this->drawHeight), this->deadRotateAngle);
+	}
+	else if (this->isWalking)
 	{
 		for (int i = 0; i < this->statuses.size(); ++i)
 			SpriteRenderer::get().draw(ResourceManager::getShader("sprite"), ResourceManager::getFlipbook(this->animationsName2D[this->statuses[i]]).getTextureAtTime(GlobalClock::get().getCurrentTime() - this->timesSinceStatuses[i]), Camera::get().screenPosition(this->x, this->y), Camera::get().screenSize(this->drawWidth + this->walkingOffsetSize * glm::sin(this->walkingOffsetSpeed * GlobalClock::get().getCurrentTime()), this->drawHeight + this->walkingOffsetSize * glm::sin(this->walkingOffsetSpeed * GlobalClock::get().getCurrentTime())), this->rotateAngle);

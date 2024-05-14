@@ -12,7 +12,7 @@ protected:
 
 	std::vector<std::vector<bool>> blockedCell;
 	std::vector<std::vector<int>> cellDistance;
-	std::queue<std::pair<int, int>> q;
+	std::priority_queue < std::pair<int, std::pair<int, int>>, std::vector < std::pair<int, std::pair<int, int>>>, std::greater<std::pair<int, std::pair<int, int>>>> pq;
 	std::vector<std::pair<int, int>> visitedCells;
 
 	double rotateSpeed;
@@ -21,6 +21,16 @@ protected:
 
 	std::pair<double, double> currentTarget;
 	std::pair<double, double> nextTarget;
+
+	double movingOffsetSize;
+	double movingOffsetSpeed;
+
+	bool isMoving;
+
+	double deathResize;
+
+	int deadTextureIndex;
+	double deadRotateAngle;
 
 public:
 
@@ -32,4 +42,6 @@ public:
 	virtual bool nearTarget() override;
 
 	virtual void update() override;
+
+	virtual void draw() override;
 };

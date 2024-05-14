@@ -19,7 +19,8 @@ private:
 	void loadResources();
 
 	void updateEntities();
-	void drawEntities();
+	void drawAliveEntities();
+	void drawDeadEntities();
 
 private:
 	std::vector<std::shared_ptr<Entity>> entities;

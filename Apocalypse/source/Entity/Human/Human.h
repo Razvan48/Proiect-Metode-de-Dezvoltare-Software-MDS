@@ -19,4 +19,6 @@ public:
 	virtual ~Human();
 
 	void onCollide(CollidableEntity& other, glm::vec2 overlap) override;
+
+	inline bool isDead() const { return this->health <= 0.0; } // TODO: nu prea ok
 };
