@@ -132,16 +132,33 @@ void Weapon::update()
 	if (this->isReloading)
 	{
 		this->isReloading = SoundManager::get().isPlaying(reloadSound);
+
+		if (!this->isReloading)
+		{
+			int need = this->maxBullets - this->numBullets;
+			int available = std::min(need, Player::get().getTotalBulletsCurrentWeapon());
+
+			this->numBullets += available;
+			Player::get().modifyBullets(weaponType, -available);
+		}
 	}
 }
 
 void Weapon::drawWeapon()
 {
-	SoundManager::get().play(drawSound, false);
+	if (this->drawSound.size() != 0)
+	{
+		SoundManager::get().play(this->drawSound, false);
+	}
 }
 
 void Weapon::reload()
 {
+	if (this->weaponType == WeaponType::FIST || this->weaponType == WeaponType::KNIFE)
+	{
+		return;
+	}
+
 	if (this->isReloading)
 	{
 		return;
@@ -154,12 +171,9 @@ void Weapon::reload()
 
 	this->isReloading = true;
 
-	int need = this->maxBullets - this->numBullets;
-	int available = std::min(need, Player::get().getTotalBulletsCurrentWeapon());
-
-	this->numBullets += available;
-	Player::get().modifyBullets(weaponType, -available);
-
-	SoundManager::get().play(reloadSound, false);
+	if (this->reloadSound.size() != 0)
+	{
+		SoundManager::get().play(reloadSound, false);
+	}
 }
 
