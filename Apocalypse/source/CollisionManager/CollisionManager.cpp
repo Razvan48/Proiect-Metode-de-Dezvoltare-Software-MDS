@@ -80,7 +80,7 @@ void CollisionManager::handleCollisions(std::vector<std::shared_ptr<Entity>>& en
 
 
 	// Player vs. Entities
-	// TODO: momentan doar door si enemy (si bullets??)
+	// TODO: momentan enemy (si bullets??)
 	for (int i = 0; i < entities.size(); ++i)
 	{
 		if (std::dynamic_pointer_cast<CollidableEntity>(entities[i]) == nullptr)
@@ -97,6 +97,20 @@ void CollisionManager::handleCollisions(std::vector<std::shared_ptr<Entity>>& en
 			std::dynamic_pointer_cast<CollidableEntity>(entities[i])->onCollide(Player::get(), overlap);
 		}
 	}
+	// Player vs. Doors
+	for (int i = 0; i < Map::get().getDoors().size(); ++i)
+	{
+		if (!Map::get().getDoors()[i]->getCollisionActive())
+			continue;
+
+		glm::vec2 overlap = Map::get().getDoors()[i]->isInCollision(Player::get());
+
+		if (overlap.x > 0.0 && overlap.y > 0.0)
+		{
+			Player::get().onCollide(*Map::get().getDoors()[i], overlap);
+			Map::get().getDoors()[i]->onCollide(Player::get(), overlap);
+		}
+	}
 
 	// Bullets vs. Doors
 	for (int i = 0; i < entities.size(); ++i)
@@ -104,23 +118,17 @@ void CollisionManager::handleCollisions(std::vector<std::shared_ptr<Entity>>& en
 		if (std::dynamic_pointer_cast<Bullet>(entities[i]) == nullptr)
 			continue;
 
-		for (int j = 0; j < entities.size(); ++j)
+		for (int j = 0; j < Map::get().getDoors().size(); ++j)
 		{
-			if (i == j)
+			if (!Map::get().getDoors()[j]->getCollisionActive())
 				continue;
 
-			if (std::dynamic_pointer_cast<Door>(entities[j]) == nullptr)
-				continue;
-
-			if (!std::dynamic_pointer_cast<CollidableEntity>(entities[j])->getCollisionActive())
-				continue;
-
-			glm::vec2 overlap = std::dynamic_pointer_cast<CollidableEntity>(entities[i])->isInCollision(*std::dynamic_pointer_cast<CollidableEntity>(entities[j]));
+			glm::vec2 overlap = Map::get().getDoors()[j]->isInCollision(*std::dynamic_pointer_cast<CollidableEntity>(entities[i]));
 
 			if (overlap.x > 0.0 && overlap.y > 0.0)
 			{
-				std::dynamic_pointer_cast<CollidableEntity>(entities[i])->onCollide(*std::dynamic_pointer_cast<CollidableEntity>(entities[j]), overlap);
-				std::dynamic_pointer_cast<CollidableEntity>(entities[j])->onCollide(*std::dynamic_pointer_cast<CollidableEntity>(entities[i]), overlap);
+				std::dynamic_pointer_cast<CollidableEntity>(entities[i])->onCollide(*Map::get().getDoors()[j], overlap);
+				Map::get().getDoors()[j]->onCollide(*std::dynamic_pointer_cast<CollidableEntity>(entities[i]), overlap);
 			}
 		}
 	}
@@ -177,28 +185,22 @@ void CollisionManager::handleCollisions(std::vector<std::shared_ptr<Entity>>& en
 	}
 
 	// Doors vs Enemies
-	for (int i = 0; i < entities.size(); ++i)
+	for (int i = 0; i < Map::get().getDoors().size(); ++i)
 	{
-		if (std::dynamic_pointer_cast<Door>(entities[i]) == nullptr)
-			continue;
-
-		if (!std::dynamic_pointer_cast<CollidableEntity>(entities[i])->getCollisionActive())
+		if (!std::dynamic_pointer_cast<CollidableEntity>(Map::get().getDoors()[i])->getCollisionActive())
 			continue;
 
 		for (int j = 0; j < entities.size(); ++j)
 		{
-			if (i == j)
-				continue;
-
 			if (std::dynamic_pointer_cast<Enemy>(entities[j]) == nullptr)
 				continue;
 
-			glm::vec2 overlap = std::dynamic_pointer_cast<CollidableEntity>(entities[i])->isInCollision(*std::dynamic_pointer_cast<CollidableEntity>(entities[j]));
+			glm::vec2 overlap = Map::get().getDoors()[i]->isInCollision(*std::dynamic_pointer_cast<CollidableEntity>(entities[j]));
 
 			if (overlap.x > 0.0 && overlap.y > 0.0)
 			{
-				std::dynamic_pointer_cast<CollidableEntity>(entities[i])->onCollide(*std::dynamic_pointer_cast<CollidableEntity>(entities[j]), overlap);
-				std::dynamic_pointer_cast<CollidableEntity>(entities[j])->onCollide(*std::dynamic_pointer_cast<CollidableEntity>(entities[i]), overlap);
+				Map::get().getDoors()[i]->onCollide(*std::dynamic_pointer_cast<CollidableEntity>(entities[j]), overlap);
+				std::dynamic_pointer_cast<CollidableEntity>(entities[j])->onCollide(*Map::get().getDoors()[i], overlap);
 			}
 		}
 	}

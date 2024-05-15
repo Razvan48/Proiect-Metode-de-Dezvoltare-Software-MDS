@@ -29,8 +29,14 @@ void InteractionManager::handleInteractions(std::vector<std::shared_ptr<Entity>>
 {
 	// TODO: implementare
 
+	// Player vs. Doors
+	for (int i = 0; i < Map::get().getDoors().size(); ++i)
+	{
+		if (Map::get().getDoors()[i]->isInInteraction())
+			Map::get().getDoors()[i]->onInteraction();
+	}
+
 	// Player vs. Entities
-	// momentan doar door
 	for (int i = 0; i < entities.size(); ++i)
 	{
 		if (std::dynamic_pointer_cast<InteractiveEntity>(entities[i]) == nullptr)

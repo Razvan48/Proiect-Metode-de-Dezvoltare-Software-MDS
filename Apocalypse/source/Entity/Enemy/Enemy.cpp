@@ -22,7 +22,6 @@ Enemy::Enemy(double x, double y, double drawWidth, double drawHeight, double rot
 	, rotateSpeed(rotateSpeed), probToChangeDir(1.0 / 250.0)
 	, currentTarget(std::make_pair(x, y)), nextTarget(std::make_pair(x, y))
 	, movingOffsetSize(0.05), movingOffsetSpeed(15.0), isMoving(false)
-	, deathResize(1.5), deadTextureIndex(-1), deadRotateAngle(-1.0)
 {
 
 }
@@ -66,14 +65,14 @@ void Enemy::pathFindingTarget()
 			}
 		}
 	}
-	for (int i = 0; i < Game::get().getEntities().size(); ++i)
+	for (int i = 0; i < Map::get().getDoors().size(); ++i)
 	{
-		if (std::dynamic_pointer_cast<Door>(Game::get().getEntities()[i]) && std::dynamic_pointer_cast<Door>(Game::get().getEntities()[i])->getCollisionActive())
-		{
-			int xDoor = static_cast<int>(Game::get().getEntities()[i]->getX());
-			int yDoor = static_cast<int>(Game::get().getEntities()[i]->getY());
-			this->blockedCell[yDoor][xDoor] = true;
-		}
+		if (!Map::get().getDoors()[i]->getCollisionActive())
+			continue;
+
+		int xDoor = static_cast<int>(Map::get().getDoors()[i]->getX());
+		int yDoor = static_cast<int>(Map::get().getDoors()[i]->getY());
+		this->blockedCell[yDoor][xDoor] = true;
 	}
 
 	int xCell = static_cast<int>(this->x);
@@ -170,13 +169,19 @@ void Enemy::draw()
 {
 	if (this->isDead())
 	{
-		if (this->deadTextureIndex == -1)
-			this->deadTextureIndex = (int)(Random::random01() > 0.5);
+		int deadTextureIndex = (int)(Random::random01() > 0.5);
+		double deadRotateAngle = (Random::random01() * 360.0 - Random::EPSILON);
+		double deadResize = 1.25;
 
-		if (this->deadRotateAngle == -1.0)
-			this->deadRotateAngle = (Random::random01() * 360.0 - Random::EPSILON);
+		std::map<AnimatedEntity::EntityStatus, std::string> m0 = {
+			{EntityStatus::DEAD_HUMAN, "enemy" + std::to_string(deadTextureIndex) + "Dead"}
+		};
+		std::vector<AnimatedEntity::EntityStatus> v0 = { AnimatedEntity::EntityStatus::DEAD_HUMAN };
 
-		SpriteRenderer::get().draw(ResourceManager::getShader("sprite"), ResourceManager::getFlipbook("enemy" + std::to_string(this->deadTextureIndex) + "Dead").getTextureAtTime(0.0), Camera::get().screenPosition(this->x, this->y), Camera::get().screenSize(this->deathResize * this->drawWidth, this->deathResize * this->drawHeight), this->deadRotateAngle);
+		Game::get().addDeadBody(std::make_shared<DeadBody>
+			(this->x, this->y, deadResize * this->drawWidth, deadResize * this->drawHeight, deadRotateAngle, 0.0, m0, v0));
+
+		this->setDeleteEntity(true);
 	}
 	else if (this->isMoving)
 	{
@@ -193,12 +198,6 @@ void Enemy::draw()
 void Enemy::update()
 {
 	this->isMoving = false;
-
-	if (this->isDead())
-	{
-		this->collisionActive = false;
-		return;
-	}
 
 	this->pathFindingTarget();
 

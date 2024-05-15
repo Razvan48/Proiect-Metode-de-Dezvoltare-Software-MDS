@@ -61,6 +61,8 @@ public:
 
 		LEGS_MOVING_AROUND,
 		LEGS_NOT,
+
+		DEAD_HUMAN,
 	};
 
 protected:

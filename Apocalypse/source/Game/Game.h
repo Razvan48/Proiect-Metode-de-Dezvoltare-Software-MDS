@@ -4,6 +4,7 @@
 #include <memory>
 
 #include "../Entity/Entity.h"
+#include "../Entity/DeadBody/DeadBody.h"
 
 class Game
 {
@@ -19,10 +20,11 @@ private:
 	void loadResources();
 
 	void updateEntities();
-	void drawAliveEntities();
-	void drawDeadEntities();
+	void drawDeadBodies();
+	void drawEntities();
 
 private:
+	std::vector<std::shared_ptr<DeadBody>> deadBodies;
 	std::vector<std::shared_ptr<Entity>> entities;
 
 public:
@@ -31,7 +33,9 @@ public:
 	void run();
 
 	void addEntity(std::shared_ptr<Entity> const entity);
+	void addDeadBody(std::shared_ptr<DeadBody> const deadBody);
 
 	inline std::vector<std::shared_ptr<Entity>>& getEntities() { return this->entities; }
+	inline std::vector<std::shared_ptr<DeadBody>>& getDeadBodies() { return this->deadBodies; }
 };
 

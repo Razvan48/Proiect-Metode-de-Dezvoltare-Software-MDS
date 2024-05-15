@@ -31,11 +31,15 @@ private:
 private:
 
 	std::vector<std::vector<std::shared_ptr<Entity>>> map;
+	std::vector<std::shared_ptr<Door>> doors;
 
 public:
 	static Map& get();
 	void readMap(const std::string& path);
 	std::vector<std::vector<std::shared_ptr<Entity>>>& getMap() { return this->map; }
 	void draw();
+	void addDoor(std::shared_ptr<Door> const door);
+	inline std::vector<std::shared_ptr<Door>>& getDoors() { return this->doors; }
+	void update();
 };
 

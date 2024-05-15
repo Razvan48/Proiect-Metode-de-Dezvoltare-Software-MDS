@@ -34,7 +34,7 @@ Player::Player(double x, double y, double drawWidth, double drawHeight, double r
 	walkingOffsetSize(0.01), runningOffsetSize(0.05),
 	walkingOffsetSpeed(10.0), runningOffsetSpeed(15.0),
 	weapons({ std::make_shared<Weapon>(0.0, 0.0, 0.0, 0.0, 0.0, 0.0, "fist0", 0.0, 0.0, 0.0, 1, 0.0, Weapon::WeaponType::FIST, 0.0, "", "", "")
-		, std::make_shared<Weapon>(0.0, 0.0, 0.0, 0.0, 0.0, 0.0, "pistol0", 0.0, 0.0, 0.5, 20, 5.0, Weapon::WeaponType::REVOLVER, 0.0, "revolverReload", "revolverDraw", "revolverEmpty")
+		, std::make_shared<Weapon>(0.0, 0.0, 0.0, 0.0, 0.0, 0.0, "pistol0", 0.0, 0.0, 0.5, 20, 25.0, Weapon::WeaponType::REVOLVER, 0.0, "revolverReload", "revolverDraw", "revolverEmpty")
 		, nullptr
 		, nullptr
 		, nullptr
@@ -42,9 +42,7 @@ Player::Player(double x, double y, double drawWidth, double drawHeight, double r
 	currentWeaponIndex(0),
 	isTired(false),
 	isWalking(false),
-	isRunning(false),
-	deathResize(1.5),
-	deadTextureIndex(-1), deadRotateAngle(-1.0)
+	isRunning(false)
 {
 	// TODO: test
 	bullets[Weapon::WeaponType::REVOLVER] = 1024;
@@ -151,12 +149,6 @@ void Player::update()
 	this->isTired = false;
 	this->isWalking = false;
 	this->isRunning = false;
-
-	if (this->isDead())
-	{
-		this->collisionActive = false;
-		return;
-	}
 
 	// weapon
 	this->weapons[this->currentWeaponIndex]->update();
@@ -501,13 +493,19 @@ void Player::draw()
 {
 	if (this->isDead())
 	{
-		if (this->deadTextureIndex == -1)
-			this->deadTextureIndex = (int)(Random::random01() > 0.5);
+		int deadTextureIndex = (int)(Random::random01() > 0.5);
+		double deadRotateAngle = (Random::random01() * 360.0 - Random::EPSILON);
+		double deadResize = 1.25;
 
-		if (this->deadRotateAngle == -1.0)
-			this->deadRotateAngle = (Random::random01() * 360.0 - Random::EPSILON);
+		std::map<AnimatedEntity::EntityStatus, std::string> m0 = {
+			{EntityStatus::DEAD_HUMAN, "player" + std::to_string(deadTextureIndex) + "Dead"}
+		};
+		std::vector<AnimatedEntity::EntityStatus> v0 = { AnimatedEntity::EntityStatus::DEAD_HUMAN };
 
-		SpriteRenderer::get().draw(ResourceManager::getShader("sprite"), ResourceManager::getFlipbook("player" + std::to_string(this->deadTextureIndex) + "Dead").getTextureAtTime(0.0), Camera::get().screenPosition(this->x, this->y), Camera::get().screenSize(this->deathResize * this->drawWidth, this->deathResize * this->drawHeight), this->deadRotateAngle);
+		Game::get().addDeadBody(std::make_shared<DeadBody>
+			(this->x, this->y, deadResize * this->drawWidth, deadResize * this->drawHeight, deadRotateAngle, 0.0, m0, v0));
+
+		// this->setDeleteEntity(true);
 	}
 	else if (this->isWalking)
 	{

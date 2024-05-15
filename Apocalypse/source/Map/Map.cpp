@@ -66,5 +66,24 @@ void Map::draw()
 			this->map[i][j]->draw();
 		}
 	}
+
+	for (int i = 0; i < this->doors.size(); ++i)
+	{
+		this->doors[i]->draw();
+	}
 }
+
+void Map::addDoor(std::shared_ptr<Door> door)
+{
+	this->doors.emplace_back(door);
+}
+
+void Map::update()
+{
+	for (int i = 0; i < this->doors.size(); ++i)
+	{
+		this->doors[i]->update();
+	}
+}
+
 

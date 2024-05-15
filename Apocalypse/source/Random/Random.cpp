@@ -2,8 +2,6 @@
 
 #include <random>
 
-const double Random::EPSILON = 0.05;
-
 double Random::random01()
 {
     static std::random_device rd;

@@ -1,10 +1,8 @@
 #pragma once
 
-class Random
+namespace Random
 {
-public:
+    const double EPSILON = 0.05;
 
-    static const double EPSILON;
-
-    static double random01();
+    double random01();
 };

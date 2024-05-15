@@ -173,33 +173,25 @@ void Game::loadResources()
 
     // Load Entities
     // Doors
-    this->entities.emplace_back(new Door(8.5, 14.5, 1.0, 1.0, 90.0, 0.0, 1.0, 1.0, 
-        {
-            { AnimatedEntity::EntityStatus::IDLE, "doorStatic0"},
-            { AnimatedEntity::EntityStatus::OPENED, "doorOpening0"}
-        },
-        {
-            AnimatedEntity::EntityStatus::IDLE
-        }
-        , 2.0, 2.0, 0)); // usa (doar sa testam) (usa gratis, cost 0)
-    this->entities.emplace_back(new Door(8.5, 16.5, 1.0, 1.0, 90.0, 0.0, 1.0, 1.0,
-        {
-            { AnimatedEntity::EntityStatus::IDLE, "doorStatic1"},
-            { AnimatedEntity::EntityStatus::OPENED, "doorOpening1"}
-        },
-        {
-            AnimatedEntity::EntityStatus::IDLE
-        }
-        , 2.0, 2.0, 0)); // usa (doar sa testam) (usa gratis, cost 0)
-    this->entities.emplace_back(new Door(7.5, 8.5, 1.0, 1.0, 0.0, 0.0, 1.0, 1.0,
-        {
-            { AnimatedEntity::EntityStatus::IDLE, "doorStatic1"},
-            { AnimatedEntity::EntityStatus::OPENED, "doorOpening1"}
-        },
-        {
-            AnimatedEntity::EntityStatus::IDLE
-        }
-        , 2.0, 2.0, 0)); // usa (doar sa testam) (usa gratis, cost 0)
+    std::map<AnimatedEntity::EntityStatus, std::string> m0 = {
+        { AnimatedEntity::EntityStatus::IDLE, "doorStatic0"},
+        { AnimatedEntity::EntityStatus::OPENED, "doorOpening0"}
+    };
+    std::vector<AnimatedEntity::EntityStatus> v0 = { AnimatedEntity::EntityStatus::IDLE };
+    Map::get().addDoor(std::make_shared<Door>(8.5, 14.5, 1.0, 1.0, 90.0, 0.0, 1.0, 1.0, m0, v0, 2.0, 2.0, 0)); // usa (doar sa testam) (usa gratis, cost 0)
+    std::map<AnimatedEntity::EntityStatus, std::string> m1 = {
+        { AnimatedEntity::EntityStatus::IDLE, "doorStatic1"},
+        { AnimatedEntity::EntityStatus::OPENED, "doorOpening1"}
+    };
+    std::vector<AnimatedEntity::EntityStatus> v1 = { AnimatedEntity::EntityStatus::IDLE };
+    Map::get().addDoor(std::make_shared<Door>(8.5, 16.5, 1.0, 1.0, 90.0, 0.0, 1.0, 1.0, m1, v1, 2.0, 2.0, 0)); // usa (doar sa testam) (usa gratis, cost 0)
+    std::map<AnimatedEntity::EntityStatus, std::string> m2 = {
+        { AnimatedEntity::EntityStatus::IDLE, "doorStatic1"},
+        { AnimatedEntity::EntityStatus::OPENED, "doorOpening1"}
+    };
+    std::vector<AnimatedEntity::EntityStatus> v2 = { AnimatedEntity::EntityStatus::IDLE };
+    Map::get().addDoor(std::make_shared<Door>(7.5, 8.5, 1.0, 1.0, 0.0, 0.0, 1.0, 1.0, m2, v2
+    , 2.0, 2.0, 0)); // usa (doar sa testam) (usa gratis, cost 0)
 
     // Enemies
     this->entities.emplace_back(new Enemy(5.0, 5.0, 1.0, 1.0, 90.0, 5.0, 0.5, 0.5, std::map<AnimatedEntity::EntityStatus, std::string>
@@ -286,6 +278,7 @@ void Game::run()
     {
         // Update
         InputHandler::update(); // TODO: delete?
+        Map::get().update();
         Camera::get().update();
         Player::get().update();
         this->updateEntities();
@@ -304,10 +297,14 @@ void Game::run()
         Map::get().draw();
 
         // Game Entities
-        // Dead Entities (including Player)
-        this->drawDeadEntities();
-        // Alive Entities (including Player)
-        this->drawAliveEntities();
+        // Dead Bodies
+        this->drawDeadBodies();
+
+        // Player
+        Player::get().draw();
+
+        // Entities
+        this->drawEntities();
 
         // HUD
         HUDManager::get().draw();
@@ -335,19 +332,6 @@ void Game::run()
 
 void Game::updateEntities()
 {
-    // TODO: delete
-    //for (std::vector<std::shared_ptr<Entity>>::iterator it = entities.begin(); it != entities.end(); )
-    //{
-    //    if ((*it)->getDeleteEntity())
-    //    {
-    //        it = entities.erase(it);
-    //    }
-    //    else
-    //    {
-    //        it++;
-    //    }
-    //}
-
     for (int i = 0; i < this->entities.size(); ++i)
     {
         if (entities[i]->getDeleteEntity())
@@ -362,32 +346,25 @@ void Game::updateEntities()
         this->entities[i]->update();
 }
 
-void Game::drawAliveEntities() // TODO: refactor
+void Game::drawDeadBodies()
 {
-    for (int i = 0; i < this->entities.size(); ++i)
-        if (std::dynamic_pointer_cast<Door>(this->entities[i]))
-            this->entities[i]->draw();
-
-    if (!Player::get().isDead())
-        Player::get().draw();
-
-    for (int i = 0; i < this->entities.size(); ++i)
-        if (!std::dynamic_pointer_cast<Human>(this->entities[i]) || !std::dynamic_pointer_cast<Human>(this->entities[i])->isDead())
-            this->entities[i]->draw();
+    for (int i = 0; i < this->deadBodies.size(); ++i)
+        this->deadBodies[i]->draw();
 }
 
-void Game::drawDeadEntities() // TODO: refactor
+void Game::drawEntities()
 {
     for (int i = 0; i < this->entities.size(); ++i)
-        if (std::dynamic_pointer_cast<Human>(this->entities[i]) && std::dynamic_pointer_cast<Human>(this->entities[i])->isDead())
-            this->entities[i]->draw();
-
-    if (Player::get().isDead())
-        Player::get().draw();
+        this->entities[i]->draw();
 }
 
 void Game::addEntity(std::shared_ptr<Entity> const entity)
 {
     this->entities.emplace_back(entity);
+}
+
+void Game::addDeadBody(std::shared_ptr<DeadBody> const deadBody)
+{
+    this->deadBodies.emplace_back(deadBody);
 }
 
