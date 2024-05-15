@@ -24,6 +24,8 @@ Weapon::Weapon(double x, double y, double drawWidth, double drawHeight, double r
 
 }
 
+const double Weapon::EPSILON_TIME = 0.5;
+
 bool Weapon::isInInteraction()
 {
 	double left1 = this->getX() - this->interactionWidth / 2.0;

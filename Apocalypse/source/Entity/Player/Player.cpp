@@ -241,15 +241,31 @@ void Player::update()
 	else if (this->weapons[this->currentWeaponIndex]->getWeaponType() == Weapon::WeaponType::REVOLVER)
 	{
 		if (!this->weapons[this->currentWeaponIndex]->stillReloading())
-			updateStatus(EntityStatus::ARMS_HOLDING_PISTOL, 1);
+		{
+			if (this->weapons[this->currentWeaponIndex]->recentlyShot())
+			{
+				updateStatus(EntityStatus::ARMS_USING_PISTOL, 1);
+			}
+			else
+			{
+				updateStatus(EntityStatus::ARMS_HOLDING_PISTOL, 1);
+			}
+		}
 		else
+		{
 			updateStatus(EntityStatus::ARMS_RELOADING_PISTOL, 1);
+		}
 	}
 
 	// Sound
 	SoundManager::get().pause("walking");
 	SoundManager::get().pause("running");
-	if (this->isWalking)
+	//SoundManager::get().pause("tired");
+	if (this->isTired)
+	{
+		// TODO: adaugat resume aici pt sound effect tired
+	}
+	else if (this->isWalking)
 	{
 		SoundManager::get().resume("walking");
 	}
