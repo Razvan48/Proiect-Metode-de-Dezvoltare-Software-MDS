@@ -457,7 +457,7 @@ void Player::pauseGame()
 
 void Player::weaponSlot1()
 {
-	if (this->weapons[0] != nullptr)
+	if (this->weapons[0] != nullptr && this->currentWeaponIndex != 0)
 	{
 		weapons[0]->drawWeapon();
 		this->currentWeaponIndex = 0;
@@ -466,7 +466,7 @@ void Player::weaponSlot1()
 
 void Player::weaponSlot2()
 {
-	if (this->weapons[1] != nullptr)
+	if (this->weapons[1] != nullptr && this->currentWeaponIndex != 1)
 	{
 		weapons[1]->drawWeapon();
 		this->currentWeaponIndex = 1;
@@ -475,7 +475,7 @@ void Player::weaponSlot2()
 
 void Player::weaponSlot3()
 {
-	if (this->weapons[2] != nullptr)
+	if (this->weapons[2] != nullptr && this->currentWeaponIndex != 2)
 	{
 		weapons[2]->drawWeapon();
 		this->currentWeaponIndex = 2;
@@ -484,7 +484,7 @@ void Player::weaponSlot3()
 
 void Player::weaponSlot4()
 {
-	if (this->weapons[3] != nullptr)
+	if (this->weapons[3] != nullptr && this->currentWeaponIndex != 3)
 	{
 		weapons[3]->drawWeapon();
 		this->currentWeaponIndex = 3;
@@ -493,7 +493,7 @@ void Player::weaponSlot4()
 
 void Player::weaponSlot5()
 {
-	if (this->weapons[4] != nullptr)
+	if (this->weapons[4] != nullptr && this->currentWeaponIndex != 4)
 	{
 		weapons[4]->drawWeapon();
 		this->currentWeaponIndex = 4;
@@ -502,7 +502,7 @@ void Player::weaponSlot5()
 
 void Player::weaponSlot6()
 {
-	if (this->weapons[5] != nullptr)
+	if (this->weapons[5] != nullptr && this->currentWeaponIndex != 5)
 	{
 		weapons[5]->drawWeapon();
 		this->currentWeaponIndex = 5;
