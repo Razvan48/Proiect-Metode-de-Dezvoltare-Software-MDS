@@ -184,7 +184,7 @@ void Game::loadResources()
         { AnimatedEntity::EntityStatus::OPENED, "doorOpening1"}
     };
     std::vector<AnimatedEntity::EntityStatus> v1 = { AnimatedEntity::EntityStatus::IDLE };
-    Map::get().addDoor(std::make_shared<Door>(8.5, 16.5, 1.0, 1.0, 90.0, 0.0, 1.0, 1.0, m1, v1, 2.0, 2.0, 0)); // usa (doar sa testam) (usa gratis, cost 0)
+    Map::get().addDoor(std::make_shared<Door>(8.5, 16.5, 1.0, 1.0, 90.0, 0.0, 1.0, 1.0, m1, v1, 2.0, 2.0, 100)); // usa (doar sa testam) // COST 100
     std::map<AnimatedEntity::EntityStatus, std::string> m2 = {
         { AnimatedEntity::EntityStatus::IDLE, "doorStatic1"},
         { AnimatedEntity::EntityStatus::OPENED, "doorOpening1"}

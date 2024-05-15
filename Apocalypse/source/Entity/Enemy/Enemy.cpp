@@ -21,7 +21,7 @@ Enemy::Enemy(double x, double y, double drawWidth, double drawHeight, double rot
 	, AIEntity(x, y, drawWidth, drawHeight, rotateAngle, speed)
 	, rotateSpeed(rotateSpeed), probToChangeDir(1.0 / 250.0)
 	, currentTarget(std::make_pair(x, y)), nextTarget(std::make_pair(x, y))
-	, movingOffsetSize(0.05), movingOffsetSpeed(15.0), isMoving(false)
+	, movingOffsetSize(0.05), movingOffsetSpeed(15.0), isMoving(false), goldOnKill(100) // TODO:
 {
 
 }
@@ -181,6 +181,7 @@ void Enemy::draw()
 		Game::get().addDeadBody(std::make_shared<DeadBody>
 			(this->x, this->y, deadResize * this->drawWidth, deadResize * this->drawHeight, deadRotateAngle, 0.0, m0, v0));
 
+		Player::get().setGold(Player::get().getGold() + this->goldOnKill);
 		this->setDeleteEntity(true);
 	}
 	else if (this->isMoving)

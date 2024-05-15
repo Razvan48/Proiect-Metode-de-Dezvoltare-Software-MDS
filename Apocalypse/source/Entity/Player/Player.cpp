@@ -255,7 +255,7 @@ void Player::update()
 	}
 	else if (this->isRunning)
 	{
-		SoundManager::get().pause("running");
+		SoundManager::get().resume("running");
 	}
 
 	if (this->isTired)
