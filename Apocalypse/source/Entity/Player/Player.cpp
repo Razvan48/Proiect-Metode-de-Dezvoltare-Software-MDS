@@ -34,11 +34,12 @@ Player::Player(double x, double y, double drawWidth, double drawHeight, double r
 	walkingOffsetSize(0.01), runningOffsetSize(0.05),
 	walkingOffsetSpeed(10.0), runningOffsetSpeed(15.0),
 	weapons({ std::make_shared<Weapon>(0.0, 0.0, 0.0, 0.0, 0.0, 0.0, "fist0", 0.0, 0.0, 0.0, 1, 0.0, Weapon::WeaponType::FIST, 0.0, "", "", "")
+		, nullptr // knife
 		, std::make_shared<Weapon>(0.0, 0.0, 0.0, 0.0, 0.0, 0.0, "pistol0", 0.0, 0.0, 0.5, 20, 25.0, Weapon::WeaponType::REVOLVER, 0.0, "revolverReload", "revolverDraw", "revolverEmpty")
-		, nullptr
-		, nullptr
-		, nullptr
-		, nullptr}),
+		, nullptr // shotgun
+		, nullptr // ak47
+		, nullptr // m4
+		}),
 	currentWeaponIndex(0),
 	isTired(false),
 	isWalking(false),
@@ -256,6 +257,9 @@ void Player::update()
 			updateStatus(EntityStatus::ARMS_RELOADING_PISTOL, 1);
 		}
 	}
+	/*
+	* else if (this->weapons[this->currentWeaponIndex]->getWeaponType() == Weapon::WeaponType::ALTA_ARMA)
+	*/
 
 	// Sound
 	SoundManager::get().pause("walking");
