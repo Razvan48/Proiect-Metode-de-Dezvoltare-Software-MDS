@@ -212,6 +212,21 @@
       "framesPerSecond": 1.0,
       "loop": true
     },
+    "player0ArmsHoldingShotgun": {
+      "directory": "resources/animations/playerComponents/arms/armsHoldingShotgun",
+      "framesPerSecond": 1.0,
+      "loop": true
+    },
+    "player0ArmsHoldingAK47": {
+      "directory": "resources/animations/playerComponents/arms/armsHoldingAK47",
+      "framesPerSecond": 1.0,
+      "loop": true
+    },
+    "player0ArmsHoldingM4": {
+      "directory": "resources/animations/playerComponents/arms/armsHoldingM4",
+      "framesPerSecond": 1.0,
+      "loop": true
+    },
     "player0ArmsMovingAhead": {
       "directory": "resources/animations/playerComponents/arms/armsMovingAhead",
       "framesPerSecond": 15.0,
@@ -237,6 +252,21 @@
       "framesPerSecond": 6.0,
       "loop": false
     },
+    "player0ArmsReloadingShotgun": {
+      "directory": "resources/animations/playerComponents/arms/armsReloadingShotgun",
+      "framesPerSecond": 6.0,
+      "loop": false
+    },
+    "player0ArmsReloadingAK47": {
+      "directory": "resources/animations/playerComponents/arms/armsReloadingAK47",
+      "framesPerSecond": 6.0,
+      "loop": false
+    },
+    "player0ArmsReloadingM4": {
+      "directory": "resources/animations/playerComponents/arms/armsReloadingM4",
+      "framesPerSecond": 6.0,
+      "loop": false
+    },
     "player0ArmsUsingGrenade": {
       "directory": "resources/animations/playerComponents/arms/armsUsingGrenade",
       "framesPerSecond": 1.0,
@@ -249,6 +279,26 @@
     },
     "player0ArmsUsingPistol": {
       "directory": "resources/animations/playerComponents/arms/armsUsingPistol",
+      "framesPerSecond": 15.0,
+      "loop": false
+    },
+    "player0ArmsUsingShotgun": {
+      "directory": "resources/animations/playerComponents/arms/armsUsingShotgun",
+      "framesPerSecond": 15.0,
+      "loop": false
+    },
+    "player0ArmsUsingFist": {
+      "directory": "resources/animations/playerComponents/arms/armsUsingFist",
+      "framesPerSecond": 15.0,
+      "loop": false
+    },
+    "player0ArmsUsingAK47": {
+      "directory": "resources/animations/playerComponents/arms/armsUsingAK47",
+      "framesPerSecond": 15.0,
+      "loop": false
+    },
+    "player0ArmsUsingM4": {
+      "directory": "resources/animations/playerComponents/arms/armsUsingM4",
       "framesPerSecond": 15.0,
       "loop": false
     },

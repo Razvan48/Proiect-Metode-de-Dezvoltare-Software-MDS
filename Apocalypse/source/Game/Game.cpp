@@ -23,6 +23,7 @@
 #include "../MenuManager/PauseMenu/PauseMenu.h"
 #include "../SoundManager/SoundManager.h"
 #include "../MenuManager/MenuManager.h"
+#include "../WaveManager/WaveManager.h"
 
 Game::Game()
 {
@@ -308,6 +309,9 @@ void Game::run()
 
         // HUD
         HUDManager::get().draw();
+
+        // Wave Manager
+        WaveManager::get().update();
 
         // Main Menu
         try

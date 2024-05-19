@@ -46,6 +46,7 @@ private:
 	void weaponSlot4();
 	void weaponSlot5();
 	void weaponSlot6();
+	void weaponSlot7();
 
 	double runningSpeed;
 
