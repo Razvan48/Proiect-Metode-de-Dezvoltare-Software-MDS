@@ -33,7 +33,7 @@ Player::Player(double x, double y, double drawWidth, double drawHeight, double r
 	moveUpUsed(false), moveDownUsed(false), moveRightUsed(false), moveLeftUsed(false), runUsed(false), interactUsed(false),
 	walkingOffsetSize(0.01), runningOffsetSize(0.05),
 	walkingOffsetSpeed(10.0), runningOffsetSpeed(15.0),
-	weapons({ std::make_shared<Weapon>(0.0, 0.0, 0.0, 0.0, 0.0, 0.0, "fist0", 0.0, 0.0, 0.0, 1, 0.0, Weapon::WeaponType::FIST, 0.0, "", "", "")
+	weapons({ std::make_shared<Weapon>(0.0, 0.0, 0.0, 0.0, 0.0, 0.0, "fist0", 0.0, 0.0, 0.5, 1, 0.0, Weapon::WeaponType::FIST, 0.0, "", "", "")
 		, std::make_shared<Weapon>(0.0, 0.0, 0.0, 0.0, 0.0, 0.0, "knife0", 0.0, 0.0, 0.5, 20, 25.0, Weapon::WeaponType::KNIFE, 0.0, "knifeLook", "knifeDraw", "knifeLook") // knife
 		, std::make_shared<Weapon>(0.0, 0.0, 0.0, 0.0, 0.0, 0.0, "pistol0", 0.0, 0.0, 0.5, 20, 25.0, Weapon::WeaponType::REVOLVER, 0.0, "revolverReload", "revolverDraw", "revolverEmpty") // revolver
 		, std::make_shared<Weapon>(0.0, 0.0, 0.0, 0.0, 0.0, 0.0, "shotgun0", 0.0, 0.0, 1.0, 4, 50.0, Weapon::WeaponType::SHOTGUN, 0.0, "shotgunReload", "shotgunDraw", "shotgunEmpty") // shotgun
@@ -254,16 +254,27 @@ void Player::update()
 	if (this->weapons[this->currentWeaponIndex]->getWeaponType() == Weapon::WeaponType::FIST)
 	{
 		// TODO: atac pumn
-		if (this->statuses[1] != EntityStatus::ARMS_MOVING_AHEAD &&
+		if (this->weapons[this->currentWeaponIndex]->recentlyShot())
+		{
+			updateStatus(EntityStatus::ARMS_USING_FIST, 1);
+		}
+		else if (this->statuses[1] != EntityStatus::ARMS_MOVING_AHEAD &&
 			this->statuses[1] != EntityStatus::ARMS_MOVING_AROUND_WALKING &&
 			this->statuses[1] != EntityStatus::ARMS_MOVING_AROUND_RUNNING)
+		{
 			updateStatus(EntityStatus::ARMS_MOVING_AHEAD, 1);
+		}
 	}
 	else if (this->weapons[this->currentWeaponIndex]->getWeaponType() == Weapon::WeaponType::KNIFE)
 	{
-		// TODO
-		// EntityStatus::ARMS_USING_KNIFE
-		updateStatus(EntityStatus::ARMS_HOLDING_KNIFE, 1);
+		if (this->weapons[this->currentWeaponIndex]->recentlyShot())
+		{
+			updateStatus(EntityStatus::ARMS_USING_KNIFE, 1);
+		}
+		else
+		{
+			updateStatus(EntityStatus::ARMS_HOLDING_KNIFE, 1);
+		}
 	}
 	else if (this->weapons[this->currentWeaponIndex]->getWeaponType() == Weapon::WeaponType::REVOLVER)
 	{
@@ -548,6 +559,8 @@ void Player::pauseGame()
 
 void Player::weaponSlot1()
 {
+	this->isShooting = false;
+
 	if (this->weapons[0] != nullptr && this->currentWeaponIndex != 0)
 	{
 		weapons[0]->drawWeapon();
@@ -557,6 +570,8 @@ void Player::weaponSlot1()
 
 void Player::weaponSlot2()
 {
+	this->isShooting = false;
+
 	if (this->weapons[1] != nullptr && this->currentWeaponIndex != 1)
 	{
 		weapons[1]->drawWeapon();
@@ -566,6 +581,8 @@ void Player::weaponSlot2()
 
 void Player::weaponSlot3()
 {
+	this->isShooting = false;
+
 	if (this->weapons[2] != nullptr && this->currentWeaponIndex != 2)
 	{
 		weapons[2]->drawWeapon();
@@ -575,6 +592,8 @@ void Player::weaponSlot3()
 
 void Player::weaponSlot4()
 {
+	this->isShooting = false;
+
 	if (this->weapons[3] != nullptr && this->currentWeaponIndex != 3)
 	{
 		weapons[3]->drawWeapon();
@@ -584,6 +603,8 @@ void Player::weaponSlot4()
 
 void Player::weaponSlot5()
 {
+	this->isShooting = false;
+
 	if (this->weapons[4] != nullptr && this->currentWeaponIndex != 4)
 	{
 		weapons[4]->drawWeapon();
@@ -593,6 +614,8 @@ void Player::weaponSlot5()
 
 void Player::weaponSlot6()
 {
+	this->isShooting = false;
+
 	if (this->weapons[5] != nullptr && this->currentWeaponIndex != 5)
 	{
 		weapons[5]->drawWeapon();
@@ -602,6 +625,8 @@ void Player::weaponSlot6()
 
 void Player::weaponSlot7()
 {
+	this->isShooting = false;
+
 	if (this->weapons[6] != nullptr && this->currentWeaponIndex != 6)
 	{
 		weapons[6]->drawWeapon();
@@ -611,6 +636,8 @@ void Player::weaponSlot7()
 
 void Player::weaponSlot8()
 {
+	this->isShooting = false;
+
 	if (this->weapons[7] != nullptr && this->currentWeaponIndex != 7)
 	{
 		weapons[7]->drawWeapon();

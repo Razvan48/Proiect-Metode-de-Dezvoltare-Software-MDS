@@ -25,8 +25,6 @@ Weapon::Weapon(double x, double y, double drawWidth, double drawHeight, double r
 
 }
 
-const double Weapon::EPSILON_TIME = 0.5;
-
 bool Weapon::isInInteraction()
 {
 	double left1 = this->getX() - this->interactionWidth / 2.0;
@@ -222,5 +220,15 @@ void Weapon::reload()
 	{
 		SoundManager::get().play(reloadSound, false);
 	}
+}
+
+bool Weapon::recentlyShot() const
+{
+	if (weaponType == WeaponType::AK47 || weaponType == WeaponType::M4 || weaponType == WeaponType::MINIGUN)
+	{
+		return GlobalClock::get().getCurrentTime() - this->timeSinceLastShot < 0.1;
+	}
+
+	return GlobalClock::get().getCurrentTime() - this->timeSinceLastShot < this->fireRate;
 }
 

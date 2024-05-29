@@ -33,8 +33,6 @@ protected:
 	bool isReloading;
 	double timeSinceLastShot;
 
-	static const double EPSILON_TIME;
-
 public:
 	Weapon(double x, double y, double drawWidth, double drawHeight, double rotateAngle, double speed, const std::string& textureName2D, double interactionWidth, double interactionHeight, double fireRate, int maxBullets, double damage, WeaponType weaponType, double shortRangeAttackRadius, const std::string& reloadSound, const std::string& drawSound, const std::string& emptySound);
 	virtual ~Weapon() = default;
@@ -55,6 +53,6 @@ public:
 
 	inline int getBullets() const { return this->numBullets; }
 
-	inline bool recentlyShot() const { return GlobalClock::get().getCurrentTime() - this->timeSinceLastShot < Weapon::EPSILON_TIME; }
+	bool recentlyShot() const;
 };
 
