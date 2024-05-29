@@ -34,20 +34,23 @@ Player::Player(double x, double y, double drawWidth, double drawHeight, double r
 	walkingOffsetSize(0.01), runningOffsetSize(0.05),
 	walkingOffsetSpeed(10.0), runningOffsetSpeed(15.0),
 	weapons({ std::make_shared<Weapon>(0.0, 0.0, 0.0, 0.0, 0.0, 0.0, "fist0", 0.0, 0.0, 0.0, 1, 0.0, Weapon::WeaponType::FIST, 0.0, "", "", "")
-		, nullptr // knife
-		, std::make_shared<Weapon>(0.0, 0.0, 0.0, 0.0, 0.0, 0.0, "pistol0", 0.0, 0.0, 0.5, 20, 25.0, Weapon::WeaponType::REVOLVER, 0.0, "revolverReload", "revolverDraw", "revolverEmpty")
-		, nullptr // shotgun
-		, nullptr // ak47
-		, nullptr // m4
-		, nullptr // grenade
+		, std::make_shared<Weapon>(0.0, 0.0, 0.0, 0.0, 0.0, 0.0, "knife0", 0.0, 0.0, 0.5, 20, 25.0, Weapon::WeaponType::KNIFE, 0.0, "knifeLook", "knifeDraw", "knifeLook") // knife
+		, std::make_shared<Weapon>(0.0, 0.0, 0.0, 0.0, 0.0, 0.0, "pistol0", 0.0, 0.0, 0.5, 20, 25.0, Weapon::WeaponType::REVOLVER, 0.0, "revolverReload", "revolverDraw", "revolverEmpty") // revolver
+		, std::make_shared<Weapon>(0.0, 0.0, 0.0, 0.0, 0.0, 0.0, "shotgun0", 0.0, 0.0, 1.0, 4, 50.0, Weapon::WeaponType::SHOTGUN, 0.0, "shotgunReload", "shotgunDraw", "shotgunEmpty") // shotgun
+		, std::make_shared<Weapon>(0.0, 0.0, 0.0, 0.0, 0.0, 0.0, "automated1", 0.0, 0.0, 0.3, 25, 35.0, Weapon::WeaponType::AK47, 0.0, "ak47Reload", "ak47Draw", "ak47Empty") // ak47
+		, std::make_shared<Weapon>(0.0, 0.0, 0.0, 0.0, 0.0, 0.0, "automated0", 0.0, 0.0, 0.3, 25, 35.0, Weapon::WeaponType::M4, 0.0, "m4a1Reload", "m4a1Draw", "m4a1Empty") // m4
+		, std::make_shared<Weapon>(0.0, 0.0, 0.0, 0.0, 0.0, 0.0, "minigun0", 0.0, 0.0, 0.2, 50, 10.0, Weapon::WeaponType::MINIGUN, 0.0, "minigunReload", "minigunDraw", "minigunEmpty") // minigun
+		, nullptr // grenade		TODO: sunete
 		}),
 	currentWeaponIndex(0),
-	isTired(false),
-	isWalking(false),
-	isRunning(false)
+	isTired(false), isWalking(false), isRunning(false), isShooting(false)
 {
 	// TODO: test
 	bullets[Weapon::WeaponType::REVOLVER] = 1024;
+	bullets[Weapon::WeaponType::SHOTGUN] = 1024;
+	bullets[Weapon::WeaponType::AK47] = 1024;
+	bullets[Weapon::WeaponType::M4] = 1024;
+	bullets[Weapon::WeaponType::MINIGUN] = 1024;
 }
 
 Player& Player::get()
@@ -165,6 +168,11 @@ void Player::update()
 	// weapon
 	this->weapons[this->currentWeaponIndex]->update();
 
+	if (this->isShooting)
+	{
+		this->weapons[this->currentWeaponIndex]->onClick();
+	}
+
 	// head
 	if (this->statuses[3] == EntityStatus::HEAD_TIRED)
 	{
@@ -249,7 +257,13 @@ void Player::update()
 		if (this->statuses[1] != EntityStatus::ARMS_MOVING_AHEAD &&
 			this->statuses[1] != EntityStatus::ARMS_MOVING_AROUND_WALKING &&
 			this->statuses[1] != EntityStatus::ARMS_MOVING_AROUND_RUNNING)
-				updateStatus(EntityStatus::ARMS_MOVING_AHEAD, 1);
+			updateStatus(EntityStatus::ARMS_MOVING_AHEAD, 1);
+	}
+	else if (this->weapons[this->currentWeaponIndex]->getWeaponType() == Weapon::WeaponType::KNIFE)
+	{
+		// TODO
+		// EntityStatus::ARMS_USING_KNIFE
+		updateStatus(EntityStatus::ARMS_HOLDING_KNIFE, 1);
 	}
 	else if (this->weapons[this->currentWeaponIndex]->getWeaponType() == Weapon::WeaponType::REVOLVER)
 	{
@@ -269,9 +283,61 @@ void Player::update()
 			updateStatus(EntityStatus::ARMS_RELOADING_PISTOL, 1);
 		}
 	}
-	/*
-	* else if (this->weapons[this->currentWeaponIndex]->getWeaponType() == Weapon::WeaponType::ALTA_ARMA)
-	*/
+	else if (this->weapons[this->currentWeaponIndex]->getWeaponType() == Weapon::WeaponType::SHOTGUN)
+	{
+		if (!this->weapons[this->currentWeaponIndex]->stillReloading())
+		{
+			if (this->weapons[this->currentWeaponIndex]->recentlyShot())
+			{
+				updateStatus(EntityStatus::ARMS_USING_SHOTGUN, 1);
+			}
+			else
+			{
+				updateStatus(EntityStatus::ARMS_HOLDING_SHOTGUN, 1);
+			}
+		}
+		else
+		{
+			updateStatus(EntityStatus::ARMS_RELOADING_SHOTGUN, 1);
+		}
+	}
+	else if (this->weapons[this->currentWeaponIndex]->getWeaponType() == Weapon::WeaponType::AK47)
+	{
+		if (!this->weapons[this->currentWeaponIndex]->stillReloading())
+		{
+			if (this->weapons[this->currentWeaponIndex]->recentlyShot())
+			{
+				updateStatus(EntityStatus::ARMS_USING_AK47, 1);
+			}
+			else
+			{
+				updateStatus(EntityStatus::ARMS_HOLDING_AK47, 1);
+			}
+		}
+		else
+		{
+			updateStatus(EntityStatus::ARMS_RELOADING_AK47, 1);
+		}
+	}
+	else if (this->weapons[this->currentWeaponIndex]->getWeaponType() == Weapon::WeaponType::M4)
+	{
+		if (!this->weapons[this->currentWeaponIndex]->stillReloading())
+		{
+			if (this->weapons[this->currentWeaponIndex]->recentlyShot())
+			{
+				updateStatus(EntityStatus::ARMS_USING_M4, 1);
+			}
+			else
+			{
+				updateStatus(EntityStatus::ARMS_HOLDING_M4, 1);
+			}
+		}
+		else
+		{
+			updateStatus(EntityStatus::ARMS_RELOADING_M4, 1);
+		}
+	}
+	// else if (this->weapons[this->currentWeaponIndex]->getWeaponType() == Weapon::WeaponType::MINIGUN)	// TODO
 
 	// Sound
 	SoundManager::get().pause("walking");
@@ -340,6 +406,8 @@ void Player::setupPlayerInputComponent()
 	InputHandler::getPlayerInputComponent().bindAction("RUN", InputEvent::IE_Released, std::bind(&Player::runReleased, this));
 
 	InputHandler::getPlayerInputComponent().bindAction("SHOOT", InputEvent::IE_Pressed, std::bind(&Player::shoot, this));
+	InputHandler::getPlayerInputComponent().bindAction("SHOOT", InputEvent::IE_Released, std::bind(&Player::stopShooting, this));
+
 	InputHandler::getPlayerInputComponent().bindAction("RELOAD", InputEvent::IE_Pressed, std::bind(&Player::reload, this));
 
 	InputHandler::getPlayerInputComponent().bindAxis(std::bind(&Player::look, this, std::placeholders::_1, std::placeholders::_2));
@@ -424,6 +492,16 @@ void Player::interactReleased()
 void Player::shoot()
 {
 	this->weapons[this->currentWeaponIndex]->onClick();
+
+	if (4 <= currentWeaponIndex && currentWeaponIndex <= 6)
+	{
+		this->isShooting = true;
+	}
+}
+
+void Player::stopShooting()
+{
+	this->isShooting = false;
 }
 
 void Player::reload()
@@ -528,6 +606,15 @@ void Player::weaponSlot7()
 	{
 		weapons[6]->drawWeapon();
 		this->currentWeaponIndex = 6;
+	}
+}
+
+void Player::weaponSlot8()
+{
+	if (this->weapons[7] != nullptr && this->currentWeaponIndex != 7)
+	{
+		weapons[7]->drawWeapon();
+		this->currentWeaponIndex = 7;
 	}
 }
 

@@ -11,6 +11,7 @@
 #include <glm/gtc/matrix_transform.hpp>
 
 #include <iostream>
+#include <random>
 
 Weapon::Weapon(double x, double y, double drawWidth, double drawHeight, double rotateAngle, double speed, const std::string& textureName2D, double interactionWidth, double interactionHeight, double fireRate, int maxBullets, double damage, WeaponType weaponType, double shortRangeAttackRadius, const std::string& reloadSound, const std::string& drawSound, const std::string& emptySound)
 	: Entity(x, y, drawWidth, drawHeight, rotateAngle, speed)
@@ -55,7 +56,10 @@ void Weapon::onClick()
 
 	if (numBullets == 0 && weaponType != WeaponType::FIST && weaponType != WeaponType::KNIFE)
 	{
-		SoundManager::get().play(emptySound, false);
+		if (!SoundManager::get().isPlaying(emptySound))
+		{
+			SoundManager::get().play(emptySound, false);
+		}
 		return;
 	}
 
@@ -75,8 +79,30 @@ void Weapon::onClick()
 			break;
 
 		case WeaponType::KNIFE:
-			// TODO
-			// SoundManager::get().play("pistolShot", false);
+		{
+			int random_number = std::rand() % 4;
+			switch (random_number)
+			{
+			case 0:
+				SoundManager::get().play("knife_01", false);
+				break;
+
+			case 1:
+				SoundManager::get().play("knife_02", false);
+				break;
+
+			case 2:
+				SoundManager::get().play("knife_03", false);
+				break;
+
+			case 3:
+				SoundManager::get().play("knife_04", false);
+				break;
+
+			default:
+				break;
+			}
+		}
 			break;
 		}
 	}
@@ -103,27 +129,46 @@ void Weapon::onClick()
 			break;
 
 		case WeaponType::SHOTGUN:
-			// TODO
-			// SoundManager::get().play("pistolShot", false);
-			// Game::get().addEntity(std::make_shared<Bullet>(static_cast<double>(bulletLocation.x), static_cast<double>(bulletLocation.y), 0.3, 0.3, Player::get().getRotateAngle(), 10.0, 0.3, 0.3, "bullet0", 20.0));
+			SoundManager::get().play("shotgun_01", false);
+			Game::get().addEntity(std::make_shared<Bullet>(static_cast<double>(bulletLocation.x), static_cast<double>(bulletLocation.y), 0.3, 0.3, Player::get().getRotateAngle(), 10.0, 0.3, 0.3, "bullet1", this->damage));
 			break;
 
 		case WeaponType::AK47:
-			// TODO
-			// SoundManager::get().play("pistolShot", false);
-			// Game::get().addEntity(std::make_shared<Bullet>(static_cast<double>(bulletLocation.x), static_cast<double>(bulletLocation.y), 0.3, 0.3, Player::get().getRotateAngle(), 10.0, 0.3, 0.3, "bullet0", 20.0));
+			SoundManager::get().play("ak47_01", false);
+			Game::get().addEntity(std::make_shared<Bullet>(static_cast<double>(bulletLocation.x), static_cast<double>(bulletLocation.y), 0.3, 0.3, Player::get().getRotateAngle(), 20.0, 0.3, 0.3, "bullet3", this->damage));
 			break;
 
 		case WeaponType::M4:
-			// TODO
-			// SoundManager::get().play("pistolShot", false);
-			// Game::get().addEntity(std::make_shared<Bullet>(static_cast<double>(bulletLocation.x), static_cast<double>(bulletLocation.y), 0.3, 0.3, Player::get().getRotateAngle(), 10.0, 0.3, 0.3, "bullet0", 20.0));
+		{
+			int random_number = std::rand() % 4;
+			switch (random_number)
+			{
+			case 0:
+				SoundManager::get().play("m4a1_01", false);
+				break;
+
+			case 1:
+				SoundManager::get().play("m4a1_02", false);
+				break;
+
+			case 2:
+				SoundManager::get().play("m4a1_03", false);
+				break;
+
+			case 3:
+				SoundManager::get().play("m4a1_04", false);
+				break;
+
+			default:
+				break;
+			}
+
+			Game::get().addEntity(std::make_shared<Bullet>(static_cast<double>(bulletLocation.x), static_cast<double>(bulletLocation.y), 0.3, 0.3, Player::get().getRotateAngle(), 20.0, 0.3, 0.3, "bullet3", this->damage));
+		}
 			break;
 
-		case WeaponType::MINIGUN:
-			// TODO
-			// SoundManager::get().play("pistolShot", false);
-			// Game::get().addEntity(std::make_shared<Bullet>(static_cast<double>(bulletLocation.x), static_cast<double>(bulletLocation.y), 0.3, 0.3, Player::get().getRotateAngle(), 10.0, 0.3, 0.3, "bullet0", 20.0));
+		case WeaponType::MINIGUN:SoundManager::get().play("minigun_01", false);
+			Game::get().addEntity(std::make_shared<Bullet>(static_cast<double>(bulletLocation.x), static_cast<double>(bulletLocation.y), 0.3, 0.3, Player::get().getRotateAngle(), 20.0, 0.3, 0.3, "bullet0", this->damage));
 			break;
 		}
 	}

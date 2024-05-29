@@ -457,6 +457,106 @@
     "revolverReload": {
       "file": "resources/sounds/revolverReload.wav",
       "mode": 1
+    },
+    "ak47_01": {
+      "file": "resources/sounds/ak47_01.wav",
+      "mode": 1
+    },
+    "ak47Draw": {
+      "file": "resources/sounds/ak47Draw.wav",
+      "mode": 1
+    },
+    "ak47Empty": {
+      "file": "resources/sounds/ak47Empty.wav",
+      "mode": 1
+    },
+    "ak47Reload": {
+      "file": "resources/sounds/ak47Reload.wav",
+      "mode": 1
+    },
+    "m4a1_01": {
+      "file": "resources/sounds/m4a1_01.wav",
+      "mode": 1
+    },
+    "m4a1_02": {
+      "file": "resources/sounds/m4a1_02.wav",
+      "mode": 1
+    },
+    "m4a1_03": {
+      "file": "resources/sounds/m4a1_03.wav",
+      "mode": 1
+    },
+    "m4a1_04": {
+      "file": "resources/sounds/m4a1_04.wav",
+      "mode": 1
+    },
+    "m4a1Empty": {
+      "file": "resources/sounds/m4a1Empty.wav",
+      "mode": 1
+    },
+    "m4a1Draw": {
+      "file": "resources/sounds/m4a1Draw.wav",
+      "mode": 1
+    },
+    "m4a1Reload": {
+      "file": "resources/sounds/m4a1Reload.wav",
+      "mode": 1
+    },
+    "knifeDraw": {
+      "file": "resources/sounds/knifeDraw.wav",
+      "mode": 1
+    },
+    "knifeLook": {
+      "file": "resources/sounds/knifeLook.wav",
+      "mode": 1
+    },
+    "knife_01": {
+      "file": "resources/sounds/knife_01.wav",
+      "mode": 1
+    },
+    "knife_02": {
+      "file": "resources/sounds/knife_02.wav",
+      "mode": 1
+    },
+    "knife_03": {
+      "file": "resources/sounds/knife_03.wav",
+      "mode": 1
+    },
+    "knife_04": {
+      "file": "resources/sounds/knife_04.wav",
+      "mode": 1
+    },
+    "shotgun_01": {
+      "file": "resources/sounds/shotgun_01.wav",
+      "mode": 1
+    },
+    "shotgunDraw": {
+      "file": "resources/sounds/shotgunDraw.wav",
+      "mode": 1
+    },
+    "shotgunReload": {
+      "file": "resources/sounds/shotgunReload.wav",
+      "mode": 1
+    },
+    "shotgunEmpty": {
+      "file": "resources/sounds/shotgunEmpty.wav",
+      "mode": 1
+    },
+    "minigunDraw": {
+      "file": "resources/sounds/minigunDraw.wav",
+      "mode": 1
+    },
+    "minigun_01": {
+      "file": "resources/sounds/minigun_01.wav",
+      "mode": 1
+    },
+    "minigunReload": {
+      "file": "resources/sounds/minigunReload.wav",
+      "mode": 1
+    },
+    "minigunEmpty": {
+      "file": "resources/sounds/minigunEmpty.wav",
+      "mode": 1
     }
   },
 

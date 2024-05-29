@@ -35,6 +35,7 @@ private:
 	void look(double xpos, double ypos);
 
 	void shoot();
+	void stopShooting();
 	void reload();
 
 	void pauseGame();
@@ -47,6 +48,7 @@ private:
 	void weaponSlot5();
 	void weaponSlot6();
 	void weaponSlot7();
+	void weaponSlot8();
 
 	double runningSpeed;
 
@@ -81,6 +83,7 @@ private:
 	bool isTired;
 	bool isWalking;
 	bool isRunning;
+	bool isShooting;
 
 public:
 
