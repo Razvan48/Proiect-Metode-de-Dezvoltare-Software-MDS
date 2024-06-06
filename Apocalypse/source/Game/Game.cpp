@@ -209,7 +209,7 @@ void Game::loadResources()
         AnimatedEntity::EntityStatus::ARMS_STAYING_AHEAD,
         AnimatedEntity::EntityStatus::BODY_IDLE,
         AnimatedEntity::EntityStatus::HEAD_IDLE
-    }, 100.0, 1000.0));
+    }, 100.0, 1000.0, 0.01, 0.75));
     this->entities.emplace_back(new Enemy(1.0, 1.0, 1.0, 1.0, 90.0, 5.0, 0.5, 0.5, std::map<AnimatedEntity::EntityStatus, std::string>
     {
         { AnimatedEntity::EntityStatus::ARMS_STAYING_AHEAD, "enemy0ArmsStayingAhead" },
@@ -224,7 +224,7 @@ void Game::loadResources()
         AnimatedEntity::EntityStatus::ARMS_STAYING_AHEAD,
         AnimatedEntity::EntityStatus::BODY_IDLE,
         AnimatedEntity::EntityStatus::HEAD_IDLE
-    }, 100.0, 1000.0));
+    }, 100.0, 1000.0, 0.01, 0.75));
     this->entities.emplace_back(new Enemy(6.0, 3.0, 1.0, 1.0, 90.0, 5.0, 0.5, 0.5, std::map<AnimatedEntity::EntityStatus, std::string>
     {
         { AnimatedEntity::EntityStatus::ARMS_STAYING_AHEAD, "enemy0ArmsStayingAhead" },
@@ -239,7 +239,7 @@ void Game::loadResources()
         AnimatedEntity::EntityStatus::ARMS_STAYING_AHEAD,
         AnimatedEntity::EntityStatus::BODY_IDLE,
         AnimatedEntity::EntityStatus::HEAD_IDLE
-    }, 100.0, 1000.0));
+    }, 100.0, 1000.0, 0.01, 0.75));
 
     // Configure Shaders
     glm::mat4 projection = glm::ortho(-0.5f * static_cast<float>(WindowManager::get().getWindowWidth()), 0.5f * static_cast<float>(WindowManager::get().getWindowWidth()), -0.5f * static_cast<float>(WindowManager::get().getWindowHeight()), 0.5f * static_cast<float>(WindowManager::get().getWindowHeight()));
@@ -348,6 +348,18 @@ void Game::updateEntities()
 
     for (int i = 0; i < this->entities.size(); ++i)
         this->entities[i]->update();
+
+    for (int i = 0; i < this->entities.size(); ++i)
+    {
+        if (std::dynamic_pointer_cast<Enemy>(entities[i]) &&
+            (entities[i]->getX() - Player::get().getX()) * (entities[i]->getX() - Player::get().getX()) +
+            (entities[i]->getY() - Player::get().getY()) * (entities[i]->getY() - Player::get().getY())
+            <=
+            std::dynamic_pointer_cast<Enemy>(entities[i])->getAttackRadius() * std::dynamic_pointer_cast<Enemy>(entities[i])->getAttackRadius())
+        {
+            Player::get().setHealth(std::max(0.0, Player::get().getHealth() - std::dynamic_pointer_cast<Enemy>(entities[i])->getAttackDamage()));
+        }
+    }
 }
 
 void Game::drawDeadBodies()

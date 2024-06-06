@@ -11,7 +11,7 @@ class Player : public virtual Human // singleton
 {
 private:
 
-	Player(double x, double y, double drawWidth, double drawHeight, double rotateAngle, double speed, double collideWidth, double collideHeight, const std::map<AnimatedEntity::EntityStatus, std::string>& animationsName2D, const std::vector<EntityStatus>& statuses, double runningSpeed, double health, double stamina, double armor);
+	Player(double x, double y, double drawWidth, double drawHeight, double rotateAngle, double speed, double collideWidth, double collideHeight, const std::map<AnimatedEntity::EntityStatus, std::string>& animationsName2D, const std::vector<EntityStatus>& statuses, double runningSpeed, double health, double stamina, double armor, int numKills);
 	virtual ~Player();
 
 	Player(const Player& other) = delete;
@@ -85,6 +85,8 @@ private:
 	bool isRunning;
 	bool isShooting;
 
+	int numKills;
+
 public:
 
 	static Player& get();
@@ -116,5 +118,8 @@ public:
 
 	void save();
 	void load();
+
+	int getNumKills() const { return this->numKills; }
+	void setNumKills(int numKills) { this->numKills = numKills; }
 };
 

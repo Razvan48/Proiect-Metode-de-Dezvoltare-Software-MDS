@@ -19,6 +19,8 @@ public:
 		MINIGUN
 	};
 
+	static const double EPSILON_ANGLE;
+
 protected:
 	double fireRate;
 	int numBullets;

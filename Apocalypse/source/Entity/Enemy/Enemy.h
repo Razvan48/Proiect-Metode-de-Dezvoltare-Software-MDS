@@ -29,9 +29,13 @@ protected:
 
 	int goldOnKill;
 
+	double attackDamage;
+
+	double attackRadius;
+
 public:
 
-	Enemy(double x, double y, double drawWidth, double drawHeight, double rotateAngle, double speed, double collideWidth, double collideHeight, const std::map<AnimatedEntity::EntityStatus, std::string>& animationsName2D, const std::vector<EntityStatus>& statuses, double health, double rotateSpeed);
+	Enemy(double x, double y, double drawWidth, double drawHeight, double rotateAngle, double speed, double collideWidth, double collideHeight, const std::map<AnimatedEntity::EntityStatus, std::string>& animationsName2D, const std::vector<EntityStatus>& statuses, double health, double rotateSpeed, double attackDamage, double attackRadius);
 	~Enemy();
 
 	virtual void pathFindingTarget() override;
@@ -41,4 +45,7 @@ public:
 	virtual void update() override;
 
 	virtual void draw() override;
+
+	inline double getAttackDamage() const { return this->attackDamage; }
+	inline double getAttackRadius() const { return this->attackRadius; }
 };

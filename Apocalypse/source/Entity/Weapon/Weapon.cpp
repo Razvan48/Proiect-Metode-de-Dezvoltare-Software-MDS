@@ -7,11 +7,14 @@
 #include "../Player/Player.h"
 #include "../../GlobalClock/GlobalClock.h"
 #include "../Bullet/Bullet.h"
+#include "../Enemy/Enemy.h"
 
 #include <glm/gtc/matrix_transform.hpp>
 
 #include <iostream>
 #include <random>
+
+const double Weapon::EPSILON_ANGLE = 30.0; //macar 30 de grade sa se uite catre inamic atunci cand foloseste pumnul sau cutitul pentru a ii da damage
 
 Weapon::Weapon(double x, double y, double drawWidth, double drawHeight, double rotateAngle, double speed, const std::string& textureName2D, double interactionWidth, double interactionHeight, double fireRate, int maxBullets, double damage, WeaponType weaponType, double shortRangeAttackRadius, const std::string& reloadSound, const std::string& drawSound, const std::string& emptySound)
 	: Entity(x, y, drawWidth, drawHeight, rotateAngle, speed)
@@ -73,11 +76,51 @@ void Weapon::onClick()
 		switch (weaponType)
 		{
 		case WeaponType::FIST:
+		{
 			SoundManager::get().play("fist", false);
-			break;
 
+			std::vector<std::shared_ptr<Entity>>& entities = Game::get().getEntities();
+			for (int i = 0; i < entities.size(); ++i)
+			{
+				double deltaXEntity = entities[i]->getX() - Player::get().getX();
+				double deltaYEntity = entities[i]->getY() - Player::get().getY();
+				double normalizedDeltaXEntity = deltaXEntity / glm::sqrt(deltaXEntity * deltaXEntity + deltaYEntity * deltaYEntity);
+				double normalizedDeltaYEntity = deltaYEntity / glm::sqrt(deltaXEntity * deltaXEntity + deltaYEntity * deltaYEntity);
+				double deltaXPlayerAngle = glm::cos(glm::radians(Player::get().getRotateAngle()));
+				double deltaYPlayerAngle = glm::sin(glm::radians(Player::get().getRotateAngle()));
+
+				if (std::dynamic_pointer_cast<Human>(entities[i]) &&
+					normalizedDeltaXEntity * deltaXPlayerAngle + normalizedDeltaYEntity * deltaYPlayerAngle > glm::cos(glm::radians(Weapon::EPSILON_ANGLE)) &&
+					(entities[i]->getX() - Player::get().getX()) * (entities[i]->getX() - Player::get().getX()) +
+					(entities[i]->getY() - Player::get().getY()) * (entities[i]->getY() - Player::get().getY()) < this->shortRangeAttackRadius * this->shortRangeAttackRadius)
+				{
+					std::dynamic_pointer_cast<Human>(entities[i])->setHealth(std::max(0.0, std::dynamic_pointer_cast<Human>(entities[i])->getHealth() - this->damage));
+				}
+			}
+
+			break;
+		}
 		case WeaponType::KNIFE:
 		{
+			std::vector<std::shared_ptr<Entity>>& entities = Game::get().getEntities();
+			for (int i = 0; i < entities.size(); ++i)
+			{
+				double deltaXEntity = entities[i]->getX() - Player::get().getX();
+				double deltaYEntity = entities[i]->getY() - Player::get().getY();
+				double normalizedDeltaXEntity = deltaXEntity / glm::sqrt(deltaXEntity * deltaXEntity + deltaYEntity * deltaYEntity);
+				double normalizedDeltaYEntity = deltaYEntity / glm::sqrt(deltaXEntity * deltaXEntity + deltaYEntity * deltaYEntity);
+				double deltaXPlayerAngle = glm::cos(glm::radians(Player::get().getRotateAngle()));
+				double deltaYPlayerAngle = glm::sin(glm::radians(Player::get().getRotateAngle()));
+
+				if (std::dynamic_pointer_cast<Human>(entities[i]) &&
+					normalizedDeltaXEntity * deltaXPlayerAngle + normalizedDeltaYEntity * deltaYPlayerAngle > glm::cos(glm::radians(Weapon::EPSILON_ANGLE)) &&
+					(entities[i]->getX() - Player::get().getX()) * (entities[i]->getX() - Player::get().getX()) +
+					(entities[i]->getY() - Player::get().getY()) * (entities[i]->getY() - Player::get().getY()) < this->shortRangeAttackRadius * this->shortRangeAttackRadius)
+				{
+					std::dynamic_pointer_cast<Human>(entities[i])->setHealth(std::max(0.0, std::dynamic_pointer_cast<Human>(entities[i])->getHealth() - this->damage));
+				}
+			}
+
 			int random_number = std::rand() % 4;
 			switch (random_number)
 			{
