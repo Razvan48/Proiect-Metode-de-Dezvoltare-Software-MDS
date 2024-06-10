@@ -6,6 +6,7 @@
 #include "../../ResourceManager/ResourceManager.h"
 #include "../../Renderer/TextRenderer.h"
 #include "../../Camera/Camera.h"
+#include "../../SoundManager/SoundManager.h"
 
 Door::Door(double x, double y, double drawWidth, double drawHeight, double rotateAngle, double speed, double collideWidth, double collideHeight, const std::map<AnimatedEntity::EntityStatus, std::string> animationsName2D, std::vector<EntityStatus> statuses, double interactionWidth, double interactionHeight, int openCost) :
 	Entity(x, y, drawWidth, drawHeight, rotateAngle, speed),
@@ -44,6 +45,8 @@ void Door::onInteraction()
 		this->updateStatus(EntityStatus::OPENED);
 
 		Player::get().setGold(Player::get().getGold() - this->openCost);
+
+		SoundManager::get().play("door", false);
 	}
 }
 

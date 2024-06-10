@@ -4,6 +4,7 @@
 #include "../../Game/Game.h"
 #include "../Explosion/Explosion.h"
 #include "../../Random/Random.h"
+#include "../../SoundManager/SoundManager.h"
 
 #include <vector>
 #include <map>
@@ -56,8 +57,27 @@ void ThrownGrenade::update()
 	{
 		this->setDeleteEntity(true);
 
-		// TODO: apare o explozie cand dispare grenada aruncata !!!
+		// detonate sound effect
+		int random_number = std::rand() % 3;
+		switch (random_number)
+		{
+		case 0:
+			SoundManager::get().play("grenadeDetonate_01", false);
+			break;
 
+		case 1:
+			SoundManager::get().play("grenadeDetonate_02", false);
+			break;
+
+		case 2:
+			SoundManager::get().play("grenadeDetonate_03", false);
+			break;
+
+		default:
+			break;
+		}
+
+		// apare o explozie cand dispare grenada aruncata
 		double randomExplosionAngle = Random::random01() * (360.0 - Random::EPSILON);
 
 		std::map<AnimatedEntity::EntityStatus, std::string> m = { { AnimatedEntity::EntityStatus::IDLE, "grenadeExplosion" } };

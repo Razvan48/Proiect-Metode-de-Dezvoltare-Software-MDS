@@ -215,8 +215,24 @@ void Weapon::onClick()
 			break;
 
 		case WeaponType::GRENADE:
-			SoundManager::get().play("minigun_01", false); // TODO: sunet grenada
-			Game::get().addEntity(std::make_shared<ThrownGrenade>(static_cast<double>(bulletLocation.x), static_cast<double>(bulletLocation.y), 0.3, 0.3, Player::get().getRotateAngle(), 3.0, 0.3, 0.3, "grenade0", 0.0, 1.0, this->damage, 15.0, 2.0)); //durata aruncare grenada, damage, scale explozie si durata explozie (ultimii 4 parametrii)
+		{
+			int random_number = std::rand() % 2;
+			switch (random_number)
+			{
+			case 0:
+				SoundManager::get().play("grenadeThrow_01", false);
+				break;
+
+			case 1:
+				SoundManager::get().play("grenadeThrow_02", false);
+				break;
+
+			default:
+				break;
+			}
+
+			Game::get().addEntity(std::make_shared<ThrownGrenade>(static_cast<double>(bulletLocation.x), static_cast<double>(bulletLocation.y), 0.3, 0.3, Player::get().getRotateAngle(), 3.0, 0.3, 0.3, "grenade0", 0.0, 1.0, this->damage, 15.0, 2.0)); // durata aruncare grenada, damage, scale explozie si durata explozie (ultimii 4 parametrii)
+		}
 			break;
 		}
 	}

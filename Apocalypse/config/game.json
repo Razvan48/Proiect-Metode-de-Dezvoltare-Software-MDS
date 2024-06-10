@@ -579,6 +579,14 @@
       "file": "resources/sounds/grenadeDraw.wav",
       "mode": 1
     },
+    "grenadeThrow_01": {
+      "file": "resources/sounds/grenadeThrow_01.wav",
+      "mode": 1
+    },
+    "grenadeThrow_02": {
+      "file": "resources/sounds/grenadeThrow_02.wav",
+      "mode": 1
+    },
     "newWave": {
       "file": "resources/sounds/newWave.mp3",
       "mode": 1
