@@ -201,6 +201,9 @@ void Game::loadResources()
     ResourceManager::getShader("sprite").use().setInteger("sprite", 0);
     ResourceManager::getShader("sprite").use().setMatrix4("projection", projection);
 
+    ResourceManager::getShader("player").use().setInteger("sprite", 0);
+    ResourceManager::getShader("player").use().setMatrix4("projection", projection);
+
     // top-left coordinate of the scene will be at (0, 0) and the bottom-right part of the screen is at coordinate (WINDOW_WIDTH, WINDOW_HEIGHT)
     glm::mat4 orho = glm::ortho(0.0f, static_cast<float>(WindowManager::get().getWindowWidth()), static_cast<float>(WindowManager::get().getWindowHeight()), 0.0f);
     ResourceManager::getShader("text").use().setMatrix4("projection", orho);
@@ -246,7 +249,7 @@ void Game::run()
         InteractionManager::get().handleInteractions(this->entities);
 
         // Render
-        glClearColor(0.733f, 0.024f, 0.259f, 1.0f);
+        glClearColor(0.08f, 0.08f, 0.08f, 1.0f);
         glClear(GL_COLOR_BUFFER_BIT);
 
         // Map // TODO: usile de mutat in Map

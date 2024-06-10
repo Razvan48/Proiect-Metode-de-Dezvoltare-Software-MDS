@@ -9,6 +9,11 @@
       "vertex": "shaders/text.vert",
       "fragment": "shaders/text.frag",
       "geometry": null
+    },
+    "player": {
+      "vertex": "shaders/player.vert",
+      "fragment": "shaders/player.frag",
+      "geometry": null
     }
   },
 
@@ -556,6 +561,34 @@
     },
     "minigunEmpty": {
       "file": "resources/sounds/minigunEmpty.wav",
+      "mode": 1
+    },
+    "grenadeDetonate_01": {
+      "file": "resources/sounds/grenadeDetonate_01.wav",
+      "mode": 1
+    },
+    "grenadeDetonate_02": {
+      "file": "resources/sounds/grenadeDetonate_02.wav",
+      "mode": 1
+    },
+    "grenadeDetonate_03": {
+      "file": "resources/sounds/grenadeDetonate_03.wav",
+      "mode": 1
+    },
+    "grenadeDraw": {
+      "file": "resources/sounds/grenadeDraw.wav",
+      "mode": 1
+    },
+    "newWave": {
+      "file": "resources/sounds/newWave.mp3",
+      "mode": 1
+    },
+    "soundtrack": {
+      "file": "resources/sounds/soundtrack.mp3",
+      "mode": 1
+    },
+    "door": {
+      "file": "resources/sounds/door.mp3",
       "mode": 1
     }
   },
