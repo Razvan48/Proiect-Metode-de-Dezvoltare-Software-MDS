@@ -578,6 +578,18 @@
     "grenadeDraw": {
       "file": "resources/sounds/grenadeDraw.wav",
       "mode": 1
+    },
+    "newWave": {
+      "file": "resources/sounds/newWave.mp3",
+      "mode": 1
+    },
+    "soundtrack": {
+      "file": "resources/sounds/soundtrack.mp3",
+      "mode": 1
+    },
+    "door": {
+      "file": "resources/sounds/door.mp3",
+      "mode": 1
     }
   },
 
