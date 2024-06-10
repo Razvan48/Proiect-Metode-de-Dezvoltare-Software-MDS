@@ -8,6 +8,7 @@
 #include "../../GlobalClock/GlobalClock.h"
 #include "../Bullet/Bullet.h"
 #include "../Enemy/Enemy.h"
+#include "../Bullet/ThrownGrenade.h"
 
 #include <glm/gtc/matrix_transform.hpp>
 
@@ -208,8 +209,14 @@ void Weapon::onClick()
 		}
 			break;
 
-		case WeaponType::MINIGUN:SoundManager::get().play("minigun_01", false);
+		case WeaponType::MINIGUN:
+			SoundManager::get().play("minigun_01", false);
 			Game::get().addEntity(std::make_shared<Bullet>(static_cast<double>(bulletLocation.x), static_cast<double>(bulletLocation.y), 0.3, 0.3, Player::get().getRotateAngle(), 20.0, 0.3, 0.3, "bullet0", this->damage));
+			break;
+
+		case WeaponType::GRENADE:
+			SoundManager::get().play("minigun_01", false); // TODO: sunet grenada
+			Game::get().addEntity(std::make_shared<ThrownGrenade>(static_cast<double>(bulletLocation.x), static_cast<double>(bulletLocation.y), 0.3, 0.3, Player::get().getRotateAngle(), 3.0, 0.3, 0.3, "grenade0", 0.0, 1.0, this->damage, 15.0, 2.0)); //durata aruncare grenada, damage, scale explozie si durata explozie (ultimii 4 parametrii)
 			break;
 		}
 	}

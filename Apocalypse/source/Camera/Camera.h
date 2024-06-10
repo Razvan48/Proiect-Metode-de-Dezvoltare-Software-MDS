@@ -4,6 +4,7 @@
 // Vom folosi acest lucru pentru meniuri, unde camera nu urmareste niciun player.
 
 #include <glm/vec2.hpp>
+#include "../WindowManager/WindowManager.h"
 
 class Camera
 {
@@ -32,5 +33,6 @@ public:
 	void update();
 	glm::vec2 screenPosition(double x, double y) const;
 	glm::vec2 screenSize(double width, double height) const;
+	glm::vec2 screenPositionText(double x, double y) const;
 };
 

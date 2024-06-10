@@ -16,7 +16,8 @@ public:
 		SHOTGUN,
 		AK47,
 		M4,
-		MINIGUN
+		MINIGUN,
+		GRENADE
 	};
 
 	static const double EPSILON_ANGLE;

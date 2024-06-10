@@ -24,6 +24,8 @@
 #include "../SoundManager/SoundManager.h"
 #include "../MenuManager/MenuManager.h"
 #include "../WaveManager/WaveManager.h"
+#include "../Entity/Bullet/ThrownGrenade.h"
+#include "../Entity/Explosion/Explosion.h"
 
 Game::Game()
 {
@@ -194,53 +196,6 @@ void Game::loadResources()
     Map::get().addDoor(std::make_shared<Door>(7.5, 8.5, 1.0, 1.0, 0.0, 0.0, 1.0, 1.0, m2, v2
     , 2.0, 2.0, 0)); // usa (doar sa testam) (usa gratis, cost 0)
 
-    // Enemies
-    this->entities.emplace_back(new Enemy(5.0, 5.0, 1.0, 1.0, 90.0, 5.0, 0.5, 0.5, std::map<AnimatedEntity::EntityStatus, std::string>
-    {
-        { AnimatedEntity::EntityStatus::ARMS_STAYING_AHEAD, "enemy0ArmsStayingAhead" },
-        { AnimatedEntity::EntityStatus::ARMS_NOT, "enemy0ArmsNot" },
-        { AnimatedEntity::EntityStatus::BODY_IDLE, "enemy0BodyIdle" },
-        { AnimatedEntity::EntityStatus::HEAD_IDLE, "enemy0HeadIdle" },
-        { AnimatedEntity::EntityStatus::LEGS_MOVING_AROUND, "enemy0LegsMovingAround" },
-        { AnimatedEntity::EntityStatus::LEGS_NOT, "enemy0LegsNot" }
-    },
-    {
-        AnimatedEntity::EntityStatus::LEGS_NOT,
-        AnimatedEntity::EntityStatus::ARMS_STAYING_AHEAD,
-        AnimatedEntity::EntityStatus::BODY_IDLE,
-        AnimatedEntity::EntityStatus::HEAD_IDLE
-    }, 100.0, 1000.0, 0.01, 0.75));
-    this->entities.emplace_back(new Enemy(1.0, 1.0, 1.0, 1.0, 90.0, 5.0, 0.5, 0.5, std::map<AnimatedEntity::EntityStatus, std::string>
-    {
-        { AnimatedEntity::EntityStatus::ARMS_STAYING_AHEAD, "enemy0ArmsStayingAhead" },
-        { AnimatedEntity::EntityStatus::ARMS_NOT, "enemy0ArmsNot" },
-        { AnimatedEntity::EntityStatus::BODY_IDLE, "enemy0BodyIdle" },
-        { AnimatedEntity::EntityStatus::HEAD_IDLE, "enemy0HeadIdle" },
-        { AnimatedEntity::EntityStatus::LEGS_MOVING_AROUND, "enemy0LegsMovingAround" },
-        { AnimatedEntity::EntityStatus::LEGS_NOT, "enemy0LegsNot" }
-    },
-    {
-        AnimatedEntity::EntityStatus::LEGS_NOT,
-        AnimatedEntity::EntityStatus::ARMS_STAYING_AHEAD,
-        AnimatedEntity::EntityStatus::BODY_IDLE,
-        AnimatedEntity::EntityStatus::HEAD_IDLE
-    }, 100.0, 1000.0, 0.01, 0.75));
-    this->entities.emplace_back(new Enemy(6.0, 3.0, 1.0, 1.0, 90.0, 5.0, 0.5, 0.5, std::map<AnimatedEntity::EntityStatus, std::string>
-    {
-        { AnimatedEntity::EntityStatus::ARMS_STAYING_AHEAD, "enemy0ArmsStayingAhead" },
-        { AnimatedEntity::EntityStatus::ARMS_NOT, "enemy0ArmsNot" },
-        { AnimatedEntity::EntityStatus::BODY_IDLE, "enemy0BodyIdle" },
-        { AnimatedEntity::EntityStatus::HEAD_IDLE, "enemy0HeadIdle" },
-        { AnimatedEntity::EntityStatus::LEGS_MOVING_AROUND, "enemy0LegsMovingAround" },
-        { AnimatedEntity::EntityStatus::LEGS_NOT, "enemy0LegsNot" }
-    },
-    {
-        AnimatedEntity::EntityStatus::LEGS_NOT,
-        AnimatedEntity::EntityStatus::ARMS_STAYING_AHEAD,
-        AnimatedEntity::EntityStatus::BODY_IDLE,
-        AnimatedEntity::EntityStatus::HEAD_IDLE
-    }, 100.0, 1000.0, 0.01, 0.75));
-
     // Configure Shaders
     glm::mat4 projection = glm::ortho(-0.5f * static_cast<float>(WindowManager::get().getWindowWidth()), 0.5f * static_cast<float>(WindowManager::get().getWindowWidth()), -0.5f * static_cast<float>(WindowManager::get().getWindowHeight()), 0.5f * static_cast<float>(WindowManager::get().getWindowHeight()));
     ResourceManager::getShader("sprite").use().setInteger("sprite", 0);
@@ -368,10 +323,25 @@ void Game::drawDeadBodies()
         this->deadBodies[i]->draw();
 }
 
-void Game::drawEntities()
+void Game::drawEntities() // grenazile si exploziile la urma (sunt mai la inaltime)
 {
     for (int i = 0; i < this->entities.size(); ++i)
+    {
+        if (std::dynamic_pointer_cast<ThrownGrenade>(this->entities[i]))
+            continue;
+        if (std::dynamic_pointer_cast<Explosion>(this->entities[i]))
+            continue;
+
         this->entities[i]->draw();
+    }
+
+    for (int i = 0; i < this->entities.size(); ++i) // grenazi
+        if (std::dynamic_pointer_cast<ThrownGrenade>(this->entities[i]))
+            this->entities[i]->draw();
+
+    for (int i = 0; i < this->entities.size(); ++i) // explozii
+        if (std::dynamic_pointer_cast<Explosion>(this->entities[i]))
+            this->entities[i]->draw();
 }
 
 void Game::addEntity(std::shared_ptr<Entity> const entity)

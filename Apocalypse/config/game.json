@@ -269,7 +269,7 @@
     },
     "player0ArmsUsingGrenade": {
       "directory": "resources/animations/playerComponents/arms/armsUsingGrenade",
-      "framesPerSecond": 1.0,
+      "framesPerSecond": 20.0,
       "loop": false
     },
     "player0ArmsUsingKnife": {
@@ -397,7 +397,7 @@
 
     "grenadeExplosion": {
       "directory": "resources/animations/grenadeExplosion",
-      "framesPerSecond": 40.0,
+      "framesPerSecond": 15.0,
       "loop": false
     },
     "bulletBlast": {

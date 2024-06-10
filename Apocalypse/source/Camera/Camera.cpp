@@ -39,3 +39,12 @@ glm::vec2 Camera::screenSize(double width, double height) const
 {
 	return glm::vec2(width * this->zoom, height * this->zoom);
 }
+
+glm::vec2 Camera::screenPositionText(double x, double y) const
+{
+	x -= 0.25;
+	y += 0.25;
+	double screenPositionX = this->screenPosition(x, y).x;
+	double screenPositionY = -this->screenPosition(x, y).y;
+	return glm::vec2(screenPositionX + WindowManager::get().getWindowWidth() / 2.0, screenPositionY + WindowManager::get().getWindowHeight() / 2.0);
+}

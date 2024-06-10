@@ -4,6 +4,8 @@
 
 #include "../../Input/InputHandler.h"
 #include "../../ResourceManager/ResourceManager.h"
+#include "../../Renderer/TextRenderer.h"
+#include "../../Camera/Camera.h"
 
 Door::Door(double x, double y, double drawWidth, double drawHeight, double rotateAngle, double speed, double collideWidth, double collideHeight, const std::map<AnimatedEntity::EntityStatus, std::string> animationsName2D, std::vector<EntityStatus> statuses, double interactionWidth, double interactionHeight, int openCost) :
 	Entity(x, y, drawWidth, drawHeight, rotateAngle, speed),
@@ -49,5 +51,16 @@ void Door::update()
 {
 	if (this->getStatus() == EntityStatus::OPENED && ResourceManager::getFlipbook(animationsName2D[this->getStatus()]).getIsFinished(GlobalClock::get().getCurrentTime() - this->getTimeSinceStatus()))
 		this->setCollisionActive(false);
+}
+
+void Door::draw()
+{
+	AnimatedEntity::draw();
+
+	if (this->getStatus() == EntityStatus::IDLE)
+	{
+		std::string openCost = std::to_string(this->getOpenCost());
+		TextRenderer::get().draw(ResourceManager::getShader("text"), ResourceManager::getFont("Antonio"), openCost, static_cast<float>(Camera::get().screenPositionText(this->getX(), this->getY()).x), static_cast<float>(Camera::get().screenPositionText(this->getX(), this->getY()).y), 0.75f, glm::vec3(0.0f, 0.5f, 0.5f));
+	}
 }
 

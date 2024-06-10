@@ -23,6 +23,7 @@
 #include "../../MenuManager/MenuManager.h"
 #include "../../MenuManager/ShopMenu/ShopMenu.h"
 #include "../../Random/Random.h"
+#include "../Explosion/Explosion.h"
 
 Player::Player(double x, double y, double drawWidth, double drawHeight, double rotateAngle, double speed, double collideWidth, double collideHeight, const std::map<AnimatedEntity::EntityStatus, std::string>& animationsName2D, const std::vector<EntityStatus>& statuses, double runningSpeed, double health = 100.0, double stamina = 100.0, double armor = 0.0, int numKills = 0) :
 	Entity(x, y, drawWidth, drawHeight, rotateAngle, speed),
@@ -40,7 +41,8 @@ Player::Player(double x, double y, double drawWidth, double drawHeight, double r
 		, std::make_shared<Weapon>(0.0, 0.0, 0.0, 0.0, 0.0, 0.0, "automated1", 0.0, 0.0, 0.3, 25, 35.0, Weapon::WeaponType::AK47, 0.0, "ak47Reload", "ak47Draw", "ak47Empty") // ak47
 		, std::make_shared<Weapon>(0.0, 0.0, 0.0, 0.0, 0.0, 0.0, "automated0", 0.0, 0.0, 0.3, 25, 35.0, Weapon::WeaponType::M4, 0.0, "m4a1Reload", "m4a1Draw", "m4a1Empty") // m4
 		, std::make_shared<Weapon>(0.0, 0.0, 0.0, 0.0, 0.0, 0.0, "minigun0", 0.0, 0.0, 0.2, 50, 10.0, Weapon::WeaponType::MINIGUN, 0.0, "minigunReload", "minigunDraw", "minigunEmpty") // minigun
-		, nullptr // grenade		TODO: sunete
+		//, nullptr // grenade		TODO: sunete
+		, std::make_shared<Weapon>(0.0, 0.0, 0.0, 0.0, 0.0, 0.0, "grenade0", 0.0, 0.0, 1.0, (1<<30), 100.0, Weapon::WeaponType::GRENADE, 0.0, "minigunReload", "minigunDraw", "minigunEmpty") // TODO: schimbat sunete la grenada
 		}),
 	currentWeaponIndex(0),
 	isTired(false), isWalking(false), isRunning(false), isShooting(false), numKills(numKills)
@@ -51,6 +53,7 @@ Player::Player(double x, double y, double drawWidth, double drawHeight, double r
 	bullets[Weapon::WeaponType::AK47] = 1024;
 	bullets[Weapon::WeaponType::M4] = 1024;
 	bullets[Weapon::WeaponType::MINIGUN] = 1024;
+	bullets[Weapon::WeaponType::GRENADE] = 1024;
 }
 
 Player& Player::get()
@@ -101,6 +104,9 @@ void Player::onCollide(CollidableEntity& other, glm::vec2 overlap)
 {
 	// TODO: nu e totul implementat
 
+	if (dynamic_cast<Explosion*>(&other))
+		return;
+
 	if (dynamic_cast<Wall*>(&other) != nullptr)
 	{
 		if (overlap.x < overlap.y)
@@ -134,6 +140,26 @@ void Player::onCollide(CollidableEntity& other, glm::vec2 overlap)
 			else
 				this->y += (overlap.y + CollidableEntity::EPS);
 		}
+	}
+	else if (dynamic_cast<Bullet*>(&other) != nullptr)
+	{
+		if (overlap.x < overlap.y)
+		{
+			if (this->x < other.getX())
+				this->x -= (overlap.x + CollidableEntity::EPS) / 2.0;
+			else
+				this->x += (overlap.x + CollidableEntity::EPS) / 2.0;
+		}
+		else
+		{
+			if (this->y < other.getY())
+				this->y -= (overlap.y + CollidableEntity::EPS) / 2.0;
+			else
+				this->y += (overlap.y + CollidableEntity::EPS) / 2.0;
+		}
+
+		this->health -= dynamic_cast<Bullet*>(&other)->getDamage();
+		this->health = std::max(0.0, this->health);
 	}
 	else if (dynamic_cast<CollidableEntity*>(&other) != nullptr) // TODO: aici intra in calcul si bullets !!!!
 	{
@@ -348,6 +374,26 @@ void Player::update()
 			updateStatus(EntityStatus::ARMS_RELOADING_M4, 1);
 		}
 	}
+	else if (this->weapons[this->currentWeaponIndex]->getWeaponType() == Weapon::WeaponType::GRENADE)
+	{
+		if (!this->weapons[this->currentWeaponIndex]->stillReloading())
+		{
+			if (this->weapons[this->currentWeaponIndex]->recentlyShot())
+			{
+				updateStatus(EntityStatus::ARMS_USING_GRENADE, 1);
+			}
+			else
+			{
+				updateStatus(EntityStatus::ARMS_HOLDING_GRENADE, 1);
+			}
+		}
+		else
+		{
+			//updateStatus(EntityStatus::ARMS_RELOADING_GRENADE, 1);
+			//updateStatus(EntityStatus::ARMS_USING_GRENADE, 1);
+			updateStatus(EntityStatus::ARMS_HOLDING_GRENADE, 1);
+		}
+	}
 	// else if (this->weapons[this->currentWeaponIndex]->getWeaponType() == Weapon::WeaponType::MINIGUN)	// TODO
 
 	// Sound
@@ -435,6 +481,7 @@ void Player::setupPlayerInputComponent()
 	InputHandler::getPlayerInputComponent().bindAction("WEAPON_SLOT_5", InputEvent::IE_Pressed, std::bind(&Player::weaponSlot5, this));
 	InputHandler::getPlayerInputComponent().bindAction("WEAPON_SLOT_6", InputEvent::IE_Pressed, std::bind(&Player::weaponSlot6, this));
 	InputHandler::getPlayerInputComponent().bindAction("WEAPON_SLOT_7", InputEvent::IE_Pressed, std::bind(&Player::weaponSlot7, this));
+	InputHandler::getPlayerInputComponent().bindAction("WEAPON_SLOT_8", InputEvent::IE_Pressed, std::bind(&Player::weaponSlot8, this));
 
 	// shop test
 	InputHandler::getPlayerInputComponent().bindAction("SHOP", InputEvent::IE_Pressed, std::bind(&Player::enterShop, this));

@@ -21,5 +21,9 @@ public:
 	void onInteraction() override;
 
 	void update() override;
+
+	void draw() override;
+
+	int getOpenCost() const { return this->openCost; }
 };
 

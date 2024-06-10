@@ -5,6 +5,8 @@
 #include "../Entity/CollidableEntity.h"
 #include "../Entity/Bullet/Bullet.h"
 #include "../Entity/Enemy/Enemy.h"
+#include "../Entity/Bullet/ThrownGrenade.h"
+#include "../Entity/Explosion/Explosion.h"
 
 #include <iostream> // TODO: delete
 #include <memory>
@@ -52,16 +54,14 @@ void CollisionManager::handleCollisions(std::vector<std::shared_ptr<Entity>>& en
 	}
 
 	// TODO: refactor
-	// Bullets vs. Map
+	// Bullets (incluzand thrown grenades) vs. Map
 	for (const std::shared_ptr<Entity>& entity : entities)
 	{
 		if (std::shared_ptr<Bullet> bullet = std::dynamic_pointer_cast<Bullet>(entity))
 		{
-			bool deleteEntity = false;
-			
-			for (int i = 0; i < Map::get().getMap().size() && !deleteEntity; ++i)
+			for (int i = 0; i < Map::get().getMap().size(); ++i)
 			{
-				for (int j = 0; j < Map::get().getMap()[i].size() && !deleteEntity; ++j)
+				for (int j = 0; j < Map::get().getMap()[i].size(); ++j)
 				{
 					if (std::dynamic_pointer_cast<CollidableEntity>(Map::get().getMap()[i][j]) && std::dynamic_pointer_cast<CollidableEntity>(Map::get().getMap()[i][j])->getCollisionActive())
 					{
@@ -80,13 +80,16 @@ void CollisionManager::handleCollisions(std::vector<std::shared_ptr<Entity>>& en
 
 
 	// Player vs. Entities
-	// TODO: momentan enemy (si bullets??)
+	// TODO: momentan enemy (si bullets?? si thrown grenades??) // include si exploziile !!!!
 	for (int i = 0; i < entities.size(); ++i)
 	{
 		if (std::dynamic_pointer_cast<CollidableEntity>(entities[i]) == nullptr)
 			continue;
 
 		if (!std::dynamic_pointer_cast<CollidableEntity>(entities[i])->getCollisionActive())
+			continue;
+
+		if (std::dynamic_pointer_cast<ThrownGrenade>(entities[i])) // fara coliziune intre thrown grenade si player SE POATE STERGE
 			continue;
 
 		glm::vec2 overlap = std::dynamic_pointer_cast<CollidableEntity>(entities[i])->isInCollision(Player::get());
@@ -112,7 +115,7 @@ void CollisionManager::handleCollisions(std::vector<std::shared_ptr<Entity>>& en
 		}
 	}
 
-	// Bullets vs. Doors
+	// Bullets (incluzand thrown grenades) vs. Doors
 	for (int i = 0; i < entities.size(); ++i)
 	{
 		if (std::dynamic_pointer_cast<Bullet>(entities[i]) == nullptr)
@@ -133,10 +136,40 @@ void CollisionManager::handleCollisions(std::vector<std::shared_ptr<Entity>>& en
 		}
 	}
 
-	// Bullets vs Enemies
+	// Bullets (incluzand thrown grenades) vs Enemies
 	for (int i = 0; i < entities.size(); ++i)
 	{
 		if (std::dynamic_pointer_cast<Bullet>(entities[i]) == nullptr)
+			continue;
+
+		if (std::dynamic_pointer_cast<ThrownGrenade>(entities[i])) // fara coliziune intre thrown grenade si player SE POATE STERGE
+			continue;
+
+		for (int j = 0; j < entities.size(); ++j)
+		{
+			if (i == j)
+				continue;
+
+			if (std::dynamic_pointer_cast<Enemy>(entities[j]) == nullptr)
+				continue;
+
+			if (!std::dynamic_pointer_cast<CollidableEntity>(entities[j])->getCollisionActive())
+				continue;
+
+			glm::vec2 overlap = std::dynamic_pointer_cast<CollidableEntity>(entities[i])->isInCollision(*std::dynamic_pointer_cast<CollidableEntity>(entities[j]));
+
+			if (overlap.x > 0.0 && overlap.y > 0.0)
+			{
+				std::dynamic_pointer_cast<CollidableEntity>(entities[i])->onCollide(*std::dynamic_pointer_cast<CollidableEntity>(entities[j]), overlap);
+				std::dynamic_pointer_cast<CollidableEntity>(entities[j])->onCollide(*std::dynamic_pointer_cast<CollidableEntity>(entities[i]), overlap);
+			}
+		}
+	}
+
+	// Explosions vs Enemies
+	for (int i = 0; i < entities.size(); ++i)
+	{
+		if (std::dynamic_pointer_cast<Explosion>(entities[i]) == nullptr)
 			continue;
 
 		for (int j = 0; j < entities.size(); ++j)

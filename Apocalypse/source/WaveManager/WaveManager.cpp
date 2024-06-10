@@ -6,6 +6,7 @@
 #include "../Game/Game.h"
 #include "../Entity/Enemy/Enemy.h"
 #include "../Random/Random.h"
+#include "../Entity/Enemy/EnemyFactory.h"
 
 WaveManager::WaveManager(const double waveCoolDown, bool inWave, double timeWaveEnded, int numEnemiesPerTurn, int numFinishedWaves) :
 	waveCoolDown(waveCoolDown), inWave(inWave), timeWaveEnded(timeWaveEnded), numEnemiesPerTurn(numEnemiesPerTurn), numFinishedWaves(numFinishedWaves)
@@ -135,42 +136,14 @@ void WaveManager::update()
 				std::pair<int, int> spawnPos = this->visitedCells[indexRandom];
 				std::swap(this->visitedCells[indexRandom], this->visitedCells[(int)this->visitedCells.size() - 1]);
 				this->visitedCells.pop_back();
-				Game::get().addEntity(std::shared_ptr<Enemy>(new Enemy(1.0, 1.0, 1.0, 1.0, 90.0, 5.0, 0.5, 0.5, std::map<AnimatedEntity::EntityStatus, std::string>
-				{
-					{ AnimatedEntity::EntityStatus::ARMS_STAYING_AHEAD, "enemy0ArmsStayingAhead" },
-					{ AnimatedEntity::EntityStatus::ARMS_NOT, "enemy0ArmsNot" },
-					{ AnimatedEntity::EntityStatus::BODY_IDLE, "enemy0BodyIdle" },
-					{ AnimatedEntity::EntityStatus::HEAD_IDLE, "enemy0HeadIdle" },
-					{ AnimatedEntity::EntityStatus::LEGS_MOVING_AROUND, "enemy0LegsMovingAround" },
-					{ AnimatedEntity::EntityStatus::LEGS_NOT, "enemy0LegsNot" }
-				},
-				{
-					AnimatedEntity::EntityStatus::LEGS_NOT,
-					AnimatedEntity::EntityStatus::ARMS_STAYING_AHEAD,
-					AnimatedEntity::EntityStatus::BODY_IDLE,
-					AnimatedEntity::EntityStatus::HEAD_IDLE
-				}, 100.0, 1000.0, 0.01, 0.75)));
+				Game::get().addEntity(EnemyFactory::getDefaultEnemy(spawnPos.first, spawnPos.second));
 				*/
 
 				// Varianta unde ii punem cat mai departe de player (Problema: ajung sa se spauneze toti cam in acelasi loc si se incurca intre ei)
 				/*
 				std::pair<int, int> spawnPos = this->visitedCells[(int)this->visitedCells.size() - 1];
 				this->visitedCells.pop_back();
-				Game::get().addEntity(std::shared_ptr<Enemy>(new Enemy(0.5 + spawnPos.first, 0.5 + spawnPos.second, 1.0, 1.0, 90.0, 5.0, 0.5, 0.5, std::map<AnimatedEntity::EntityStatus, std::string>
-				{
-					{ AnimatedEntity::EntityStatus::ARMS_STAYING_AHEAD, "enemy0ArmsStayingAhead" },
-					{ AnimatedEntity::EntityStatus::ARMS_NOT, "enemy0ArmsNot" },
-					{ AnimatedEntity::EntityStatus::BODY_IDLE, "enemy0BodyIdle" },
-					{ AnimatedEntity::EntityStatus::HEAD_IDLE, "enemy0HeadIdle" },
-					{ AnimatedEntity::EntityStatus::LEGS_MOVING_AROUND, "enemy0LegsMovingAround" },
-					{ AnimatedEntity::EntityStatus::LEGS_NOT, "enemy0LegsNot" }
-				},
-				{
-					AnimatedEntity::EntityStatus::LEGS_NOT,
-					AnimatedEntity::EntityStatus::ARMS_STAYING_AHEAD,
-					AnimatedEntity::EntityStatus::BODY_IDLE,
-					AnimatedEntity::EntityStatus::HEAD_IDLE
-				}, 100.0, 1000.0, 0.01, 0.75)));
+				Game::get().addEntity(EnemyFactory::getDefaultEnemy(spawnPos.first, spawnPos.second));
 				*/
 
 				// Varianta unde ii punem cat mai departe de player dar facem sarituri de cate k celule (problema, daca nu avem k celule disponibile? va crashui, TODO:)
@@ -178,21 +151,7 @@ void WaveManager::update()
 				std::pair<int, int> spawnPos = this->visitedCells[(int)this->visitedCells.size() - k];
 				std::swap(this->visitedCells[(int)this->visitedCells.size() - k], this->visitedCells[(int)this->visitedCells.size() - 1]);
 				this->visitedCells.pop_back();
-				Game::get().addEntity(std::shared_ptr<Enemy>(new Enemy(0.5 + spawnPos.first, 0.5 + spawnPos.second, 1.0, 1.0, 90.0, 5.0, 0.5, 0.5, std::map<AnimatedEntity::EntityStatus, std::string>
-				{
-					{ AnimatedEntity::EntityStatus::ARMS_STAYING_AHEAD, "enemy0ArmsStayingAhead" },
-					{ AnimatedEntity::EntityStatus::ARMS_NOT, "enemy0ArmsNot" },
-					{ AnimatedEntity::EntityStatus::BODY_IDLE, "enemy0BodyIdle" },
-					{ AnimatedEntity::EntityStatus::HEAD_IDLE, "enemy0HeadIdle" },
-					{ AnimatedEntity::EntityStatus::LEGS_MOVING_AROUND, "enemy0LegsMovingAround" },
-					{ AnimatedEntity::EntityStatus::LEGS_NOT, "enemy0LegsNot" }
-				},
-				{
-					AnimatedEntity::EntityStatus::LEGS_NOT,
-					AnimatedEntity::EntityStatus::ARMS_STAYING_AHEAD,
-					AnimatedEntity::EntityStatus::BODY_IDLE,
-					AnimatedEntity::EntityStatus::HEAD_IDLE
-				}, 100.0, 1000.0, 0.01, 0.75)));
+				Game::get().addEntity(EnemyFactory::getDefaultEnemy(spawnPos.first, spawnPos.second));
 			}
 	}
 }
