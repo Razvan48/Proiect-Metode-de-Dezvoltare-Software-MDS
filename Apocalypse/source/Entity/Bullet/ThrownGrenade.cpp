@@ -95,15 +95,15 @@ void ThrownGrenade::onCollide(CollidableEntity& other, glm::vec2 overlap)
 
 	if (overlap.x < overlap.y)
 	{
-		if (normalizedX * (other.getX() - this->x) > 0)
+		if (normalizedX * (other.getX() - this->x) > 0.0)
 			normalizedX = -normalizedX;
 	}
 	else
 	{
-		if (normalizedY * (other.getY() - this->y) > 0)
+		if (normalizedY * (other.getY() - this->y) > 0.0)
 			normalizedY = -normalizedY;
 	}
 
-	this->rotateAngle = glm::degrees(glm::atan(normalizedY / normalizedX));
+	this->rotateAngle = glm::degrees(std::atan2f(normalizedY, normalizedX));
 }
 

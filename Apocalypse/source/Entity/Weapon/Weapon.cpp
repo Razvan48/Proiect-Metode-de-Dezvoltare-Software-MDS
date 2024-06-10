@@ -231,7 +231,7 @@ void Weapon::onClick()
 				break;
 			}
 
-			Game::get().addEntity(std::make_shared<ThrownGrenade>(static_cast<double>(bulletLocation.x), static_cast<double>(bulletLocation.y), 0.3, 0.3, Player::get().getRotateAngle(), 3.0, 0.3, 0.3, "grenade0", 0.0, 1.0, this->damage, 15.0, 2.0)); // durata aruncare grenada, damage, scale explozie si durata explozie (ultimii 4 parametrii)
+			Game::get().addEntity(std::make_shared<ThrownGrenade>(static_cast<double>(bulletLocation.x), static_cast<double>(bulletLocation.y), 0.3, 0.3, Player::get().getRotateAngle(), 3.0, 0.3, 0.3, "grenade0", 0.0, 1.0, this->damage, 15.0, 1.0)); // durata aruncare grenada, damage, scale explozie si durata explozie (ultimii 4 parametrii)
 		}
 			break;
 		}
