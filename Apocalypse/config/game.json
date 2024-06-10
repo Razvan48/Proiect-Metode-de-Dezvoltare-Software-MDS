@@ -562,6 +562,22 @@
     "minigunEmpty": {
       "file": "resources/sounds/minigunEmpty.wav",
       "mode": 1
+    },
+    "grenadeDetonate_01": {
+      "file": "resources/sounds/grenadeDetonate_01.wav",
+      "mode": 1
+    },
+    "grenadeDetonate_02": {
+      "file": "resources/sounds/grenadeDetonate_02.wav",
+      "mode": 1
+    },
+    "grenadeDetonate_03": {
+      "file": "resources/sounds/grenadeDetonate_03.wav",
+      "mode": 1
+    },
+    "grenadeDraw": {
+      "file": "resources/sounds/grenadeDraw.wav",
+      "mode": 1
     }
   },
 
