@@ -9,6 +9,11 @@
       "vertex": "shaders/text.vert",
       "fragment": "shaders/text.frag",
       "geometry": null
+    },
+    "player": {
+      "vertex": "shaders/player.vert",
+      "fragment": "shaders/player.frag",
+      "geometry": null
     }
   },
 

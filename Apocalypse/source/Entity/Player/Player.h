@@ -87,6 +87,8 @@ private:
 
 	int numKills;
 
+	glm::vec3 outfitColor;
+
 public:
 
 	static Player& get();
@@ -119,7 +121,10 @@ public:
 	void save();
 	void load();
 
-	int getNumKills() const { return this->numKills; }
-	void setNumKills(int numKills) { this->numKills = numKills; }
+	inline int getNumKills() const { return this->numKills; }
+	inline void setNumKills(int numKills) { this->numKills = numKills; }
+
+	inline glm::vec3 getOutfitColor() { return outfitColor; }
+	inline void setOutfitColor(const glm::vec3& outfitColor) { this->outfitColor = outfitColor; }
 };
 
