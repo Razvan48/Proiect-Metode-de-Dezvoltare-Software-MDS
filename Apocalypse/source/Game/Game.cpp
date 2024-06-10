@@ -294,7 +294,7 @@ void Game::run()
         InteractionManager::get().handleInteractions(this->entities);
 
         // Render
-        glClearColor(0.733f, 0.024f, 0.259f, 1.0f);
+        glClearColor(0.08f, 0.08f, 0.08f, 1.0f);
         glClear(GL_COLOR_BUFFER_BIT);
 
         // Map // TODO: usile de mutat in Map

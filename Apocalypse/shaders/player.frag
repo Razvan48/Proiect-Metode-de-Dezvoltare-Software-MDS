@@ -18,7 +18,7 @@ void main()
     {
         color = vec4(spriteColor, 1.0);
     }
-    else if (distance(texColor.xyz, vec3(0.039, 0.2, 0.086)) < tolerance) // butoni
+    else if (distance(texColor.xyz, vec3(0.039, 0.2, 0.086)) < tolerance || distance(texColor.xyz, vec3(0.016, 0.09, 0.039)) < tolerance) // butoni
     {
         float factor = 0.4;
         color = vec4(spriteColor * factor, 1.0);
