@@ -65,6 +65,29 @@ void Map::readMap(const std::string& path)
 	in.close();
 
 	this->mapLoaded = true;
+
+
+	/*TODO: nu vor ramane asa*/
+	// Doors
+	std::map<AnimatedEntity::EntityStatus, std::string> m0 = {
+		{ AnimatedEntity::EntityStatus::IDLE, "doorStatic0"},
+		{ AnimatedEntity::EntityStatus::OPENED, "doorOpening0"}
+	};
+	std::vector<AnimatedEntity::EntityStatus> v0 = { AnimatedEntity::EntityStatus::IDLE };
+	Map::get().addDoor(std::make_shared<Door>(8.5, 14.5, 1.0, 1.0, 90.0, 0.0, 1.0, 1.0, m0, v0, 2.0, 2.0, 0)); // usa (doar sa testam) (usa gratis, cost 0)
+	std::map<AnimatedEntity::EntityStatus, std::string> m1 = {
+		{ AnimatedEntity::EntityStatus::IDLE, "doorStatic1"},
+		{ AnimatedEntity::EntityStatus::OPENED, "doorOpening1"}
+	};
+	std::vector<AnimatedEntity::EntityStatus> v1 = { AnimatedEntity::EntityStatus::IDLE };
+	Map::get().addDoor(std::make_shared<Door>(8.5, 16.5, 1.0, 1.0, 90.0, 0.0, 1.0, 1.0, m1, v1, 2.0, 2.0, 100)); // usa (doar sa testam) // COST 100
+	std::map<AnimatedEntity::EntityStatus, std::string> m2 = {
+		{ AnimatedEntity::EntityStatus::IDLE, "doorStatic1"},
+		{ AnimatedEntity::EntityStatus::OPENED, "doorOpening1"}
+	};
+	std::vector<AnimatedEntity::EntityStatus> v2 = { AnimatedEntity::EntityStatus::IDLE };
+	Map::get().addDoor(std::make_shared<Door>(7.5, 8.5, 1.0, 1.0, 0.0, 0.0, 1.0, 1.0, m2, v2
+		, 2.0, 2.0, 0)); // usa (doar sa testam) (usa gratis, cost 0)
 }
 
 void Map::draw()
