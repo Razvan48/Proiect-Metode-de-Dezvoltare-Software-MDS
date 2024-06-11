@@ -63,6 +63,8 @@ void Map::readMap(const std::string& path)
 	}
 
 	in.close();
+
+	this->mapLoaded = true;
 }
 
 void Map::draw()

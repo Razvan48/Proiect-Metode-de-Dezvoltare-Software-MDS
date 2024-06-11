@@ -71,3 +71,10 @@ void InputComponent::replaceScroll(const std::function<void(double, double)>& fu
 	scrollFunctionCallbacks.clear();
 	scrollFunctionCallbacks.push_back(func);
 }
+
+void InputComponent::clear()
+{
+	keyFunctionCallbacks.clear();
+	mouseFunctionCallbacks.clear();
+	scrollFunctionCallbacks.clear();
+}

@@ -31,7 +31,7 @@ private:
 	PauseMenu& operator=(const PauseMenu&& other) = delete;
 
 protected:
-
+	static void quit(Button&);
 
 public:
 	static PauseMenu& get();

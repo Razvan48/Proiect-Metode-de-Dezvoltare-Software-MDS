@@ -4,6 +4,7 @@
 #include "../../ResourceManager/ResourceManager.h"
 
 #include <iostream>
+#include <nlohmann/json.hpp>
 #include "../../Input/InputHandler.h"
 #include "../../Map/Map.h"
 #include "../../Entity/Player/Player.h"
@@ -31,6 +32,31 @@ MainMenu::MainMenu(double x, double y, double drawWidth, double drawHeight, doub
 			MainMenu::get().isInMenu = false;
 			MenuManager::get().pop();
 			InputHandler::setInputComponent(InputHandler::getPlayerInputComponent());
+
+			if(Map::get().hasBeenLoaded() == false)
+				try
+				{
+					std::ifstream gameFile("config/game.json");
+					nlohmann::json gameJSON;
+					gameFile >> gameJSON;
+					gameFile.close();
+
+					std::string file = gameJSON["map"].get<std::string>();
+
+					Map::get().readMap(file);
+				}
+				catch (const std::runtime_error& err)
+				{
+					std::cout << "ERROR::MAP: " << err.what() << std::endl;
+				}
+				catch (...)
+				{
+					std::cout << "ERROR::MAP: other error" << std::endl;
+				}
+
+
+			Player::get().setupPlayerInputComponent();
+
 		} } }
 	);
 

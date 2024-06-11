@@ -38,6 +38,12 @@ MenuBase& MenuManager::top() const
 	return *menuStack[menuStack.size() - 1];
 }
 
+void MenuManager::clear()
+{
+	while (!menuStack.empty())
+		this->pop();
+}
+
 void MenuManager::draw() const
 {
 	for (auto& i : menuStack)

@@ -120,6 +120,8 @@ Player& Player::get()
 
 void Player::deleteInstance()
 {
+	InputHandler::getPlayerInputComponent().clear();
+
 	Player::instance = nullptr;
 }
 
@@ -621,7 +623,9 @@ void Player::look(double xpos, double ypos)
 
 void Player::pauseGame()
 {
+	// std::cout << MenuManager::get().size() << "\n";
 	MenuManager::get().push(PauseMenu::get());
+	// std::cout << MenuManager::get().size() << "\n";
 	// PauseMenu::get().setIsInGame(false);
 	// PauseMenu::get().setupPauseMenuInputComponent();
 	InputHandler::setInputComponent(InputHandler::getMenuInputComponent());

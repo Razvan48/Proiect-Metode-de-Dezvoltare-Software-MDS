@@ -42,5 +42,6 @@ private:
 	static InputComponent playerInputComponent;
 	static InputComponent meniuInputComponent;
 	static InputComponent* activeInputComponent;
+
 };
 

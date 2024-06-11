@@ -219,7 +219,7 @@ void Game::run()
     Camera::get().setFollowsPlayer(true);
 
     // TODO: de pus in constructor
-    Player::get().setupPlayerInputComponent();
+    // Player::get().setupPlayerInputComponent();
 
     // MainMenu::get().setupMainMenuInputComponent();
     MenuManager::get().push(MainMenu::get());

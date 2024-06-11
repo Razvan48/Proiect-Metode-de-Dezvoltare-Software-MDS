@@ -27,6 +27,7 @@ public:
 	void replaceAxis(const std::function<void(double, double)>& func);
 	void replaceScroll(const std::function<void(double, double)>& func);
 
+	void clear();
 private:
 	// [key][keyEvent] = vector<> functions
 	std::map<int, std::map<int, std::vector<std::function<void()>>>> keyFunctionCallbacks;

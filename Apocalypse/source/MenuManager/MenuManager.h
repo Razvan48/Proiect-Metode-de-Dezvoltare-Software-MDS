@@ -27,6 +27,10 @@ public:
 
 	void push(MenuBase& m);
 
+	void clear();
+
+	inline size_t size() { return menuStack.size(); };
+
 	void draw() const;
 
 };

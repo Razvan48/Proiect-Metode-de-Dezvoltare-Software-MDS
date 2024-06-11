@@ -30,6 +30,7 @@ private:
 	static std::shared_ptr<Map> instance;
 
 private:
+	bool mapLoaded = false;
 
 	std::vector<std::vector<std::shared_ptr<Entity>>> map;
 	std::vector<std::shared_ptr<Door>> doors;
@@ -44,5 +45,7 @@ public:
 	inline std::vector<std::shared_ptr<Door>>& getDoors() { return this->doors; }
 	void update();
 	static void deleteInstance();
+
+	bool hasBeenLoaded() const { return mapLoaded; }
 };
 
