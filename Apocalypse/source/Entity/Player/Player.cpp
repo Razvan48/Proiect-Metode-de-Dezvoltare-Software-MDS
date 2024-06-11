@@ -37,12 +37,20 @@ Player::Player(double x, double y, double drawWidth, double drawHeight, double r
 	weapons({ std::make_shared<Weapon>(0.0, 0.0, 0.0, 0.0, 0.0, 0.0, "fist0", 0.0, 0.0, 0.5, 1, 10.0, Weapon::WeaponType::FIST, 0.75, "", "", "")
 		, std::make_shared<Weapon>(0.0, 0.0, 0.0, 0.0, 0.0, 0.0, "knife0", 0.0, 0.0, 0.5, 20, 15.0, Weapon::WeaponType::KNIFE, 0.75, "knifeLook", "knifeDraw", "knifeLook") // knife
 		, std::make_shared<Weapon>(0.0, 0.0, 0.0, 0.0, 0.0, 0.0, "pistol0", 0.0, 0.0, 0.5, 20, 25.0, Weapon::WeaponType::REVOLVER, 0.0, "revolverReload", "revolverDraw", "revolverEmpty") // revolver
-		, std::make_shared<Weapon>(0.0, 0.0, 0.0, 0.0, 0.0, 0.0, "shotgun0", 0.0, 0.0, 1.0, 4, 50.0, Weapon::WeaponType::SHOTGUN, 0.0, "shotgunReload", "shotgunDraw", "shotgunEmpty") // shotgun
-		, std::make_shared<Weapon>(0.0, 0.0, 0.0, 0.0, 0.0, 0.0, "automated1", 0.0, 0.0, 0.3, 25, 35.0, Weapon::WeaponType::AK47, 0.0, "ak47Reload", "ak47Draw", "ak47Empty") // ak47
-		, std::make_shared<Weapon>(0.0, 0.0, 0.0, 0.0, 0.0, 0.0, "automated0", 0.0, 0.0, 0.3, 25, 35.0, Weapon::WeaponType::M4, 0.0, "m4a1Reload", "m4a1Draw", "m4a1Empty") // m4
-		, std::make_shared<Weapon>(0.0, 0.0, 0.0, 0.0, 0.0, 0.0, "minigun0", 0.0, 0.0, 0.2, 50, 10.0, Weapon::WeaponType::MINIGUN, 0.0, "minigunReload", "minigunDraw", "minigunEmpty") // minigun
+		, std::make_shared<Weapon>(0.0, 0.0, 0.0, 0.0, 0.0, 0.0, "shotgun0", 0.0, 0.0, 1.0, 4, 50.0, Weapon::WeaponType::SHOTGUN, 0.0, "shotgunReload", "shotgunDraw", "shotgunEmpty", 100) // shotgun
+		, std::make_shared<Weapon>(0.0, 0.0, 0.0, 0.0, 0.0, 0.0, "automated1", 0.0, 0.0, 0.3, 25, 35.0, Weapon::WeaponType::AK47, 0.0, "ak47Reload", "ak47Draw", "ak47Empty", 150) // ak47
+		, std::make_shared<Weapon>(0.0, 0.0, 0.0, 0.0, 0.0, 0.0, "automated0", 0.0, 0.0, 0.3, 25, 35.0, Weapon::WeaponType::M4, 0.0, "m4a1Reload", "m4a1Draw", "m4a1Empty", 200) // m4
+		, std::make_shared<Weapon>(0.0, 0.0, 0.0, 0.0, 0.0, 0.0, "minigun0", 0.0, 0.0, 0.2, 50, 10.0, Weapon::WeaponType::MINIGUN, 0.0, "minigunReload", "minigunDraw", "minigunEmpty", 300) // minigun
 		, std::make_shared<Weapon>(0.0, 0.0, 0.0, 0.0, 0.0, 0.0, "grenade0", 0.0, 0.0, 1.0, (1<<30), 100.0, Weapon::WeaponType::GRENADE, 0.0, "", "grenadeDraw", "grenadeDraw") // grenade
 		}),
+	hasWeapon({ {Weapon::WeaponType::FIST, true},
+		{Weapon::WeaponType::KNIFE, true},
+		{Weapon::WeaponType::REVOLVER, true},
+		{Weapon::WeaponType::SHOTGUN, false},
+		{Weapon::WeaponType::AK47, false},
+		{Weapon::WeaponType::M4, false},
+		{Weapon::WeaponType::MINIGUN, false},
+		{Weapon::WeaponType::GRENADE, false} }),
 	currentWeaponIndex(0),
 	isTired(false), isWalking(false), isRunning(false), isShooting(false), numKills(numKills), outfitColor(0.055f, 0.29f, 0.125f)
 {
@@ -605,89 +613,113 @@ void Player::pauseGame()
 
 void Player::weaponSlot1()
 {
-	this->isShooting = false;
-
-	if (this->weapons[0] != nullptr && this->currentWeaponIndex != 0)
+	if (this->hasWeapon[this->weapons[0]->getWeaponType()])
 	{
-		weapons[0]->drawWeapon();
-		this->currentWeaponIndex = 0;
+		this->isShooting = false;
+
+		if (this->weapons[0] != nullptr && this->currentWeaponIndex != 0)
+		{
+			weapons[0]->drawWeapon();
+			this->currentWeaponIndex = 0;
+		}
 	}
 }
 
 void Player::weaponSlot2()
 {
-	this->isShooting = false;
-
-	if (this->weapons[1] != nullptr && this->currentWeaponIndex != 1)
+	if (this->hasWeapon[this->weapons[1]->getWeaponType()])
 	{
-		weapons[1]->drawWeapon();
-		this->currentWeaponIndex = 1;
+		this->isShooting = false;
+
+		if (this->weapons[1] != nullptr && this->currentWeaponIndex != 1)
+		{
+			weapons[1]->drawWeapon();
+			this->currentWeaponIndex = 1;
+		}
 	}
 }
 
 void Player::weaponSlot3()
 {
-	this->isShooting = false;
-
-	if (this->weapons[2] != nullptr && this->currentWeaponIndex != 2)
+	if (this->hasWeapon[this->weapons[2]->getWeaponType()])
 	{
-		weapons[2]->drawWeapon();
-		this->currentWeaponIndex = 2;
+		this->isShooting = false;
+
+		if (this->weapons[2] != nullptr && this->currentWeaponIndex != 2)
+		{
+			weapons[2]->drawWeapon();
+			this->currentWeaponIndex = 2;
+		}
 	}
 }
 
 void Player::weaponSlot4()
 {
-	this->isShooting = false;
-
-	if (this->weapons[3] != nullptr && this->currentWeaponIndex != 3)
+	if (this->hasWeapon[this->weapons[3]->getWeaponType()])
 	{
-		weapons[3]->drawWeapon();
-		this->currentWeaponIndex = 3;
+		this->isShooting = false;
+
+		if (this->weapons[3] != nullptr && this->currentWeaponIndex != 3)
+		{
+			weapons[3]->drawWeapon();
+			this->currentWeaponIndex = 3;
+		}
 	}
 }
 
 void Player::weaponSlot5()
 {
-	this->isShooting = false;
-
-	if (this->weapons[4] != nullptr && this->currentWeaponIndex != 4)
+	if (this->hasWeapon[this->weapons[4]->getWeaponType()])
 	{
-		weapons[4]->drawWeapon();
-		this->currentWeaponIndex = 4;
+		this->isShooting = false;
+
+		if (this->weapons[4] != nullptr && this->currentWeaponIndex != 4)
+		{
+			weapons[4]->drawWeapon();
+			this->currentWeaponIndex = 4;
+		}
 	}
 }
 
 void Player::weaponSlot6()
 {
-	this->isShooting = false;
-
-	if (this->weapons[5] != nullptr && this->currentWeaponIndex != 5)
+	if (this->hasWeapon[this->weapons[5]->getWeaponType()])
 	{
-		weapons[5]->drawWeapon();
-		this->currentWeaponIndex = 5;
+		this->isShooting = false;
+
+		if (this->weapons[5] != nullptr && this->currentWeaponIndex != 5)
+		{
+			weapons[5]->drawWeapon();
+			this->currentWeaponIndex = 5;
+		}
 	}
 }
 
 void Player::weaponSlot7()
 {
-	this->isShooting = false;
-
-	if (this->weapons[6] != nullptr && this->currentWeaponIndex != 6)
+	if (this->hasWeapon[this->weapons[6]->getWeaponType()])
 	{
-		weapons[6]->drawWeapon();
-		this->currentWeaponIndex = 6;
+		this->isShooting = false;
+
+		if (this->weapons[6] != nullptr && this->currentWeaponIndex != 6)
+		{
+			weapons[6]->drawWeapon();
+			this->currentWeaponIndex = 6;
+		}
 	}
 }
 
 void Player::weaponSlot8()
 {
-	this->isShooting = false;
-
-	if (this->weapons[7] != nullptr && this->currentWeaponIndex != 7)
+	if (this->hasWeapon[this->weapons[7]->getWeaponType()])
 	{
-		weapons[7]->drawWeapon();
-		this->currentWeaponIndex = 7;
+		this->isShooting = false;
+
+		if (this->weapons[7] != nullptr && this->currentWeaponIndex != 7)
+		{
+			weapons[7]->drawWeapon();
+			this->currentWeaponIndex = 7;
+		}
 	}
 }
 

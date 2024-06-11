@@ -75,6 +75,7 @@ private:
 	double runningOffsetSpeed;
 
 	std::vector<std::shared_ptr<Weapon>> weapons;
+	std::map<Weapon::WeaponType, bool> hasWeapon;
 
 	int currentWeaponIndex;
 
@@ -126,5 +127,10 @@ public:
 
 	inline glm::vec3 getOutfitColor() { return outfitColor; }
 	inline void setOutfitColor(const glm::vec3& outfitColor) { this->outfitColor = outfitColor; }
+	
+	inline std::vector<std::shared_ptr<Weapon>> getWeapons() { return this->weapons; }
+	inline std::map<Weapon::WeaponType, bool> getHasWeapon() { return this->hasWeapon; }
+	inline bool getHasWeapon(Weapon::WeaponType weaponType) { return this->hasWeapon[weaponType]; }
+	inline void setHasWeapon(Weapon::WeaponType weaponType) { hasWeapon[weaponType] = true; }
 };
 

@@ -3,7 +3,7 @@
 #include "../../ButtonGroup/ButtonGroup.h"
 #include "../MenuBase/MenuBase.h"
 #include "../../ButtonBuilder/ButtonBuilder.h"
-
+#include "../../Entity/Weapon/Weapon.h"
 
 // Abstract shop menu
 
@@ -55,6 +55,10 @@ private:
 	ShopMenuWeapons& operator=(const ShopMenuWeapons&& other) = delete;
 
 	virtual std::map<std::string, Button> loadMenuItems() override;
+
+	static void buy(const Weapon& weapon);
+
+	std::map<std::string, std::function<void(Button&)>> generateBuyFunctions();
 
 public:
 	static ShopMenuAbstract& get();

@@ -47,6 +47,9 @@ AlertBox& AlertBox::getCenteredAlertBox(const std::string& msg)
 	double x = 0;
 	double y = 0;
 
+	if (instance != NULL)
+		delete instance;
+
 	instance = new AlertBox(x, y, width, height, 0, 0, ".0", msg);
 	return *instance;
 }

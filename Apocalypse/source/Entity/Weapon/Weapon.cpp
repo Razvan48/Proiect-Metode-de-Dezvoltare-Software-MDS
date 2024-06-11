@@ -17,13 +17,14 @@
 
 const double Weapon::EPSILON_ANGLE = 30.0; //macar 30 de grade sa se uite catre inamic atunci cand foloseste pumnul sau cutitul pentru a ii da damage
 
-Weapon::Weapon(double x, double y, double drawWidth, double drawHeight, double rotateAngle, double speed, const std::string& textureName2D, double interactionWidth, double interactionHeight, double fireRate, int maxBullets, double damage, WeaponType weaponType, double shortRangeAttackRadius, const std::string& reloadSound, const std::string& drawSound, const std::string& emptySound)
+Weapon::Weapon(double x, double y, double drawWidth, double drawHeight, double rotateAngle, double speed, const std::string& textureName2D, double interactionWidth, double interactionHeight, double fireRate, int maxBullets, double damage, WeaponType weaponType, double shortRangeAttackRadius, const std::string& reloadSound, const std::string& drawSound, const std::string& emptySound, double price)
 	: Entity(x, y, drawWidth, drawHeight, rotateAngle, speed)
 	, TexturableEntity(x, y, drawWidth, drawHeight, rotateAngle, speed, textureName2D)
 	, InteractiveEntity(x, y, drawWidth, drawHeight, rotateAngle, speed, interactionWidth, interactionHeight)
 	, PickUp(x, y, drawWidth, drawHeight, rotateAngle, speed, textureName2D, interactionWidth, interactionHeight)
 	, fireRate(fireRate), maxBullets(maxBullets), numBullets(maxBullets), damage(damage), weaponType(weaponType), shortRangeAttackRadius(shortRangeAttackRadius)
 	, reloadSound(reloadSound), drawSound(drawSound), emptySound(emptySound)
+	, price(price)
 	, isReloading(false), timeSinceLastShot(GlobalClock::get().getCurrentTime())
 {
 
