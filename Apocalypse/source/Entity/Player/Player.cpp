@@ -35,13 +35,13 @@ Player::Player(double x, double y, double drawWidth, double drawHeight, double r
 	walkingOffsetSize(0.01), runningOffsetSize(0.05),
 	walkingOffsetSpeed(10.0), runningOffsetSpeed(15.0),
 	weapons({ std::make_shared<Weapon>(0.0, 0.0, 0.0, 0.0, 0.0, 0.0, "fist0", 0.0, 0.0, 0.5, 1, 10.0, Weapon::WeaponType::FIST, 0.75, "", "", "")
-		, std::make_shared<Weapon>(0.0, 0.0, 0.0, 0.0, 0.0, 0.0, "knife0", 0.0, 0.0, 0.5, 20, 15.0, Weapon::WeaponType::KNIFE, 0.75, "knifeLook", "knifeDraw", "knifeLook") // knife
-		, std::make_shared<Weapon>(0.0, 0.0, 0.0, 0.0, 0.0, 0.0, "pistol0", 0.0, 0.0, 0.5, 20, 25.0, Weapon::WeaponType::REVOLVER, 0.0, "revolverReload", "revolverDraw", "revolverEmpty") // revolver
-		, std::make_shared<Weapon>(0.0, 0.0, 0.0, 0.0, 0.0, 0.0, "shotgun0", 0.0, 0.0, 1.0, 4, 50.0, Weapon::WeaponType::SHOTGUN, 0.0, "shotgunReload", "shotgunDraw", "shotgunEmpty", 100) // shotgun
-		, std::make_shared<Weapon>(0.0, 0.0, 0.0, 0.0, 0.0, 0.0, "automated1", 0.0, 0.0, 0.3, 25, 35.0, Weapon::WeaponType::AK47, 0.0, "ak47Reload", "ak47Draw", "ak47Empty", 150) // ak47
-		, std::make_shared<Weapon>(0.0, 0.0, 0.0, 0.0, 0.0, 0.0, "automated0", 0.0, 0.0, 0.3, 25, 35.0, Weapon::WeaponType::M4, 0.0, "m4a1Reload", "m4a1Draw", "m4a1Empty", 200) // m4
-		, std::make_shared<Weapon>(0.0, 0.0, 0.0, 0.0, 0.0, 0.0, "minigun0", 0.0, 0.0, 0.2, 50, 10.0, Weapon::WeaponType::MINIGUN, 0.0, "minigunReload", "minigunDraw", "minigunEmpty", 300) // minigun
-		, std::make_shared<Weapon>(0.0, 0.0, 0.0, 0.0, 0.0, 0.0, "grenade0", 0.0, 0.0, 1.0, (1<<30), 100.0, Weapon::WeaponType::GRENADE, 0.0, "", "grenadeDraw", "grenadeDraw") // grenade
+		, std::make_shared<Weapon>(0.0, 0.0, 0.0, 0.0, 0.0, 0.0, "knife0", 0.0, 0.0, 0.5, 1, 15.0, Weapon::WeaponType::KNIFE, 0.75, "knifeLook", "knifeDraw", "knifeLook") // knife
+		, std::make_shared<Weapon>(0.0, 0.0, 0.0, 0.0, 0.0, 0.0, "pistol0", 0.0, 0.0, 0.5, 20, 25.0, Weapon::WeaponType::REVOLVER, 0.0, "revolverReload", "revolverDraw", "revolverEmpty", 100) // revolver
+		, std::make_shared<Weapon>(0.0, 0.0, 0.0, 0.0, 0.0, 0.0, "shotgun0", 0.0, 0.0, 1.0, 4, 50.0, Weapon::WeaponType::SHOTGUN, 0.0, "shotgunReload", "shotgunDraw", "shotgunEmpty", 150) // shotgun
+		, std::make_shared<Weapon>(0.0, 0.0, 0.0, 0.0, 0.0, 0.0, "automated1", 0.0, 0.0, 0.3, 25, 35.0, Weapon::WeaponType::AK47, 0.0, "ak47Reload", "ak47Draw", "ak47Empty", 200) // ak47
+		, std::make_shared<Weapon>(0.0, 0.0, 0.0, 0.0, 0.0, 0.0, "automated0", 0.0, 0.0, 0.3, 25, 35.0, Weapon::WeaponType::M4, 0.0, "m4a1Reload", "m4a1Draw", "m4a1Empty", 300) // m4
+		// , std::make_shared<Weapon>(0.0, 0.0, 0.0, 0.0, 0.0, 0.0, "minigun0", 0.0, 0.0, 0.2, 50, 10.0, Weapon::WeaponType::MINIGUN, 0.0, "minigunReload", "minigunDraw", "minigunEmpty", 500) // minigun
+		, std::make_shared<Weapon>(0.0, 0.0, 0.0, 0.0, 0.0, 0.0, "grenade0", 0.0, 0.0, 1.0, 1, 100.0, Weapon::WeaponType::GRENADE, 0.0, "", "grenadeDraw", "grenadeDraw") // grenade
 		}),
 	hasWeapon({ {Weapon::WeaponType::FIST, true},
 		{Weapon::WeaponType::KNIFE, true},
@@ -49,7 +49,7 @@ Player::Player(double x, double y, double drawWidth, double drawHeight, double r
 		{Weapon::WeaponType::SHOTGUN, false},
 		{Weapon::WeaponType::AK47, false},
 		{Weapon::WeaponType::M4, false},
-		{Weapon::WeaponType::MINIGUN, false},
+		// {Weapon::WeaponType::MINIGUN, false},
 		{Weapon::WeaponType::GRENADE, false} }),
 	currentWeaponIndex(0),
 	isTired(false), isWalking(false), isRunning(false), isShooting(false), numKills(numKills), outfitColor(0.055f, 0.29f, 0.125f)
@@ -406,10 +406,11 @@ void Player::update()
 	// Sound
 	SoundManager::get().pause("walking");
 	SoundManager::get().pause("running");
-	//SoundManager::get().pause("tired");
+	SoundManager::get().pause("tired");
+
 	if (this->isTired)
 	{
-		// TODO: adaugat resume aici pt sound effect tired
+		SoundManager::get().resume("tired");
 	}
 	else if (this->isWalking)
 	{
@@ -488,7 +489,6 @@ void Player::setupPlayerInputComponent()
 	InputHandler::getPlayerInputComponent().bindAction("WEAPON_SLOT_5", InputEvent::IE_Pressed, std::bind(&Player::weaponSlot5, this));
 	InputHandler::getPlayerInputComponent().bindAction("WEAPON_SLOT_6", InputEvent::IE_Pressed, std::bind(&Player::weaponSlot6, this));
 	InputHandler::getPlayerInputComponent().bindAction("WEAPON_SLOT_7", InputEvent::IE_Pressed, std::bind(&Player::weaponSlot7, this));
-	InputHandler::getPlayerInputComponent().bindAction("WEAPON_SLOT_8", InputEvent::IE_Pressed, std::bind(&Player::weaponSlot8, this));
 
 	// shop test
 	InputHandler::getPlayerInputComponent().bindAction("SHOP", InputEvent::IE_Pressed, std::bind(&Player::enterShop, this));
@@ -709,20 +709,6 @@ void Player::weaponSlot7()
 	}
 }
 
-void Player::weaponSlot8()
-{
-	if (this->hasWeapon[this->weapons[7]->getWeaponType()])
-	{
-		this->isShooting = false;
-
-		if (this->weapons[7] != nullptr && this->currentWeaponIndex != 7)
-		{
-			weapons[7]->drawWeapon();
-			this->currentWeaponIndex = 7;
-		}
-	}
-}
-
 void Player::draw()
 {
 	if (this->isDead())
@@ -807,7 +793,6 @@ void Player::load()
 
 	// TODO
 }
-
 
 void Player::enterShop()
 {

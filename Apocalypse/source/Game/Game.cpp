@@ -229,6 +229,7 @@ void Game::run()
     // Setup Sound System
     SoundManager::get().play("walking", true);
     SoundManager::get().play("running", true);
+    SoundManager::get().play("tired", true);
     SoundManager::get().play("soundtrack", true);
 
     // TODO: test

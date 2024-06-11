@@ -68,8 +68,6 @@ namespace TestConfigJSON
 
             file.close();
         }
-        
-        // TODO: more tests
 
     private:
         std::wstring widen(const std::string& str)
