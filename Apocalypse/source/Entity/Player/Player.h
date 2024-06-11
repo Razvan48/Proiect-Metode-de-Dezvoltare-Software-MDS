@@ -79,6 +79,7 @@ private:
 	int currentWeaponIndex;
 
 	std::map<Weapon::WeaponType, int> bullets;
+	std::map<Weapon::WeaponType, double> bulletPrices;
 
 	bool isTired;
 	bool isWalking;
@@ -117,6 +118,7 @@ public:
 	void modifyBullets(Weapon::WeaponType weaponType, int amount);
 	inline int getTotalBulletsCurrentWeapon() { return bullets[this->weapons[this->currentWeaponIndex]->getWeaponType()]; }
 	inline int getBulletsCurrentWeapon() { return this->weapons[this->currentWeaponIndex]->getBullets(); }
+	inline std::map<Weapon::WeaponType, int> getBullets() const { return this->bullets; }
 
 	void save();
 	void load();
@@ -131,5 +133,8 @@ public:
 	inline std::map<Weapon::WeaponType, bool> getHasWeapon() { return this->hasWeapon; }
 	inline bool getHasWeapon(Weapon::WeaponType weaponType) { return this->hasWeapon[weaponType]; }
 	inline void setHasWeapon(Weapon::WeaponType weaponType) { hasWeapon[weaponType] = true; }
+
+	inline std::map<Weapon::WeaponType, double> getBulletPrices() const { return this->bulletPrices; }
+	inline double getBulletPrice(Weapon::WeaponType weaponType) { return this->bulletPrices[weaponType]; }
 };
 

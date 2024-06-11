@@ -154,6 +154,9 @@ std::map<std::string, Button> ShopMenuWeapons::loadMenuItems()
 
 	for (size_t i = 2;i < availableWeapons.size();i++) // start from index 2, because fist and knife are always owned by player
 	{
+		if (availableWeapons[i].get()->getWeaponType() == Weapon::WeaponType::GRENADE)
+			continue;
+
 		auto card = ButtonBuilder::WeaponCard(getCardPosX(), getCardPosY(id - 1), buttonWidth, buttonHeight, std::to_string(id), availableWeapons[i].get()->getDamage(), availableWeapons[i].get()->getFireRate(), availableWeapons[i].get()->getPrice(), 250, availableWeapons[i].get()->getTextureName2D());
 		rez.insert(card.begin(), card.end());
 		
@@ -176,9 +179,10 @@ std::map<std::string, std::function<void(Button&)>> ShopMenuWeapons::generateBuy
 		throw new std::runtime_error("sizes for availableWeapons and HasWeapon don't match: " + std::to_string(availableWeapons.size()) + " != " + std::to_string(hasWeapon.size()));
 
 	for (size_t i = 2;i < availableWeapons.size();i++) // start from index 2, because fist and knife are always owned by player
-	{
-		// auto card = ButtonBuilder::WeaponCard(getCardPosX(), getCardPosY(id - 1), buttonWidth, buttonHeight, std::to_string(id), availableWeapons[i].get()->getDamage(), availableWeapons[i].get()->getFireRate(), availableWeapons[i].get()->getPrice(), 250, availableWeapons[i].get()->getTextureName2D());
-		
+	{		
+		if (availableWeapons[i].get()->getWeaponType() == Weapon::WeaponType::GRENADE)
+			continue;
+
 		Weapon& w = *availableWeapons[i];
 		rez[std::to_string(id) + "_1_buy"] = [w](Button&) {ShopMenuWeapons::buy(w);};
 
@@ -259,16 +263,7 @@ ShopMenuBullets::ShopMenuBullets(double x, double y, double drawWidth, double dr
 
 	buttons.setButtons(allButtons);
 
-	buttons.setFunctions(
-		std::map<std::string, std::function<void(Button&)>>{{ButtonGroup::getAny(), [](Button&) {} }},
-		std::map<std::string, std::function<void(Button&)>>{{ButtonGroup::getAny(), [](Button&) {} }},
-		std::map<std::string, std::function<void(Button&)>>{{ButtonGroup::getAny(), [](Button&) {} },
-		{
-			"1_1_buy", [](Button&) {
-				// ShopMenuWeapons::get().setIsInMenu(false);
-				MenuManager::get().pop();
-			}
-		},
+	auto clickFunctions = std::map<std::string, std::function<void(Button&)>>{ {ButtonGroup::getAny(), [](Button&) {} },
 		{
 			"back", ButtonBuilder::backButtonClickFunction
 		},
@@ -277,16 +272,24 @@ ShopMenuBullets::ShopMenuBullets(double x, double y, double drawWidth, double dr
 				// ShopMenuWeapons::get().setIsInMenu(false);
 				MenuManager::get().pop();
 				MenuManager::get().push(ShopMenuWeapons::get());
-}
+				}
 		},
 		{
 			"Health/Armor", [](Button&) {
-				// ShopMenuWeapons::get().setIsInMenu(false);
-				MenuManager::get().pop();
-				MenuManager::get().push(ShopMenuHealthArmor::get());
-}
+			// ShopMenuWeapons::get().setIsInMenu(false);
+			MenuManager::get().pop();
+			MenuManager::get().push(ShopMenuHealthArmor::get());
+			}
 		}
-	}
+	};
+
+	auto funcs = ShopMenuBullets::generateBuyFunctions();
+	clickFunctions.insert(funcs.begin(), funcs.end());
+
+	buttons.setFunctions(
+		std::map<std::string, std::function<void(Button&)>>{{ButtonGroup::getAny(), [](Button&) {} }},
+		std::map<std::string, std::function<void(Button&)>>{{ButtonGroup::getAny(), [](Button&) {} }},
+		clickFunctions
 	);
 }
 
@@ -296,15 +299,72 @@ std::map<std::string, Button> ShopMenuBullets::loadMenuItems()
 
 	std::map<std::string, Button> rez;
 
-	for (int i = 0;i < 5;i++)
+	std::map<Weapon::WeaponType, int> bulletTypes = Player::get().getBullets();
+	std::map<Weapon::WeaponType, double> bulletPrices = Player::get().getBulletPrices();
+
+	// if (bulletTypes.size() != bulletPrices.size())
+		// throw new std::runtime_error("sizes for availableWeapons and HasWeapon don't match: " + std::to_string(bulletTypes.size()) + " != " + std::to_string(bulletPrices.size()));
+
+	bulletTypes.erase(Weapon::WeaponType::FIST);
+	bulletTypes.erase(Weapon::WeaponType::KNIFE);
+
+	for (auto i: bulletTypes)
 	{
-		auto card = ButtonBuilder::WeaponCard(getCardPosX(), getCardPosY(id - 1), buttonWidth, buttonHeight, std::to_string(id), 10, 500, 250, 250, "automated1");
+		std::string icon = mappingWeaponType_BulletTexture[i.first];
+		std::string desc = mappingWeaponType_BulletDescription[i.first];
+		auto card = ButtonBuilder::BulletsCard(getCardPosX(), getCardPosY(id - 1), buttonWidth, buttonHeight, std::to_string(id), bulletPrices[i.first], icon, desc);
 		rez.insert(card.begin(), card.end());
 
 		id++;
 	}
 
 	return rez;
+}
+
+std::map<std::string, std::function<void(Button&)>> ShopMenuBullets::generateBuyFunctions()
+{
+	int id = 1;
+
+	std::map<std::string, std::function<void(Button&)>> rez;
+
+	std::map<Weapon::WeaponType, int> bulletTypes = Player::get().getBullets();
+	std::map<Weapon::WeaponType, double> bulletPrices = Player::get().getBulletPrices();
+
+	bulletTypes.erase(Weapon::WeaponType::FIST);
+	bulletTypes.erase(Weapon::WeaponType::KNIFE);
+
+	// if (bulletTypes.size() != bulletPrices.size())
+		// throw new std::runtime_error("sizes for availableWeapons and HasWeapon don't match: " + std::to_string(bulletTypes.size()) + " != " + std::to_string(bulletPrices.size()));
+
+	for (auto i : bulletTypes)
+	{
+		if(i.first == Weapon::WeaponType::GRENADE)
+			rez[std::to_string(id) + "_1_buy"] = [this, i](Button&) {ShopMenuBullets::buy(i.first, 10);};
+		else
+			rez[std::to_string(id) + "_1_buy"] = [this, i](Button&) {ShopMenuBullets::buy(i.first, amount_bought_once);};
+
+		id++;
+	}
+
+	return rez;
+}
+
+void ShopMenuBullets::buy(Weapon::WeaponType weaponType, int amount)
+{
+	int gold = Player::get().getGold();
+
+	double bulletPrice = Player::get().getBulletPrice(weaponType);
+
+	if (bulletPrice <= gold)
+	{
+		Player::get().modifyBullets(weaponType, amount);
+		Player::get().setGold(Player::get().getGold() - bulletPrice);
+	}
+	else
+	{
+		MenuManager::get().push(AlertBox::getCenteredAlertBox("Not enough money"));
+	}
+
 }
 
 ShopMenuAbstract& ShopMenuBullets::get()

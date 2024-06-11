@@ -50,7 +50,7 @@ Player::Player(double x, double y, double drawWidth, double drawHeight, double r
 		{Weapon::WeaponType::AK47, false},
 		{Weapon::WeaponType::M4, false},
 		// {Weapon::WeaponType::MINIGUN, false},
-		{Weapon::WeaponType::GRENADE, false} }),
+		{Weapon::WeaponType::GRENADE, true} }),
 	currentWeaponIndex(0),
 	isTired(false), isWalking(false), isRunning(false), isShooting(false), numKills(numKills), outfitColor(0.055f, 0.29f, 0.125f)
 {
@@ -60,7 +60,14 @@ Player::Player(double x, double y, double drawWidth, double drawHeight, double r
 	bullets[Weapon::WeaponType::AK47] = 1024;
 	bullets[Weapon::WeaponType::M4] = 1024;
 	bullets[Weapon::WeaponType::MINIGUN] = 1024;
-	bullets[Weapon::WeaponType::GRENADE] = 1024;
+	bullets[Weapon::WeaponType::GRENADE] = 10;
+
+	bulletPrices[Weapon::WeaponType::REVOLVER] = 50;
+	bulletPrices[Weapon::WeaponType::SHOTGUN] = 75;
+	bulletPrices[Weapon::WeaponType::AK47] = 50;
+	bulletPrices[Weapon::WeaponType::M4] = 75;
+	bulletPrices[Weapon::WeaponType::MINIGUN] = 50;
+	bulletPrices[Weapon::WeaponType::GRENADE] = 200;
 }
 
 Player& Player::get()

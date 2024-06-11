@@ -214,3 +214,39 @@ std::map<std::string, Button> ButtonBuilder::HealthArmorCard(double x, double y,
 	return buttons;
 }
 
+std::map<std::string, Button> ButtonBuilder::BulletsCard(double x, double y, double width, double height, const std::string& id, int price, const std::string& bulletIconTextureName, const std::string& description)
+{
+	const double textScale = width / 700.0;
+
+	Button card(x, y, width, height, 0, 0, width, height, std::map<Button::Status, std::string>{{Button::Status::DEFAULT, "button0Normal"}, { Button::Status::HOVERED, "button0Normal" }, { Button::Status::CLICKED, "button0Normal" }});
+
+	double widthBulletIcon = width / 6.0;
+	double heightBulletIcon = height * 0.8;
+	double bulletIconOffsetX = x + width / 15.0;
+
+	Button bulletIcon(bulletIconOffsetX, y + (height - heightBulletIcon) * 0.5, widthBulletIcon, heightBulletIcon, 0, 0, widthBulletIcon, heightBulletIcon, std::map<Button::Status, std::string>{{Button::Status::DEFAULT, bulletIconTextureName}, { Button::Status::HOVERED, bulletIconTextureName }, { Button::Status::CLICKED, bulletIconTextureName }});
+
+	double descOffsetX = bulletIconOffsetX + widthBulletIcon + width / 15.0;
+	double descWidth = width / 3.0;
+	double descHeight = height / 4.0;
+
+	Button descriptionCard(descOffsetX, y + (height - descHeight) * 0.5, descWidth, descHeight, 0, 0, descWidth, descHeight, std::map<Button::Status, std::string>{{Button::Status::DEFAULT, "noBackground"}, { Button::Status::HOVERED, "noBackground" }, { Button::Status::CLICKED, "noBackground" }}, description, 0.0, textScale);
+
+	double buyOffsetX = descOffsetX + descWidth + width / 15.0;
+	double buyWidth = width / 4.5;
+	double buyHeight = height / 3.0;
+
+	std::string buyStr = "Buy   " + std::to_string(price) + " G";
+
+	Button buy(buyOffsetX, y + (height - buyHeight) * 0.5, buyWidth, buyHeight, 0, 0, buyWidth, buyHeight, std::map<Button::Status, std::string>{{Button::Status::DEFAULT, "button0Normal"}, { Button::Status::HOVERED, "button0Hovered" }, { Button::Status::CLICKED, "button0Hovered" }}, buyStr, 0.0, textScale, "Antonio", true, glm::vec3(1.0, 1.0, 0.0));
+
+
+	std::map<std::string, Button> buttons{
+		{id + "_0_card", card},
+		{id + "_1_bulletIcon", bulletIcon},
+		{id + "_1_description", descriptionCard},
+		{id + "_1_buy", buy}
+	};
+
+	return buttons;
+}
