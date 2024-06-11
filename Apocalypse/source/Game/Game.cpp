@@ -77,6 +77,7 @@ void Game::loadResources()
         std::cout << "ERROR::SHADER: other error" << std::endl;
     }
 
+
     // Load Textures
     try
     {

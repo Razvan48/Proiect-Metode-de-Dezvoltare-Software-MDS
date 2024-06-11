@@ -10,11 +10,19 @@
 #include "../Entity/Floor/Floor.h"
 #include "../Entity/Wall/Wall.h"
 
+std::shared_ptr<Map> Map::instance = nullptr;
+
 Map& Map::get()
 {
-	static Map instance;
+	if (Map::instance == nullptr)
+		Map::instance = std::shared_ptr<Map>(new Map());
 
-	return instance;
+	return *Map::instance;
+}
+
+void Map::deleteInstance()
+{
+	Map::instance = nullptr;
 }
 
 void Map::readMap(const std::string& path)

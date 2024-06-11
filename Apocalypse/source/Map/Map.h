@@ -22,11 +22,12 @@ class Map
 {
 private:
 	Map() = default;
-	~Map() = default;
 	Map(const Map& other) = delete;
 	Map& operator= (const Map& other) = delete;
 	Map(const Map&& other) = delete;
 	Map& operator= (const Map&& other) = delete;
+
+	static std::shared_ptr<Map> instance;
 
 private:
 
@@ -34,6 +35,7 @@ private:
 	std::vector<std::shared_ptr<Door>> doors;
 
 public:
+	~Map() = default;
 	static Map& get();
 	void readMap(const std::string& path);
 	std::vector<std::vector<std::shared_ptr<Entity>>>& getMap() { return this->map; }
@@ -41,5 +43,6 @@ public:
 	void addDoor(std::shared_ptr<Door> const door);
 	inline std::vector<std::shared_ptr<Door>>& getDoors() { return this->doors; }
 	void update();
+	static void deleteInstance();
 };
 

@@ -8,6 +8,8 @@
 #include "../Random/Random.h"
 #include "../Entity/Enemy/EnemyFactory.h"
 
+std::shared_ptr<WaveManager> WaveManager::instance = nullptr;
+
 WaveManager::WaveManager(const double waveCoolDown, bool inWave, double timeWaveEnded, int numEnemiesPerTurn, int numFinishedWaves) :
 	waveCoolDown(waveCoolDown), inWave(inWave), timeWaveEnded(timeWaveEnded), numEnemiesPerTurn(numEnemiesPerTurn), numFinishedWaves(numFinishedWaves)
 {
@@ -16,8 +18,17 @@ WaveManager::WaveManager(const double waveCoolDown, bool inWave, double timeWave
 
 WaveManager& WaveManager::get()
 {
-	static WaveManager instance(10.0, false, GlobalClock::get().getCurrentTime(), 7, 0);
-	return instance;
+	if (WaveManager::instance == nullptr)
+	{
+		WaveManager::instance = std::shared_ptr<WaveManager>(new WaveManager(10.0, false, GlobalClock::get().getCurrentTime(), 7, 0));
+	}
+
+	return *WaveManager::instance;
+}
+
+void WaveManager::deleteInstance()
+{
+	WaveManager::instance = nullptr;
 }
 
 WaveManager::~WaveManager()

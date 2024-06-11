@@ -12,7 +12,6 @@ class Player : public virtual Human // singleton
 private:
 
 	Player(double x, double y, double drawWidth, double drawHeight, double rotateAngle, double speed, double collideWidth, double collideHeight, const std::map<AnimatedEntity::EntityStatus, std::string>& animationsName2D, const std::vector<EntityStatus>& statuses, double runningSpeed, double health, double stamina, double armor, int numKills);
-	virtual ~Player();
 
 	Player(const Player& other) = delete;
 	Player& operator= (const Player& other) = delete;
@@ -90,7 +89,11 @@ private:
 
 	glm::vec3 outfitColor;
 
+	static std::shared_ptr<Player> instance;
+
 public:
+
+	virtual ~Player();
 
 	static Player& get();
 
@@ -136,5 +139,7 @@ public:
 
 	inline std::map<Weapon::WeaponType, double> getBulletPrices() const { return this->bulletPrices; }
 	inline double getBulletPrice(Weapon::WeaponType weaponType) { return this->bulletPrices[weaponType]; }
+
+	static void deleteInstance();
 };
 

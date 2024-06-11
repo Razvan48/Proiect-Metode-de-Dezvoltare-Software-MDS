@@ -25,6 +25,8 @@
 #include "../../Random/Random.h"
 #include "../Explosion/Explosion.h"
 
+std::shared_ptr<Player> Player::instance = nullptr;
+
 Player::Player(double x, double y, double drawWidth, double drawHeight, double rotateAngle, double speed, double collideWidth, double collideHeight, const std::map<AnimatedEntity::EntityStatus, std::string>& animationsName2D, const std::vector<EntityStatus>& statuses, double runningSpeed, double health = 100.0, double stamina = 100.0, double armor = 0.0, int numKills = 0) :
 	Entity(x, y, drawWidth, drawHeight, rotateAngle, speed),
 	CollidableEntity(x, y, drawWidth, drawHeight, rotateAngle, speed, collideWidth, collideHeight),
@@ -72,46 +74,53 @@ Player::Player(double x, double y, double drawWidth, double drawHeight, double r
 
 Player& Player::get()
 {
-	static Player instance(10.5, 10.5, 1.0, 1.0, 0.0, 5.0, 0.4, 0.4, std::map<AnimatedEntity::EntityStatus, std::string>
+	if (Player::instance == nullptr)
 	{
-		   { EntityStatus::ARMS_HOLDING_GRENADE, "player0ArmsHoldingGrenade" },
-		   { EntityStatus::ARMS_HOLDING_KNIFE, "player0ArmsHoldingKnife" },
-		   { EntityStatus::ARMS_HOLDING_PISTOL, "player0ArmsHoldingPistol" },
-		   { EntityStatus::ARMS_HOLDING_SHOTGUN, "player0ArmsHoldingShotgun"},
-		   { EntityStatus::ARMS_HOLDING_AK47, "player0ArmsHoldingAK47"},
-		   { EntityStatus::ARMS_HOLDING_M4, "player0ArmsHoldingM4"},
-		   { EntityStatus::ARMS_MOVING_AHEAD, "player0ArmsMovingAhead" },
-		   { EntityStatus::ARMS_MOVING_AROUND_WALKING, "player0ArmsMovingAroundWalking"},
-		   { EntityStatus::ARMS_MOVING_AROUND_RUNNING, "player0ArmsMovingAroundRunning"},
-		   { EntityStatus::ARMS_NOT, "player0ArmsNot"},
-		   { EntityStatus::ARMS_RELOADING_PISTOL, "player0ArmsReloadingPistol"},
-		   { EntityStatus::ARMS_RELOADING_SHOTGUN, "player0ArmsReloadingShotgun"},
-		   { EntityStatus::ARMS_RELOADING_AK47, "player0ArmsReloadingAK47"},
-		   { EntityStatus::ARMS_RELOADING_M4, "player0ArmsReloadingM4"},
-		   { EntityStatus::ARMS_USING_GRENADE, "player0ArmsUsingGrenade"},
-		   { EntityStatus::ARMS_USING_KNIFE, "player0ArmsUsingKnife"},
-		   { EntityStatus::ARMS_USING_PISTOL, "player0ArmsUsingPistol"},
-		   { EntityStatus::ARMS_USING_SHOTGUN, "player0ArmsUsingShotgun"},
-		   { EntityStatus::ARMS_USING_FIST, "player0ArmsUsingFist"},
-		   { EntityStatus::ARMS_USING_AK47, "player0ArmsUsingAK47"},
-		   { EntityStatus::ARMS_USING_M4, "player0ArmsUsingM4"},
-		   { EntityStatus::BODY_IDLE, "player0BodyIdle"},
-		   { EntityStatus::HEAD_ANGRY, "player0HeadAngry"},
-		   { EntityStatus::HEAD_IDLE, "player0HeadIdle"},
-		   { EntityStatus::HEAD_SATISFIED, "player0HeadSatisfied"},
-		   { EntityStatus::HEAD_TIRED, "player0HeadTired"},
-		   { EntityStatus::LEGS_MOVING_AROUND, "player0LegsMovingAround"},
-		   { EntityStatus::LEGS_NOT, "player0LegsNot"}
-	},
-		{
+		std::map<EntityStatus, std::string> m = {
+			{ EntityStatus::ARMS_HOLDING_GRENADE, "player0ArmsHoldingGrenade" },
+			{ EntityStatus::ARMS_HOLDING_KNIFE, "player0ArmsHoldingKnife" },
+			{ EntityStatus::ARMS_HOLDING_PISTOL, "player0ArmsHoldingPistol" },
+			{ EntityStatus::ARMS_HOLDING_SHOTGUN, "player0ArmsHoldingShotgun" },
+			{ EntityStatus::ARMS_HOLDING_AK47, "player0ArmsHoldingAK47" },
+			{ EntityStatus::ARMS_HOLDING_M4, "player0ArmsHoldingM4" },
+			{ EntityStatus::ARMS_MOVING_AHEAD, "player0ArmsMovingAhead" },
+			{ EntityStatus::ARMS_MOVING_AROUND_WALKING, "player0ArmsMovingAroundWalking" },
+			{ EntityStatus::ARMS_MOVING_AROUND_RUNNING, "player0ArmsMovingAroundRunning" },
+			{ EntityStatus::ARMS_NOT, "player0ArmsNot" },
+			{ EntityStatus::ARMS_RELOADING_PISTOL, "player0ArmsReloadingPistol" },
+			{ EntityStatus::ARMS_RELOADING_SHOTGUN, "player0ArmsReloadingShotgun" },
+			{ EntityStatus::ARMS_RELOADING_AK47, "player0ArmsReloadingAK47" },
+			{ EntityStatus::ARMS_RELOADING_M4, "player0ArmsReloadingM4" },
+			{ EntityStatus::ARMS_USING_GRENADE, "player0ArmsUsingGrenade" },
+			{ EntityStatus::ARMS_USING_KNIFE, "player0ArmsUsingKnife" },
+			{ EntityStatus::ARMS_USING_PISTOL, "player0ArmsUsingPistol" },
+			{ EntityStatus::ARMS_USING_SHOTGUN, "player0ArmsUsingShotgun" },
+			{ EntityStatus::ARMS_USING_FIST, "player0ArmsUsingFist" },
+			{ EntityStatus::ARMS_USING_AK47, "player0ArmsUsingAK47" },
+			{ EntityStatus::ARMS_USING_M4, "player0ArmsUsingM4" },
+			{ EntityStatus::BODY_IDLE, "player0BodyIdle" },
+			{ EntityStatus::HEAD_ANGRY, "player0HeadAngry" },
+			{ EntityStatus::HEAD_IDLE, "player0HeadIdle" },
+			{ EntityStatus::HEAD_SATISFIED, "player0HeadSatisfied" },
+			{ EntityStatus::HEAD_TIRED, "player0HeadTired" },
+			{ EntityStatus::LEGS_MOVING_AROUND, "player0LegsMovingAround" },
+			{ EntityStatus::LEGS_NOT, "player0LegsNot" }
+		};
+		std::vector<EntityStatus> v = {
 			EntityStatus::LEGS_NOT,
 			EntityStatus::ARMS_MOVING_AHEAD,
 			EntityStatus::BODY_IDLE,
 			EntityStatus::HEAD_IDLE
-		}
-	, 7.5);
+		};
+		Player::instance = std::shared_ptr<Player>(new Player(10.5, 10.5, 1.0, 1.0, 0.0, 5.0, 0.4, 0.4, m, v, 7.5));
+	}
 
-	return instance;
+	return *Player::instance;
+}
+
+void Player::deleteInstance()
+{
+	Player::instance = nullptr;
 }
 
 void Player::onCollide(CollidableEntity& other, glm::vec2 overlap)
