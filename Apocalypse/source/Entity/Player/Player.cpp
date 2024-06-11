@@ -35,13 +35,13 @@ Player::Player(double x, double y, double drawWidth, double drawHeight, double r
 	walkingOffsetSize(0.01), runningOffsetSize(0.05),
 	walkingOffsetSpeed(10.0), runningOffsetSpeed(15.0),
 	weapons({ std::make_shared<Weapon>(0.0, 0.0, 0.0, 0.0, 0.0, 0.0, "fist0", 0.0, 0.0, 0.5, 1, 10.0, Weapon::WeaponType::FIST, 0.75, "", "", "")
-		, std::make_shared<Weapon>(0.0, 0.0, 0.0, 0.0, 0.0, 0.0, "knife0", 0.0, 0.0, 0.5, 20, 15.0, Weapon::WeaponType::KNIFE, 0.75, "knifeLook", "knifeDraw", "knifeLook") // knife
+		, std::make_shared<Weapon>(0.0, 0.0, 0.0, 0.0, 0.0, 0.0, "knife0", 0.0, 0.0, 0.5, 1, 15.0, Weapon::WeaponType::KNIFE, 0.75, "knifeLook", "knifeDraw", "knifeLook") // knife
 		, std::make_shared<Weapon>(0.0, 0.0, 0.0, 0.0, 0.0, 0.0, "pistol0", 0.0, 0.0, 0.5, 20, 25.0, Weapon::WeaponType::REVOLVER, 0.0, "revolverReload", "revolverDraw", "revolverEmpty") // revolver
 		, std::make_shared<Weapon>(0.0, 0.0, 0.0, 0.0, 0.0, 0.0, "shotgun0", 0.0, 0.0, 1.0, 4, 50.0, Weapon::WeaponType::SHOTGUN, 0.0, "shotgunReload", "shotgunDraw", "shotgunEmpty") // shotgun
 		, std::make_shared<Weapon>(0.0, 0.0, 0.0, 0.0, 0.0, 0.0, "automated1", 0.0, 0.0, 0.3, 25, 35.0, Weapon::WeaponType::AK47, 0.0, "ak47Reload", "ak47Draw", "ak47Empty") // ak47
 		, std::make_shared<Weapon>(0.0, 0.0, 0.0, 0.0, 0.0, 0.0, "automated0", 0.0, 0.0, 0.3, 25, 35.0, Weapon::WeaponType::M4, 0.0, "m4a1Reload", "m4a1Draw", "m4a1Empty") // m4
 		// , std::make_shared<Weapon>(0.0, 0.0, 0.0, 0.0, 0.0, 0.0, "minigun0", 0.0, 0.0, 0.2, 50, 10.0, Weapon::WeaponType::MINIGUN, 0.0, "minigunReload", "minigunDraw", "minigunEmpty") // minigun
-		, std::make_shared<Weapon>(0.0, 0.0, 0.0, 0.0, 0.0, 0.0, "grenade0", 0.0, 0.0, 1.0, (1<<30), 100.0, Weapon::WeaponType::GRENADE, 0.0, "", "grenadeDraw", "grenadeDraw") // grenade
+		, std::make_shared<Weapon>(0.0, 0.0, 0.0, 0.0, 0.0, 0.0, "grenade0", 0.0, 0.0, 1.0, 1, 100.0, Weapon::WeaponType::GRENADE, 0.0, "", "grenadeDraw", "grenadeDraw") // grenade
 		}),
 	currentWeaponIndex(0),
 	isTired(false), isWalking(false), isRunning(false), isShooting(false), numKills(numKills), outfitColor(0.055f, 0.29f, 0.125f)
@@ -764,7 +764,6 @@ void Player::load()
 
 	// TODO
 }
-
 
 void Player::enterShop()
 {

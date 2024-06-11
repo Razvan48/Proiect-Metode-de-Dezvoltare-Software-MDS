@@ -431,6 +431,16 @@
       "directory": "resources/animations/doorOpening1",
       "framesPerSecond": 5.0,
       "loop": false
+    },
+    "tutorialWeapons": {
+      "directory": "resources/animations/tutorial/weapons",
+      "framesPerSecond": 1.0,
+      "loop": true
+    },
+    "tutorialFight": {
+      "directory": "resources/animations/tutorial/fight",
+      "framesPerSecond": 1.0,
+      "loop": true
     }
   },
 
