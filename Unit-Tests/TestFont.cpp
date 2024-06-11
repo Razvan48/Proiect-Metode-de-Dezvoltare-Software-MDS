@@ -33,8 +33,6 @@ namespace TestFont
                 Assert::Fail(L"Other errors");
             }
         }
-        
-        // TODO: more tests
 
     private:
         std::wstring widen(const std::string& str)

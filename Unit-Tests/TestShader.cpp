@@ -50,7 +50,23 @@ namespace TestShader
             }
         }
 
-        // TODO: more tests
+        TEST_METHOD(Player)
+        {
+            Logger::WriteMessage("player-shader");
+
+            try
+            {
+                ResourceManager::loadShader("../../../Apocalypse/shaders/player.vert", "../../../Apocalypse/shaders/player.frag", nullptr, "player");
+            }
+            catch (const std::runtime_error& err)
+            {
+                Assert::Fail(widen(err.what()).c_str());
+            }
+            catch (...)
+            {
+                Assert::Fail(L"Other errors");
+            }
+        }
 
     private:
         std::wstring widen(const std::string& str)
