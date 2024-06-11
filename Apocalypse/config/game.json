@@ -443,6 +443,10 @@
       "file": "resources/sounds/running.mp3",
       "mode": 2
     },
+    "tired": {
+      "file": "resources/sounds/tired.mp3",
+      "mode": 2
+    },
     "fist": {
       "file": "resources/sounds/fist.mp3",
       "mode": 1
