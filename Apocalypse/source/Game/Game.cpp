@@ -296,7 +296,27 @@ void Game::updateEntities()
             <=
             std::dynamic_pointer_cast<Enemy>(entities[i])->getAttackRadius() * std::dynamic_pointer_cast<Enemy>(entities[i])->getAttackRadius())
         {
-            Player::get().setHealth(std::max(0.0, Player::get().getHealth() - std::dynamic_pointer_cast<Enemy>(entities[i])->getAttackDamage()));
+            double appliedDamage = std::dynamic_pointer_cast<Enemy>(entities[i])->getAttackDamage();
+            if (Player::get().getArmor() >= appliedDamage)
+            {
+                Player::get().setArmor(Player::get().getArmor() - appliedDamage);
+                appliedDamage = 0.0;
+            }
+            else
+            {
+                appliedDamage -= Player::get().getArmor();
+                Player::get().setArmor(0.0);
+            }
+            if (Player::get().getHealth() >= appliedDamage)
+            {
+                Player::get().setHealth(Player::get().getHealth() - appliedDamage);
+                appliedDamage = 0.0;
+            }
+            else
+            {
+                appliedDamage -= Player::get().getHealth();
+                Player::get().setHealth(0.0);
+            }
         }
     }
 }

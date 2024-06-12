@@ -151,14 +151,11 @@ public:
 
 	void enterShop();
 
-<<<<<<< HEAD
 	inline void setArmor(double armor) { this->armor = armor; }
-=======
-	inline void fillHealth() { health = 100.0; }
-	inline void fillArmor() { armor = 100.0; }
+	inline void fillHealth() { health = Human::healthCap; }
+	inline void fillArmor() { armor = Player::armorCap; }
 
-	inline bool hasMaxHealth() { return health == 100.0; }
-	inline bool hasMaxArmor() { return armor == 100.0; }
->>>>>>> ed8b65f2cdda5540f93403cc65a7920977892767
+	inline bool hasMaxHealth() const { return health == Human::healthCap; }
+	inline bool hasMaxArmor() const { return armor == Player::armorCap; }
 };
 
