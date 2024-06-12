@@ -38,8 +38,8 @@ private:
 	void reload();
 
 	void pauseGame();
-	void enterShop();
-	void enterShopReleased();
+	void enterShopButton();
+	void enterShopButtonReleased();
 
 	void weaponSlot1();
 	void weaponSlot2();
@@ -146,6 +146,6 @@ public:
 
 	inline bool getEnterShopUsed() const { return this->enterShopUsed; }
 
-	void enterShopMenu();
+	void enterShop();
 };
 

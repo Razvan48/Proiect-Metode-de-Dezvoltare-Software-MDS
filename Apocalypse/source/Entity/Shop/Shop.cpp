@@ -33,10 +33,7 @@ bool Shop::isInInteraction()
 
 void Shop::onInteraction()
 {
-	// TODO
-	// Porneste meniul
-
 	if (Player::get().getEnterShopUsed())
-		Player::get().enterShopMenu();
+		Player::get().enterShop();
 }
 

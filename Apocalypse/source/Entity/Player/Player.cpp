@@ -509,8 +509,9 @@ void Player::setupPlayerInputComponent()
 	InputHandler::getPlayerInputComponent().bindAction("WEAPON_SLOT_7", InputEvent::IE_Pressed, std::bind(&Player::weaponSlot7, this));
 
 	// shop test
-	InputHandler::getPlayerInputComponent().bindAction("SHOP", InputEvent::IE_Pressed, std::bind(&Player::enterShop, this));
-	InputHandler::getPlayerInputComponent().bindAction("SHOP", InputEvent::IE_Released, std::bind(&Player::enterShopReleased, this));
+	//InputHandler::getPlayerInputComponent().bindAction("SHOP", InputEvent::IE_Pressed, std::bind(&Player::enterShop, this));
+	InputHandler::getPlayerInputComponent().bindAction("SHOP", InputEvent::IE_Pressed, std::bind(&Player::enterShopButton, this));
+	InputHandler::getPlayerInputComponent().bindAction("SHOP", InputEvent::IE_Released, std::bind(&Player::enterShopButtonReleased, this));
 }
 
 void Player::moveUp()
@@ -815,17 +816,17 @@ void Player::load()
 	// TODO
 }
 
-void Player::enterShop()
+void Player::enterShopButton()
 {
 	this->enterShopUsed = true;
 }
 
-void Player::enterShopReleased()
+void Player::enterShopButtonReleased()
 {
 	this->enterShopUsed = false;
 }
 
-void Player::enterShopMenu()
+void Player::enterShop()
 {
 	MenuManager::get().push(ShopMenuWeapons::get());
 	InputHandler::setInputComponent(InputHandler::getMenuInputComponent());
