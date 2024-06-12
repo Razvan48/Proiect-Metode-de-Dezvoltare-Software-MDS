@@ -422,11 +422,39 @@ ShopMenuHealthArmor::ShopMenuHealthArmor(double x, double y, double drawWidth, d
 		std::map<std::string, std::function<void(Button&)>>{{ButtonGroup::getAny(), [](Button&) {} }},
 		std::map<std::string, std::function<void(Button&)>>{{ButtonGroup::getAny(), [](Button&) {} },
 		{
-			"1_1_buy", [](Button&) {
-				// ShopMenuHealthArmor::get().setIsInMenu(false);
-				// MenuManager::get().pop();
+			"1_1_buy", [this](Button&) {
+				// std::cout << "Player's health: " << Player::get().getHealth() << "\n";
+				if (Player::get().hasMaxHealth())
+				{
+					MenuManager::get().push(AlertBox::getCenteredAlertBox("You already have max health."));
+					return;
+				}
 
-				MenuManager::get().push(AlertBox::getCenteredAlertBox("Not enough money"));
+				if (this->healthPrice <= Player::get().getGold())
+				{
+					Player::get().fillHealth();
+					Player::get().setGold(Player::get().getGold() - this->healthPrice);
+				}
+				else
+					MenuManager::get().push(AlertBox::getCenteredAlertBox("Not enough money"));
+			}
+		},
+		{
+			"2_1_buy", [this](Button&) {
+				// std::cout << "Player's armor: " << Player::get().getArmor() << "\n";
+				if (Player::get().hasMaxArmor())
+				{
+					MenuManager::get().push(AlertBox::getCenteredAlertBox("You already have max armor."));
+					return;
+				}
+
+				if (this->armorPrice <= Player::get().getGold())
+				{
+					Player::get().fillArmor();
+					Player::get().setGold(Player::get().getGold() - this->armorPrice);
+				}
+				else
+					MenuManager::get().push(AlertBox::getCenteredAlertBox("Not enough money"));
 			}
 		},
 		{
@@ -456,13 +484,15 @@ std::map<std::string, Button> ShopMenuHealthArmor::loadMenuItems()
 
 	std::map<std::string, Button> rez;
 
-	for (int i = 0;i < 1;i++)
-	{
-		auto card = ButtonBuilder::HealthArmorCard(getCardPosX(), getCardPosY(id-1), buttonWidth, buttonHeight, std::to_string(id), 10, "medicalKit0", "Fully restores Health");
-		rez.insert(card.begin(), card.end());
+	auto card = ButtonBuilder::HealthArmorCard(getCardPosX(), getCardPosY(id-1), buttonWidth, buttonHeight, std::to_string(id), healthPrice, "medicalKit0", "Fully restores Health");
+	rez.insert(card.begin(), card.end());
 
-		id++;
-	}
+	id++;
+
+	card = ButtonBuilder::HealthArmorCard(getCardPosX(), getCardPosY(id - 1), buttonWidth, buttonHeight, std::to_string(id), healthPrice, "medicalKit0", "Fully restores Armor");
+	rez.insert(card.begin(), card.end());
+
+	id++;
 
 	return rez;
 }

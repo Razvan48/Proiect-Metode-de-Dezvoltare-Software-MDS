@@ -121,6 +121,8 @@ public:
 class ShopMenuHealthArmor : public virtual ShopMenuAbstract
 {
 private:
+	double healthPrice = 50.0;
+	double armorPrice = 100.0;
 
 private:
 	ShopMenuHealthArmor(double x, double y, double drawWidth, double drawHeight, double rotateAngle, double speed, const std::string& textureName2D);

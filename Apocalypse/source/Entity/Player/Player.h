@@ -150,5 +150,11 @@ public:
 	inline bool getEnterShopUsed() const { return this->enterShopUsed; }
 
 	void enterShop();
+
+	inline void fillHealth() { health = 100.0; }
+	inline void fillArmor() { armor = 100.0; }
+
+	inline bool hasMaxHealth() { return health == 100.0; }
+	inline bool hasMaxArmor() { return armor == 100.0; }
 };
 
