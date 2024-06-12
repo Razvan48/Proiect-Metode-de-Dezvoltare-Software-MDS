@@ -71,7 +71,7 @@ void Human::onCollide(CollidableEntity& other, glm::vec2 overlap)
 				this->y += (overlap.y + CollidableEntity::EPS) / 2.0;
 		}
 
-		this->health -= dynamic_cast<Bullet*>(&other)->getDamage();
+		this->health -= dynamic_cast<Bullet*>(&other)->getDamage(); // e ok pt ca human e considerat ca nu are armor si player-ul(human) oricum da override la onCollide
 		this->health = std::max(0.0, this->health);
 	}
 	else if (dynamic_cast<Human*>(&other) != nullptr)

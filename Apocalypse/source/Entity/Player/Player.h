@@ -147,5 +147,7 @@ public:
 	inline bool getEnterShopUsed() const { return this->enterShopUsed; }
 
 	void enterShop();
+
+	inline void setArmor(double armor) { this->armor = armor; }
 };
 

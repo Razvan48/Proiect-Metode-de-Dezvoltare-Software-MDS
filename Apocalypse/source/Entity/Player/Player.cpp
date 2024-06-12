@@ -183,8 +183,27 @@ void Player::onCollide(CollidableEntity& other, glm::vec2 overlap)
 				this->y += (overlap.y + CollidableEntity::EPS) / 2.0;
 		}
 
-		this->health -= dynamic_cast<Bullet*>(&other)->getDamage();
-		this->health = std::max(0.0, this->health);
+		double appliedDamage = dynamic_cast<Bullet*>(&other)->getDamage();
+		if (this->armor >= appliedDamage)
+		{
+			this->armor -= appliedDamage;
+			appliedDamage = 0.0;
+		}
+		else
+		{
+			appliedDamage -= this->armor;
+			this->armor = 0.0;
+		}
+		if (this->health >= appliedDamage)
+		{
+			this->health -= appliedDamage;
+			appliedDamage = 0.0;
+		}
+		else
+		{
+			appliedDamage -= this->health;
+			this->health = 0.0;
+		}
 	}
 	else if (dynamic_cast<CollidableEntity*>(&other) != nullptr) // TODO: aici intra in calcul si bullets !!!!
 	{
