@@ -13,6 +13,7 @@
 #include "../../Game/Game.h"
 #include "../MainMenu/MainMenu.h"
 #include "../../WaveManager/WaveManager.h"
+#include "../AlertBox/AlertBox.h"
 
 
 
@@ -45,7 +46,7 @@ PauseMenu::PauseMenu(double x, double y, double drawWidth, double drawHeight, do
 			"back", ButtonBuilder::backButtonClickFunction
 		},
 		{
-			"quit", PauseMenu::quit
+			"quit", [](Button&){MenuManager::get().push(AlertBox::getCenteredAlertBox("Are you sure you want to quit?", "Quit", PauseMenu::quit));}
 		}
 		}
 	);

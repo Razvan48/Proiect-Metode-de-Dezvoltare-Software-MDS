@@ -38,9 +38,12 @@ private:
 	void reload();
 
 	void pauseGame();
+
+public:
 	void enterShopButton();
 	void enterShopButtonReleased();
 
+private:
 	void weaponSlot1();
 	void weaponSlot2();
 	void weaponSlot3();
@@ -148,6 +151,14 @@ public:
 
 	void enterShop();
 
+<<<<<<< HEAD
 	inline void setArmor(double armor) { this->armor = armor; }
+=======
+	inline void fillHealth() { health = 100.0; }
+	inline void fillArmor() { armor = 100.0; }
+
+	inline bool hasMaxHealth() { return health == 100.0; }
+	inline bool hasMaxArmor() { return armor == 100.0; }
+>>>>>>> ed8b65f2cdda5540f93403cc65a7920977892767
 };
 

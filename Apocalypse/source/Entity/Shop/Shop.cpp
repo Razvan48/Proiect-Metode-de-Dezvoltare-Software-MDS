@@ -1,6 +1,7 @@
 #include "Shop.h"
 
 #include "../Player/Player.h"
+#include <iostream>
 
 Shop::Shop(double x, double y, double drawWidth, double drawHeight, double rotateAngle, double speed, double collideWidth, double collideHeight, const std::string& textureName2D, double interactionWidth, double interactionHeight)
 	: Entity(x, y, drawWidth, drawHeight, rotateAngle, speed)
@@ -34,6 +35,9 @@ bool Shop::isInInteraction()
 void Shop::onInteraction()
 {
 	if (Player::get().getEnterShopUsed())
+	{
 		Player::get().enterShop();
+		Player::get().enterShopButtonReleased();
+	}
 }
 
