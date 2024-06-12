@@ -38,9 +38,12 @@ private:
 	void reload();
 
 	void pauseGame();
+
+public:
 	void enterShopButton();
 	void enterShopButtonReleased();
 
+private:
 	void weaponSlot1();
 	void weaponSlot2();
 	void weaponSlot3();
