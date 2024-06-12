@@ -39,6 +39,7 @@ private:
 
 	void pauseGame();
 	void enterShop();
+	void enterShopReleased();
 
 	void weaponSlot1();
 	void weaponSlot2();
@@ -66,6 +67,7 @@ private:
 	bool moveLeftUsed;
 	bool runUsed;
 	bool interactUsed;
+	bool enterShopUsed;
 
 	double walkingOffsetSize;
 	double runningOffsetSize;
@@ -141,5 +143,9 @@ public:
 	inline double getBulletPrice(Weapon::WeaponType weaponType) { return this->bulletPrices[weaponType]; }
 
 	static void deleteInstance();
+
+	inline bool getEnterShopUsed() const { return this->enterShopUsed; }
+
+	void enterShopMenu();
 };
 

@@ -33,7 +33,7 @@ Player::Player(double x, double y, double drawWidth, double drawHeight, double r
 	AnimatedEntity(x, y, drawWidth, drawHeight, rotateAngle, speed, animationsName2D, statuses),
 	Human(x, y, drawWidth, drawHeight, rotateAngle, speed, collideWidth, collideHeight, animationsName2D, statuses, health),
 	runningSpeed(runningSpeed), stamina(stamina), armor(armor), armorCap(100.0), staminaChangeSpeed(50.0), staminaCap(100.0), gold(0), goldCap(9999999), // TODO: mai frumos pt goldCap se poate?
-	moveUpUsed(false), moveDownUsed(false), moveRightUsed(false), moveLeftUsed(false), runUsed(false), interactUsed(false),
+	moveUpUsed(false), moveDownUsed(false), moveRightUsed(false), moveLeftUsed(false), runUsed(false), interactUsed(false), enterShopUsed(false),
 	walkingOffsetSize(0.01), runningOffsetSize(0.05),
 	walkingOffsetSpeed(10.0), runningOffsetSpeed(15.0),
 	weapons({ std::make_shared<Weapon>(0.0, 0.0, 0.0, 0.0, 0.0, 0.0, "fist0", 0.0, 0.0, 0.5, 1, 10.0, Weapon::WeaponType::FIST, 0.75, "", "", "")
@@ -510,6 +510,7 @@ void Player::setupPlayerInputComponent()
 
 	// shop test
 	InputHandler::getPlayerInputComponent().bindAction("SHOP", InputEvent::IE_Pressed, std::bind(&Player::enterShop, this));
+	InputHandler::getPlayerInputComponent().bindAction("SHOP", InputEvent::IE_Released, std::bind(&Player::enterShopReleased, this));
 }
 
 void Player::moveUp()
@@ -815,6 +816,16 @@ void Player::load()
 }
 
 void Player::enterShop()
+{
+	this->enterShopUsed = true;
+}
+
+void Player::enterShopReleased()
+{
+	this->enterShopUsed = false;
+}
+
+void Player::enterShopMenu()
 {
 	MenuManager::get().push(ShopMenuWeapons::get());
 	InputHandler::setInputComponent(InputHandler::getMenuInputComponent());

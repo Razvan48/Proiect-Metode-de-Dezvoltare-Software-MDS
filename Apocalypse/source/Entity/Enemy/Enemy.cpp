@@ -75,6 +75,15 @@ void Enemy::pathFindingTarget()
 		int yDoor = static_cast<int>(Map::get().getDoors()[i]->getY());
 		this->blockedCell[yDoor][xDoor] = true;
 	}
+	for (int i = 0; i < Map::get().getShops().size(); ++i)
+	{
+		if (!Map::get().getShops()[i]->getCollisionActive())
+			continue;
+
+		int xShop = static_cast<int>(Map::get().getShops()[i]->getX());
+		int yShop = static_cast<int>(Map::get().getShops()[i]->getY());
+		this->blockedCell[yShop][xShop] = true;
+	}
 
 	int xCell = static_cast<int>(this->x);
 	int yCell = static_cast<int>(this->y);

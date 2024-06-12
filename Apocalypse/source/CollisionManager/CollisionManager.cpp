@@ -80,7 +80,7 @@ void CollisionManager::handleCollisions(std::vector<std::shared_ptr<Entity>>& en
 
 
 	// Player vs. Entities
-	// TODO: momentan enemy (si bullets?? si thrown grenades??) // include si exploziile !!!!
+	// TODO: momentan enemy (si bullets, si thrown grenades) // include si exploziile
 	for (int i = 0; i < entities.size(); ++i)
 	{
 		if (std::dynamic_pointer_cast<CollidableEntity>(entities[i]) == nullptr)
@@ -258,6 +258,45 @@ void CollisionManager::handleCollisions(std::vector<std::shared_ptr<Entity>>& en
 						std::dynamic_pointer_cast<CollidableEntity>(Map::get().getMap()[i][j])->onCollide(*std::dynamic_pointer_cast<CollidableEntity>(entities[k]), overlap);
 					}
 				}
+			}
+		}
+	}
+
+	// Player vs Shops
+	for (int i = 0; i < Map::get().getShops().size(); ++i)
+	{
+		if (!Map::get().getShops()[i]->getCollisionActive())
+			continue;
+
+		glm::vec2 overlap = Player::get().isInCollision(*Map::get().getShops()[i]);
+
+		if (overlap.x > 0.0 && overlap.y > 0.0)
+		{
+			Player::get().onCollide(*Map::get().getShops()[i], overlap);
+			Map::get().getShops()[i]->onCollide(Player::get(), overlap);
+		}
+	}
+
+	// Shops vs Collidable (enemies, bullets, explosions, thrown grenades)
+	for (int i = 0; i < Map::get().getShops().size(); ++i)
+	{
+		if (!Map::get().getShops()[i]->getCollisionActive())
+			continue;
+
+		for (int j = 0; j < entities.size(); ++j)
+		{
+			if (std::dynamic_pointer_cast<CollidableEntity>(entities[j]) == nullptr)
+				continue;
+
+			if (!std::dynamic_pointer_cast<CollidableEntity>(entities[j])->getCollisionActive())
+				continue;
+
+			glm::vec2 overlap = std::dynamic_pointer_cast<CollidableEntity>(entities[j])->isInCollision(*Map::get().getShops()[i]);
+
+			if (overlap.x > 0.0 && overlap.y > 0.0)
+			{
+				std::dynamic_pointer_cast<CollidableEntity>(entities[j])->onCollide(*Map::get().getShops()[i], overlap);
+				Map::get().getShops()[i]->onCollide(*std::dynamic_pointer_cast<CollidableEntity>(entities[j]), overlap);
 			}
 		}
 	}

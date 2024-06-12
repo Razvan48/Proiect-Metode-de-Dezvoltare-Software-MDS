@@ -88,6 +88,11 @@ void Map::readMap(const std::string& path)
 	std::vector<AnimatedEntity::EntityStatus> v2 = { AnimatedEntity::EntityStatus::IDLE };
 	Map::get().addDoor(std::make_shared<Door>(7.5, 8.5, 1.0, 1.0, 0.0, 0.0, 1.0, 1.0, m2, v2
 		, 2.0, 2.0, 0)); // usa (doar sa testam) (usa gratis, cost 0)
+
+	/*TODO: nu vor ramane asa*/
+	// Shops
+	Map::get().addShop(std::make_shared<Shop>(15.5, 5.5, 1.0, 1.0, 0.0, 0.0, 1.0, 1.0, "shop0", 2.0, 2.0));
+
 }
 
 void Map::draw()
@@ -100,6 +105,11 @@ void Map::draw()
 		}
 	}
 
+	for (int i = 0; i < this->shops.size(); ++i)
+	{
+		this->shops[i]->draw();
+	}
+
 	for (int i = 0; i < this->doors.size(); ++i)
 	{
 		this->doors[i]->draw();
@@ -109,6 +119,11 @@ void Map::draw()
 void Map::addDoor(std::shared_ptr<Door> door)
 {
 	this->doors.emplace_back(door);
+}
+
+void Map::addShop(std::shared_ptr<Shop> const shop)
+{
+	this->shops.emplace_back(shop);
 }
 
 void Map::update()

@@ -83,6 +83,15 @@ void WaveManager::bfsSearch()
 		int yDoor = static_cast<int>(Map::get().getDoors()[i]->getY());
 		this->blockedCell[yDoor][xDoor] = true;
 	}
+	for (int i = 0; i < Map::get().getShops().size(); ++i)
+	{
+		if (!Map::get().getShops()[i]->getCollisionActive())
+			continue;
+
+		int xShop = static_cast<int>(Map::get().getShops()[i]->getX());
+		int yShop = static_cast<int>(Map::get().getShops()[i]->getY());
+		this->blockedCell[yShop][xShop] = true;
+	}
 
 	int xSource = static_cast<int>(Player::get().getX());
 	int ySource = static_cast<int>(Player::get().getY());

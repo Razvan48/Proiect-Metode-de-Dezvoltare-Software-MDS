@@ -35,5 +35,8 @@ void Shop::onInteraction()
 {
 	// TODO
 	// Porneste meniul
+
+	if (Player::get().getEnterShopUsed())
+		Player::get().enterShopMenu();
 }
 

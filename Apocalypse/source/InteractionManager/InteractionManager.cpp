@@ -45,5 +45,12 @@ void InteractionManager::handleInteractions(std::vector<std::shared_ptr<Entity>>
 		if (std::dynamic_pointer_cast<InteractiveEntity>(entities[i])->isInInteraction())
 			std::dynamic_pointer_cast<InteractiveEntity>(entities[i])->onInteraction();
 	}
+
+	// Player vs. Shops
+	for (int i = 0; i < Map::get().getShops().size(); ++i)
+	{
+		if (Map::get().getShops()[i]->isInInteraction())
+			Map::get().getShops()[i]->onInteraction();
+	}
 }
 
