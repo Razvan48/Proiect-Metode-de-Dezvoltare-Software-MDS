@@ -209,11 +209,13 @@ void Game::run()
 
     while (!glfwWindowShouldClose(WindowManager::get().getWindow()))
     {
-        // Update
-        Map::get().update();
-        Camera::get().update();
-        Player::get().update();
-        this->updateEntities();
+        if (MenuManager::get().size() == 0) {
+            // Update
+            Map::get().update();
+            Camera::get().update();
+            Player::get().update();
+            this->updateEntities();
+        }
 
         // Collision System
         CollisionManager::get().handleCollisions(this->entities);
@@ -244,13 +246,17 @@ void Game::run()
         // Main Menu
         try
         {
+            // MenuManager::get().play();
             MenuManager::get().top().playMenu();
         }
         catch (noMenuOpened& err) {   }
 
         // Wave Manager
-        if(MenuManager::get().size() == 0)
+        if (MenuManager::get().size() == 0)
+        {
+            // std::cout << "ok\n";
             WaveManager::get().update();
+        }
 
         // Update/Tick
         GlobalClock::get().updateTime();

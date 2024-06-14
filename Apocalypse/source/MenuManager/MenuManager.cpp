@@ -36,9 +36,11 @@ void MenuManager::push(MenuBase& m) {
 
 MenuBase& MenuManager::top() const
 {
+	// std::cout << this->size() << "\n";
 	if (menuStack.empty())
 	{
 		InputHandler::setInputComponent(InputHandler::getPlayerInputComponent());
+
 		throw noMenuOpened();
 	}
 
@@ -57,3 +59,11 @@ void MenuManager::draw() const
 		i->draw();
 }
 
+void MenuManager::play()
+{
+	while (MenuManager::size())
+		if (MenuManager::top().getIsInMenu() == true)
+			MenuManager::top().playMenu();
+		else
+			std::cout << "getIsInMenu == false\n";
+}
