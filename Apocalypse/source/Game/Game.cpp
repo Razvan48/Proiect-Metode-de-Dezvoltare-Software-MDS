@@ -251,11 +251,6 @@ void Game::run()
         }
         catch (noMenuOpened& err) {   }
 
-        std::cout << "ok" << '\n';
-
-        // Wave Manager
-        WaveManager::get().update();
-
         // Wave Manager
         if (MenuManager::get().size() == 0)
         {
