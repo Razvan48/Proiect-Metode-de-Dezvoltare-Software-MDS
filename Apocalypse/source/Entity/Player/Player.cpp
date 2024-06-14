@@ -35,7 +35,7 @@ Player::Player(double x, double y, double drawWidth, double drawHeight, double r
 	CollidableEntity(x, y, drawWidth, drawHeight, rotateAngle, speed, collideWidth, collideHeight),
 	AnimatedEntity(x, y, drawWidth, drawHeight, rotateAngle, speed, animationsName2D, statuses),
 	Human(x, y, drawWidth, drawHeight, rotateAngle, speed, collideWidth, collideHeight, animationsName2D, statuses, health),
-	runningSpeed(runningSpeed), stamina(stamina), armor(armor), armorCap(100.0), staminaChangeSpeed(50.0), staminaCap(100.0), gold(0), goldCap(9999999), // TODO: mai frumos pt goldCap se poate?
+	runningSpeed(runningSpeed), stamina(stamina), armor(armor), armorCap(100.0), staminaChangeSpeed(50.0), staminaCap(100.0), gold(0), goldCap(9999999),
 	moveUpUsed(false), moveDownUsed(false), moveRightUsed(false), moveLeftUsed(false), runUsed(false), interactUsed(false), enterShopUsed(false),
 	walkingOffsetSize(0.01), runningOffsetSize(0.05),
 	walkingOffsetSpeed(10.0), runningOffsetSpeed(15.0),
@@ -59,12 +59,11 @@ Player::Player(double x, double y, double drawWidth, double drawHeight, double r
 	currentWeaponIndex(0),
 	isTired(false), isWalking(false), isRunning(false), isShooting(false), numKills(numKills), outfitColor(outfitColor_static)
 {
-	// TODO: test
-	bullets[Weapon::WeaponType::REVOLVER] = 1024;
-	bullets[Weapon::WeaponType::SHOTGUN] = 1024;
-	bullets[Weapon::WeaponType::AK47] = 1024;
-	bullets[Weapon::WeaponType::M4] = 1024;
-	bullets[Weapon::WeaponType::MINIGUN] = 1024;
+	bullets[Weapon::WeaponType::REVOLVER] = 60;
+	bullets[Weapon::WeaponType::SHOTGUN] = 0;
+	bullets[Weapon::WeaponType::AK47] = 0;
+	bullets[Weapon::WeaponType::M4] = 0;
+	bullets[Weapon::WeaponType::MINIGUN] = 0;
 	bullets[Weapon::WeaponType::GRENADE] = 10;
 
 	bulletPrices[Weapon::WeaponType::REVOLVER] = 50;
@@ -130,8 +129,6 @@ void Player::deleteInstance()
 
 void Player::onCollide(CollidableEntity& other, glm::vec2 overlap)
 {
-	// TODO: nu e totul implementat
-
 	if (dynamic_cast<Explosion*>(&other))
 		return;
 
@@ -776,9 +773,6 @@ void Player::draw()
 		}
 
 		hasDied = true;
-
-		// TODO
-		// glfwSetWindowShouldClose(WindowManager::get().getWindow(), true); // TODO: de schimbat
 	}
 	else if (this->isWalking)
 	{

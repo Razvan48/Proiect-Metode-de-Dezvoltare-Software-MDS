@@ -5,7 +5,7 @@
 #include "../Entity/InteractiveEntity.h"
 #include "../Entity/Door/Door.h"
 
-#include <iostream> // TODO: delete
+#include <iostream> // TODO: debug
 #include <memory>
 
 InteractionManager::InteractionManager()
@@ -27,8 +27,6 @@ InteractionManager& InteractionManager::get()
 
 void InteractionManager::handleInteractions(std::vector<std::shared_ptr<Entity>>& entities)
 {
-	// TODO: implementare
-
 	// Player vs. Doors
 	for (int i = 0; i < Map::get().getDoors().size(); ++i)
 	{

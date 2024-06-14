@@ -18,8 +18,6 @@ Bullet::Bullet(double x, double y, double drawWidth, double drawHeight, double r
 void Bullet::onCollide(CollidableEntity& other, glm::vec2 overlap)
 {
 	setDeleteEntity(true);
-	
-	// TODO: nu merge std::make_shared
 
 	std::map<AnimatedEntity::EntityStatus, std::string> blastAnimationsName2D;
 	blastAnimationsName2D[AnimatedEntity::EntityStatus::IDLE] = "bulletBlast";
@@ -33,17 +31,6 @@ void Bullet::onCollide(CollidableEntity& other, glm::vec2 overlap)
 		blastAnimationsName2D,
 		blastStatuses
 	));
-
-	// TODO
-	//Game::get().addEntity(std::make_shared<BulletBlast>(
-	//	this->x, this->y,
-	//	1.0, 1.0,
-	//	this->rotateAngle,
-	//	{
-	//		{ AnimatedEntity::EntityStatus::IDLE, "bulletBlast" }
-	//	},
-	//	{ AnimatedEntity::EntityStatus::IDLE }
-	//));
 }
 
 void Bullet::update()

@@ -1,6 +1,6 @@
 #include "Flipbook.h"
 
-#include <iostream> // TODO: delete
+#include <iostream> // TODO: debug
 #include <math.h>
 
 #include "ResourceManager.h"
@@ -15,7 +15,6 @@ Flipbook::Flipbook()
 
 int Flipbook::getNumFrames() const
 {
-	// TODO: cazul in care vrem sa avem un frameRun pt fiecare textura/sprite din flipbook
 	return static_cast<int>(keyFrames.size());
 }
 

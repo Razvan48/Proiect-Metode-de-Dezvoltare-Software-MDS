@@ -47,7 +47,7 @@ bool Weapon::isInInteraction()
 
 void Weapon::onInteraction()
 {
-	// TODO:
+	
 }
 
 void Weapon::onClick()
@@ -163,7 +163,6 @@ void Weapon::onClick()
 
 		--this->numBullets;
 
-		// TODO: refactor
 		switch (weaponType)
 		{
 		case WeaponType::REVOLVER:

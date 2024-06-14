@@ -82,7 +82,6 @@ Shader& ResourceManager::getShader(const std::string& name)
 {
 	if (shaders.find(name) == shaders.end())
 	{
-		// TODO: conventie formatare mesaje eroare
 		std::cout << "Error ResourceManager: could not find the shader!\n";
 	}
 
@@ -120,7 +119,6 @@ Texture2D& ResourceManager::getTexture(const std::string& name)
 {
 	if (textures.find(name) == textures.end())
 	{
-		// TODO: conventie formatare mesaje eroare
 		std::cout << "Error ResourceManager: could not find the texture!\n";
 	}
 
@@ -207,7 +205,6 @@ Font& ResourceManager::getFont(const std::string& name)
 {
 	if (fonts.find(name) == fonts.end())
 	{
-		// TODO: conventie formatare mesaje eroare
 		std::cout << "ERROR::RESOURCEMANAGER: Could not find the font!\n";
 	}
 
@@ -242,7 +239,6 @@ Flipbook& ResourceManager::getFlipbook(const std::string& name)
 {
 	if (flipbooks.find(name) == flipbooks.end())
 	{
-		// TODO: conventie formatare mesaje eroare
 		std::cout << "ERROR::RESOURCEMANAGER: Could not find the flipbook!\n";
 	}
 
@@ -261,7 +257,6 @@ FMOD::Sound* ResourceManager::getSound(const std::string& name)
 {
 	if (sounds.find(name) == sounds.end())
 	{
-		// TODO: conventie formatare mesaje eroare
 		std::cout << "ERROR::RESOURCEMANAGER: Could not find the sound!\n";
 	}
 
@@ -288,6 +283,4 @@ void ResourceManager::clear()
 		it.second.Characters.clear();
 	}
 }
-
-// TODO: load on demand 
 

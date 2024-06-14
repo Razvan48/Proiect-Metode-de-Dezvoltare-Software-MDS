@@ -11,8 +11,6 @@ CollidableEntity::CollidableEntity(double x, double y, double drawWidth, double 
 
 glm::vec2 CollidableEntity::isInCollision(const CollidableEntity& other) const
 {
-	// TODO: testing
-
 	double left1 = this->getX() - this->collideWidth / 2.0;
 	double right1 = this->getX() + this->collideWidth / 2.0;
 	double left2 = other.getX() - other.collideWidth / 2.0;

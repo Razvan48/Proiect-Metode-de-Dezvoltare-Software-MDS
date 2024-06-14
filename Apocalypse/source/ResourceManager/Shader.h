@@ -15,8 +15,6 @@ public:
 	Shader(const Shader& other) = default;
 	Shader& operator= (const Shader& other) = default;
 
-	// TODO: move constructor
-
 	// state
 	unsigned int ID;
 

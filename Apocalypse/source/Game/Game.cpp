@@ -1,6 +1,6 @@
 #include "Game.h"
 
-#include <iostream> // TODO: delete
+#include <iostream> // TODO: debug
 #include <fstream>
 
 #include <nlohmann/json.hpp>
@@ -29,13 +29,12 @@
 
 Game::Game()
 {
-    // TODO: trebuie? \/
     WindowManager::get();
 }
 
 Game::~Game()
 {
-    // TODO: default?
+    // default
 }
 
 Game& Game::get()
@@ -193,11 +192,7 @@ void Game::run()
 {
     this->loadResources();
 
-    // TODO: trebuie puse altundeva, iar atunci cand vom avea meniu trebuie pe false, nu true
     Camera::get().setFollowsPlayer(true);
-
-    // TODO: de pus in constructor
-    // Player::get().setupPlayerInputComponent();
 
     // MainMenu::get().setupMainMenuInputComponent();
     MenuManager::get().push(MainMenu::get());
@@ -211,13 +206,9 @@ void Game::run()
     SoundManager::get().play("tired", true);
     SoundManager::get().play("soundtrack", true);
 
-    // TODO: test
-    // Player::get().load();
-
     while (!glfwWindowShouldClose(WindowManager::get().getWindow()))
     {
         // Update
-        InputHandler::update(); // TODO: delete?
         Map::get().update();
         Camera::get().update();
         Player::get().update();
@@ -233,7 +224,7 @@ void Game::run()
         glClearColor(0.08f, 0.08f, 0.08f, 1.0f);
         glClear(GL_COLOR_BUFFER_BIT);
 
-        // Map // TODO: usile de mutat in Map
+        // Map
         Map::get().draw();
 
         // Game Entities
@@ -268,9 +259,6 @@ void Game::run()
         // Check if any events have been activated (key pressed, mouse moved etc.) and call corresponding response functions
         glfwPollEvents();
     }
-
-    // TODO: test
-    Player::get().save();
 }
 
 void Game::updateEntities()

@@ -23,11 +23,7 @@ public:
 	Font(const Font& other) = default;
 	Font& operator= (const Font& other) = default;
 
-	// TODO: move constructor
-
 	// holds a list of pre-compiled Characters
 	std::map<char, Character> Characters;
-
-	void addCharacter(const unsigned int& textureID, const glm::ivec2& size, const glm::ivec2& bearing, const unsigned int& advance);
 };
 

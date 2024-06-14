@@ -14,11 +14,10 @@ WindowManager::WindowManager()
 	glfwWindowHint(GLFW_CONTEXT_VERSION_MAJOR, 3);
 	glfwWindowHint(GLFW_CONTEXT_VERSION_MINOR, 3);
 	glfwWindowHint(GLFW_OPENGL_PROFILE, GLFW_OPENGL_CORE_PROFILE);
-	glfwWindowHint(GLFW_RESIZABLE, GL_FALSE); // TODO: GL_TRUE?
+	glfwWindowHint(GLFW_RESIZABLE, GL_FALSE);
 
 	// Create a GLFWwindow object that we can use for GLFW's functions
 	window = glfwCreateWindow(this->WINDOW_WIDTH, this->WINDOW_HEIGHT, "Apocalypse", NULL, NULL);
-	// glfwGetPrimaryMonitor(); // TODO
 	if (window == nullptr)
 	{
 		std::cout << "Failed to create GLFW window" << std::endl;
@@ -50,8 +49,6 @@ WindowManager::WindowManager()
 	glfwSetScrollCallback(window, mouseScrollCallback);
 
 	// OpenGL configuration
-	// TODO: glViewport(0, 0, WINDOW_WIDTH, WINDOW_HEIGHT);
-
 	glEnable(GL_BLEND);
 	glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
 }

@@ -1,6 +1,6 @@
 #include "SoundManager.h"
 
-#include <iostream> // TODO: delete
+#include <iostream> // TODO: debug
 
 #include "../ResourceManager/ResourceManager.h"
 
@@ -12,7 +12,6 @@ SoundManager::SoundManager()
 	// Initialize Sound System
 	if (FMOD::System_Create(&fmodSystem) != FMOD_OK)
 	{
-		// TODO: throw + unit test
 		std::cout << "ERROR : SOUND SYSTEM NOT CREATED!" << std::endl;
 	}
 	else

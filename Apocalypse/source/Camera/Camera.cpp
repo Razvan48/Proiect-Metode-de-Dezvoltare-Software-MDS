@@ -5,8 +5,7 @@
 Camera::Camera() : // release zoom 112.0, debug zoom 128.0 // mega zoom out pt a vedea wave manager-ul (32.0)
 	x(0.0), y(0.0), zoom(64.0), followsPlayer(false)
 {
-	// TODO: trebuie?
-	//Player::get();
+	Player::get();
 }
 
 Camera& Camera::get()
