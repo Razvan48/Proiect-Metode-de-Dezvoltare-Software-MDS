@@ -27,7 +27,8 @@
 #include "../Entity/Bullet/ThrownGrenade.h"
 #include "../Entity/Explosion/Explosion.h"
 
-Game::Game()
+Game::Game() :
+    MAX_NUM_DEAD_BODIES(100) //daca sunt 100 de dead body-uri pe jos atunci incepem sa stergem in ordinea cronologica
 {
     // TODO: trebuie? \/
     WindowManager::get();
@@ -318,6 +319,16 @@ void Game::updateEntities()
                 Player::get().setHealth(0.0);
             }
         }
+    }
+
+    while (this->deadBodies.size() > this->MAX_NUM_DEAD_BODIES)
+    {
+        for (int i = 1; i < (int)this->deadBodies.size(); ++i)
+        {
+            this->deadBodies[i - 1] = this->deadBodies[i];
+        }
+
+        this->deadBodies.pop_back();
     }
 }
 

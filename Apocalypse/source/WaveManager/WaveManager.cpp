@@ -7,6 +7,7 @@
 #include "../Entity/Enemy/Enemy.h"
 #include "../Random/Random.h"
 #include "../Entity/Enemy/EnemyFactory.h"
+#include "../SoundManager/SoundManager.h"
 
 std::shared_ptr<WaveManager> WaveManager::instance = nullptr;
 
@@ -140,6 +141,8 @@ void WaveManager::update()
 			this->inWave = false;
 			++this->numFinishedWaves;
 			this->timeWaveEnded = GlobalClock::get().getCurrentTime();
+
+			//SoundManager::get().play("newWave", false);
 		}
 	}
 	else if (GlobalClock::get().getCurrentTime() - this->timeWaveEnded > this->waveCoolDown)

@@ -27,6 +27,8 @@ private:
 	std::vector<std::shared_ptr<DeadBody>> deadBodies;
 	std::vector<std::shared_ptr<Entity>> entities;
 
+	const int MAX_NUM_DEAD_BODIES;
+
 public:
 	static Game& get();
 
