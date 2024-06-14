@@ -610,7 +610,6 @@ void Player::stopShooting()
 
 void Player::reload()
 {
-	std::cout << "RELOAD" << std::endl;
 	this->weapons[this->currentWeaponIndex]->reload();
 }
 

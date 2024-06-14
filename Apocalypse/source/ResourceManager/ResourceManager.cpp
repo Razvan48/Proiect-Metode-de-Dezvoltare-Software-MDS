@@ -229,9 +229,6 @@ void ResourceManager::loadFlipbook(const char* directoryPath, const double& fram
 	for (const auto& entry : std::filesystem::directory_iterator(directoryPath))
 	{
 		std::string path = entry.path().generic_string();
-
-		// TODO: delete
-		std::cout << path << std::endl;
 			
 		ResourceManager::loadTexture(path.c_str(), true, path);
 		flipbooks[name].addFrame(path);
