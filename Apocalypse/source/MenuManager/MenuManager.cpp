@@ -10,7 +10,11 @@ MenuManager& MenuManager::get()
 
 void MenuManager::pop() {
 	if (!menuStack.empty())
-		menuStack[menuStack.size()-1]->setIsInMenu(false);
+	{
+		if (menuStack.size() > 1)
+			menuStack[menuStack.size() - 2]->setIsInMenu(true);
+		menuStack[menuStack.size() - 1]->setIsInMenu(false);
+	}
 	menuStack.pop_back(); 
 	if (!menuStack.empty())
 	{
@@ -21,7 +25,10 @@ void MenuManager::pop() {
 
 void MenuManager::push(MenuBase& m) { 
 	if (!menuStack.empty())
+	{
+		m.setIsInMenu(true);
 		menuStack[menuStack.size() - 1]->setIsInMenu(false);
+	}
 	menuStack.push_back(&m); 
 	menuStack[menuStack.size() - 1]->setIsInMenu(true);
 	menuStack[menuStack.size() - 1]->setupInputComponent();

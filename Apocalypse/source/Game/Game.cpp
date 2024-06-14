@@ -241,15 +241,16 @@ void Game::run()
         // HUD
         HUDManager::get().draw();
 
-        // Wave Manager
-        WaveManager::get().update();
-
         // Main Menu
         try
         {
             MenuManager::get().top().playMenu();
         }
         catch (noMenuOpened& err) {   }
+
+        // Wave Manager
+        if(MenuManager::get().size() == 0)
+            WaveManager::get().update();
 
         // Update/Tick
         GlobalClock::get().updateTime();
