@@ -4,6 +4,11 @@
 #include <functional>
 #include "../Entity/Button/Button.h"
 
+class noButtonFound : std::runtime_error
+{
+public:
+	noButtonFound(const std::string& msg = "") : runtime_error(msg) {}
+};
 
 class ButtonGroup
 {
@@ -45,5 +50,7 @@ public:
 	void setFunctions(const std::map<std::string, std::function<void(Button&)>>& hoverFunctions_,
 		              const std::map<std::string, std::function<void(Button&)>>& hoverLostFunctions_,
 		              const std::map<std::string, std::function<void(Button&)>>& clickFunctions_);
+
+	Button& getButtonByName(const std::string& buttonName);
 };
 

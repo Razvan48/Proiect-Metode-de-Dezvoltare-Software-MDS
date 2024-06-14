@@ -22,17 +22,20 @@
 #include "../Door/Door.h"
 #include "../../MenuManager/MenuManager.h"
 #include "../../MenuManager/ShopMenu/ShopMenu.h"
+#include "../../MenuManager/EndScreen/EndScreen.h"
 #include "../../Random/Random.h"
 #include "../Explosion/Explosion.h"
 
 std::shared_ptr<Player> Player::instance = nullptr;
+
+glm::vec3 Player::outfitColor_static = glm::vec3(0.055f, 0.29f, 0.125f);
 
 Player::Player(double x, double y, double drawWidth, double drawHeight, double rotateAngle, double speed, double collideWidth, double collideHeight, const std::map<AnimatedEntity::EntityStatus, std::string>& animationsName2D, const std::vector<EntityStatus>& statuses, double runningSpeed, double health = 100.0, double stamina = 100.0, double armor = 0.0, int numKills = 0) :
 	Entity(x, y, drawWidth, drawHeight, rotateAngle, speed),
 	CollidableEntity(x, y, drawWidth, drawHeight, rotateAngle, speed, collideWidth, collideHeight),
 	AnimatedEntity(x, y, drawWidth, drawHeight, rotateAngle, speed, animationsName2D, statuses),
 	Human(x, y, drawWidth, drawHeight, rotateAngle, speed, collideWidth, collideHeight, animationsName2D, statuses, health),
-	runningSpeed(runningSpeed), stamina(stamina), armor(armor), armorCap(100.0), staminaChangeSpeed(50.0), staminaCap(100.0), gold(0), goldCap(9999999), // TODO: mai frumos pt goldCap se poate?
+	runningSpeed(runningSpeed), stamina(stamina), armor(armor), armorCap(100.0), staminaChangeSpeed(50.0), staminaCap(100.0), gold(0), goldCap(9999999),
 	moveUpUsed(false), moveDownUsed(false), moveRightUsed(false), moveLeftUsed(false), runUsed(false), interactUsed(false), enterShopUsed(false),
 	walkingOffsetSize(0.01), runningOffsetSize(0.05),
 	walkingOffsetSpeed(10.0), runningOffsetSpeed(15.0),
@@ -54,14 +57,13 @@ Player::Player(double x, double y, double drawWidth, double drawHeight, double r
 		// {Weapon::WeaponType::MINIGUN, false},
 		{Weapon::WeaponType::GRENADE, true} }),
 	currentWeaponIndex(0),
-	isTired(false), isWalking(false), isRunning(false), isShooting(false), numKills(numKills), outfitColor(0.055f, 0.29f, 0.125f)
+	isTired(false), isWalking(false), isRunning(false), isShooting(false), numKills(numKills), outfitColor(outfitColor_static)
 {
-	// TODO: test
-	bullets[Weapon::WeaponType::REVOLVER] = 1024;
-	bullets[Weapon::WeaponType::SHOTGUN] = 1024;
-	bullets[Weapon::WeaponType::AK47] = 1024;
-	bullets[Weapon::WeaponType::M4] = 1024;
-	bullets[Weapon::WeaponType::MINIGUN] = 1024;
+	bullets[Weapon::WeaponType::REVOLVER] = 60;
+	bullets[Weapon::WeaponType::SHOTGUN] = 0;
+	bullets[Weapon::WeaponType::AK47] = 0;
+	bullets[Weapon::WeaponType::M4] = 0;
+	bullets[Weapon::WeaponType::MINIGUN] = 0;
 	bullets[Weapon::WeaponType::GRENADE] = 10;
 
 	bulletPrices[Weapon::WeaponType::REVOLVER] = 50;
@@ -127,8 +129,6 @@ void Player::deleteInstance()
 
 void Player::onCollide(CollidableEntity& other, glm::vec2 overlap)
 {
-	// TODO: nu e totul implementat
-
 	if (dynamic_cast<Explosion*>(&other))
 		return;
 
@@ -617,7 +617,6 @@ void Player::stopShooting()
 
 void Player::reload()
 {
-	std::cout << "RELOAD" << std::endl;
 	this->weapons[this->currentWeaponIndex]->reload();
 }
 
@@ -773,9 +772,14 @@ void Player::draw()
 		Game::get().addDeadBody(std::make_shared<DeadBody>(this->x, this->y, deadResize * this->drawWidth, deadResize * this->drawHeight, deadRotateAngle, 0.0, m0, v0, outfitColor));
 
 		// this->setDeleteEntity(true);
+		
+		if (hasDied == false)
+		{
+			MenuManager::get().push(EndScreen::getCenteredEndScreen("You have been killed by zombies"));
+			InputHandler::setInputComponent(InputHandler::getMenuInputComponent());
+		}
 
-		// TODO
-		glfwSetWindowShouldClose(WindowManager::get().getWindow(), true); // TODO: de schimbat
+		hasDied = true;
 	}
 	else if (this->isWalking)
 	{

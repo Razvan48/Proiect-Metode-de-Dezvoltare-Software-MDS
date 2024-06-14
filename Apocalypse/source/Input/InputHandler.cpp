@@ -51,7 +51,6 @@ void InputHandler::callbackScroll(double xoffset, double yoffset)
 
 void InputHandler::update()
 {
-	// TODO: Pressed/Repeat
 	//for (const auto& key : keys)
 	//{
 	//	if (key.second == 1 || key.second == 2)
@@ -60,7 +59,6 @@ void InputHandler::update()
 	//	}
 	//}
 
-	// TODO
 	//for (const auto& key : mouseButtons)
 	//{
 	//	if (key.second == 1)

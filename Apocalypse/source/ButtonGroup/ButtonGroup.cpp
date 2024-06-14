@@ -134,3 +134,14 @@ void ButtonGroup::setFunctions(const std::map<std::string, std::function<void(Bu
 	hoverLostFunctions = hoverLostFunctions_;
 	clickFunctions = clickFunctions_;
 }
+
+
+Button& ButtonGroup::getButtonByName(const std::string& buttonName) {
+	try {
+		return buttons.at(buttonName);
+	}
+	catch (std::out_of_range& e)
+	{
+		throw new noButtonFound("no button at specified name");
+	}
+}

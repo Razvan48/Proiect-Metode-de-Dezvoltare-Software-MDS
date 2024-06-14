@@ -175,6 +175,10 @@ void WaveManager::update()
 				std::swap(this->visitedCells[(int)this->visitedCells.size() - k], this->visitedCells[(int)this->visitedCells.size() - 1]);
 				this->visitedCells.pop_back();
 				Game::get().addEntity(EnemyFactory::getDefaultEnemy(spawnPos.first, spawnPos.second));
+
+				// sound effect
+				SoundManager::get().play("newWave", false);
 			}
 	}
 }
+

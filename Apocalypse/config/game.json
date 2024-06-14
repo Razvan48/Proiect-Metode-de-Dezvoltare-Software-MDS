@@ -198,6 +198,18 @@
     "noBackground": {
       "file": "resources/textures/menus/noBackground.png",
       "alpha": true
+    },
+    "defaultSkinColor": {
+      "file": "resources/textures/menus/defaultSkinColor.png",
+      "alpha": true
+    },
+    "skinCard": {
+      "file": "resources/textures/menus/skinCard.png",
+      "alpha": true
+    },
+    "skinCardSelected": {
+      "file": "resources/textures/menus/skinCardSelected.png",
+      "alpha": true
     }
   },
 
@@ -431,16 +443,6 @@
       "directory": "resources/animations/doorOpening1",
       "framesPerSecond": 5.0,
       "loop": false
-    },
-    "tutorialWeapons": {
-      "directory": "resources/animations/tutorial/weapons",
-      "framesPerSecond": 1.0,
-      "loop": true
-    },
-    "tutorialFight": {
-      "directory": "resources/animations/tutorial/fight",
-      "framesPerSecond": 1.0,
-      "loop": true
     }
   },
 
@@ -607,7 +609,7 @@
     },
     "soundtrack": {
       "file": "resources/sounds/soundtrack.mp3",
-      "mode": 1
+      "mode": 2
     },
     "door": {
       "file": "resources/sounds/door.mp3",

@@ -5,6 +5,7 @@
 #include "../../Renderer/TextRenderer.h"
 
 #include <map>
+#include <iostream>
 
 class Button : public virtual CollidableEntity, public virtual TexturableEntity
 {
@@ -30,9 +31,11 @@ protected:
 
 	void updateTexture();
 
+	glm::vec3 uniformColor;
+
 public:
 
-	Button(double x, double y, double drawWidth, double drawHeight, double rotateAngle, double speed, double collideWidth, double collideHeight, const std::map<Button::Status, std::string>& status_TextureNames_, const std::string& label_ = "", double textOffsetX_ = 50, double textScale = 1.0, const std::string& font_ = "Antonio", bool textCenteredX = false, const glm::vec3& fontColor_ = glm::vec3{0.0, 0.0, 0.0});
+	Button(double x, double y, double drawWidth, double drawHeight, double rotateAngle, double speed, double collideWidth, double collideHeight, const std::map<Button::Status, std::string>& status_TextureNames_, const std::string& label_ = "", double textOffsetX_ = 50, double textScale = 1.0, const std::string& font_ = "Antonio", bool textCenteredX = false, const glm::vec3& fontColor_ = glm::vec3{0.0, 0.0, 0.0}, const glm::vec3& uniformColor_ = glm::vec3{ -1.0, -1.0, -1.0 } );
 	Button();
 	virtual ~Button();
 
@@ -59,5 +62,7 @@ public:
 	void setClicked();
 
 	void setFontColor(const glm::vec3& fontColor_);
+
+	inline void setTextureNameForStatus(const Button::Status& status, const std::string& textureName) {	status_TextureNames[status] = textureName; }
 
 };

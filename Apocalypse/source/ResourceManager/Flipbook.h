@@ -14,8 +14,6 @@ public:
 	Flipbook(const Flipbook& other) = default;
 	Flipbook& operator= (const Flipbook& other) = default;
 
-	// TODO: move constructor
-
 	inline void setFramesPerSecond(const double& framesPerSecond) { this->framesPerSecond = framesPerSecond; }
 	inline void addFrame(const std::string& texture) { keyFrames.push_back(texture); }
 	inline void setLoop(bool loop) { this->loop = loop; }

@@ -27,4 +27,6 @@ public:
 
 	static std::map<std::string, Button> BulletsCard(double x, double y, double width, double height, const std::string& id, int price, const std::string& bulletIconTextureName, const std::string& description = "");
 
+	static std::map<std::string, Button> ChangeSkinCard(double x, double y, double width, double height, const std::string& id, const glm::vec3& outfitColor);
+
 };

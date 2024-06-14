@@ -250,3 +250,24 @@ std::map<std::string, Button> ButtonBuilder::BulletsCard(double x, double y, dou
 
 	return buttons;
 }
+
+
+std::map<std::string, Button> ButtonBuilder::ChangeSkinCard(double x, double y, double width, double height, const std::string& id, const glm::vec3& outfitColor)
+{
+	const double textScale = width / 700.0;
+
+	Button card(x, y, width, height, 0, 0, width, height, std::map<Button::Status, std::string>{{Button::Status::DEFAULT, "skinCard"}, { Button::Status::HOVERED, "skinCard" }, { Button::Status::CLICKED, "skinCard" }});
+
+	double widthSkinColorIcon = width / 6.0;
+	double heightSkinColorIcon = height * 0.8;
+	double healthSkinColorOffsetX = x + width / 15.0;
+
+	Button skinColorIcon(healthSkinColorOffsetX, y + (height - heightSkinColorIcon) * 0.5, widthSkinColorIcon, heightSkinColorIcon, 0, 0, widthSkinColorIcon, heightSkinColorIcon, std::map<Button::Status, std::string>{{Button::Status::DEFAULT, "defaultSkinColor"}, {Button::Status::HOVERED, "defaultSkinColor" }, {Button::Status::CLICKED, "defaultSkinColor" }}, "", 50, 1.0, "Antonio", false, glm::vec3{0.0, 0.0, 0.0}, outfitColor);
+
+	std::map<std::string, Button> buttons{
+		{id + "_0_card", card},
+		{id + "_1_skinColorIcon", skinColorIcon}
+	};
+
+	return buttons;
+}

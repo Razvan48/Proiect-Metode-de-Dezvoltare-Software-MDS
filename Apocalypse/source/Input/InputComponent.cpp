@@ -1,6 +1,6 @@
 #include "InputComponent.h"
 
-#include <iostream> // TODO: delete
+#include <iostream> // TODO: debug
 #include <fstream>
 
 #include <nlohmann/json.hpp>
