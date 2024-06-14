@@ -14,6 +14,7 @@
 #include "../MainMenu/MainMenu.h"
 #include "../../WaveManager/WaveManager.h"
 #include "../AlertBox/AlertBox.h"
+#include "../ChangeSkinMenu/ChangeSkinMenu.h"
 
 
 

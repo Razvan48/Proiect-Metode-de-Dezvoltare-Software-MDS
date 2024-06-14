@@ -8,7 +8,7 @@
 Button::Button():Entity(0,0,0,0,0,0), CollidableEntity(0,0,0,0,0,0,0,0), TexturableEntity(0, 0, 0, 0, 0, 0, ""), label(""), textOffsetX(50), textScale(1.0){
 }
 
-Button::Button(double x, double y, double drawWidth, double drawHeight, double rotateAngle, double speed, double collideWidth, double collideHeight, const std::map<Button::Status, std::string>& status_TextureNames_, const std::string& label_, double textOffsetX_, double textScale_, const std::string& font_, bool textCenteredX, const glm::vec3& fontColor_) :
+Button::Button(double x, double y, double drawWidth, double drawHeight, double rotateAngle, double speed, double collideWidth, double collideHeight, const std::map<Button::Status, std::string>& status_TextureNames_, const std::string& label_, double textOffsetX_, double textScale_, const std::string& font_, bool textCenteredX, const glm::vec3& fontColor_, const glm::vec3& uniformColor_) :
 	Entity(x, y, drawWidth, drawHeight, rotateAngle, speed),
 	CollidableEntity(x, y, drawWidth, drawHeight, rotateAngle, speed, collideWidth, collideHeight),
 	TexturableEntity(x, y, drawWidth, drawHeight, rotateAngle, speed, ""),
@@ -17,7 +17,8 @@ Button::Button(double x, double y, double drawWidth, double drawHeight, double r
 	textOffsetX(textOffsetX_),
 	textScale(textScale_),
 	font(font_),
-	fontColor(fontColor_)
+	fontColor(fontColor_),
+	uniformColor(uniformColor_)
 {
 	auto default_texture = status_TextureNames.find(Button::Status::DEFAULT);
 	if (default_texture != status_TextureNames.end())
@@ -39,10 +40,11 @@ Button::~Button()
 
 void Button::onCollide(CollidableEntity& other, glm::vec2 overlap) {}
 
-void Button::update() {}
+void Button::update() { }
 
 void Button::draw()
 {
+	updateTexture();
 	// std::cout << TexturableEntity::getTextureName2D() << "\n";
 	// TexturableEntity::draw();
 
@@ -57,8 +59,12 @@ void Button::draw()
 	double xForText = x + textOffsetX;
 	double yForText = y + textOffsetY;
 
-	SpriteRenderer::get().draw(ResourceManager::getShader("sprite"), ResourceManager::getTexture(this->textureName2D), glm::vec2(xForTexture, yForTexture), glm::vec2(drawWidth, drawHeight), 0);
-
+	if(uniformColor == glm::vec3{ -1.0, -1.0, -1.0 })
+		SpriteRenderer::get().draw(ResourceManager::getShader("sprite"), ResourceManager::getTexture(this->textureName2D), glm::vec2(xForTexture, yForTexture), glm::vec2(drawWidth, drawHeight), 0);
+	else
+	{
+		SpriteRenderer::get().draw(ResourceManager::getShader("player"), ResourceManager::getTexture(this->textureName2D), glm::vec2(xForTexture, yForTexture), glm::vec2(drawWidth, drawHeight), 0, uniformColor);
+	}
 
 	TextRenderer::get().draw(ResourceManager::getShader("text"), ResourceManager::getFont(font), label, xForText, yForText, textScale, fontColor);
 }

@@ -11,6 +11,7 @@
 #include "../../HUD/HUDManager.h"
 #include "../MenuManager.h"
 #include "../../ButtonBuilder/ButtonBuilder.h"
+#include "../ChangeSkinMenu/ChangeSkinMenu.h"
 
 
 
@@ -21,7 +22,7 @@ MainMenu::MainMenu(double x, double y, double drawWidth, double drawHeight, doub
 	buttons(std::map<std::string, Button>{
 		{ "quit", Button(getButtonPosX(), getButtonPosY(0), buttonWidth, buttonHeight, 0, 0, buttonWidth, buttonHeight, ButtonBuilder::buttonTextures0(), "Quit", 0, 1.0, "Antonio", true) },
 		{ "play", Button(getButtonPosX(), getButtonPosY(1), buttonWidth, buttonHeight, 0, 0, buttonWidth, buttonHeight, ButtonBuilder::buttonTextures0(), "Play", 0, 1.0, "Antonio", true) },
-		{ "settings", Button(getButtonPosX(), getButtonPosY(2), buttonWidth, buttonHeight, 0, 0, buttonWidth, buttonHeight, ButtonBuilder::buttonTextures0(), "Settings", 0, 1.0, "Antonio", true) }
+		{ "Change skin", Button(getButtonPosX(), getButtonPosY(2), buttonWidth, buttonHeight, 0, 0, buttonWidth, buttonHeight, ButtonBuilder::buttonTextures0(), "Change skin", 0, 1.0, "Antonio", true) }
 })
 {	
 	buttons.setFunctions(
@@ -33,7 +34,7 @@ MainMenu::MainMenu(double x, double y, double drawWidth, double drawHeight, doub
 			MenuManager::get().pop();
 			InputHandler::setInputComponent(InputHandler::getPlayerInputComponent());
 
-			if(Map::get().hasBeenLoaded() == false)
+			if (Map::get().hasBeenLoaded() == false)
 				try
 				{
 					std::ifstream gameFile("config/game.json");
@@ -57,7 +58,15 @@ MainMenu::MainMenu(double x, double y, double drawWidth, double drawHeight, doub
 
 			Player::get().setupPlayerInputComponent();
 
-		} } }
+		}
+		},
+		{
+			"Change skin", [](Button&) {
+				MenuManager::get().push(ChangeSkinMenu::get());
+			}
+		}
+	
+	}
 	);
 
 }

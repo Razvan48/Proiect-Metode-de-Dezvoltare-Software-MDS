@@ -198,6 +198,18 @@
     "noBackground": {
       "file": "resources/textures/menus/noBackground.png",
       "alpha": true
+    },
+    "defaultSkinColor": {
+      "file": "resources/textures/menus/defaultSkinColor.png",
+      "alpha": true
+    },
+    "skinCard": {
+      "file": "resources/textures/menus/skinCard.png",
+      "alpha": true
+    },
+    "skinCardSelected": {
+      "file": "resources/textures/menus/skinCardSelected.png",
+      "alpha": true
     }
   },
 
