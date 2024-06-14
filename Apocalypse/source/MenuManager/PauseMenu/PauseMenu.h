@@ -31,7 +31,7 @@ private:
 	PauseMenu& operator=(const PauseMenu&& other) = delete;
 
 protected:
-	static void quit(Button&);
+	
 
 public:
 	static PauseMenu& get();
@@ -40,6 +40,8 @@ public:
 	void setupInputComponent() override;
 
 	void playMenu() override;
+
+	static void quit(Button&);
 
 };
 

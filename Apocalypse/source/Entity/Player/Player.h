@@ -93,8 +93,11 @@ private:
 	int numKills;
 
 	glm::vec3 outfitColor;
+	static glm::vec3 outfitColor_static;
 
 	static std::shared_ptr<Player> instance;
+
+	bool hasDied = false;
 
 public:
 
@@ -135,7 +138,7 @@ public:
 	inline void setNumKills(int numKills) { this->numKills = numKills; }
 
 	inline glm::vec3 getOutfitColor() { return outfitColor; }
-	inline void setOutfitColor(const glm::vec3& outfitColor) { this->outfitColor = outfitColor; }
+	inline void setOutfitColor(const glm::vec3& outfitColor) { outfitColor_static = outfitColor; this->outfitColor = outfitColor; }
 	
 	inline std::vector<std::shared_ptr<Weapon>> getWeapons() { return this->weapons; }
 	inline std::map<Weapon::WeaponType, bool> getHasWeapon() { return this->hasWeapon; }

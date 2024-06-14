@@ -29,6 +29,9 @@ MainMenu::MainMenu(double x, double y, double drawWidth, double drawHeight, doub
 		std::map<std::string, std::function<void(Button&)>>{{ButtonGroup::getAny(), MainMenu::hoverAnyButton }},
 		std::map<std::string, std::function<void(Button&)>>{{ButtonGroup::getAny(), MainMenu::hoverLostAnyButton }},
 		std::map<std::string, std::function<void(Button&)>>{{ButtonGroup::getAny(), [](Button&) {} },
+		{
+			"quit", [](Button&){glfwSetWindowShouldClose(WindowManager::get().getWindow(), true);}
+		},
 		{ "play", [](Button&) {
 			MainMenu::get().isInMenu = false;
 			MenuManager::get().pop();
