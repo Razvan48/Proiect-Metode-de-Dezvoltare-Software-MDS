@@ -67,31 +67,39 @@ void Map::readMap(const std::string& path)
 	this->mapLoaded = true;
 
 
-	/*TODO: nu vor ramane asa*/
 	// Doors
 	std::map<AnimatedEntity::EntityStatus, std::string> m0 = {
 		{ AnimatedEntity::EntityStatus::IDLE, "doorStatic0"},
 		{ AnimatedEntity::EntityStatus::OPENED, "doorOpening0"}
 	};
 	std::vector<AnimatedEntity::EntityStatus> v0 = { AnimatedEntity::EntityStatus::IDLE };
-	Map::get().addDoor(std::make_shared<Door>(8.5, 14.5, 1.0, 1.0, 90.0, 0.0, 1.0, 1.0, m0, v0, 2.0, 2.0, 0)); // usa (doar sa testam) (usa gratis, cost 0)
+	Map::get().addDoor(std::make_shared<Door>(8.5, 14.5, 1.0, 1.0, 90.0, 0.0, 1.0, 1.0, m0, v0, 2.0, 2.0, 1000));
+
 	std::map<AnimatedEntity::EntityStatus, std::string> m1 = {
 		{ AnimatedEntity::EntityStatus::IDLE, "doorStatic1"},
 		{ AnimatedEntity::EntityStatus::OPENED, "doorOpening1"}
 	};
 	std::vector<AnimatedEntity::EntityStatus> v1 = { AnimatedEntity::EntityStatus::IDLE };
-	Map::get().addDoor(std::make_shared<Door>(8.5, 16.5, 1.0, 1.0, 90.0, 0.0, 1.0, 1.0, m1, v1, 2.0, 2.0, 100)); // usa (doar sa testam) // COST 100
+	Map::get().addDoor(std::make_shared<Door>(8.5, 16.5, 1.0, 1.0, 90.0, 0.0, 1.0, 1.0, m1, v1, 2.0, 2.0, 500));
+
 	std::map<AnimatedEntity::EntityStatus, std::string> m2 = {
 		{ AnimatedEntity::EntityStatus::IDLE, "doorStatic1"},
 		{ AnimatedEntity::EntityStatus::OPENED, "doorOpening1"}
 	};
 	std::vector<AnimatedEntity::EntityStatus> v2 = { AnimatedEntity::EntityStatus::IDLE };
 	Map::get().addDoor(std::make_shared<Door>(7.5, 8.5, 1.0, 1.0, 0.0, 0.0, 1.0, 1.0, m2, v2
-		, 2.0, 2.0, 0)); // usa (doar sa testam) (usa gratis, cost 0)
+		, 2.0, 2.0, 500));
 
-	/*TODO: nu vor ramane asa*/
+	std::map<AnimatedEntity::EntityStatus, std::string> m3 = {
+	{ AnimatedEntity::EntityStatus::IDLE, "doorStatic1"},
+	{ AnimatedEntity::EntityStatus::OPENED, "doorOpening1"}
+	};
+	std::vector<AnimatedEntity::EntityStatus> v3 = { AnimatedEntity::EntityStatus::IDLE };
+	Map::get().addDoor(std::make_shared<Door>(7.5, 20.5, 1.0, 1.0, 0.0, 0.0, 1.0, 1.0, m3, v3
+		, 2.0, 2.0, 500));
+
 	// Shops
-	Map::get().addShop(std::make_shared<Shop>(15.5, 5.5, 1.0, 1.0, 0.0, 0.0, 1.0, 1.0, "shop0", 2.0, 2.0));
+	Map::get().addShop(std::make_shared<Shop>(3.5, 3.5, 1.0, 1.0, 0.0, 0.0, 1.0, 1.0, "shop0", 2.0, 2.0));
 
 }
 
