@@ -5,6 +5,9 @@
 ## Documentatie
 [Link](https://github.com/Razvan48/Proiect-Metode-de-Dezvoltare-Software-MDS/wiki)
 
+## Demo
+[Link](https://www.youtube.com/watch?v=Z8xyivNPW1I) 
+
 ## Setup
 1. Clone the repository
 ```sh
@@ -24,4 +27,3 @@ generate_project.bat
 ```sh
 ./generate_project.bat
 ```
-
