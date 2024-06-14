@@ -12,6 +12,7 @@
 #include "../MenuManager.h"
 #include "../../ButtonBuilder/ButtonBuilder.h"
 #include "../ChangeSkinMenu/ChangeSkinMenu.h"
+#include "../../SoundManager/SoundManager.h"
 
 
 
@@ -115,6 +116,8 @@ void MainMenu::setupInputComponent()
 
 void MainMenu::playMenu()
 {
+	SoundManager::get().resume("soundtrack");
+
 	while (isInMenu == true && !glfwWindowShouldClose(WindowManager::get().getWindow()))
 	{
 
@@ -141,5 +144,7 @@ void MainMenu::playMenu()
 		// Check if any events have been activated (key pressed, mouse moved etc.) and call corresponding response functions
 		glfwPollEvents();
 	}
+
+	SoundManager::get().pause("soundtrack");
 }
 

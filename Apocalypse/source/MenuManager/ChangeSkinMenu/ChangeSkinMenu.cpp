@@ -8,6 +8,7 @@
 #include "../../Map/Map.h"
 #include "../../HUD/HUDManager.h"
 #include "../../Renderer/SpriteRenderer.h"
+#include "../../SoundManager/SoundManager.h"
 
 ChangeSkinMenu::ChangeSkinMenu(double x, double y, double drawWidth, double drawHeight, double rotateAngle, double speed, const std::string& textureName2D) :
 	Entity(x, y, drawWidth, drawHeight, rotateAngle, speed),
@@ -159,6 +160,8 @@ void ChangeSkinMenu::setupInputComponent()
 
 void ChangeSkinMenu::playMenu()
 {
+	SoundManager::get().resume("soundtrack");
+
 	while (isInMenu == true && !glfwWindowShouldClose(WindowManager::get().getWindow()))
 	{
 
@@ -185,4 +188,6 @@ void ChangeSkinMenu::playMenu()
 		// Check if any events have been activated (key pressed, mouse moved etc.) and call corresponding response functions
 		glfwPollEvents();
 	}
+
+	SoundManager::get().pause("soundtrack");
 }

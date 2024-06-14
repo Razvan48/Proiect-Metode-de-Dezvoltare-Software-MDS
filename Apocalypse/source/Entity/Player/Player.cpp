@@ -25,6 +25,7 @@
 #include "../../MenuManager/EndScreen/EndScreen.h"
 #include "../../Random/Random.h"
 #include "../Explosion/Explosion.h"
+#include "../../WaveManager/WaveManager.h"
 
 std::shared_ptr<Player> Player::instance = nullptr;
 
@@ -321,13 +322,6 @@ void Player::update()
 		this->stamina = std::min(this->stamina, this->staminaCap);
 	}
 
-	/*
-	if (this->weapons[this->currentWeaponIndex]->recentlyShot() || this->weapons[this->currentWeaponIndex]->stillReloading())
-	{
-		updateStatus(EntityStatus::HEAD_ANGRY, 3);
-	}
-	*/
-
 	if (this->weapons[this->currentWeaponIndex]->getWeaponType() == Weapon::WeaponType::FIST)
 	{
 		// TODO: atac pumn
@@ -468,6 +462,19 @@ void Player::update()
 	if (this->isTired)
 	{
 		return;
+	}
+
+	if (this->statuses[3] != EntityStatus::HEAD_TIRED && !WaveManager::get().getInWave())
+	{
+		updateStatus(EntityStatus::HEAD_SATISFIED, 3);
+	}
+	else if (this->statuses[3] != EntityStatus::HEAD_TIRED && this->weapons[this->currentWeaponIndex]->recentlyShot())
+	{
+		updateStatus(EntityStatus::HEAD_ANGRY, 3);
+	}
+	else if (this->statuses[3] != EntityStatus::HEAD_TIRED)
+	{
+		updateStatus(EntityStatus::HEAD_IDLE, 3);
 	}
 
 	double currentSpeed = this->speed;

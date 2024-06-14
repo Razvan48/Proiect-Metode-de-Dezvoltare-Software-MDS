@@ -326,7 +326,7 @@
     },
     "player0HeadAngry": {
       "directory": "resources/animations/playerComponents/head/headAngry",
-      "framesPerSecond": 30.0,
+      "framesPerSecond": 5.0,
       "loop": false
     },
     "player0HeadIdle": {
@@ -336,7 +336,7 @@
     },
     "player0HeadSatisfied": {
       "directory": "resources/animations/playerComponents/head/headSatisfied",
-      "framesPerSecond": 30.0,
+      "framesPerSecond": 1.0,
       "loop": false
     },
     "player0HeadTired": {

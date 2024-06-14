@@ -44,4 +44,6 @@ public:
 	void update(); // TODO:
 	
 	static void deleteInstance();
+
+	inline bool getInWave() const { return this->inWave; }
 };
