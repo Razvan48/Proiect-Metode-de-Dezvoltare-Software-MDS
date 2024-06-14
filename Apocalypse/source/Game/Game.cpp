@@ -251,19 +251,17 @@ void Game::run()
         }
         catch (noMenuOpened& err) {   }
 
-<<<<<<< HEAD
         std::cout << "ok" << '\n';
 
         // Wave Manager
         WaveManager::get().update();
-=======
+
         // Wave Manager
         if (MenuManager::get().size() == 0)
         {
             // std::cout << "ok\n";
             WaveManager::get().update();
         }
->>>>>>> 112abd3be536f4114df290679e7806c846e373e5
 
         // Update/Tick
         GlobalClock::get().updateTime();
