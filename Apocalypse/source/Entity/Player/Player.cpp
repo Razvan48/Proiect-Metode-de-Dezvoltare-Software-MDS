@@ -22,10 +22,13 @@
 #include "../Door/Door.h"
 #include "../../MenuManager/MenuManager.h"
 #include "../../MenuManager/ShopMenu/ShopMenu.h"
+#include "../../MenuManager/EndScreen/EndScreen.h"
 #include "../../Random/Random.h"
 #include "../Explosion/Explosion.h"
 
 std::shared_ptr<Player> Player::instance = nullptr;
+
+glm::vec3 Player::outfitColor_static = glm::vec3(0.055f, 0.29f, 0.125f);
 
 Player::Player(double x, double y, double drawWidth, double drawHeight, double rotateAngle, double speed, double collideWidth, double collideHeight, const std::map<AnimatedEntity::EntityStatus, std::string>& animationsName2D, const std::vector<EntityStatus>& statuses, double runningSpeed, double health = 100.0, double stamina = 100.0, double armor = 0.0, int numKills = 0) :
 	Entity(x, y, drawWidth, drawHeight, rotateAngle, speed),
@@ -54,7 +57,7 @@ Player::Player(double x, double y, double drawWidth, double drawHeight, double r
 		// {Weapon::WeaponType::MINIGUN, false},
 		{Weapon::WeaponType::GRENADE, true} }),
 	currentWeaponIndex(0),
-	isTired(false), isWalking(false), isRunning(false), isShooting(false), numKills(numKills), outfitColor(0.055f, 0.29f, 0.125f)
+	isTired(false), isWalking(false), isRunning(false), isShooting(false), numKills(numKills), outfitColor(outfitColor_static)
 {
 	// TODO: test
 	bullets[Weapon::WeaponType::REVOLVER] = 1024;
@@ -766,9 +769,17 @@ void Player::draw()
 		Game::get().addDeadBody(std::make_shared<DeadBody>(this->x, this->y, deadResize * this->drawWidth, deadResize * this->drawHeight, deadRotateAngle, 0.0, m0, v0, outfitColor));
 
 		// this->setDeleteEntity(true);
+		
+		if (hasDied == false)
+		{
+			MenuManager::get().push(EndScreen::getCenteredEndScreen("You have been killed by zombies"));
+			InputHandler::setInputComponent(InputHandler::getMenuInputComponent());
+		}
+
+		hasDied = true;
 
 		// TODO
-		glfwSetWindowShouldClose(WindowManager::get().getWindow(), true); // TODO: de schimbat
+		// glfwSetWindowShouldClose(WindowManager::get().getWindow(), true); // TODO: de schimbat
 	}
 	else if (this->isWalking)
 	{
